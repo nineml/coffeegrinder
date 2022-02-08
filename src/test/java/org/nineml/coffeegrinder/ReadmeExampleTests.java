@@ -1,0 +1,226 @@
+package org.nineml.coffeegrinder;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.nineml.coffeegrinder.parser.*;
+import org.nineml.coffeegrinder.tokens.CharacterSet;
+import org.nineml.coffeegrinder.tokens.TokenCharacterSet;
+import org.nineml.coffeegrinder.util.GrammarParser;
+import org.nineml.coffeegrinder.util.ParserAttribute;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ReadmeExampleTests {
+    @Test
+    public void idTestGrammar() {
+        String input = "id => word\n" +
+                "id => hex\n" +
+                "word => letter, letter, letter\n" +
+                "hex => digit, digit, digit\n" +
+                "letter => [\"a\"-\"z\"; \"A\"-\"Z\"]\n" +
+                "digit => [\"0\"-\"9\"; \"a\"-\"f\"; \"A\"-\"F\"]";
+        GrammarParser grammarParser = new GrammarParser();
+        Grammar grammar = grammarParser.parse(input);
+        Assert.assertNotNull(grammar);
+
+        EarleyParser parser = grammar.getParser("id");
+        EarleyResult result = parser.parse("07f");
+        Assert.assertTrue(result.succeeded());
+
+        //result.getForest().serialize("id07f-graph.xml");
+        //result.getForest().parse().serialize("id07f-tree.xml");
+    }
+
+    private Grammar idGrammar() {
+        Grammar grammar = new Grammar();
+        NonterminalSymbol id = grammar.getNonterminal("id");
+        NonterminalSymbol word = grammar.getNonterminal("word");
+        NonterminalSymbol hex = grammar.getNonterminal("hex");
+
+        CharacterSet set_0_9 = CharacterSet.range('0', '9');
+        CharacterSet set_a_f = CharacterSet.range('a', 'f');
+        CharacterSet set_A_F = CharacterSet.range('A', 'F');
+        CharacterSet set_a_z = CharacterSet.range('a', 'z');
+        CharacterSet set_A_Z = CharacterSet.range('A', 'Z');
+
+        TerminalSymbol letter = new TerminalSymbol(TokenCharacterSet.inclusion(set_a_z, set_A_Z));
+        TerminalSymbol digit = new TerminalSymbol(TokenCharacterSet.inclusion(set_0_9, set_a_f, set_A_F));
+
+        grammar.addRule(id, word);
+        grammar.addRule(id, hex);
+        grammar.addRule(word, letter, letter, letter);
+        grammar.addRule(hex, digit, digit, digit);
+
+        return grammar;
+    }
+
+    @Test
+    public void idTestApi() {
+        Grammar grammar = idGrammar();
+
+        EarleyParser parser = grammar.getParser("id");
+        EarleyResult result = parser.parse("07f");
+        Assert.assertTrue(result.succeeded());
+
+        ParseTree tree = result.getForest().parse();
+    }
+
+    @Test
+    public void idTestFab() {
+        Grammar grammar = idGrammar();
+
+        EarleyParser parser = grammar.getParser("id");
+        EarleyResult result = parser.parse("fab");
+        Assert.assertTrue(result.succeeded());
+
+        //result.getForest().serialize("idfab-graph.xml");
+
+        ParseTree tree = result.getForest().parse();
+
+        //System.out.println(result.getForest().getTotalParses());
+
+        //tree.serialize("idfab-tree-1.xml");
+
+        tree = result.getForest().parse();
+
+        //tree.serialize("idfab-tree-2.xml");
+    }
+
+    @Test
+    public void idTestRepeat() {
+        String input = "id => word\n" +
+                "id => hex\n" +
+                "word => letter, _letter?\n" +
+                "_letter => letter, _letter?\n" +
+                "hex => digit, _digit?\n" +
+                "_digit => digit, _digit?\n" +
+                "letter => [\"a\"-\"z\"; \"A\"-\"Z\"]\n" +
+                "digit => [\"0\"-\"9\"; \"a\"-\"f\"; \"A\"-\"F\"]";
+        GrammarParser grammarParser = new GrammarParser();
+        Grammar grammar = grammarParser.parse(input);
+        Assert.assertNotNull(grammar);
+
+        EarleyParser parser = grammar.getParser("id");
+        EarleyResult result = parser.parse("12345");
+        Assert.assertTrue(result.succeeded());
+
+        //result.getForest().serialize("repeat-graph.xml");
+        //result.getForest().parse().serialize("repeat-tree.xml");
+    }
+
+    @Test
+    public void idTestRepeatApi() {
+        Grammar grammar = new Grammar();
+        NonterminalSymbol id = grammar.getNonterminal("id");
+        NonterminalSymbol word = grammar.getNonterminal("word");
+        NonterminalSymbol hex = grammar.getNonterminal("hex");
+        NonterminalSymbol _letter = grammar.getNonterminal("_letter");
+        NonterminalSymbol _digit = grammar.getNonterminal("_digit");
+
+        CharacterSet set_0_9 = CharacterSet.range('0', '9');
+        CharacterSet set_a_f = CharacterSet.range('a', 'f');
+        CharacterSet set_A_F = CharacterSet.range('A', 'F');
+        CharacterSet set_a_z = CharacterSet.range('a', 'z');
+        CharacterSet set_A_Z = CharacterSet.range('A', 'Z');
+
+        TerminalSymbol letter = new TerminalSymbol(TokenCharacterSet.inclusion(set_a_z, set_A_Z));
+        TerminalSymbol digit = new TerminalSymbol(TokenCharacterSet.inclusion(set_0_9, set_a_f, set_A_F));
+
+        grammar.addRule(id, word);
+        grammar.addRule(id, hex);
+        grammar.addRule(word, letter);
+        grammar.addRule(word, letter, _letter);
+        grammar.addRule(_letter, letter);
+        grammar.addRule(_letter, letter, _letter);
+        grammar.addRule(hex, digit);
+        grammar.addRule(hex, digit, _digit);
+        grammar.addRule(_digit, digit);
+        grammar.addRule(_digit, digit, _digit);
+
+        Assert.assertNotNull(grammar);
+
+        EarleyParser parser = grammar.getParser("id");
+        EarleyResult result = parser.parse("12345");
+        Assert.assertTrue(result.succeeded());
+
+        //result.getForest().serialize("repeat-graph.xml");
+        //result.getForest().parse().serialize("repeat-tree.xml");
+    }
+
+    @Test
+    public void idTestRepeatOptionalApi() {
+        Grammar grammar = new Grammar();
+        NonterminalSymbol id = grammar.getNonterminal("id");
+        NonterminalSymbol word = grammar.getNonterminal("word");
+        NonterminalSymbol hex = grammar.getNonterminal("hex");
+        NonterminalSymbol _letter = grammar.getNonterminal("_letter", Symbol.OPTIONAL);
+        NonterminalSymbol _digit = grammar.getNonterminal("_digit", Symbol.OPTIONAL);
+
+        CharacterSet set_0_9 = CharacterSet.range('0', '9');
+        CharacterSet set_a_f = CharacterSet.range('a', 'f');
+        CharacterSet set_A_F = CharacterSet.range('A', 'F');
+        CharacterSet set_a_z = CharacterSet.range('a', 'z');
+        CharacterSet set_A_Z = CharacterSet.range('A', 'Z');
+
+        TerminalSymbol letter = new TerminalSymbol(TokenCharacterSet.inclusion(set_a_z, set_A_Z));
+        TerminalSymbol digit = new TerminalSymbol(TokenCharacterSet.inclusion(set_0_9, set_a_f, set_A_F));
+
+        grammar.addRule(id, word);
+        grammar.addRule(id, hex);
+        grammar.addRule(word, letter, _letter);
+        grammar.addRule(_letter, letter, _letter);
+        grammar.addRule(hex, digit, _digit);
+        grammar.addRule(_digit, digit, _digit);
+
+        Assert.assertNotNull(grammar);
+
+        EarleyParser parser = grammar.getParser("id");
+        EarleyResult result = parser.parse("12345");
+        Assert.assertTrue(result.succeeded());
+
+        //result.getForest().serialize("repeat-graph.xml");
+        //result.getForest().parse().serialize("repeat-tree.xml");
+    }
+
+    @Test
+    public void idTestRepeatPrunableApi() {
+        Grammar grammar = new Grammar();
+        NonterminalSymbol id = grammar.getNonterminal("id");
+        NonterminalSymbol word = grammar.getNonterminal("word");
+        NonterminalSymbol hex = grammar.getNonterminal("hex");
+
+        List<ParserAttribute> attributes = new ArrayList<>();
+        attributes.add(Symbol.OPTIONAL);
+        attributes.add(ParserAttribute.PRUNING_ALLOWED);
+
+        NonterminalSymbol _letter = grammar.getNonterminal("_letter", attributes);
+        NonterminalSymbol _digit = grammar.getNonterminal("_digit", attributes);
+
+        CharacterSet set_0_9 = CharacterSet.range('0', '9');
+        CharacterSet set_a_f = CharacterSet.range('a', 'f');
+        CharacterSet set_A_F = CharacterSet.range('A', 'F');
+        CharacterSet set_a_z = CharacterSet.range('a', 'z');
+        CharacterSet set_A_Z = CharacterSet.range('A', 'Z');
+
+        TerminalSymbol letter = new TerminalSymbol(TokenCharacterSet.inclusion(set_a_z, set_A_Z));
+        TerminalSymbol digit = new TerminalSymbol(TokenCharacterSet.inclusion(set_0_9, set_a_f, set_A_F));
+
+        grammar.addRule(id, word);
+        grammar.addRule(id, hex);
+        grammar.addRule(word, letter, _letter);
+        grammar.addRule(_letter, letter, _letter);
+        grammar.addRule(hex, digit, _digit);
+        grammar.addRule(_digit, digit, _digit);
+
+        Assert.assertNotNull(grammar);
+
+        EarleyParser parser = grammar.getParser("id");
+        EarleyResult result = parser.parse("12345");
+        Assert.assertTrue(result.succeeded());
+
+        //result.getForest().serialize("repeat-graph.xml");
+        //result.getForest().parse().serialize("repeat-tree.xml");
+    }
+
+}

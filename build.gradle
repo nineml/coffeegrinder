@@ -1,0 +1,125 @@
+plugins {
+  id "java"
+  id "maven-publish"
+  id "signing"
+  id 'com.github.gmazzo.buildconfig' version "2.0.2"
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+}
+
+dependencies {
+  testImplementation (
+    [group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.2'],
+    [group: 'org.junit.platform', name: 'junit-platform-console-standalone', version: '1.7.1']
+  )
+  testRuntimeOnly (
+    [group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.4.2'],
+    [group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.8.2'],
+  )
+}
+
+buildConfig {
+  packageName("org.nineml.${cgName}")
+  buildConfigField('String', 'TITLE', "\"${cgTitle}\"")
+  buildConfigField('String', 'VERSION', "\"${cgVersion}\"")
+}
+
+jar {
+  archiveBaseName = "${cgName}-${cgVersion}"
+  manifest {
+    attributes 'Built-By': 'Norman Walsh'
+    attributes 'Implementation-Vendor': 'Norman Walsh'
+    attributes 'Implementation-Title': cgTitle
+    attributes 'Implementation-Version': cgVersion
+  }
+}
+
+javadoc {
+  exclude "org/nineml/coffeegrinder/BuildConfig.java"
+  title "A Java Earley API"
+  options.overview = "src/main/java/org/nineml/coffeegrinder/overview.html"
+  options.memberLevel = JavadocMemberLevel.PUBLIC
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  classifier = 'javadoc'
+  from javadoc.destinationDir
+}
+
+task sourcesJar(type: Jar, dependsOn: ['generateBuildConfig']) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:deprecation'
+    options.compilerArgs << '-Xlint:unchecked'
+}
+
+// ============================================================
+
+signing {
+  sign publishing.publications
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      pom {
+        name = cgTitle
+        packaging = 'jar'
+        description = 'An Earley parser with shared packed parse forests'
+        url = 'https://github.com/nineml/coffeegrinder'
+
+        scm {
+          url = 'scm:git@github.com:nineml/coffeegrinder.git'
+          connection = 'scm:git@github.com:nineml/coffeegrinder.git'
+          developerConnection = 'scm:git@github.com:nineml/coffeegrinder.git'
+        }
+
+        licenses {
+          license {
+            name = 'Mozilla Public License Version 2.0'
+            url = 'http://www.mozilla.org/MPL/2.0/'
+            distribution = 'repo'
+          }
+        }
+
+        developers {
+          developer {
+            id = 'ndw'
+            name = 'Norman Walsh'
+          }
+        }
+      }
+
+      groupId = "org.nineml"
+      artifactId = cgName
+      version = cgVersion
+      from components.java
+      artifact javadocJar
+      artifact sourcesJar
+    }
+  }
+
+  repositories {
+    maven {
+      url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+      credentials {
+        username = sonatypeUsername
+        password = sonatypePassword
+      }
+    }
+  }
+}
+
+// ============================================================
+
+task helloWorld() {
+  doLast {
+    println('Hello, world.')
+  }
+}
