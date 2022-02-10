@@ -28,7 +28,7 @@ buildConfig {
 }
 
 jar {
-  archiveBaseName = "${cgName}-${cgVersion}"
+  archiveBaseName = "${cgTitle}-${cgVersion}"
   manifest {
     attributes 'Built-By': 'Norman Walsh'
     attributes 'Implementation-Vendor': 'Norman Walsh'
@@ -39,10 +39,51 @@ jar {
 
 javadoc {
   exclude "org/nineml/coffeegrinder/BuildConfig.java"
-  title "A Java Earley API"
+  title "${cgTitle}, an Earley parser in Java"
   options.overview = "src/main/java/org/nineml/coffeegrinder/overview.html"
   options.memberLevel = JavadocMemberLevel.PUBLIC
 }
+
+task dist(dependsOn:["test", "jar", "javadoc"]) {
+  doLast {
+    mkdir "${buildDir}/stage"
+    mkdir "${buildDir}/stage/docs"
+  }
+  doLast {
+    copy {
+      from "${buildDir}/libs"
+      into "${buildDir}/stage"
+    }
+  }
+  doLast {
+    copy {
+      from "${buildDir}/docs"
+      into "${buildDir}/stage/docs"
+    }
+  }
+  doLast {
+    copy {
+      from "${projectDir}/docs"
+      into "${buildDir}/stage/docs/examples"
+    }
+  }
+  doLast {
+    copy {
+      from "${projectDir}/README.md"
+      into "${buildDir}/stage/docs"
+      filter { String line ->
+        line.replace("[docs](docs)", "[examples](examples)")
+      }
+    }
+  }
+}
+
+task zipDist(type: Zip) {
+  from "${buildDir}/stage"
+  into "${cgName}-${cgVersion}"
+  archiveFileName = "${cgName}-${cgVersion}.zip"
+}
+dist.finalizedBy zipDist
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
   classifier = 'javadoc'
