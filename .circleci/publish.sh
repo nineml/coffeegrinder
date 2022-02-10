@@ -12,6 +12,7 @@ fi
 curl -o secret.gpg $GPGKEYURI
 ./gradlew -PsonatypeUsername="$SONATYPEUSER" -PsonatypePassword="$SONATYPEPASS" \
           -Psigning.keyId="$SIGNKEY" -Psigning.password="$SIGNPSW" \
-          -Psigning.secretKeyRingFile=./secret.gpg
+          -Psigning.secretKeyRingFile=./secret.gpg \
+          publish
 rm -f secret.gpg
 
