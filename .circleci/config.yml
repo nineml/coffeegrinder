@@ -1,11 +1,12 @@
-version: 2
+version: 2.1
+executors:
+  builder:
+    docker:
+      - image: cimg/openjdk:8.0
+
 jobs:
   build:
-    machine:
-      image: ubuntu-2004:202111-02
-
-    java:
-      version: oraclejdk8
+    executor: builder
 
     working_directory: ~/repo
 
