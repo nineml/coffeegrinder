@@ -1,12 +1,12 @@
 package org.nineml.coffeegrinder.util;
 
-import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.exceptions.TreeWalkerException;
 import org.nineml.coffeegrinder.parser.*;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import static org.nineml.coffeegrinder.parser.ForestNode.MAX_LONG;
@@ -21,7 +21,7 @@ public class DefaultTreeWalker implements TreeWalker {
     private final TreeBuilder builder;
     private final Messages messages;
     private final ArrayList<ForestNode> roots = new ArrayList<>();
-    private final HashMap<ForestNode, Choices> choiceMap = new HashMap<>();
+    private final HashMap<ForestNode, NodeChoices> choiceMap = new HashMap<>();
     private int rootIndex = 0;
     private BigInteger totalParses, remainingParses, remainingTreeParses;
     private boolean selectedFirst = false;
@@ -112,6 +112,10 @@ public class DefaultTreeWalker implements TreeWalker {
         builder.endTree();
     }
 
+    public Map<ForestNode, NodeChoices> getAmbiguityMap() {
+        return choiceMap;
+    }
+
     @Override
     public boolean hasNext() {
         return remainingParses.compareTo(BigInteger.ZERO) > 0;
@@ -159,13 +163,13 @@ public class DefaultTreeWalker implements TreeWalker {
         builder.endNode(node);
     }
 
-        public void advance(ForestNode node) {
+    public void advance(ForestNode node) {
         if (node.getFamilies().isEmpty()) {
             return;
         }
 
         Family family;
-        Choices choices = getChoices(node);
+        NodeChoices choices = getChoices(node);
         if (choices != null) {
             family = choices.advance();
         } else {
@@ -180,11 +184,15 @@ public class DefaultTreeWalker implements TreeWalker {
         }
     }
 
-    private Choices getChoices(ForestNode node) {
+    private NodeChoices getChoices(ForestNode node) {
         if (node.getFamilies().size() > 1) {
-            Choices remaining;
+            NodeChoices remaining;
             if (!choiceMap.containsKey(node)) {
-                remaining = new Choices(node);
+                remaining = new NodeChoices(node, messages);
+                if (remaining.families.isEmpty()) {
+                    // they were all loops
+                    return null;
+                }
                 choiceMap.put(node, remaining);
             }
             remaining = choiceMap.get(node);
@@ -194,87 +202,10 @@ public class DefaultTreeWalker implements TreeWalker {
     }
 
     private Family getCurrentFamily(ForestNode node) {
-        Choices remaining = getChoices(node);
+        NodeChoices remaining = getChoices(node);
         if (remaining == null) {
             return node.getFamilies().get(0);
         }
         return remaining.currentChoice();
-    }
-
-    private final class Choices {
-        private final ForestNode node;
-        private final ArrayList<Family> families = new ArrayList<>();
-        private final ArrayList<BigInteger> chooseW = new ArrayList<>();
-        private final ArrayList<BigInteger> chooseV = new ArrayList<>();
-        private int index = 0;
-
-        public Choices(ForestNode node) {
-            this.node = node;
-            reset();
-        }
-
-        private void reset() {
-            index = 0;
-            families.clear();
-            chooseW.clear();
-            chooseV.clear();
-
-            for (Family family : node.getFamilies()) {
-                if (!node.getLoops().contains(family)) {
-                    families.add(family);
-                    if (family.w == null) {
-                        chooseW.add(BigInteger.ZERO);
-                    } else {
-                        chooseW.add(family.w.getExactParsesBelow().subtract(BigInteger.ONE));
-                    }
-                    if (family.v == null) {
-                        chooseV.add(BigInteger.ZERO);
-                    } else {
-                        chooseV.add(family.v.getExactParsesBelow().subtract(BigInteger.ONE));
-                    }
-                }
-            }
-        }
-
-        public Family currentChoice() {
-            if (families.isEmpty()) {
-                return null;
-            }
-            //System.err.printf("CUR: %d of %d / %s\n", index+1, families.size(), node);
-            return families.get(index);
-        }
-
-        public Family advance() {
-            if (families.isEmpty()) {
-                throw new ParseException("Error in tree walk");
-            }
-
-            Family family = families.get(index);
-            BigInteger w = chooseW.get(index);
-            BigInteger v = chooseV.get(index);
-
-            if (!BigInteger.ZERO.equals(w)) {
-                w = w.subtract(BigInteger.ONE);
-                chooseW.set(index, w);
-            } else if (!BigInteger.ZERO.equals(v)) {
-                v = v.subtract(BigInteger.ONE);
-                chooseV.set(index, v);
-            } else {
-                index++;
-                if (messages != null) {
-                    messages.debug("Changing %s :: %d", node, index);
-                }
-            }
-
-            if (index == families.size()) {
-                index = 0;
-                if (messages != null) {
-                    messages.debug("Resetting %s :: %d", node, index);
-                }
-                reset();
-            }
-
-            return family;
-        }
     }
 }
