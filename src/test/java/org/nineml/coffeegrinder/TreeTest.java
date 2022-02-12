@@ -2,14 +2,13 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.nineml.coffeegrinder.parser.EarleyParser;
-import org.nineml.coffeegrinder.parser.EarleyResult;
-import org.nineml.coffeegrinder.parser.Grammar;
-import org.nineml.coffeegrinder.parser.NonterminalSymbol;
+import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.util.GrammarCompiler;
 import org.nineml.coffeegrinder.util.Iterators;
+import org.nineml.coffeegrinder.util.NodeChoices;
 
 import java.io.File;
+import java.util.Map;
 
 import static junit.framework.TestCase.fail;
 
@@ -61,5 +60,29 @@ public class TreeTest {
         }
     }
 
+    @Test
+    public void walker1() {
+        try {
+            // This example caused an error in the tree walker. It attempted to find a choice
+            // for a node that had nothing but loops. Since loops are ignored, it attempted to
+            // setup a choice when there were not choices.
+            GrammarCompiler compiler = new GrammarCompiler();
+            Grammar grammar = compiler.parse(new File("src/test/resources/property-file.cxml"));
+
+            EarleyParser parser = grammar.getParser("$$");
+            EarleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/short-example.properties"));
+
+            Ambiguity ambiguity = result.getForest().getAmbiguity();
+
+            Assert.assertTrue(ambiguity.getAmbiguous());
+
+            ParseTree tree1 = result.getForest().parse();
+            ParseTree tree2 = result.getForest().parse();
+
+            Assert.assertNotNull(tree1);
+        } catch (Exception ex) {
+            fail();
+        }
+    }
 
 }

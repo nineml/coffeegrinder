@@ -21,6 +21,7 @@ public class ParseForest {
     protected final ArrayList<ForestNode> roots = new ArrayList<>();
     protected final ParserOptions options;
     protected final Messages messages;
+    private Ambiguity ambiguity = null;
     private boolean ambiguous = false;
     private boolean infinitelyAmbiguous = false;
     private TreeWalker treeWalker = null;
@@ -91,6 +92,19 @@ public class ParseForest {
             treeWalker = new DefaultTreeWalker(this, new ParseTreeBuilder());
         }
         return treeWalker.getExactTotalParses();
+    }
+
+    public Ambiguity getAmbiguity() {
+        if (ambiguity == null) {
+            if (!ambiguous) {
+                ambiguity = new Ambiguity(getRoots().get(0));
+            } else {
+                DefaultTreeWalker walker = new DefaultTreeWalker(this, new ParseTreeBuilder());
+                walker.next();
+                ambiguity = new Ambiguity(getRoots(), ambiguous, infinitelyAmbiguous, walker.getAmbiguityMap());
+            }
+        }
+        return ambiguity;
     }
 
     public ParseTree parse() {
