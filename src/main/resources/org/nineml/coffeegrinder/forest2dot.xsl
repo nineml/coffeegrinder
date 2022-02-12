@@ -28,9 +28,9 @@
   </xsl:if>
 
   <xsl:variable name="label" as="xs:string+">
-    <xsl:sequence select="replace(@label, '&quot;', '\\&quot;')"/>
+    <xsl:sequence select="replace(replace(@label, '\\', '\\\\'), '&quot;', '\\&quot;')"/>
     <xsl:if test="@type != 'state' and $show-states != 'false'">
-      <xsl:sequence select="replace(@state, '&quot;', '\\&quot;')"/>
+      <xsl:sequence select="replace(replace(@state, '\\', '\\\\'), '&quot;', '\\&quot;')"/>
     </xsl:if>
     <xsl:if test="$show-hashes = 'true'">
       <xsl:sequence select="@hash/string()"/>
