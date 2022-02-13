@@ -46,6 +46,6 @@ public class EarleyItem {
 
     @Override
     public String toString() {
-        return state + ", " + j + ", " + w;
+        return state + " / " + j + " / " + w;
     }
 }
