@@ -21,19 +21,19 @@
 <preface>
 <title>Introduction</title>
 
-<para>Hello world.</para>
+<para>This package provides an implementation of an Earley parser. The
+Earley parsing algorithm allows grammars to be ambiguous. This API
+parses a sequence of tokens and returns a Shared Packed Parser Forest.
+Individual parse trees can be obtained from the forest.</para>
+
 </preface>
 
 <chapter>
-<title>Test 1</title>
+<title>JavaDoc</title>
 
-<para>Hello world.</para>
-</chapter>
+<para>Until other documention is available, the
+<link xlink:href="/apidoc">JavaDoc</link> will have to suffice.</para>
 
-<chapter>
-<title>Test 2</title>
-
-<para>Hello world.</para>
 </chapter>
 
 </book>
