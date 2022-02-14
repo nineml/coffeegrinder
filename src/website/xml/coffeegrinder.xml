@@ -19,4 +19,16 @@
 <para>Hello world.</para>
 </preface>
 
+<chapter>
+<title>Test 1</title>
+
+<para>Hello world.</para>
+</chapter>
+
+<chapter>
+<title>Test 2</title>
+
+<para>Hello world.</para>
+</chapter>
+
 </book>
