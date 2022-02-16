@@ -7,6 +7,25 @@ import org.nineml.coffeegrinder.util.DefaultParseListener;
  */
 public class ParserOptions {
     /**
+     * The default constructor.
+     * <p>This object is intended to be just a collection of publicly modifiable fields.</p>
+     */
+    public ParserOptions() {
+        // nop
+    }
+
+    /**
+     * A copy constructor.
+     * @param copy the options to copy.
+     */
+    public ParserOptions(ParserOptions copy) {
+        returnChart = copy.returnChart;
+        prefixParsing = copy.prefixParsing;
+        treesWithStates = copy.treesWithStates;
+        listener = copy.listener;
+    }
+
+    /**
      * Return the Earley chart even for a successful parse?
      */
     public boolean returnChart = false;
