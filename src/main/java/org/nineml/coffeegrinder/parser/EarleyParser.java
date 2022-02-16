@@ -242,7 +242,7 @@ public class EarleyParser {
                 }
             }
 
-            if (/* options.prefixParsing &&*/ chart.size() > 0) {
+            if (chart.size() > 0) {
                 for (EarleyItem item : chart.get(chart.size()-1)) {
                     ArrayList<ForestNode> localRoots = new ArrayList<>();
                     if (item.state.completed() && item.j == 0 && item.state.getSymbol().equals(S)) {
