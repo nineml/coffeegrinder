@@ -57,6 +57,14 @@ public class EarleyResult {
     }
 
     /**
+     * Get the parser for this result.
+     * @return the parser that produced this result.
+     */
+    public EarleyParser getParser() {
+        return parser;
+    }
+
+    /**
      * Get the Earley chart for the parse.
      * <p>After a parse, the Earley chart isn't usually very useful. It's discarded unless the
      * {@link ParserOptions#returnChart returnChart} option is enabled.</p>
