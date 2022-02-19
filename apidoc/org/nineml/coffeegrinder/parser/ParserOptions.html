@@ -123,9 +123,9 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Field and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ParseListener.html" title="interface in org.nineml.coffeegrinder.parser">ParseListener</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#listener">listener</a></span></code>
-<div class="block">The parser sends messages to the listener which may be helpful in understanding what the parser is doing.</div>
+<td class="colFirst"><code><a href="../../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#logger">logger</a></span></code>
+<div class="block">The parser logger.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -235,15 +235,17 @@ extends java.lang.Object</pre>
  nodes that actually represent a symbol) will be returned.</p></div>
 </li>
 </ul>
-<a name="listener">
+<a name="logger">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>listener</h4>
-<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/ParseListener.html" title="interface in org.nineml.coffeegrinder.parser">ParseListener</a> listener</pre>
-<div class="block"><p>The parser sends messages to the listener which may be helpful in understanding what the parser is doing.
- It's mostly for debugging, but may be useful in other contexts.</p></div>
+<h4>logger</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a> logger</pre>
+<div class="block">The parser logger.
+ <p>The logger controls what messages are issued, and how. This component is also used by
+ higher-level components such as CoffeeFilter, CoffeePot, and CoffeeSacks.</p>
+ <p>Must not be null.</p></div>
 </li>
 </ul>
 </li>

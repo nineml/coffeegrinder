@@ -109,6 +109,10 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre>public class <span class="typeNameLabel">Ambiguity</span>
 extends java.lang.Object</pre>
+<div class="block">Provides access to successive trees from an ambiguous parse.
+ <p>This class ignores loops; infinitely ambiguous parses. The order of the trees returned
+ is roughly a depth-first tree walk of the graph. But they aren't explicitly ordered by
+ any property.</p></div>
 </li>
 </ul>
 </div>
@@ -129,19 +133,27 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Ambiguity.html#getAmbiguous--">getAmbiguous</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Ambiguity.html#getAmbiguous--">getAmbiguous</a></span>()</code>
+<div class="block">Is this graph ambiguous?</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.util.Map&lt;<a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>,java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>&gt;&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Ambiguity.html#getChoices--">getChoices</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Ambiguity.html#getChoices--">getChoices</a></span>()</code>
+<div class="block">Return the choices for this node.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Ambiguity.html#getInfinitelyAmbiguous--">getInfinitelyAmbiguous</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Ambiguity.html#getInfinitelyAmbiguous--">getInfinitelyAmbiguous</a></span>()</code>
+<div class="block">Is this graph infinitely ambiguous?</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Ambiguity.html#getRoots--">getRoots</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Ambiguity.html#getRoots--">getRoots</a></span>()</code>
+<div class="block">Return the graph roots.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -172,6 +184,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getRoots</h4>
 <pre>public&nbsp;java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&gt;&nbsp;getRoots()</pre>
+<div class="block">Return the graph roots.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the roots</dd>
+</dl>
 </li>
 </ul>
 <a name="getAmbiguous--">
@@ -181,6 +198,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getAmbiguous</h4>
 <pre>public&nbsp;boolean&nbsp;getAmbiguous()</pre>
+<div class="block">Is this graph ambiguous?</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if the graph is ambiguous.</dd>
+</dl>
 </li>
 </ul>
 <a name="getInfinitelyAmbiguous--">
@@ -190,6 +212,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getInfinitelyAmbiguous</h4>
 <pre>public&nbsp;boolean&nbsp;getInfinitelyAmbiguous()</pre>
+<div class="block">Is this graph infinitely ambiguous?</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if the graph is infinitely ambigous.</dd>
+</dl>
 </li>
 </ul>
 <a name="getChoices--">
@@ -199,6 +226,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getChoices</h4>
 <pre>public&nbsp;java.util.Map&lt;<a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>,java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>&gt;&gt;&nbsp;getChoices()</pre>
+<div class="block">Return the choices for this node.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the choices.</dd>
+</dl>
 </li>
 </ul>
 </li>

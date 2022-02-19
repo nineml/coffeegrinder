@@ -186,15 +186,21 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/exceptions/TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/TreeWalkerException.html#internalError--">internalError</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/TreeWalkerException.html#internalError--">internalError</a></span>()</code>
+<div class="block">Raised if an internal error occurs.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/exceptions/TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/TreeWalkerException.html#noMoreTrees--">noMoreTrees</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/TreeWalkerException.html#noMoreTrees--">noMoreTrees</a></span>()</code>
+<div class="block">Raised if an attempt is made to walk a tree when there are no more trees.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/exceptions/TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/TreeWalkerException.html#noTreesSelected--">noTreesSelected</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/TreeWalkerException.html#noTreesSelected--">noTreesSelected</a></span>()</code>
+<div class="block">Raised if an attempt is made to walk a tree when none has been selected.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -243,6 +249,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <div class="block">Grammar exception with a message.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>code</code> - the code</dd>
 <dd><code>message</code> - the message</dd>
 </dl>
 </li>
@@ -259,6 +266,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <div class="block">Grammar exception with an underlying cause.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>code</code> - the code</dd>
 <dd><code>message</code> - the message</dd>
 <dd><code>cause</code> - the cause</dd>
 </dl>
@@ -279,6 +287,11 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <li class="blockList">
 <h4>noTreesSelected</h4>
 <pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/exceptions/TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a>&nbsp;noTreesSelected()</pre>
+<div class="block">Raised if an attempt is made to walk a tree when none has been selected.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a TreeWalkerException</dd>
+</dl>
 </li>
 </ul>
 <a name="noMoreTrees--">
@@ -288,6 +301,11 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <li class="blockList">
 <h4>noMoreTrees</h4>
 <pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/exceptions/TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a>&nbsp;noMoreTrees()</pre>
+<div class="block">Raised if an attempt is made to walk a tree when there are no more trees.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a TreeWalkerException</dd>
+</dl>
 </li>
 </ul>
 <a name="internalError--">
@@ -297,6 +315,11 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <li class="blockList">
 <h4>internalError</h4>
 <pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/exceptions/TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a>&nbsp;internalError()</pre>
+<div class="block">Raised if an internal error occurs.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a TreeWalkerException</dd>
+</dl>
 </li>
 </ul>
 </li>

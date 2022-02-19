@@ -187,11 +187,15 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/exceptions/ForestException.html" title="class in org.nineml.coffeegrinder.exceptions">ForestException</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/ForestException.html#ioError-java.lang.String-java.lang.Exception-">ioError</a></span>(java.lang.String&nbsp;filename,
-       java.lang.Exception&nbsp;ex)</code>&nbsp;</td>
+       java.lang.Exception&nbsp;ex)</code>
+<div class="block">An I/O exception.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/exceptions/ForestException.html" title="class in org.nineml.coffeegrinder.exceptions">ForestException</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/ForestException.html#noSuchNode-java.lang.String-">noSuchNode</a></span>(java.lang.String&nbsp;node)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/ForestException.html#noSuchNode-java.lang.String-">noSuchNode</a></span>(java.lang.String&nbsp;node)</code>
+<div class="block">A no-such-node exception.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -240,6 +244,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <div class="block">An SPPF exception with a message.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>code</code> - the code</dd>
 <dd><code>message</code> - the message</dd>
 </dl>
 </li>
@@ -256,6 +261,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <div class="block">An SPPF exception with an underlying cause.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>code</code> - the code</dd>
 <dd><code>message</code> - the message</dd>
 <dd><code>cause</code> - the cause</dd>
 </dl>
@@ -277,6 +283,14 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <h4>ioError</h4>
 <pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/exceptions/ForestException.html" title="class in org.nineml.coffeegrinder.exceptions">ForestException</a>&nbsp;ioError(java.lang.String&nbsp;filename,
                                       java.lang.Exception&nbsp;ex)</pre>
+<div class="block">An I/O exception.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>filename</code> - filename being accessed at the time of error</dd>
+<dd><code>ex</code> - the underlying exception</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a ForestException</dd>
+</dl>
 </li>
 </ul>
 <a name="noSuchNode-java.lang.String-">
@@ -286,6 +300,14 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <li class="blockList">
 <h4>noSuchNode</h4>
 <pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/exceptions/ForestException.html" title="class in org.nineml.coffeegrinder.exceptions">ForestException</a>&nbsp;noSuchNode(java.lang.String&nbsp;node)</pre>
+<div class="block">A no-such-node exception.
+ <p>This is an internal error.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>node</code> - The node.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>A ForestException</dd>
+</dl>
 </li>
 </ul>
 </li>

@@ -187,15 +187,21 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html#immutable-java.lang.String-java.lang.String-">immutable</a></span>(java.lang.String&nbsp;name,
-         java.lang.String&nbsp;value)</code>&nbsp;</td>
+         java.lang.String&nbsp;value)</code>
+<div class="block">Raised if an attempt is made to modify an existing attribute.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html#invalidOPTIONAL-java.lang.String-">invalidOPTIONAL</a></span>(java.lang.String&nbsp;value)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html#invalidOPTIONAL-java.lang.String-">invalidOPTIONAL</a></span>(java.lang.String&nbsp;value)</code>
+<div class="block">Raised if an attempt is made to set an invalid option value.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html#invalidPRUNING-java.lang.String-">invalidPRUNING</a></span>(java.lang.String&nbsp;value)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html#invalidPRUNING-java.lang.String-">invalidPRUNING</a></span>(java.lang.String&nbsp;value)</code>
+<div class="block">Raised if an attempt is made to set an invalid pruning value.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -244,6 +250,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <div class="block">An attribute exception with a message.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>code</code> - the code</dd>
 <dd><code>message</code> - the message</dd>
 </dl>
 </li>
@@ -260,6 +267,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <div class="block">An attribute exception with an underlying cause.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>code</code> - the code</dd>
 <dd><code>message</code> - the message</dd>
 <dd><code>cause</code> - the cause</dd>
 </dl>
@@ -280,6 +288,13 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <li class="blockList">
 <h4>invalidOPTIONAL</h4>
 <pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a>&nbsp;invalidOPTIONAL(java.lang.String&nbsp;value)</pre>
+<div class="block">Raised if an attempt is made to set an invalid option value.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>value</code> - the value.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an AttributeException.</dd>
+</dl>
 </li>
 </ul>
 <a name="invalidPRUNING-java.lang.String-">
@@ -289,6 +304,13 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <li class="blockList">
 <h4>invalidPRUNING</h4>
 <pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a>&nbsp;invalidPRUNING(java.lang.String&nbsp;value)</pre>
+<div class="block">Raised if an attempt is made to set an invalid pruning value.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>value</code> - the value.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an AttributeException.</dd>
+</dl>
 </li>
 </ul>
 <a name="immutable-java.lang.String-java.lang.String-">
@@ -299,6 +321,14 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <h4>immutable</h4>
 <pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a>&nbsp;immutable(java.lang.String&nbsp;name,
                                            java.lang.String&nbsp;value)</pre>
+<div class="block">Raised if an attempt is made to modify an existing attribute.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>name</code> - the attribute name.</dd>
+<dd><code>value</code> - the value.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an AttributeException.</dd>
+</dl>
 </li>
 </ul>
 </li>

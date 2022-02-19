@@ -186,15 +186,21 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/ParseException.html#attemptToContinueInvalidParse--">attemptToContinueInvalidParse</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/ParseException.html#attemptToContinueInvalidParse--">attemptToContinueInvalidParse</a></span>()</code>
+<div class="block">Raised if an attempt is made to continue after an invalid parse.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/ParseException.html#internalError-java.lang.String-">internalError</a></span>(java.lang.String&nbsp;reason)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/ParseException.html#internalError-java.lang.String-">internalError</a></span>(java.lang.String&nbsp;reason)</code>
+<div class="block">Raised if an internal error occurs.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/ParseException.html#seedNotInGrammar-java.lang.String-">seedNotInGrammar</a></span>(java.lang.String&nbsp;seed)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/ParseException.html#seedNotInGrammar-java.lang.String-">seedNotInGrammar</a></span>(java.lang.String&nbsp;seed)</code>
+<div class="block">Raised if the selected seed token is not in the grammar</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -243,6 +249,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <div class="block">An parse exception with a message.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>code</code> - the code</dd>
 <dd><code>message</code> - the message</dd>
 </dl>
 </li>
@@ -259,6 +266,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <div class="block">An parse exception with an underlying cause.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>code</code> - the code</dd>
 <dd><code>message</code> - the message</dd>
 <dd><code>cause</code> - the cause</dd>
 </dl>
@@ -279,6 +287,13 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <li class="blockList">
 <h4>seedNotInGrammar</h4>
 <pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a>&nbsp;seedNotInGrammar(java.lang.String&nbsp;seed)</pre>
+<div class="block">Raised if the selected seed token is not in the grammar</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>seed</code> - the seed name</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a ParseException</dd>
+</dl>
 </li>
 </ul>
 <a name="attemptToContinueInvalidParse--">
@@ -288,6 +303,11 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <li class="blockList">
 <h4>attemptToContinueInvalidParse</h4>
 <pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a>&nbsp;attemptToContinueInvalidParse()</pre>
+<div class="block">Raised if an attempt is made to continue after an invalid parse.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a ParseException</dd>
+</dl>
 </li>
 </ul>
 <a name="internalError-java.lang.String-">
@@ -297,6 +317,13 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <li class="blockList">
 <h4>internalError</h4>
 <pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a>&nbsp;internalError(java.lang.String&nbsp;reason)</pre>
+<div class="block">Raised if an internal error occurs.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>reason</code> - a detail message.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a ParseException</dd>
+</dl>
 </li>
 </ul>
 </li>

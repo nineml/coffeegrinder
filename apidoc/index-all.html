@@ -107,11 +107,15 @@
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/DefaultTreeWalker.html#advance-org.nineml.coffeegrinder.parser.ForestNode-">advance(ForestNode)</a></span> - Method in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/DefaultTreeWalker.html" title="class in org.nineml.coffeegrinder.util">DefaultTreeWalker</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="org/nineml/coffeegrinder/parser/Ambiguity.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Ambiguity</span></a> - Class in <a href="org/nineml/coffeegrinder/parser/package-summary.html">org.nineml.coffeegrinder.parser</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Provides access to successive trees from an ambiguous parse.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#AMBIGUOUS">AMBIGUOUS</a></span> - Static variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/ParseException.html#attemptToContinueInvalidParse--">attemptToContinueInvalidParse()</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if an attempt is made to continue after an invalid parse.</div>
+</dd>
 <dt><a href="org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions"><span class="typeNameLink">AttributeException</span></a> - Exception in <a href="org/nineml/coffeegrinder/exceptions/package-summary.html">org.nineml.coffeegrinder.exceptions</a></dt>
 <dd>
 <div class="block">Exceptions that arise processing the attributes of a symbol or token.</div>
@@ -130,6 +134,10 @@
 </a>
 <h2 class="title">C</h2>
 <dl>
+<dt><a href="org/nineml/logging/CachingLogger.html" title="class in org.nineml.logging"><span class="typeNameLink">CachingLogger</span></a> - Class in <a href="org/nineml/logging/package-summary.html">org.nineml.logging</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/CachingLogger.html#CachingLogger--">CachingLogger()</a></span> - Constructor for class org.nineml.logging.<a href="org/nineml/logging/CachingLogger.html" title="class in org.nineml.logging">CachingLogger</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/TerminalSymbol.html#ch-char-">ch(char)</a></span> - Static method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">TerminalSymbol</a></dt>
 <dd>
 <div class="block">Return a token for a string.</div>
@@ -143,6 +151,10 @@
 <div class="block">A class that represents a range of Unicode characters.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#checkumFailed--">checkumFailed()</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
+<dd>
+<div class="block">Raised if the compiled grammar checksum doesn't match the computed value.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/CachingLogger.html#clearMessages--">clearMessages()</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/CachingLogger.html" title="class in org.nineml.logging">CachingLogger</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Grammar.html#close--">close()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Grammar.html" title="class in org.nineml.coffeegrinder.parser">Grammar</a></dt>
 <dd>
@@ -218,6 +230,20 @@
 <dd>
 <div class="block">Emit a debug message.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/CachingLogger.html#debug-java.lang.String-java.lang.String-java.lang.Object...-">debug(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/CachingLogger.html" title="class in org.nineml.logging">CachingLogger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/DefaultLogger.html#debug-java.lang.String-java.lang.String-java.lang.Object...-">debug(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/DefaultLogger.html" title="class in org.nineml.logging">DefaultLogger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#DEBUG">DEBUG</a></span> - Static variable in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#debug-java.lang.String-java.lang.String-java.lang.Object...-">debug(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/SystemLogger.html#debug-java.lang.String-java.lang.String-java.lang.Object...-">debug(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/SystemLogger.html" title="class in org.nineml.logging">SystemLogger</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="org/nineml/logging/DefaultLogger.html" title="class in org.nineml.logging"><span class="typeNameLink">DefaultLogger</span></a> - Class in <a href="org/nineml/logging/package-summary.html">org.nineml.logging</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/DefaultLogger.html#DefaultLogger--">DefaultLogger()</a></span> - Constructor for class org.nineml.logging.<a href="org/nineml/logging/DefaultLogger.html" title="class in org.nineml.logging">DefaultLogger</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="org/nineml/coffeegrinder/util/DefaultParseListener.html" title="class in org.nineml.coffeegrinder.util"><span class="typeNameLink">DefaultParseListener</span></a> - Class in <a href="org/nineml/coffeegrinder/util/package-summary.html">org.nineml.coffeegrinder.util</a></dt>
 <dd>
 <div class="block">A default implementation of <a href="org/nineml/coffeegrinder/parser/ParseListener.html" title="interface in org.nineml.coffeegrinder.parser"><code>ParseListener</code></a>.</div>
@@ -356,8 +382,20 @@
 <dd>
 <div class="block">Emit an error message.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#errorReadingGrammar-java.lang.String-">errorReadingGrammar(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/CachingLogger.html#error-java.lang.String-java.lang.String-java.lang.Object...-">error(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/CachingLogger.html" title="class in org.nineml.logging">CachingLogger</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/DefaultLogger.html#error-java.lang.String-java.lang.String-java.lang.Object...-">error(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/DefaultLogger.html" title="class in org.nineml.logging">DefaultLogger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#ERROR">ERROR</a></span> - Static variable in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#error-java.lang.String-java.lang.String-java.lang.Object...-">error(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/SystemLogger.html#error-java.lang.String-java.lang.String-java.lang.Object...-">error(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/SystemLogger.html" title="class in org.nineml.logging">SystemLogger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#errorReadingGrammar-java.lang.String-">errorReadingGrammar(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
+<dd>
+<div class="block">Raised if an error occurs reading the grammar</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#exclusion-org.nineml.coffeegrinder.tokens.CharacterSet-">exclusion(CharacterSet)</a></span> - Static method in class org.nineml.coffeegrinder.tokens.<a href="org/nineml/coffeegrinder/tokens/TokenCharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacterSet</a></dt>
 <dd>
 <div class="block">Create a character set terminal that matches any character <em>not</em> in the specified range.</div>
@@ -457,7 +495,9 @@
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/DefaultTreeWalker.html#getAmbiguityMap--">getAmbiguityMap()</a></span> - Method in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/DefaultTreeWalker.html" title="class in org.nineml.coffeegrinder.util">DefaultTreeWalker</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Ambiguity.html#getAmbiguous--">getAmbiguous()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Ambiguity.html" title="class in org.nineml.coffeegrinder.parser">Ambiguity</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Is this graph ambiguous?</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Symbol.html#getAttribute-java.lang.String-">getAttribute(String)</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a></dt>
 <dd>
 <div class="block">Get a specific symbol attribute.</div>
@@ -491,7 +531,9 @@
 <div class="block">Get the children</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Ambiguity.html#getChoices--">getChoices()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Ambiguity.html" title="class in org.nineml.coffeegrinder.parser">Ambiguity</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Return the choices for this node.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CoffeeGrinderException.html#getCode--">getCode()</a></span> - Method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CoffeeGrinderException.html" title="class in org.nineml.coffeegrinder.exceptions">CoffeeGrinderException</a></dt>
 <dd>
 <div class="block">Get the error code.</div>
@@ -500,6 +542,8 @@
 <dd>
 <div class="block">Get an iterator for the rest of the tokens after a matched prefix.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#getDefaultLogLevel--">getDefaultLogLevel()</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#getExactParsesBelow--">getExactParsesBelow()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/TreeWalker.html#getExactRemainingParses--">getExactRemainingParses()</a></span> - Method in interface org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/TreeWalker.html" title="interface in org.nineml.coffeegrinder.parser">TreeWalker</a></dt>
@@ -535,11 +579,15 @@
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/GrammarCompiler.html#getGrammar--">getGrammar()</a></span> - Method in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/GrammarCompiler.html" title="class in org.nineml.coffeegrinder.util">GrammarCompiler</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Ambiguity.html#getInfinitelyAmbiguous--">getInfinitelyAmbiguous()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Ambiguity.html" title="class in org.nineml.coffeegrinder.parser">Ambiguity</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Is this graph infinitely ambiguous?</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/EarleyResult.html#getLastToken--">getLastToken()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/EarleyResult.html" title="class in org.nineml.coffeegrinder.parser">EarleyResult</a></dt>
 <dd>
 <div class="block">What was the last token parsed?</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#getLogLevel-java.lang.String-">getLogLevel(String)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#getLoops--">getLoops()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParseListener.html#getMessageLevel--">getMessageLevel()</a></span> - Method in interface org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParseListener.html" title="interface in org.nineml.coffeegrinder.parser">ParseListener</a></dt>
@@ -547,6 +595,8 @@
 <div class="block">How verbose are we being?</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/DefaultParseListener.html#getMessageLevel--">getMessageLevel()</a></span> - Method in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/DefaultParseListener.html" title="class in org.nineml.coffeegrinder.util">DefaultParseListener</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/CachingLogger.html#getMessages--">getMessages()</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/CachingLogger.html" title="class in org.nineml.logging">CachingLogger</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/NonterminalSymbol.html#getName--">getName()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></dt>
 <dd>
@@ -639,7 +689,9 @@
 <div class="block">Get the list of symbols that define this state's nonterminal symbol.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Ambiguity.html#getRoots--">getRoots()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Ambiguity.html" title="class in org.nineml.coffeegrinder.parser">Ambiguity</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Return the graph roots.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParseForest.html#getRoots--">getRoots()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParseForest.html" title="class in org.nineml.coffeegrinder.parser">ParseForest</a></dt>
 <dd>
 <div class="block">Get the root nodes in the graph.</div>
@@ -734,10 +786,6 @@
 <dd>
 <div class="block">Create a new grammar.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Grammar.html#Grammar-int-">Grammar(int)</a></span> - Constructor for class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Grammar.html" title="class in org.nineml.coffeegrinder.parser">Grammar</a></dt>
-<dd>
-<div class="block">Create a new grammar with a specific parse message verbosity.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Grammar.html#Grammar-org.nineml.coffeegrinder.parser.ParserOptions-">Grammar(ParserOptions)</a></span> - Constructor for class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Grammar.html" title="class in org.nineml.coffeegrinder.parser">Grammar</a></dt>
 <dd>
 <div class="block">Create a new grammar with a specific set of options.</div>
@@ -765,7 +813,9 @@
 <div class="block">Grammar exception with an underlying cause.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/GrammarException.html#grammarIsClosed--">grammarIsClosed()</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if an attempt is made to write to a closed grammar.</div>
+</dd>
 </dl>
 <a name="I:H">
 <!--   -->
@@ -821,7 +871,9 @@
 <h2 class="title">I</h2>
 <dl>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/AttributeException.html#immutable-java.lang.String-java.lang.String-">immutable(String, String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if an attempt is made to modify an existing attribute.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#inclusion-org.nineml.coffeegrinder.tokens.CharacterSet-">inclusion(CharacterSet)</a></span> - Static method in class org.nineml.coffeegrinder.tokens.<a href="org/nineml/coffeegrinder/tokens/TokenCharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacterSet</a></dt>
 <dd>
 <div class="block">Create a character set terminal that matches any character in the specified range.</div>
@@ -862,22 +914,48 @@
 <dd>
 <div class="block">Emit an info message.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/CachingLogger.html#info-java.lang.String-java.lang.String-java.lang.Object...-">info(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/CachingLogger.html" title="class in org.nineml.logging">CachingLogger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/DefaultLogger.html#info-java.lang.String-java.lang.String-java.lang.Object...-">info(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/DefaultLogger.html" title="class in org.nineml.logging">DefaultLogger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#INFO">INFO</a></span> - Static variable in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#info-java.lang.String-java.lang.String-java.lang.Object...-">info(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/SystemLogger.html#info-java.lang.String-java.lang.String-java.lang.Object...-">info(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/SystemLogger.html" title="class in org.nineml.logging">SystemLogger</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/ParseException.html#internalError-java.lang.String-">internalError(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if an internal error occurs.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/TreeWalkerException.html#internalError--">internalError()</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if an internal error occurs.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/GrammarException.html#invalidCharacterClass-java.lang.String-">invalidCharacterClass(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if an invalid Unicode character class is specified.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#invalidGramamr-java.lang.String-">invalidGramamr(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if the grammar is invalid.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#invalidNameEscaping-java.lang.String-java.lang.String-">invalidNameEscaping(String, String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if a name is improperly escaped.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/AttributeException.html#invalidOPTIONAL-java.lang.String-">invalidOPTIONAL(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if an attempt is made to set an invalid option value.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/AttributeException.html#invalidPRUNING-java.lang.String-">invalidPRUNING(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if an attempt is made to set an invalid pruning value.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/ForestException.html#ioError-java.lang.String-java.lang.Exception-">ioError(String, Exception)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/ForestException.html" title="class in org.nineml.coffeegrinder.exceptions">ForestException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">An I/O exception.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParseForest.html#isAmbiguous--">isAmbiguous()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParseForest.html" title="class in org.nineml.coffeegrinder.parser">ParseForest</a></dt>
 <dd>
 <div class="block">Is the grammar represented by this graph ambiguous?</div>
@@ -938,14 +1016,26 @@
 <dl>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/DefaultParseListener.html#level">level</a></span> - Variable in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/DefaultParseListener.html" title="class in org.nineml.coffeegrinder.util">DefaultParseListener</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParserOptions.html#listener">listener</a></span> - Variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a></dt>
-<dd>
-<div class="block">The parser sends messages to the listener which may be helpful in understanding what the parser is doing.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/tokens/CharacterSet.html#literal-java.lang.String-">literal(String)</a></span> - Static method in class org.nineml.coffeegrinder.tokens.<a href="org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a></dt>
 <dd>
 <div class="block">Construct a character set containing each of the characters in the literal string.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/EarleyParser.html#logcategory">logcategory</a></span> - Static variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/EarleyParser.html" title="class in org.nineml.coffeegrinder.parser">EarleyParser</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#logcategory">logcategory</a></span> - Static variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Grammar.html#logcategory">logcategory</a></span> - Static variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Grammar.html" title="class in org.nineml.coffeegrinder.parser">Grammar</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParseForest.html#logcategory">logcategory</a></span> - Static variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParseForest.html" title="class in org.nineml.coffeegrinder.parser">ParseForest</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParserOptions.html#logger">logger</a></span> - Variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a></dt>
+<dd>
+<div class="block">The parser logger.</div>
+</dd>
+<dt><a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging"><span class="typeNameLink">Logger</span></a> - Class in <a href="org/nineml/logging/package-summary.html">org.nineml.logging</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#Logger--">Logger()</a></span> - Constructor for class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:M">
 <!--   -->
@@ -1019,7 +1109,9 @@
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#MAX_LONG">MAX_LONG</a></span> - Static variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#messageDigestError-java.lang.String-java.lang.String-">messageDigestError(String, String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if the digest cannot be created.</div>
+</dd>
 <dt><a href="org/nineml/coffeegrinder/exceptions/MessageGenerator.html" title="class in org.nineml.coffeegrinder.exceptions"><span class="typeNameLink">MessageGenerator</span></a> - Class in <a href="org/nineml/coffeegrinder/exceptions/package-summary.html">org.nineml.coffeegrinder.exceptions</a></dt>
 <dd>
 <div class="block">Generates localized messages.</div>
@@ -1033,9 +1125,13 @@
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/Messages.html#Messages-org.nineml.coffeegrinder.parser.ParseListener-">Messages(ParseListener)</a></span> - Constructor for class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/Messages.html" title="class in org.nineml.coffeegrinder.util">Messages</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#missingAttributeGroup-java.lang.String-">missingAttributeGroup(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if an attribute group is missing</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#missingXmlId-java.lang.String-">missingXmlId(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if an element is missing a required xml:id</div>
+</dd>
 </dl>
 <a name="I:N">
 <!--   -->
@@ -1055,7 +1151,9 @@
 <dt><a href="org/nineml/coffeegrinder/util/NodeChoices.html" title="class in org.nineml.coffeegrinder.util"><span class="typeNameLink">NodeChoices</span></a> - Class in <a href="org/nineml/coffeegrinder/util/package-summary.html">org.nineml.coffeegrinder.util</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/TreeWalkerException.html#noMoreTrees--">noMoreTrees()</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if an attempt is made to walk a tree when there are no more trees.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParseListener.html#NONE">NONE</a></span> - Static variable in interface org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParseListener.html" title="interface in org.nineml.coffeegrinder.parser">ParseListener</a></dt>
 <dd>
 <div class="block">No messages.</div>
@@ -1065,15 +1163,25 @@
 <div class="block">A nonterminal symbol in the grammar.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/GrammarException.html#noRuleForSymbol-java.lang.String-">noRuleForSymbol(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if the grammar contains an undefined symbol.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/ForestException.html#noSuchNode-java.lang.String-">noSuchNode(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/ForestException.html" title="class in org.nineml.coffeegrinder.exceptions">ForestException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">A no-such-node exception.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#notAGrammar-java.lang.String-">notAGrammar(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if the compiled grammar is not in the correct namespace.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/TreeWalkerException.html#noTreesSelected--">noTreesSelected()</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if an attempt is made to walk a tree when none has been selected.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#noVersionProvided--">noVersionProvided()</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if the compiled grammar has no version attribute.</div>
+</dd>
 </dl>
 <a name="I:O">
 <!--   -->
@@ -1098,6 +1206,8 @@
 <dd>
 <div class="block">Utility classes.</div>
 </dd>
+<dt><a href="org/nineml/logging/package-summary.html">org.nineml.logging</a> - package org.nineml.logging</dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:P">
 <!--   -->
@@ -1249,7 +1359,9 @@
 <div class="block">Return a token for a string.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/ParseException.html#seedNotInGrammar-java.lang.String-">seedNotInGrammar(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if the selected seed token is not in the grammar</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParseForest.html#serialize--">serialize()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParseForest.html" title="class in org.nineml.coffeegrinder.parser">ParseForest</a></dt>
 <dd>
 <div class="block">Serialize the graph as XML.</div>
@@ -1274,6 +1386,10 @@
 <dd>
 <div class="block">Serialize the tree as XML.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#setDefaultLogLevel-int-">setDefaultLogLevel(int)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#setLogLevel-java.lang.String-int-">setLogLevel(String, int)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParseListener.html#setMessageLevel-int-">setMessageLevel(int)</a></span> - Method in interface org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParseListener.html" title="interface in org.nineml.coffeegrinder.parser">ParseListener</a></dt>
 <dd>
 <div class="block">How verbose do you want me to be?</div>
@@ -1289,6 +1405,8 @@
 <div class="block">Sets the parser options.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/GrammarCompiler.html#setProperty-java.lang.String-java.lang.String-">setProperty(String, String)</a></span> - Method in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/GrammarCompiler.html" title="class in org.nineml.coffeegrinder.util">GrammarCompiler</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#SILENT">SILENT</a></span> - Static variable in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/EarleyChart.html#size--">size()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/EarleyChart.html" title="class in org.nineml.coffeegrinder.parser">EarleyChart</a></dt>
 <dd>
@@ -1338,6 +1456,14 @@
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Symbol.html#Symbol--">Symbol()</a></span> - Constructor for class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="org/nineml/logging/SystemLogger.html" title="class in org.nineml.logging"><span class="typeNameLink">SystemLogger</span></a> - Class in <a href="org/nineml/logging/package-summary.html">org.nineml.logging</a></dt>
+<dd>
+<div class="block">The system logger interfaces to a logging backend via a logging backend.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/SystemLogger.html#SystemLogger--">SystemLogger()</a></span> - Constructor for class org.nineml.logging.<a href="org/nineml/logging/SystemLogger.html" title="class in org.nineml.logging">SystemLogger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/SystemLogger.html#SystemLogger-java.util.logging.Logger-">SystemLogger(Logger)</a></span> - Constructor for class org.nineml.logging.<a href="org/nineml/logging/SystemLogger.html" title="class in org.nineml.logging">SystemLogger</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:T">
 <!--   -->
@@ -1361,7 +1487,9 @@
 <div class="block">Make a symbol for the specified token with the given attributes</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#textNotAllowed-java.lang.String-">textNotAllowed(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if text is used where it isn't allowed.</div>
+</dd>
 <dt><a href="org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens"><span class="typeNameLink">Token</span></a> - Class in <a href="org/nineml/coffeegrinder/tokens/package-summary.html">org.nineml.coffeegrinder.tokens</a></dt>
 <dd>
 <div class="block">An input token.</div>
@@ -1424,6 +1552,16 @@
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/ParserAttribute.html#toString--">toString()</a></span> - Method in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/CachingLogger.html#trace-java.lang.String-java.lang.String-java.lang.Object...-">trace(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/CachingLogger.html" title="class in org.nineml.logging">CachingLogger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/DefaultLogger.html#trace-java.lang.String-java.lang.String-java.lang.Object...-">trace(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/DefaultLogger.html" title="class in org.nineml.logging">DefaultLogger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#TRACE">TRACE</a></span> - Static variable in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#trace-java.lang.String-java.lang.String-java.lang.Object...-">trace(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/SystemLogger.html#trace-java.lang.String-java.lang.String-java.lang.Object...-">trace(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/SystemLogger.html" title="class in org.nineml.logging">SystemLogger</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="org/nineml/coffeegrinder/parser/TreeBuilder.html" title="interface in org.nineml.coffeegrinder.parser"><span class="typeNameLink">TreeBuilder</span></a> - Interface in <a href="org/nineml/coffeegrinder/parser/package-summary.html">org.nineml.coffeegrinder.parser</a></dt>
 <dd>
 <div class="block">A tree builder builds trees for a tree walker.</div>
@@ -1457,19 +1595,29 @@
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#UNAMBIGUOUS">UNAMBIGUOUS</a></span> - Static variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#unexpectedCharacterSet-java.lang.String-">unexpectedCharacterSet(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if an unexpected character set is used.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#unexpectedElement-java.lang.String-">unexpectedElement(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if the compiled grammar contains an element with an unexpected name.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#unexpectedFlag-java.lang.String-">unexpectedFlag(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if the internal flag value is unrecognized.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#unexpectedTerminalTokenClass-java.lang.String-">unexpectedTerminalTokenClass(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if an unexpected terminal token class is encountered</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/tokens/CharacterSet.html#unicodeClass-java.lang.String-">unicodeClass(String)</a></span> - Static method in class org.nineml.coffeegrinder.tokens.<a href="org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a></dt>
 <dd>
 <div class="block">Construct a character set representing the specified Unicode character class.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#unsupportedVersion-java.lang.String-">unsupportedVersion(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Raised if the version is unrecognized.</div>
+</dd>
 </dl>
 <a name="I:V">
 <!--   -->
@@ -1494,6 +1642,14 @@
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/DefaultTreeWalker.html#walk--">walk()</a></span> - Method in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/DefaultTreeWalker.html" title="class in org.nineml.coffeegrinder.util">DefaultTreeWalker</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/CachingLogger.html#warn-java.lang.String-java.lang.String-java.lang.Object...-">warn(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/CachingLogger.html" title="class in org.nineml.logging">CachingLogger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/DefaultLogger.html#warn-java.lang.String-java.lang.String-java.lang.Object...-">warn(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/DefaultLogger.html" title="class in org.nineml.logging">DefaultLogger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#warn-java.lang.String-java.lang.String-java.lang.Object...-">warn(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/SystemLogger.html#warn-java.lang.String-java.lang.String-java.lang.Object...-">warn(String, String, Object...)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/SystemLogger.html" title="class in org.nineml.logging">SystemLogger</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParseListener.html#WARNING">WARNING</a></span> - Static variable in interface org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParseListener.html" title="interface in org.nineml.coffeegrinder.parser">ParseListener</a></dt>
 <dd>
 <div class="block">Warning messages and above.</div>
@@ -1512,6 +1668,8 @@
 <dd>
 <div class="block">Emit a warning message.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#WARNING">WARNING</a></span> - Static variable in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a href="#I:A">A</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:J">J</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;</div>
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
