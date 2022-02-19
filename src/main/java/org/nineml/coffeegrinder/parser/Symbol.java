@@ -108,16 +108,16 @@ public abstract class Symbol {
         for (ParserAttribute attr : attributes) {
             if (attr.getName().equals(OPTIONAL.getName())
                 && !attr.getValue().equals(OPTIONAL.getValue())) {
-                throw new AttributeException("The OPTIONAL attribute has an invalid value: " + attr.getValue());
+                throw AttributeException.invalidOPTIONAL(attr.getValue());
             }
             if (attr.getName().equals(ParserAttribute.PRUNING)
                 && (!attr.getValue().equals(ParserAttribute.PRUNING_ALLOWED.getValue())
                     && !attr.getValue().equals(ParserAttribute.PRUNING_FORBIDDEN.getValue()))) {
-                throw new AttributeException("The PRUNING attribute has an invalid value: " + attr.getValue());
+                throw AttributeException.invalidPRUNING(attr.getValue());
             }
             if (this.attributes.containsKey(attr.getName())) {
                 if (!this.attributes.get(attr.getName()).getValue().equals(attr.getValue())) {
-                    throw new AttributeException("Attribute values cannot be changed: " + attr.getName());
+                    throw AttributeException.immutable(attr.getName(), attr.getValue());
                 }
             } else {
                 this.attributes.put(attr.getName(), attr);

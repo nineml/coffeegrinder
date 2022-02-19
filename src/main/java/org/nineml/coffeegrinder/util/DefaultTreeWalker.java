@@ -99,10 +99,10 @@ public class DefaultTreeWalker implements TreeWalker {
     @Override
     public void walk() {
         if (!selectedFirst) {
-            throw new TreeWalkerException("No trees selected");
+            throw TreeWalkerException.noTreesSelected();
         }
         if (rootIndex >= roots.size()) {
-            throw new TreeWalkerException("No more trees");
+            throw TreeWalkerException.noMoreTrees();
         }
 
         builder.reset();

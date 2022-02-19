@@ -129,7 +129,7 @@ public class EarleyResult {
      */
     public EarleyResult continueParsing() {
         if (!prefixSucceeded()) {
-            throw new ParseException("Attempt to continue an invalid parse");
+            throw ParseException.attemptToContinueInvalidParse();
         }
 
         if (continuingIteratorReturned) {

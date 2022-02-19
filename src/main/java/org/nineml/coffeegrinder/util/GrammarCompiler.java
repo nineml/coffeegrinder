@@ -1,5 +1,6 @@
 package org.nineml.coffeegrinder.util;
 
+import org.nineml.coffeegrinder.exceptions.CompilerException;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.*;
 import org.xml.sax.Attributes;
@@ -52,7 +53,7 @@ public class GrammarCompiler {
         try {
             xdigest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException ex) {
-            throw new GrammarException("Cannot create SHA-256 hashes", ex);
+            throw CompilerException.messageDigestError("SHA-256", ex.getMessage());
         }
     }
 
@@ -202,7 +203,7 @@ public class GrammarCompiler {
                                 String value = cs.getCharacters().replace("&", "&amp;").replace("\"", "&quot;");
                                 csvalue.append('"').append(value).append('"');
                             } else {
-                                throw new GrammarException("Unexpected character set in grammar: " + cs);
+                                throw CompilerException.unexpectedCharacterSet(cs.toString());
                             }
                         }
                         sb.append(xmlString(csvalue.toString()));
@@ -226,7 +227,7 @@ public class GrammarCompiler {
                         sb.append(" ag=\"").append(atgroup(token.getAttributes())).append("\"");
                         sb.append(" v=\"").append(xmlString(regex)).append("\"/>");
                     } else {
-                        throw new GrammarException("Unexpected terminal token class: " + token);
+                        throw CompilerException.unexpectedTerminalTokenClass(token.toString());
                     }
 
                     sb.append("</t>");
@@ -259,7 +260,7 @@ public class GrammarCompiler {
             stream.close();
             fos.close();
         } catch (IOException ex) {
-            throw new ForestException("Failed to write to " + filename, ex);
+            throw ForestException.ioError(filename, ex);
         }
     }
 
@@ -324,7 +325,7 @@ public class GrammarCompiler {
             value = value.substring(pos+3);
             pos = value.indexOf(";");
             if (pos <= 0) {
-                throw new GrammarException("Invalid name escape: " + xml);
+                throw CompilerException.invalidNameEscaping(value, xml);
             }
             String hex = value.substring(0, pos);
             nsb.appendCodePoint(Integer.parseInt(hex, 16));
@@ -439,7 +440,7 @@ public class GrammarCompiler {
             value = value.substring(pos+1);
             pos = value.indexOf(".");
             if (pos <= 0) {
-                throw new GrammarException("Invalid name escape: " + name);
+                throw CompilerException.invalidNameEscaping(value, name);
             }
             String hex = value.substring(0, pos);
             nsb.appendCodePoint(Integer.parseInt(hex, 16));
@@ -516,8 +517,8 @@ public class GrammarCompiler {
             SAXParser parser = factory.newSAXParser();
             GrammarContentHandler handler = new GrammarContentHandler(grammar);
             parser.parse(source, handler);
-        } catch (IOException|SAXException| ParserConfigurationException ex) {
-            throw new GrammarException("Invalid compiled grammar: " + ex.getMessage());
+        } catch (IOException|SAXException|ParserConfigurationException ex) {
+            throw CompilerException.errorReadingGrammar(ex.getMessage());
         }
 
         return grammar;
@@ -546,7 +547,7 @@ public class GrammarCompiler {
         {
             if (!NS.equals(uri)) {
                 if (elementStack.isEmpty()) {
-                    throw new GrammarException("Input is not a CoffeeGrinder compiled grammar");
+                    throw CompilerException.notAGrammar(uri);
                 }
                 elementStack.push("-");
                 return;
@@ -583,11 +584,15 @@ public class GrammarCompiler {
                     break;
                 case "grammar":
                     if (elementStack.size() != 1) {
-                        throw new GrammarException("Invalid compiled grammar: unexpected grammar");
+                        throw CompilerException.unexpectedElement(localName);
                     }
                     String version = attributes.getValue("version");
-                    if (version != null && !formatVersion.equals(version)) {
-                        throw new GrammarException("Invalid compiled grammar: unsupported version");
+                    if (version == null) {
+                        throw CompilerException.noVersionProvided();
+                    } else {
+                        if (!formatVersion.equals(version)) {
+                            throw CompilerException.unsupportedVersion(version);
+                        }
                     }
                     updateDigest(version);
                     break;
@@ -600,11 +605,11 @@ public class GrammarCompiler {
                     String checksum = sb.toString();
                     String expected = attributes.getValue("Σ");
                     if (!checksum.equals(expected)) {
-                        throw new GrammarException("Compiled grammar checksum failed");
+                        throw CompilerException.checkumFailed();
                     }
                     break;
                 default:
-                    throw new GrammarException("Invalid compiled grammar, unexpected element: " + localName);
+                    throw CompilerException.unexpectedElement(localName);
             }
         }
 
@@ -635,14 +640,14 @@ public class GrammarCompiler {
                 case "meta":
                     break;
                 default:
-                    throw new GrammarException("Invalid compiled grammar, unexpected element: " + localName);
+                    throw CompilerException.unexpectedElement(localName);
             }
         }
 
         private void handle_ag(Attributes attributes) {
             String id = attributes.getValue("xml:id");
             if (id == null) {
-                throw new GrammarException("No xml:id on ag");
+                throw CompilerException.missingXmlId("ag");
             }
             updateDigest(id);
 
@@ -663,7 +668,7 @@ public class GrammarCompiler {
             ArrayList<ParserAttribute> rattr = null;
             if (ag != null) {
                 if (!agroups.containsKey(ag)) {
-                    throw new GrammarException("Invalid compiled grammar: no such ag: " + ag);
+                    throw CompilerException.missingAttributeGroup(ag);
                 }
                 rattr = new ArrayList<>(agroups.get(ag));
             }
@@ -684,7 +689,7 @@ public class GrammarCompiler {
                             rattr.add(ParserAttribute.PRUNING_FORBIDDEN);
                             break;
                         default:
-                            throw new GrammarException("Unexpected standard attribute: " + a.charAt(pos));
+                            throw CompilerException.unexpectedFlag("" + a.charAt(pos));
                     }
                 }
                 updateDigest(a);
@@ -695,14 +700,14 @@ public class GrammarCompiler {
 
         private void handle_start_r(Attributes attributes) {
             if (!symbolList.isEmpty()) {
-                throw new GrammarException("Invalid compiled grammar");
+                throw CompilerException.invalidGramamr("symbol list isn't empty");
             }
             String name = attributes.getValue("n");
             String ag = attributes.getValue("ag");
             String a = attributes.getValue("a");
 
             if (name == null) {
-                throw new GrammarException("Invalid compiled grammar: r without @n");
+                throw CompilerException.invalidGramamr("r without @n");
             } else {
                 name = unxmlString(name);
             }
@@ -713,7 +718,7 @@ public class GrammarCompiler {
 
         private void handle_end_r() {
             if (rulename == null) {
-                throw new GrammarException("Invalid compiled grammar: no rule name");
+                throw CompilerException.invalidGramamr("no rule name");
             }
 
             grammar.addRule(rulename, symbolList);
@@ -727,7 +732,7 @@ public class GrammarCompiler {
             String a = attributes.getValue("a");
 
             if (name == null) {
-                throw new GrammarException("Invalid compiled grammar: nt without @n");
+                throw CompilerException.invalidGramamr("nt without @n");
             } else {
                 name = unxmlString(name);
             }
@@ -738,7 +743,7 @@ public class GrammarCompiler {
 
         private void handle_start_t(Attributes attributes) {
             if (token != null) {
-                throw new GrammarException("Invalid compiled grammar: nested tokens?");
+                throw CompilerException.invalidGramamr("nested tokens");
             }
 
             String ag = attributes.getValue("ag");
@@ -749,7 +754,7 @@ public class GrammarCompiler {
 
         private void handle_end_t() {
             if (token == null) {
-                throw new GrammarException("Invalid compiled grammar: no token in t");
+                throw CompilerException.invalidGramamr("no token in t");
             }
             symbolList.add(new TerminalSymbol(token, tspa));
             tspa = null;
@@ -762,11 +767,11 @@ public class GrammarCompiler {
             String a = attributes.getValue("a");
 
             if (value == null) {
-                throw new GrammarException("Invalid compiled grammar: c without @v");
+                throw CompilerException.invalidGramamr("c without @v");
             } else {
                 value = unxmlString(value);
                 if (value.length() != 1) {
-                    throw new GrammarException("Invalid compiled grammar: bad value for c: " + value);
+                    throw CompilerException.invalidGramamr("bad value for c: " + value);
                 }
             }
 
@@ -780,7 +785,7 @@ public class GrammarCompiler {
             String a = attributes.getValue("a");
 
             if (value == null) {
-                throw new GrammarException("Invalid compiled grammar: s without @v");
+                throw CompilerException.invalidGramamr("s without @v");
             } else {
                 value = unxmlString(value);
             }
@@ -796,7 +801,7 @@ public class GrammarCompiler {
                 inclusion = false;
                 value = attributes.getValue("exclusion");
                 if (value == null) {
-                    throw new GrammarException("Invalid compiled grammar: cs without value");
+                    throw CompilerException.invalidGramamr("cs without value");
                 }
                 updateDigest("exclusion");
             } else {
@@ -884,7 +889,7 @@ public class GrammarCompiler {
             String a = attributes.getValue("a");
 
             if (value == null) {
-                throw new GrammarException("Invalid compiled grammar: re without @v");
+                throw CompilerException.invalidGramamr("re without @v");
             } else {
                 value = unxmlString(value);
             }
@@ -913,7 +918,7 @@ public class GrammarCompiler {
             }
             String text = new String(ch, start, length);
             if (!"".equals(text.trim())) {
-                throw new GrammarException("Invalid compiled grammar: text not allowed: " + text);
+                throw CompilerException.textNotAllowed(text);
             }
         }
     }

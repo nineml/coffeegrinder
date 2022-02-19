@@ -143,7 +143,7 @@ public class Grammar {
      */
     public void addRule(Rule rule) {
         if (!open) {
-            throw new GrammarException("Attempt to modify closed grammar");
+            throw GrammarException.grammarIsClosed();
         }
         if (contains(rule)) {
             messages.detail("Ignoring duplicate rule: %s", rule);
