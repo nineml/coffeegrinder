@@ -17,6 +17,12 @@
     catch(err) {
     }
 //-->
+var methods = {"i0":9,"i1":9,"i2":9};
+var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
+var altColor = "altColor";
+var rowColor = "rowColor";
+var tableTab = "tableTab";
+var activeTableTab = "activeTableTab";
 </script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
@@ -42,7 +48,7 @@
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../org/nineml/coffeegrinder/exceptions/ForestException.html" title="class in org.nineml.coffeegrinder.exceptions"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../org/nineml/coffeegrinder/exceptions/MessageGenerator.html" title="class in org.nineml.coffeegrinder.exceptions"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?org/nineml/coffeegrinder/exceptions/GrammarException.html" target="_top">Frames</a></li>
@@ -69,13 +75,13 @@
 <li>Nested&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#methods.inherited.from.class.java.lang.Throwable">Method</a></li>
+<li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
-<li>Method</li>
+<li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
 <a name="skip.navbar.top">
@@ -123,6 +129,10 @@
 <dt>All Implemented Interfaces:</dt>
 <dd>java.io.Serializable</dd>
 </dl>
+<dl>
+<dt>Direct Known Subclasses:</dt>
+<dd><a href="../../../../org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dd>
+</dl>
 <hr>
 <br>
 <pre>public class <span class="typeNameLabel">GrammarException</span>
@@ -152,12 +162,14 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html#GrammarException-java.lang.String-">GrammarException</a></span>(java.lang.String&nbsp;message)</code>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html#GrammarException-java.lang.String-java.lang.String-">GrammarException</a></span>(java.lang.String&nbsp;code,
+                java.lang.String&nbsp;message)</code>
 <div class="block">Grammar exception with a message.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html#GrammarException-java.lang.String-java.lang.Throwable-">GrammarException</a></span>(java.lang.String&nbsp;message,
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html#GrammarException-java.lang.String-java.lang.String-java.lang.Throwable-">GrammarException</a></span>(java.lang.String&nbsp;code,
+                java.lang.String&nbsp;message,
                 java.lang.Throwable&nbsp;cause)</code>
 <div class="block">Grammar exception with an underlying cause.</div>
 </td>
@@ -171,6 +183,32 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <!--   -->
 </a>
 <h3>Method Summary</h3>
+<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr id="i0" class="altColor">
+<td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html#grammarIsClosed--">grammarIsClosed</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html#invalidCharacterClass-java.lang.String-">invalidCharacterClass</a></span>(java.lang.String&nbsp;name)</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html#noRuleForSymbol-java.lang.String-">noRuleForSymbol</a></span>(java.lang.String&nbsp;name)</code>&nbsp;</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods.inherited.from.class.org.nineml.coffeegrinder.exceptions.CoffeeGrinderException">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;org.nineml.coffeegrinder.exceptions.<a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderException.html" title="class in org.nineml.coffeegrinder.exceptions">CoffeeGrinderException</a></h3>
+<code><a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderException.html#getCode--">getCode</a></code></li>
+</ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Throwable">
 <!--   -->
@@ -199,13 +237,14 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="GrammarException-java.lang.String-">
+<a name="GrammarException-java.lang.String-java.lang.String-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>GrammarException</h4>
-<pre>public&nbsp;GrammarException(java.lang.String&nbsp;message)</pre>
+<pre>public&nbsp;GrammarException(java.lang.String&nbsp;code,
+                        java.lang.String&nbsp;message)</pre>
 <div class="block">Grammar exception with a message.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -213,13 +252,14 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 </dl>
 </li>
 </ul>
-<a name="GrammarException-java.lang.String-java.lang.Throwable-">
+<a name="GrammarException-java.lang.String-java.lang.String-java.lang.Throwable-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>GrammarException</h4>
-<pre>public&nbsp;GrammarException(java.lang.String&nbsp;message,
+<pre>public&nbsp;GrammarException(java.lang.String&nbsp;code,
+                        java.lang.String&nbsp;message,
                         java.lang.Throwable&nbsp;cause)</pre>
 <div class="block">Grammar exception with an underlying cause.</div>
 <dl>
@@ -227,6 +267,41 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <dd><code>message</code> - the message</dd>
 <dd><code>cause</code> - the cause</dd>
 </dl>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method.detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="grammarIsClosed--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>grammarIsClosed</h4>
+<pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a>&nbsp;grammarIsClosed()</pre>
+</li>
+</ul>
+<a name="noRuleForSymbol-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>noRuleForSymbol</h4>
+<pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a>&nbsp;noRuleForSymbol(java.lang.String&nbsp;name)</pre>
+</li>
+</ul>
+<a name="invalidCharacterClass-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>invalidCharacterClass</h4>
+<pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a>&nbsp;invalidCharacterClass(java.lang.String&nbsp;name)</pre>
 </li>
 </ul>
 </li>
@@ -257,7 +332,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../org/nineml/coffeegrinder/exceptions/ForestException.html" title="class in org.nineml.coffeegrinder.exceptions"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../org/nineml/coffeegrinder/exceptions/MessageGenerator.html" title="class in org.nineml.coffeegrinder.exceptions"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?org/nineml/coffeegrinder/exceptions/GrammarException.html" target="_top">Frames</a></li>
@@ -284,13 +359,13 @@ extends <a href="../../../../org/nineml/coffeegrinder/exceptions/CoffeeGrinderEx
 <li>Nested&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#methods.inherited.from.class.java.lang.Throwable">Method</a></li>
+<li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
-<li>Method</li>
+<li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
 <a name="skip.navbar.bottom">
