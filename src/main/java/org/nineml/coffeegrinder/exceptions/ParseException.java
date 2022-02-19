@@ -7,6 +7,7 @@ package org.nineml.coffeegrinder.exceptions;
 public class ParseException extends CoffeeGrinderException {
     /**
      * An parse exception with a message.
+     * @param code the code
      * @param message the message
      */
     public ParseException(String code, String message) {
@@ -15,6 +16,7 @@ public class ParseException extends CoffeeGrinderException {
 
     /**
      * An parse exception with an underlying cause.
+     * @param code the code
      * @param message the message
      * @param cause the cause
      */
@@ -38,8 +40,23 @@ public class ParseException extends CoffeeGrinderException {
         return new ParseException(code, MessageGenerator.getMessage(code, params));
     }
 
+    /**
+     * Raised if the selected seed token is not in the grammar
+     * @param seed the seed name
+     * @return a ParseException
+     */
     public static ParseException seedNotInGrammar(String seed) { return getException("P001", seed); }
-    public static ParseException attemptToContinueInvalidParse() { return getException("P002"); }
-    public static ParseException internalError(String reason) { return getException("P003", reason); }
 
+    /**
+     * Raised if an attempt is made to continue after an invalid parse.
+     * @return a ParseException
+     */
+    public static ParseException attemptToContinueInvalidParse() { return getException("P002"); }
+
+    /**
+     * Raised if an internal error occurs.
+     * @param reason a detail message.
+     * @return a ParseException
+     */
+    public static ParseException internalError(String reason) { return getException("P003", reason); }
 }

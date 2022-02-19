@@ -10,6 +10,7 @@ public abstract class CoffeeGrinderException extends RuntimeException {
 
     /**
      * An exception with a message.
+     * @param code the code
      * @param message the message
      */
     public CoffeeGrinderException(String code, String message) {
@@ -19,6 +20,7 @@ public abstract class CoffeeGrinderException extends RuntimeException {
 
     /**
      * An exception with an underlying cause.
+     * @param code the code
      * @param message the message
      * @param cause the cause
      */

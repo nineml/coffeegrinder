@@ -8,6 +8,7 @@ package org.nineml.coffeegrinder.exceptions;
 public class GrammarException extends CoffeeGrinderException {
     /**
      * Grammar exception with a message.
+     * @param code the code
      * @param message the message
      */
     public GrammarException(String code, String message) {
@@ -16,6 +17,7 @@ public class GrammarException extends CoffeeGrinderException {
 
     /**
      * Grammar exception with an underlying cause.
+     * @param code the code
      * @param message the message
      * @param cause the cause
      */
@@ -35,7 +37,23 @@ public class GrammarException extends CoffeeGrinderException {
         return new GrammarException(code, MessageGenerator.getMessage(code, params));
     }
 
+    /**
+     * Raised if an attempt is made to write to a closed grammar.
+     * @return a GrammarException
+     */
     public static GrammarException grammarIsClosed() { return getException("G001"); }
+
+    /**
+     * Raised if the grammar contains an undefined symbol.
+     * @param name The name of the undefined symbol.
+     * @return a GrammarException.
+     */
     public static GrammarException noRuleForSymbol(String name) { return getException("E001", name); }
+
+    /**
+     * Raised if an invalid Unicode character class is specified.
+     * @param name the Unicode character class
+     * @return a GrammarException.
+     */
     public static GrammarException invalidCharacterClass(String name) { return getException("E002", name); }
 }

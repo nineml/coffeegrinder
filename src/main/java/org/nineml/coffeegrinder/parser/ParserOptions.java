@@ -1,6 +1,8 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.util.DefaultParseListener;
+import org.nineml.logging.DefaultLogger;
+import org.nineml.logging.Logger;
 
 /**
  * Options to the parser.
@@ -22,7 +24,7 @@ public class ParserOptions {
         returnChart = copy.returnChart;
         prefixParsing = copy.prefixParsing;
         treesWithStates = copy.treesWithStates;
-        listener = copy.listener;
+        logger = copy.logger;
     }
 
     /**
@@ -46,8 +48,10 @@ public class ParserOptions {
     public boolean treesWithStates = false;
 
     /**
-     * <p>The parser sends messages to the listener which may be helpful in understanding what the parser is doing.
-     * It's mostly for debugging, but may be useful in other contexts.</p>
+     * The parser logger.
+     * <p>The logger controls what messages are issued, and how. This component is also used by
+     * higher-level components such as CoffeeFilter, CoffeePot, and CoffeeSacks.</p>
+     * <p>Must not be null.</p>
      */
-    public ParseListener listener = new DefaultParseListener();
+    public Logger logger = new DefaultLogger();
 }

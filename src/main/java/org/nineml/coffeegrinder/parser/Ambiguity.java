@@ -7,6 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Provides access to successive trees from an ambiguous parse.
+ * <p>This class ignores loops; infinitely ambiguous parses. The order of the trees returned
+ * is roughly a depth-first tree walk of the graph. But they aren't explicitly ordered by
+ * any property.</p>
+ */
 public class Ambiguity {
     private final List<ForestNode> roots;
     private final Map<ForestNode, List<Family>> choices;
@@ -33,18 +39,34 @@ public class Ambiguity {
         }
     }
 
+    /**
+     * Return the graph roots.
+     * @return the roots
+     */
     public List<ForestNode> getRoots() {
         return roots;
     }
 
+    /**
+     * Is this graph ambiguous?
+     * @return true if the graph is ambiguous.
+     */
     public boolean getAmbiguous() {
         return ambiguous;
     }
 
+    /**
+     * Is this graph infinitely ambiguous?
+     * @return true if the graph is infinitely ambigous.
+     */
     public boolean getInfinitelyAmbiguous() {
         return infinitelyAmbiguous;
     }
 
+    /**
+     * Return the choices for this node.
+     * @return the choices.
+     */
     public Map<ForestNode, List<Family>> getChoices() {
         return choices;
     }

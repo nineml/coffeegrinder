@@ -49,7 +49,7 @@ public class ParserTest {
     @Test
     public void testExpression() {
         // https://loup-vaillant.fr/tutorials/earley-parsing/parser
-        Grammar grammar = new Grammar(ParseListener.INFO);
+        Grammar grammar = new Grammar(new ParserOptions());
 
         NonterminalSymbol _Sum = grammar.getNonterminal("Sum");
         NonterminalSymbol _Product = grammar.getNonterminal("Product");
