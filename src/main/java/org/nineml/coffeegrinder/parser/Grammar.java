@@ -16,10 +16,11 @@ import java.util.*;
  * further changes to the grammar.</p>
  */
 public class Grammar {
+    public static final String logcategory = "Grammar";
+
     private static int nextGrammarId = 0;
     private final ArrayList<Rule> rules;
     private final HashSet<NonterminalSymbol> nullable;
-    private final Messages messages;
     protected final int id;
     private ParserOptions options;
     private boolean open = true;
@@ -28,21 +29,11 @@ public class Grammar {
      * Create a new grammar.
      */
     public Grammar() {
-        this(ParseListener.ERROR);
-    }
-
-    /**
-     * Create a new grammar with a specific parse message verbosity.
-     * @param level The parse listener level.
-     */
-    public Grammar(int level) {
         id = nextGrammarId++;
         rules = new ArrayList<>();
         nullable = new HashSet<>();
         options = new ParserOptions();
-        options.listener.setMessageLevel(level);
-        messages = new Messages(options.listener);
-        messages.info("Created grammar %d", id);
+        options.logger.debug(logcategory, "Created grammar %d", id);
     }
 
     /**
@@ -54,8 +45,7 @@ public class Grammar {
         rules = new ArrayList<>();
         this.options = options;
         nullable = new HashSet<>();
-        messages = new Messages(options.listener);
-        messages.info("Created grammar %d", id);
+        options.logger.debug(logcategory, "Created grammar %d", id);
     }
 
     /**
@@ -67,10 +57,9 @@ public class Grammar {
         id = nextGrammarId++;
         rules = new ArrayList<>(current.getRules());
         options = current.options;
-        messages = current.messages;
-        messages.info("Created grammar %d", id);
         nullable = new HashSet<>(current.nullable);
         open = true;
+        options.logger.debug(logcategory, "Created grammar %d", id);
     }
 
     /**
@@ -129,7 +118,7 @@ public class Grammar {
      * @throws GrammarException if the symbol already exists and attributes are different
      */
     public NonterminalSymbol getNonterminal(String name, Collection<ParserAttribute> attributes) {
-        messages.debug("Creating nonterminal %s for grammar %d", name, id);
+        options.logger.debug(logcategory, "Creating nonterminal %s for grammar %d", name, id);
         return new NonterminalSymbol(this, name, attributes);
     }
 
@@ -146,9 +135,9 @@ public class Grammar {
             throw GrammarException.grammarIsClosed();
         }
         if (contains(rule)) {
-            messages.detail("Ignoring duplicate rule: %s", rule);
+            options.logger.trace(logcategory, "Ignoring duplicate rule: %s", rule);
         } else {
-            messages.detail("Adding rule: %s", rule);
+            options.logger.trace(logcategory, "Adding rule: %s", rule);
             rules.add(rule);
             computeNullable(rule);
         }
@@ -247,7 +236,6 @@ public class Grammar {
      */
     public void setParserOptions(ParserOptions options) {
         this.options = options;
-        messages.setParseListener(options.listener);
     }
 
     /**
@@ -346,9 +334,5 @@ public class Grammar {
                 expandOptionalSymbols(newRule, pos);
             }
         }
-    }
-
-    protected Messages getMessages() {
-        return messages;
     }
 }

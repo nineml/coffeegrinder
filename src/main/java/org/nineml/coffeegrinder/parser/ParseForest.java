@@ -17,18 +17,18 @@ import static java.lang.Math.abs;
  * to recognize the input sequence as a sentence in the grammar.</p>
  */
 public class ParseForest {
+    public static final String logcategory = "Forest";
+
     protected final ArrayList<ForestNode> graph = new ArrayList<>();
     protected final ArrayList<ForestNode> roots = new ArrayList<>();
     protected final ParserOptions options;
-    protected final Messages messages;
     private Ambiguity ambiguity = null;
     private boolean ambiguous = false;
     private boolean infinitelyAmbiguous = false;
     private TreeWalker treeWalker = null;
 
-    protected ParseForest(ParserOptions options, Messages messages) {
+    protected ParseForest(ParserOptions options) {
         this.options = options;
-        this.messages = messages;
     }
 
     /**
@@ -302,7 +302,7 @@ public class ParseForest {
         graph.clear();
         graph.addAll(prunedGraph);
 
-        messages.debug("Graph contained %d unreachable nodes", count);
+        options.logger.trace(logcategory, "Graph contained %d unreachable nodes", count);
 
         return count;
     }

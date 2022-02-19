@@ -17,17 +17,18 @@ import java.util.*;
  * Parsing From Earley Recognisers</a>.</p>
  */
 public class EarleyParser {
+    public static final String logcategory = "Parser";
+
     private final EarleyChart chart = new EarleyChart();
     private final ArrayList<ForestNode> V = new ArrayList<>();
     private final Grammar grammar;
     private final ParseForest graph;
     private final NonterminalSymbol S;
     private final HashMap<NonterminalSymbol, ArrayList<Rule>> Rho;
-    private final Messages messages;
-    private final ParserOptions options;
     private final ArrayList<Token> tokenBuffer = new ArrayList<>();
-    protected Iterator<Token> iterator;
     private boolean success = false;
+    protected final ParserOptions options;
+    protected Iterator<Token> iterator;
 
     protected EarleyParser(Grammar grammar, NonterminalSymbol seed) {
         if (grammar.isOpen()) {
@@ -61,8 +62,7 @@ public class EarleyParser {
 
         S = seed;
         options = grammar.getParserOptions();
-        messages = grammar.getMessages();
-        graph = new ParseForest(options, grammar.getMessages());
+        graph = new ParseForest(options);
         validate();
     }
 
@@ -146,7 +146,7 @@ public class EarleyParser {
             if (currentToken != null) {
                 lastInputToken = currentToken;
                 tokenCount = i + 1;
-                messages.debug("Parsing token %d: %s", tokenCount, currentToken);
+                options.logger.debug(logcategory, "Parsing token %d: %s", tokenCount, currentToken);
             }
 
             ArrayList<Hitem> H = new ArrayList<>();
@@ -341,10 +341,10 @@ public class EarleyParser {
 
         EarleyResult result;
         if (success) {
-            messages.info("Parse succeeded, %d tokens at %4.2f tokens/sec", tokenCount, tokenCount / ((endTime-startTime) / 1000.0));
+            options.logger.info(logcategory, "Parse succeeded, %d tokens at %4.2f tokens/sec", tokenCount, tokenCount / ((endTime-startTime) / 1000.0));
 
             int count = graph.prune();
-            messages.debug("Pruned %d nodes from graph", count);
+            options.logger.debug(logcategory, "Pruned %d nodes from graph", count);
 
             if (options.returnChart) {
                 result = new EarleyResult(this, chart, graph, success, tokenCount, lastInputToken);
@@ -353,11 +353,11 @@ public class EarleyParser {
                 result = new EarleyResult(this, graph, success, tokenCount, lastInputToken);
             }
         } else {
-            messages.info("Parse failed after %d tokens at %4.2f tokens/sec", tokenCount, tokenCount / ((endTime-startTime) / 1000.0));
+            options.logger.info(logcategory, "Parse failed after %d tokens at %4.2f tokens/sec", tokenCount, tokenCount / ((endTime-startTime) / 1000.0));
             if (options.prefixParsing && checkpoint >= 0) {
                 graph.rollback(checkpoint);
                 int count = graph.prune();
-                messages.debug("Pruned %d nodes from prefix graph", count);
+                options.logger.debug(logcategory, "Pruned %d nodes from prefix graph", count);
             }
             result = new EarleyResult(this, chart, graph, success, tokenCount, lastInputToken);
         }

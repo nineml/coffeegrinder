@@ -7,6 +7,7 @@ package org.nineml.coffeegrinder.exceptions;
 public class ForestException extends CoffeeGrinderException {
     /**
      * An SPPF exception with a message.
+     * @param code the code
      * @param message the message
      */
     public ForestException(String code, String message) {
@@ -15,6 +16,7 @@ public class ForestException extends CoffeeGrinderException {
 
     /**
      * An SPPF exception with an underlying cause.
+     * @param code the code
      * @param message the message
      * @param cause the cause
      */
@@ -30,9 +32,22 @@ public class ForestException extends CoffeeGrinderException {
         return new ForestException(code, MessageGenerator.getMessage(code, params));
     }
 
+    /**
+     * An I/O exception.
+     * @param filename filename being accessed at the time of error
+     * @param ex the underlying exception
+     * @return a ForestException
+     */
     public static ForestException ioError(String filename, Exception ex) {
         String code = "F001";
         return new ForestException(code, MessageGenerator.getMessage(code, new String[] {filename}), ex);
     }
+
+    /**
+     * A no-such-node exception.
+     * <p>This is an internal error.</p>
+     * @param node The node.
+     * @return A ForestException
+     */
     public static ForestException noSuchNode(String node) { return getException("F002", node); }
 }

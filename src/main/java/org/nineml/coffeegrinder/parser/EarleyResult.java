@@ -18,7 +18,7 @@ public class EarleyResult {
     private final boolean success;
     private final int tokenCount;
     private final Token lastToken;
-    private final Messages messages;
+    private final ParserOptions options;
     private boolean continuingIteratorReturned = false;
     private long parseTime = -1;
 
@@ -29,7 +29,7 @@ public class EarleyResult {
         this.success = success;
         this.tokenCount = tokenCount;
         this.lastToken = lastToken;
-        this.messages = parser.getGrammar().getMessages();
+        this.options = parser.options;
     }
 
     protected EarleyResult(EarleyParser parser, ParseForest graph, boolean success, int tokenCount, Token lastToken) {
@@ -39,7 +39,7 @@ public class EarleyResult {
         this.success = success;
         this.tokenCount = tokenCount;
         this.lastToken = lastToken;
-        this.messages = parser.getGrammar().getMessages();
+        this.options = parser.options;
     }
 
     /**
@@ -133,7 +133,7 @@ public class EarleyResult {
         }
 
         if (continuingIteratorReturned) {
-            messages.debug("Attempting to continue parsing after the continuing iterator was exposed");
+            options.logger.debug(EarleyParser.logcategory, "Attempting to continue parsing after the continuing iterator was exposed");
         }
 
         EarleyParser newParser = parser.getGrammar().getParser(parser.getSeed());
