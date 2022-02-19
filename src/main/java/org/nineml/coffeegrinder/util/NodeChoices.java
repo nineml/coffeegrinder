@@ -59,7 +59,7 @@ public class NodeChoices {
 
     protected Family advance() {
         if (families.isEmpty()) {
-            throw new TreeWalkerException("Error in tree walk");
+            throw TreeWalkerException.internalError();
         }
 
         Family family = families.get(index);

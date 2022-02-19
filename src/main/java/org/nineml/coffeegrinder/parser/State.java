@@ -91,7 +91,7 @@ public class State {
         if (position < rhs.length) {
             return new State(this, position+1);
         } else {
-            throw new ParseException("Cannot advance a completed state");
+            throw ParseException.internalError("Cannot advance a completed state");
         }
     }
 

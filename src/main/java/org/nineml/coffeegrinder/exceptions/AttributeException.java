@@ -9,8 +9,8 @@ public class AttributeException extends CoffeeGrinderException {
      * An attribute exception with a message.
      * @param message the message
      */
-    public AttributeException(String message) {
-        super(message);
+    public AttributeException(String code, String message) {
+        super(code, message);
     }
 
     /**
@@ -18,7 +18,25 @@ public class AttributeException extends CoffeeGrinderException {
      * @param message the message
      * @param cause the cause
      */
-    public AttributeException(String message, Throwable cause) {
-        super(message, cause);
+    public AttributeException(String code, String message, Throwable cause) {
+        super(code, message, cause);
     }
+
+    private static AttributeException getException(String code, String param) {
+        return getException(code, new String[] {param});
+    }
+
+    private static AttributeException getException(String code, String param1, String param2) {
+        return getException(code, new String[] {param1, param2});
+    }
+
+    private static AttributeException getException(String code, String[] params) {
+        return new AttributeException(code, MessageGenerator.getMessage(code, params));
+    }
+
+    public static AttributeException invalidOPTIONAL(String value) { return getException("A001", value); }
+    public static AttributeException invalidPRUNING(String value) { return getException("A002", value); }
+    public static AttributeException immutable(String name, String value) { return getException("A003", name, value); }
+
+
 }

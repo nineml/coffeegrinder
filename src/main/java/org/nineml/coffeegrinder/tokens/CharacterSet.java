@@ -1,8 +1,11 @@
 package org.nineml.coffeegrinder.tokens;
 
+import org.nineml.coffeegrinder.exceptions.GrammarException;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * A class that represents a range of Unicode characters.
@@ -102,7 +105,11 @@ public class CharacterSet {
             this.charClass = charclass.toString() + subclass;
         }
         String patn = "\\" + "p{" + charClass + "}";
-        this.pattern = Pattern.compile(patn);
+        try {
+            this.pattern = Pattern.compile(patn);
+        } catch (PatternSyntaxException ex) {
+            throw GrammarException.invalidCharacterClass(charClass);
+        }
     }
 
     /**

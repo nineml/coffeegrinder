@@ -56,7 +56,7 @@ public class EarleyParser {
         }
 
         if (!Rho.containsKey(seed)) {
-            throw new ParseException("Seed is not in grammar: " + seed);
+            throw ParseException.seedNotInGrammar(seed.toString());
         }
 
         S = seed;
@@ -446,7 +446,7 @@ public class EarleyParser {
 
         for (NonterminalSymbol nt : usedNames) {
             if (!definedNames.contains(nt)) {
-                throw new GrammarException("No rule for nonterminal: " + nt);
+                throw GrammarException.noRuleForSymbol(nt.toString());
             }
         }
     }

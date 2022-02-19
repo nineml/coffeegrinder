@@ -230,7 +230,7 @@ public class ParseForest {
             stream.close();
             fos.close();
         } catch (IOException ex) {
-            throw new ForestException("Failed to write to " + filename, ex);
+            throw ForestException.ioError(filename, ex);
         }
     }
 
@@ -263,7 +263,7 @@ public class ParseForest {
             }
         }
 
-        throw new ForestException("Node is not in SPPF: " + w);
+        throw ForestException.noSuchNode(w.toString());
     }
 
     protected void clearRoots() {

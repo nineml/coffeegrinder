@@ -197,7 +197,7 @@ public class ParseTree {
             stream.close();
             fos.close();
         } catch (IOException ex) {
-            throw new ForestException("Failed to write to " + filename, ex);
+            throw ForestException.ioError(filename, ex);
         }
     }
 

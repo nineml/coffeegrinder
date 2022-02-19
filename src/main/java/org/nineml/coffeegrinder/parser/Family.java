@@ -18,7 +18,7 @@ public class Family {
 
     protected Family(ForestNode w, ForestNode v) {
         if (w == null) {
-            throw new ParseException("Attempt to create family with null 'w'");
+            throw ParseException.internalError("Attempt to create family with null 'w'");
         }
         this.w = w;
         this.v = v;
