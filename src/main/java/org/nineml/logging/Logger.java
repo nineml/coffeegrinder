@@ -70,9 +70,9 @@ public abstract class Logger {
      *     the default level is 5, or "error".</p>
      *     </li>
      *     <li>{@link #logLevelsProperty}
-     *     <p>This property specifies a mapping between log categories and the log level for that category.
+     *     <p>This property specifies a mapping between log categories and the log level for each category.
      *     The format of the property is a list of comma or space separated values of the form
-     *     "category:level".</p>
+     *     "category:level". The category "*" sets the default log level.</p>
      *     </li>
      * </ul>
      */
@@ -84,16 +84,7 @@ public abstract class Logger {
 
         value = System.getProperty(logLevelsProperty);
         if (value != null) {
-            for (String pair : value.split("[,\\s]+")) {
-                if (pair.contains(":")) {
-                    int pos = pair.indexOf(":");
-                    String name = pair.substring(0, pos);
-                    value = pair.substring(pos+1);
-                    logLevels.put(name, logLevelNumber(value));
-                } else {
-                    error(logcategory, "Cannot parse log level setting: %s", pair);
-                }
-            }
+            setLogLevels(value);
         }
     }
 
@@ -116,20 +107,85 @@ public abstract class Logger {
         return ERROR;
     }
 
+    /**
+     * Get the default log level
+     * @return the default log level
+     */
     public int getDefaultLogLevel() {
         return defaultLogLevel;
     }
 
+    /**
+     * Set the default log level.
+     * @param level the level
+     */
     public void setDefaultLogLevel(int level) {
         defaultLogLevel = Math.max(0, level);
     }
 
+    /**
+     * Set the default log level.
+     * <p>The level must be "silent", "error", "warning", "info", "debug", or "trace". If an invalid
+     * value is specified, "error" is used.</p>
+     * @param level the level.
+     */
+    public void setDefaultLogLevel(String level) {
+        setDefaultLogLevel(logLevelNumber(level));
+    }
+
+    /**
+     * Get the log level for a particular category.
+     * @param category the category
+     * @return the level
+     */
     public int getLogLevel(String category) {
         return logLevels.getOrDefault(category, defaultLogLevel);
     }
 
+    /**
+     * Set the log level for a particular category.
+     * @param category the category
+     * @param level the level
+     */
     public void setLogLevel(String category, int level) {
         logLevels.put(category, Math.max(0, level));
+    }
+
+    /**
+     * Set the log level for a particular category.
+     * <p>The level must be "silent", "error", "warning", "info", "debug", or "trace". If an invalid
+     * value is specified, "error" is used.</p>
+     * @param category the category.
+     * @param level the level.
+     */
+    public void setLogLevel(String category, String level) {
+        logLevels.put(category, logLevelNumber(level));
+    }
+
+    /**
+     * Set the log levels for a set of categories.
+     * <p>The <code>config</code> specifies a mapping between log categories and the log level for each category.
+     * The format of the string is a list of comma or space separated values of the form
+     * "category:level".</p>
+     * <p>The level must be an integer or one of "silent", "error", "warning", "info", "debug", or "trace". If an invalid
+     * value is specified, "error" is used. The category "*" sets the default log level.</p>
+     * @param config the category.
+     */
+    public void setLogLevels(String config) {
+        for (String pair : config.split("[,\\s]+")) {
+            if (pair.contains(":")) {
+                int pos = pair.indexOf(":");
+                String name = pair.substring(0, pos);
+                String value = pair.substring(pos+1);
+                if ("*".equals(name)) {
+                    setDefaultLogLevel(value);
+                } else {
+                    setLogLevel(name, value);
+                }
+            } else {
+                error(logcategory, "Cannot parse log level setting: %s", pair);
+            }
+        }
     }
 
     protected String message(String category, int level, String message, Object... params) {
@@ -153,9 +209,34 @@ public abstract class Logger {
         return sb.toString();
     }
 
-    public abstract void error(String category, String message, Object... params);
-    public abstract void warn(String category, String message, Object... params);
-    public abstract void info(String category, String message, Object... params);
-    public abstract void debug(String category, String message, Object... params);
-    public abstract void trace(String category, String message, Object... params);
+    /** Issue an error message.
+     * @param category the message category
+     * @param format the format string
+     * @param params message parameters
+     */
+    public abstract void error(String category, String format, Object... params);
+    /** Issue a warning message.
+     * @param category the message category
+     * @param format the format string
+     * @param params message parameters
+     */
+    public abstract void warn(String category, String format, Object... params);
+    /** Issue an informational message.
+     * @param category the message category
+     * @param format the format string
+     * @param params message parameters
+     */
+    public abstract void info(String category, String format, Object... params);
+    /** Issue a debug message.
+     * @param category the message category
+     * @param format the format string
+     * @param params message parameters
+     */
+    public abstract void debug(String category, String format, Object... params);
+    /** Issue a trace message.
+     * @param category the message category
+     * @param format the format string
+     * @param params message parameters
+     */
+    public abstract void trace(String category, String format, Object... params);
 }

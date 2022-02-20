@@ -14,6 +14,37 @@ public class LoggerTest {
     }
 
     @Test
+    public void testSetters() {
+        Logger logger = new DefaultLogger();
+        Assert.assertEquals(Logger.ERROR, logger.getDefaultLogLevel());
+        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("fribble-frabble"));
+
+        logger.setDefaultLogLevel("warning");
+        Assert.assertEquals(Logger.WARNING, logger.getDefaultLogLevel());
+
+        logger.setLogLevel("testing", "info");
+        Assert.assertEquals(Logger.INFO, logger.getLogLevel("testing"));
+
+        logger.setDefaultLogLevel("fred");
+        Assert.assertEquals(Logger.ERROR, logger.getDefaultLogLevel());
+
+        logger.setLogLevel("testing", "spoon!");
+        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("testing"));
+
+        logger.setDefaultLogLevel(Logger.WARNING);
+        Assert.assertEquals(Logger.WARNING, logger.getDefaultLogLevel());
+
+        logger.setDefaultLogLevel(-5);
+        Assert.assertEquals(Logger.SILENT, logger.getDefaultLogLevel());
+
+        logger.setLogLevels("*:trace,a:silent,b:random c:debug");
+        Assert.assertEquals(Logger.TRACE, logger.getDefaultLogLevel());
+        Assert.assertEquals(Logger.SILENT, logger.getLogLevel("a"));
+        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("b"));
+        Assert.assertEquals(Logger.DEBUG, logger.getLogLevel("c"));
+    }
+
+    @Test
     public void testInvalidDefaultProperty() {
         String p1 = System.getProperty(Logger.defaultLogLevelProperty);
         String p2 = System.getProperty(Logger.logLevelsProperty);

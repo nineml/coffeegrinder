@@ -142,7 +142,7 @@ public class CompilerException extends GrammarException {
 
     /**
      * Raised if text is used where it isn't allowed.
-     * @param text
+     * @param text the text
      * @return a CompilerException
      */
     public static CompilerException textNotAllowed(String text) { return getException("C015", text); }
