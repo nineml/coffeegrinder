@@ -36,6 +36,12 @@ public class LoggerTest {
 
         logger.setDefaultLogLevel(-5);
         Assert.assertEquals(Logger.SILENT, logger.getDefaultLogLevel());
+
+        logger.setLogLevels("*:trace,a:silent,b:random c:debug");
+        Assert.assertEquals(Logger.TRACE, logger.getDefaultLogLevel());
+        Assert.assertEquals(Logger.SILENT, logger.getLogLevel("a"));
+        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("b"));
+        Assert.assertEquals(Logger.DEBUG, logger.getLogLevel("c"));
     }
 
     @Test
