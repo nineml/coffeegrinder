@@ -172,13 +172,17 @@ extends <a href="../../../org/nineml/logging/Logger.html" title="class in org.ni
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/CachingLogger.html#debug-java.lang.String-java.lang.String-java.lang.Object...-">debug</a></span>(java.lang.String&nbsp;category,
      java.lang.String&nbsp;format,
-     java.lang.Object...&nbsp;params)</code>&nbsp;</td>
+     java.lang.Object...&nbsp;params)</code>
+<div class="block">Issue a debug message.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/CachingLogger.html#error-java.lang.String-java.lang.String-java.lang.Object...-">error</a></span>(java.lang.String&nbsp;category,
      java.lang.String&nbsp;format,
-     java.lang.Object...&nbsp;params)</code>&nbsp;</td>
+     java.lang.Object...&nbsp;params)</code>
+<div class="block">Issue an error message.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;java.lang.String&gt;</code></td>
@@ -188,19 +192,25 @@ extends <a href="../../../org/nineml/logging/Logger.html" title="class in org.ni
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/CachingLogger.html#info-java.lang.String-java.lang.String-java.lang.Object...-">info</a></span>(java.lang.String&nbsp;category,
     java.lang.String&nbsp;format,
-    java.lang.Object...&nbsp;params)</code>&nbsp;</td>
+    java.lang.Object...&nbsp;params)</code>
+<div class="block">Issue an informational message.</div>
+</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/CachingLogger.html#trace-java.lang.String-java.lang.String-java.lang.Object...-">trace</a></span>(java.lang.String&nbsp;category,
      java.lang.String&nbsp;format,
-     java.lang.Object...&nbsp;params)</code>&nbsp;</td>
+     java.lang.Object...&nbsp;params)</code>
+<div class="block">Issue a trace message.</div>
+</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/CachingLogger.html#warn-java.lang.String-java.lang.String-java.lang.Object...-">warn</a></span>(java.lang.String&nbsp;category,
     java.lang.String&nbsp;format,
-    java.lang.Object...&nbsp;params)</code>&nbsp;</td>
+    java.lang.Object...&nbsp;params)</code>
+<div class="block">Issue a warning message.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -208,7 +218,7 @@ extends <a href="../../../org/nineml/logging/Logger.html" title="class in org.ni
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;org.nineml.logging.<a href="../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></h3>
-<code><a href="../../../org/nineml/logging/Logger.html#getDefaultLogLevel--">getDefaultLogLevel</a>, <a href="../../../org/nineml/logging/Logger.html#getLogLevel-java.lang.String-">getLogLevel</a>, <a href="../../../org/nineml/logging/Logger.html#readSystemProperties--">readSystemProperties</a>, <a href="../../../org/nineml/logging/Logger.html#setDefaultLogLevel-int-">setDefaultLogLevel</a>, <a href="../../../org/nineml/logging/Logger.html#setLogLevel-java.lang.String-int-">setLogLevel</a></code></li>
+<code><a href="../../../org/nineml/logging/Logger.html#getDefaultLogLevel--">getDefaultLogLevel</a>, <a href="../../../org/nineml/logging/Logger.html#getLogLevel-java.lang.String-">getLogLevel</a>, <a href="../../../org/nineml/logging/Logger.html#readSystemProperties--">readSystemProperties</a>, <a href="../../../org/nineml/logging/Logger.html#setDefaultLogLevel-int-">setDefaultLogLevel</a>, <a href="../../../org/nineml/logging/Logger.html#setDefaultLogLevel-java.lang.String-">setDefaultLogLevel</a>, <a href="../../../org/nineml/logging/Logger.html#setLogLevel-java.lang.String-int-">setLogLevel</a>, <a href="../../../org/nineml/logging/Logger.html#setLogLevel-java.lang.String-java.lang.String-">setLogLevel</a>, <a href="../../../org/nineml/logging/Logger.html#setLogLevels-java.lang.String-">setLogLevels</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -275,9 +285,15 @@ extends <a href="../../../org/nineml/logging/Logger.html" title="class in org.ni
 <pre>public&nbsp;void&nbsp;error(java.lang.String&nbsp;category,
                   java.lang.String&nbsp;format,
                   java.lang.Object...&nbsp;params)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../org/nineml/logging/Logger.html#error-java.lang.String-java.lang.String-java.lang.Object...-">Logger</a></code></span></div>
+<div class="block">Issue an error message.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../org/nineml/logging/Logger.html#error-java.lang.String-java.lang.String-java.lang.Object...-">error</a></code>&nbsp;in class&nbsp;<code><a href="../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>category</code> - the message category</dd>
+<dd><code>format</code> - the format string</dd>
+<dd><code>params</code> - message parameters</dd>
 </dl>
 </li>
 </ul>
@@ -290,9 +306,15 @@ extends <a href="../../../org/nineml/logging/Logger.html" title="class in org.ni
 <pre>public&nbsp;void&nbsp;warn(java.lang.String&nbsp;category,
                  java.lang.String&nbsp;format,
                  java.lang.Object...&nbsp;params)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../org/nineml/logging/Logger.html#warn-java.lang.String-java.lang.String-java.lang.Object...-">Logger</a></code></span></div>
+<div class="block">Issue a warning message.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../org/nineml/logging/Logger.html#warn-java.lang.String-java.lang.String-java.lang.Object...-">warn</a></code>&nbsp;in class&nbsp;<code><a href="../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>category</code> - the message category</dd>
+<dd><code>format</code> - the format string</dd>
+<dd><code>params</code> - message parameters</dd>
 </dl>
 </li>
 </ul>
@@ -305,9 +327,15 @@ extends <a href="../../../org/nineml/logging/Logger.html" title="class in org.ni
 <pre>public&nbsp;void&nbsp;info(java.lang.String&nbsp;category,
                  java.lang.String&nbsp;format,
                  java.lang.Object...&nbsp;params)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../org/nineml/logging/Logger.html#info-java.lang.String-java.lang.String-java.lang.Object...-">Logger</a></code></span></div>
+<div class="block">Issue an informational message.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../org/nineml/logging/Logger.html#info-java.lang.String-java.lang.String-java.lang.Object...-">info</a></code>&nbsp;in class&nbsp;<code><a href="../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>category</code> - the message category</dd>
+<dd><code>format</code> - the format string</dd>
+<dd><code>params</code> - message parameters</dd>
 </dl>
 </li>
 </ul>
@@ -320,9 +348,15 @@ extends <a href="../../../org/nineml/logging/Logger.html" title="class in org.ni
 <pre>public&nbsp;void&nbsp;debug(java.lang.String&nbsp;category,
                   java.lang.String&nbsp;format,
                   java.lang.Object...&nbsp;params)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../org/nineml/logging/Logger.html#debug-java.lang.String-java.lang.String-java.lang.Object...-">Logger</a></code></span></div>
+<div class="block">Issue a debug message.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../org/nineml/logging/Logger.html#debug-java.lang.String-java.lang.String-java.lang.Object...-">debug</a></code>&nbsp;in class&nbsp;<code><a href="../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>category</code> - the message category</dd>
+<dd><code>format</code> - the format string</dd>
+<dd><code>params</code> - message parameters</dd>
 </dl>
 </li>
 </ul>
@@ -335,9 +369,15 @@ extends <a href="../../../org/nineml/logging/Logger.html" title="class in org.ni
 <pre>public&nbsp;void&nbsp;trace(java.lang.String&nbsp;category,
                   java.lang.String&nbsp;format,
                   java.lang.Object...&nbsp;params)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../org/nineml/logging/Logger.html#trace-java.lang.String-java.lang.String-java.lang.Object...-">Logger</a></code></span></div>
+<div class="block">Issue a trace message.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../org/nineml/logging/Logger.html#trace-java.lang.String-java.lang.String-java.lang.Object...-">trace</a></code>&nbsp;in class&nbsp;<code><a href="../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>category</code> - the message category</dd>
+<dd><code>format</code> - the format string</dd>
+<dd><code>params</code> - message parameters</dd>
 </dl>
 </li>
 </ul>
