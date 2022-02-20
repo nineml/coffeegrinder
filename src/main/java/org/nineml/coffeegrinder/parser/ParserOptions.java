@@ -9,25 +9,6 @@ import org.nineml.logging.Logger;
  */
 public class ParserOptions {
     /**
-     * The default constructor.
-     * <p>This object is intended to be just a collection of publicly modifiable fields.</p>
-     */
-    public ParserOptions() {
-        // nop
-    }
-
-    /**
-     * A copy constructor.
-     * @param copy the options to copy.
-     */
-    public ParserOptions(ParserOptions copy) {
-        returnChart = copy.returnChart;
-        prefixParsing = copy.prefixParsing;
-        treesWithStates = copy.treesWithStates;
-        logger = copy.logger;
-    }
-
-    /**
      * Return the Earley chart even for a successful parse?
      */
     public boolean returnChart = false;
@@ -53,5 +34,27 @@ public class ParserOptions {
      * higher-level components such as CoffeeFilter, CoffeePot, and CoffeeSacks.</p>
      * <p>Must not be null.</p>
      */
-    public Logger logger = new DefaultLogger();
+    public Logger logger;
+
+    /**
+     * The default constructor.
+     * <p>This object is intended to be just a collection of publicly modifiable fields. The
+     * default constructor creates a {@link DefaultLogger} and uses {@link DefaultLogger#readSystemProperties readSystemProperties()}
+     * to initialize it.</p>
+     */
+    public ParserOptions() {
+        logger = new DefaultLogger();
+        logger.readSystemProperties();
+    }
+
+    /**
+     * A copy constructor.
+     * @param copy the options to copy.
+     */
+    public ParserOptions(ParserOptions copy) {
+        returnChart = copy.returnChart;
+        prefixParsing = copy.prefixParsing;
+        treesWithStates = copy.treesWithStates;
+        logger = copy.logger;
+    }
 }
