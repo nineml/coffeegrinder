@@ -525,7 +525,8 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setDefaultLogLevel</h4>
 <pre>public&nbsp;void&nbsp;setDefaultLogLevel(int&nbsp;level)</pre>
-<div class="block">Set the default log level.</div>
+<div class="block">Set the default log level.
+ <p>If the level is less than zero, it will be set to 0 (silent).</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>level</code> - the level</dd>
@@ -545,6 +546,8 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>level</code> - the level.</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.NullPointerException</code> - if the level is null.</dd>
 </dl>
 </li>
 </ul>
@@ -555,12 +558,15 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getLogLevel</h4>
 <pre>public&nbsp;int&nbsp;getLogLevel(java.lang.String&nbsp;category)</pre>
-<div class="block">Get the log level for a particular category.</div>
+<div class="block">Get the log level for a particular category.
+ <p>Category names are not case sensitive.</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>category</code> - the category</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the level</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.NullPointerException</code> - if the category is null</dd>
 </dl>
 </li>
 </ul>
@@ -577,6 +583,8 @@ extends java.lang.Object</pre>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>category</code> - the category</dd>
 <dd><code>level</code> - the level</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.NullPointerException</code> - if the category is null.</dd>
 </dl>
 </li>
 </ul>
@@ -595,6 +603,8 @@ extends java.lang.Object</pre>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>category</code> - the category.</dd>
 <dd><code>level</code> - the level.</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.NullPointerException</code> - if the category or level is null.</dd>
 </dl>
 </li>
 </ul>
