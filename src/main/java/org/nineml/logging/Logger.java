@@ -117,6 +117,7 @@ public abstract class Logger {
 
     /**
      * Set the default log level.
+     * <p>If the level is less than zero, it will be set to 0 (silent).</p>
      * @param level the level
      */
     public void setDefaultLogLevel(int level) {
@@ -128,27 +129,40 @@ public abstract class Logger {
      * <p>The level must be "silent", "error", "warning", "info", "debug", or "trace". If an invalid
      * value is specified, "error" is used.</p>
      * @param level the level.
+     * @throws NullPointerException if the level is null.
      */
     public void setDefaultLogLevel(String level) {
+        if (level == null) {
+            throw new NullPointerException("The level must not be null");
+        }
         setDefaultLogLevel(logLevelNumber(level));
     }
 
     /**
      * Get the log level for a particular category.
+     * <p>Category names are not case sensitive.</p>
      * @param category the category
      * @return the level
+     * @throws NullPointerException if the category is null
      */
     public int getLogLevel(String category) {
-        return logLevels.getOrDefault(category, defaultLogLevel);
+        if (category == null) {
+            throw new NullPointerException("The category must not be null");
+        }
+        return logLevels.getOrDefault(category.toLowerCase(), defaultLogLevel);
     }
 
     /**
      * Set the log level for a particular category.
      * @param category the category
      * @param level the level
+     * @throws NullPointerException if the category is null.
      */
     public void setLogLevel(String category, int level) {
-        logLevels.put(category, Math.max(0, level));
+        if (category == null) {
+            throw new NullPointerException("The category must not be null");
+        }
+        logLevels.put(category.toLowerCase(), Math.max(0, level));
     }
 
     /**
@@ -157,9 +171,10 @@ public abstract class Logger {
      * value is specified, "error" is used.</p>
      * @param category the category.
      * @param level the level.
+     * @throws NullPointerException if the category or level is null.
      */
     public void setLogLevel(String category, String level) {
-        logLevels.put(category, logLevelNumber(level));
+        setLogLevel(category, logLevelNumber(level));
     }
 
     /**
@@ -172,6 +187,10 @@ public abstract class Logger {
      * @param config the category.
      */
     public void setLogLevels(String config) {
+        if (config == null) {
+            return;
+        }
+
         for (String pair : config.split("[,\\s]+")) {
             if (pair.contains(":")) {
                 int pos = pair.indexOf(":");

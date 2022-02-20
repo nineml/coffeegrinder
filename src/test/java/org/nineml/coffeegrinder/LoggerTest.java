@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.nineml.logging.DefaultLogger;
 import org.nineml.logging.Logger;
 
+import static junit.framework.TestCase.fail;
+
 public class LoggerTest {
     @Test
     public void testDefaults() {
@@ -18,6 +20,27 @@ public class LoggerTest {
         Logger logger = new DefaultLogger();
         Assert.assertEquals(Logger.ERROR, logger.getDefaultLogLevel());
         Assert.assertEquals(Logger.ERROR, logger.getLogLevel("fribble-frabble"));
+
+        try {
+            logger.setDefaultLogLevel(null);
+            fail();
+        } catch (NullPointerException ex) {
+            // pass
+        }
+
+        try {
+            logger.setLogLevel("testin", null);
+            fail();
+        } catch (NullPointerException ex) {
+            // pass
+        }
+
+        try {
+            logger.setLogLevels(null);
+            // this one we just ignore...perhaps inconsistently.
+        } catch (NullPointerException ex) {
+            fail();
+        }
 
         logger.setDefaultLogLevel("warning");
         Assert.assertEquals(Logger.WARNING, logger.getDefaultLogLevel());
@@ -42,6 +65,9 @@ public class LoggerTest {
         Assert.assertEquals(Logger.SILENT, logger.getLogLevel("a"));
         Assert.assertEquals(Logger.ERROR, logger.getLogLevel("b"));
         Assert.assertEquals(Logger.DEBUG, logger.getLogLevel("c"));
+
+        logger.setLogLevel("TestTwo", "info");
+        Assert.assertEquals(Logger.INFO, logger.getLogLevel("testTWO"));
     }
 
     @Test
