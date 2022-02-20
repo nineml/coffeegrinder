@@ -146,7 +146,7 @@ public class EarleyParser {
             if (currentToken != null) {
                 lastInputToken = currentToken;
                 tokenCount = i + 1;
-                options.logger.debug(logcategory, "Parsing token %d: %s", tokenCount, currentToken);
+                options.logger.trace(logcategory, "Parsing token %d: %s", tokenCount, currentToken);
             }
 
             ArrayList<Hitem> H = new ArrayList<>();
