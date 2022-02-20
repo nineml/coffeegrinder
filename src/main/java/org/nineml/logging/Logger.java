@@ -116,20 +116,58 @@ public abstract class Logger {
         return ERROR;
     }
 
+    /**
+     * Get the default log level
+     * @return the default log level
+     */
     public int getDefaultLogLevel() {
         return defaultLogLevel;
     }
 
+    /**
+     * Set the default log level.
+     * @param level the level
+     */
     public void setDefaultLogLevel(int level) {
         defaultLogLevel = Math.max(0, level);
     }
 
+    /**
+     * Set the default log level.
+     * <p>The level must be "silent", "error", "warning", "info", "debug", or "trace". If an invalid
+     * value is specified, "error" is used.</p>
+     * @param level the level.
+     */
+    public void setDefaultLogLevel(String level) {
+        setDefaultLogLevel(logLevelNumber(level));
+    }
+
+    /**
+     * Get the log level for a particular category.
+     * @param category the category
+     * @return the level
+     */
     public int getLogLevel(String category) {
         return logLevels.getOrDefault(category, defaultLogLevel);
     }
 
+    /**
+     * Set the log level for a particular category.
+     * @param category the category
+     * @param level the level
+     */
     public void setLogLevel(String category, int level) {
         logLevels.put(category, Math.max(0, level));
+    }
+
+    /**
+     * Set the log level for a particular category.
+     * <p>The level must be "silent", "error", "warning", "info", "debug", or "trace". If an invalid
+     * value is specified, "error" is used.</p>
+     * @param level the level.
+     */
+    public void setLogLevel(String category, String level) {
+        logLevels.put(category, logLevelNumber(level));
     }
 
     protected String message(String category, int level, String message, Object... params) {
@@ -153,9 +191,14 @@ public abstract class Logger {
         return sb.toString();
     }
 
+    /** Issue an error message. */
     public abstract void error(String category, String message, Object... params);
+    /** Issue a warning message. */
     public abstract void warn(String category, String message, Object... params);
+    /** Issue an informational message. */
     public abstract void info(String category, String message, Object... params);
+    /** Issue a debug message. */
     public abstract void debug(String category, String message, Object... params);
+    /** Issue a trace message. */
     public abstract void trace(String category, String message, Object... params);
 }
