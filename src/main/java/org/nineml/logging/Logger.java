@@ -164,6 +164,7 @@ public abstract class Logger {
      * Set the log level for a particular category.
      * <p>The level must be "silent", "error", "warning", "info", "debug", or "trace". If an invalid
      * value is specified, "error" is used.</p>
+     * @param category the category.
      * @param level the level.
      */
     public void setLogLevel(String category, String level) {
@@ -191,14 +192,34 @@ public abstract class Logger {
         return sb.toString();
     }
 
-    /** Issue an error message. */
-    public abstract void error(String category, String message, Object... params);
-    /** Issue a warning message. */
-    public abstract void warn(String category, String message, Object... params);
-    /** Issue an informational message. */
-    public abstract void info(String category, String message, Object... params);
-    /** Issue a debug message. */
-    public abstract void debug(String category, String message, Object... params);
-    /** Issue a trace message. */
-    public abstract void trace(String category, String message, Object... params);
+    /** Issue an error message.
+     * @param category the message category
+     * @param format the format string
+     * @param params message parameters
+     */
+    public abstract void error(String category, String format, Object... params);
+    /** Issue a warning message.
+     * @param category the message category
+     * @param format the format string
+     * @param params message parameters
+     */
+    public abstract void warn(String category, String format, Object... params);
+    /** Issue an informational message.
+     * @param category the message category
+     * @param format the format string
+     * @param params message parameters
+     */
+    public abstract void info(String category, String format, Object... params);
+    /** Issue a debug message.
+     * @param category the message category
+     * @param format the format string
+     * @param params message parameters
+     */
+    public abstract void debug(String category, String format, Object... params);
+    /** Issue a trace message.
+     * @param category the message category
+     * @param format the format string
+     * @param params message parameters
+     */
+    public abstract void trace(String category, String format, Object... params);
 }
