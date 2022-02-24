@@ -150,6 +150,14 @@
 <dd>
 <div class="block">A class that represents a range of Unicode characters.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Grammar.html#checkHygiene-java.lang.String-">checkHygiene(String)</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Grammar.html" title="class in org.nineml.coffeegrinder.parser">Grammar</a></dt>
+<dd>
+<div class="block">Get a hygiene report for the specified start symbol.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Grammar.html#checkHygiene-org.nineml.coffeegrinder.parser.NonterminalSymbol-">checkHygiene(NonterminalSymbol)</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Grammar.html" title="class in org.nineml.coffeegrinder.parser">Grammar</a></dt>
+<dd>
+<div class="block">Get a hygiene report for the specified start symbol.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#checkumFailed--">checkumFailed()</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
 <dd>
 <div class="block">Raised if the compiled grammar checksum doesn't match the computed value.</div>
@@ -590,6 +598,10 @@
 <dd>
 <div class="block">Get the grammar used by this parser.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/HygieneReport.html#getGrammar--">getGrammar()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser">HygieneReport</a></dt>
+<dd>
+<div class="block">Get the grammar associated with this report.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/GrammarCompiler.html#getGrammar--">getGrammar()</a></span> - Method in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/GrammarCompiler.html" title="class in org.nineml.coffeegrinder.util">GrammarCompiler</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Ambiguity.html#getInfinitelyAmbiguous--">getInfinitelyAmbiguous()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Ambiguity.html" title="class in org.nineml.coffeegrinder.parser">Ambiguity</a></dt>
@@ -748,6 +760,10 @@
 <dd>
 <div class="block">Get the nonterminal associated with this state</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Grammar.html#getSymbols--">getSymbols()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Grammar.html" title="class in org.nineml.coffeegrinder.parser">Grammar</a></dt>
+<dd>
+<div class="block">Get the currently defined nonterminals in the grammar.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/TerminalSymbol.html#getToken--">getToken()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">TerminalSymbol</a></dt>
 <dd>
 <div class="block">Get the token associated with this terminal symbol.</div>
@@ -777,6 +793,18 @@
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/tokens/CharacterSet.html#getUnicodeCharacterClass--">getUnicodeCharacterClass()</a></span> - Method in class org.nineml.coffeegrinder.tokens.<a href="org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a></dt>
 <dd>
 <div class="block">What is the Unicode character class?</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/HygieneReport.html#getUnproductiveRules--">getUnproductiveRules()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser">HygieneReport</a></dt>
+<dd>
+<div class="block">Get the unproductive rules.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/HygieneReport.html#getUnproductiveSymbols--">getUnproductiveSymbols()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser">HygieneReport</a></dt>
+<dd>
+<div class="block">Get the unproductive symbols.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/HygieneReport.html#getUnreachableSymbols--">getUnreachableSymbols()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser">HygieneReport</a></dt>
+<dd>
+<div class="block">Get the unreachable symbols.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/tokens/TokenCharacter.html#getValue--">getValue()</a></span> - Method in class org.nineml.coffeegrinder.tokens.<a href="org/nineml/coffeegrinder/tokens/TokenCharacter.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacter</a></dt>
 <dd>
@@ -880,6 +908,10 @@
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/DefaultTreeWalker.html#hasNext--">hasNext()</a></span> - Method in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/DefaultTreeWalker.html" title="class in org.nineml.coffeegrinder.util">DefaultTreeWalker</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">HygieneReport</span></a> - Class in <a href="org/nineml/coffeegrinder/parser/package-summary.html">org.nineml.coffeegrinder.parser</a></dt>
+<dd>
+<div class="block">A report on the hygiene of a grammar.</div>
+</dd>
 </dl>
 <a name="I:I">
 <!--   -->
@@ -980,6 +1012,10 @@
 <dd>
 <div class="block">Is the grammar represented by this graph ambiguous?</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/HygieneReport.html#isClean--">isClean()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser">HygieneReport</a></dt>
+<dd>
+<div class="block">Is this grammar "clean"?</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#isInclusion--">isInclusion()</a></span> - Method in class org.nineml.coffeegrinder.tokens.<a href="org/nineml/coffeegrinder/tokens/TokenCharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacterSet</a></dt>
 <dd>
 <div class="block">Is this an inclusion characater set?</div>
@@ -1045,6 +1081,8 @@
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#logcategory">logcategory</a></span> - Static variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Grammar.html#logcategory">logcategory</a></span> - Static variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Grammar.html" title="class in org.nineml.coffeegrinder.parser">Grammar</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/HygieneReport.html#logcategory">logcategory</a></span> - Static variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser">HygieneReport</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParseForest.html#logcategory">logcategory</a></span> - Static variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParseForest.html" title="class in org.nineml.coffeegrinder.parser">ParseForest</a></dt>
 <dd>&nbsp;</dd>

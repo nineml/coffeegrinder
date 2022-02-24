@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -48,7 +48,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?org/nineml/coffeegrinder/parser/Grammar.html" target="_top">Frames</a></li>
@@ -203,81 +203,99 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser">HygieneReport</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#checkHygiene-org.nineml.coffeegrinder.parser.NonterminalSymbol-">checkHygiene</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</code>
+<div class="block">Get a hygiene report for the specified start symbol.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser">HygieneReport</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#checkHygiene-java.lang.String-">checkHygiene</a></span>(java.lang.String&nbsp;seed)</code>
+<div class="block">Get a hygiene report for the specified start symbol.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#close--">close</a></span>()</code>
 <div class="block">Close the grammar.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#contains-org.nineml.coffeegrinder.parser.Rule-">contains</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a>&nbsp;candidate)</code>
 <div class="block">Does this grammar contain an equivalent rule?</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getNonterminal-java.lang.String-">getNonterminal</a></span>(java.lang.String&nbsp;name)</code>
 <div class="block">Return the nonterminal symbol identified by name for this grammar.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getNonterminal-java.lang.String-boolean-">getNonterminal</a></span>(java.lang.String&nbsp;name,
               boolean&nbsp;optional)</code>
 <div class="block">Return the nonterminal symbol identified by name.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getNonterminal-java.lang.String-java.util.Collection-">getNonterminal</a></span>(java.lang.String&nbsp;name,
               java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code>
 <div class="block">Return the nonterminal symbol identified by name.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getNonterminal-java.lang.String-org.nineml.coffeegrinder.util.ParserAttribute-">getNonterminal</a></span>(java.lang.String&nbsp;name,
               <a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&nbsp;attribute)</code>
 <div class="block">Return the nonterminal symbol identified by name.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html" title="class in org.nineml.coffeegrinder.parser">EarleyParser</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getParser-org.nineml.coffeegrinder.parser.NonterminalSymbol-">getParser</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</code>
 <div class="block">Get a parser for this grammar.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html" title="class in org.nineml.coffeegrinder.parser">EarleyParser</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getParser-java.lang.String-">getParser</a></span>(java.lang.String&nbsp;seed)</code>
 <div class="block">Get a parser for this grammar.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getParserOptions--">getParserOptions</a></span>()</code>
 <div class="block">Gets the parser options.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getRules--">getRules</a></span>()</code>
 <div class="block">What rules are in this grammar?</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i15" class="rowColor">
+<td class="colFirst"><code>java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getSymbols--">getSymbols</a></span>()</code>
+<div class="block">Get the currently defined nonterminals in the grammar.</div>
+</td>
+</tr>
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#isNullable-org.nineml.coffeegrinder.parser.NonterminalSymbol-">isNullable</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol)</code>
 <div class="block">Is a symbol nullable?</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#isOpen--">isOpen</a></span>()</code>
 <div class="block">Is this grammar still open, can you still add rules to it?</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#setParserOptions-org.nineml.coffeegrinder.parser.ParserOptions-">setParserOptions</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a>&nbsp;options)</code>
 <div class="block">Sets the parser options.</div>
@@ -457,6 +475,21 @@ extends java.lang.Object</pre>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.lang.NullPointerException</code> - if the name is null.</dd>
 <dd><code><a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a></code> - if the symbol already exists and attributes are different</dd>
+</dl>
+</li>
+</ul>
+<a name="getSymbols--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getSymbols</h4>
+<pre>public&nbsp;java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&gt;&nbsp;getSymbols()</pre>
+<div class="block">Get the currently defined nonterminals in the grammar.
+ <p>After a grammar is closed, this is the final set.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the set of nonterminals.</dd>
 </dl>
 </li>
 </ul>
@@ -650,7 +683,7 @@ extends java.lang.Object</pre>
 <a name="contains-org.nineml.coffeegrinder.parser.Rule-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
 <pre>public&nbsp;boolean&nbsp;contains(<a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a>&nbsp;candidate)</pre>
@@ -662,6 +695,41 @@ extends java.lang.Object</pre>
 <dd><code>candidate</code> - the candidat rule</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if the grammar contains an equivalent rule</dd>
+</dl>
+</li>
+</ul>
+<a name="checkHygiene-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>checkHygiene</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser">HygieneReport</a>&nbsp;checkHygiene(java.lang.String&nbsp;seed)</pre>
+<div class="block">Get a hygiene report for the specified start symbol.
+ <p>See <a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#checkHygiene-org.nineml.coffeegrinder.parser.NonterminalSymbol-"><code>checkHygiene(NonterminalSymbol)</code></a>.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>seed</code> - the start symbol.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the report.</dd>
+</dl>
+</li>
+</ul>
+<a name="checkHygiene-org.nineml.coffeegrinder.parser.NonterminalSymbol-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>checkHygiene</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser">HygieneReport</a>&nbsp;checkHygiene(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</pre>
+<div class="block">Get a hygiene report for the specified start symbol.
+ <p>If the grammar is closed, creating the report will also generate warning messages
+ to the grammar's logger.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>seed</code> - the start symbol.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the report.</dd>
 </dl>
 </li>
 </ul>
@@ -693,7 +761,7 @@ extends java.lang.Object</pre>
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?org/nineml/coffeegrinder/parser/Grammar.html" target="_top">Frames</a></li>
