@@ -20,6 +20,7 @@ public class Grammar {
 
     private static int nextGrammarId = 0;
     private final ArrayList<Rule> rules;
+    private final HashSet<NonterminalSymbol> nonterminals;
     private final HashSet<NonterminalSymbol> nullable;
     protected final int id;
     private ParserOptions options;
@@ -32,6 +33,7 @@ public class Grammar {
         id = nextGrammarId++;
         rules = new ArrayList<>();
         nullable = new HashSet<>();
+        nonterminals = new HashSet<>();
         options = new ParserOptions();
         options.logger.debug(logcategory, "Created grammar %d", id);
     }
@@ -45,6 +47,7 @@ public class Grammar {
         rules = new ArrayList<>();
         this.options = options;
         nullable = new HashSet<>();
+        nonterminals = new HashSet<>();
         options.logger.debug(logcategory, "Created grammar %d", id);
     }
 
@@ -58,6 +61,7 @@ public class Grammar {
         rules = new ArrayList<>(current.getRules());
         options = current.options;
         nullable = new HashSet<>(current.nullable);
+        nonterminals = new HashSet<>();
         open = true;
         options.logger.debug(logcategory, "Created grammar %d", id);
     }
@@ -123,6 +127,15 @@ public class Grammar {
     }
 
     /**
+     * Get the currently defined nonterminals in the grammar.
+     * <p>After a grammar is closed, this is the final set.</p>
+     * @return the set of nonterminals.
+     */
+    public Set<NonterminalSymbol> getSymbols() {
+        return nonterminals;
+    }
+
+    /**
      * Add a rule to the grammar.
      * <p>Multiple rules can exist for the same {@link NonterminalSymbol}. There must be at least
      * one rule for every nonterminal symbol that occurs on the "right hand side" of a rule.</p>
@@ -137,6 +150,7 @@ public class Grammar {
         if (contains(rule)) {
             options.logger.trace(logcategory, "Ignoring duplicate rule: %s", rule);
         } else {
+            nonterminals.add(rule.getSymbol());
             options.logger.trace(logcategory, "Adding rule: %s", rule);
             rules.add(rule);
             computeNullable(rule);
@@ -335,4 +349,97 @@ public class Grammar {
             }
         }
     }
+
+    /**
+     * Get a hygiene report for the specified start symbol.
+     * <p>See {@link #checkHygiene(NonterminalSymbol)}.</p>
+     * @param seed the start symbol.
+     * @return the report.
+     */
+    public HygieneReport checkHygiene(String seed) {
+        return checkHygiene(getNonterminal(seed));
+    }
+
+    /**
+     * Get a hygiene report for the specified start symbol.
+     * <p>If the grammar is closed, creating the report will also generate warning messages
+     * to the grammar's logger.</p>
+     * @param seed the start symbol.
+     * @return the report.
+     */
+    public HygieneReport checkHygiene(NonterminalSymbol seed) {
+        HygieneReport report = new HygieneReport(this);
+        HashSet<NonterminalSymbol> reachable = new HashSet<>();
+        walk(seed, reachable);
+        for (Rule rule : rules) {
+            if (!reachable.contains(rule.getSymbol())) {
+                report.addUnreachable(rule.getSymbol());
+            }
+        }
+
+        // What about unproductive non-terminals?
+        HashSet<NonterminalSymbol> productiveNT = new HashSet<>();
+        HashSet<Rule> productiveRule = new HashSet<>();
+        int psize = -1;
+        int rsize = -1;
+        while (psize != productiveNT.size() || rsize != productiveRule.size()) {
+            psize = productiveNT.size();
+            rsize = productiveRule.size();
+
+            for (NonterminalSymbol nt : nonterminals) {
+                boolean isProductiveSymbol = false;
+                for (Rule rule : rules) {
+                    if (nt.equals(rule.getSymbol())) {
+                        boolean isProductiveRule = productiveRule.contains(rule);
+                        if (!isProductiveRule) {
+                            isProductiveRule = true;
+                            for (Symbol s : rule.getRhs()) {
+                                if (s instanceof NonterminalSymbol && !productiveNT.contains((NonterminalSymbol) s)) {
+                                    isProductiveRule = false;
+                                    break;
+                                }
+                            }
+                            if (isProductiveRule) {
+                                productiveRule.add(rule);
+                                isProductiveSymbol = true;
+                            }
+                        }
+                    }
+                }
+                if (isProductiveSymbol) {
+                    productiveNT.add(nt);
+                }
+            }
+        }
+
+        for (NonterminalSymbol s : nonterminals) {
+            if (!productiveNT.contains(s)) {
+                report.addUnproductive(s);
+            }
+        }
+        for (Rule rule : rules) {
+            if (!productiveRule.contains(rule)) {
+                report.addUnproductive(rule);
+            }
+        }
+
+        return report;
+    }
+
+    private void walk(NonterminalSymbol symbol, HashSet<NonterminalSymbol> reachable) {
+        reachable.add(symbol);
+        for (Rule rule : rules) {
+            if (rule.getSymbol().equals(symbol)) {
+                for (Symbol s : rule.getRhs()) {
+                    if (s instanceof NonterminalSymbol) {
+                        NonterminalSymbol nt = (NonterminalSymbol) s;
+                        if (!reachable.contains(nt)) {
+                            walk(nt, reachable);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
