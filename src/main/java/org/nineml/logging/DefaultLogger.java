@@ -1,6 +1,8 @@
 package org.nineml.logging;
 
-
+/**
+ * The default logger prints messages on stderr.
+ */
 public class DefaultLogger extends Logger {
     public void error(String category, String format, Object... params) {
         if (getLogLevel(category) >= ERROR) {
