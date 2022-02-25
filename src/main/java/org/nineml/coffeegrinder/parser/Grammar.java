@@ -30,12 +30,7 @@ public class Grammar {
      * Create a new grammar.
      */
     public Grammar() {
-        id = nextGrammarId++;
-        rules = new ArrayList<>();
-        nullable = new HashSet<>();
-        nonterminals = new HashSet<>();
-        options = new ParserOptions();
-        options.logger.debug(logcategory, "Created grammar %d", id);
+        this(new ParserOptions());
     }
 
     /**
