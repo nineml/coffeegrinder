@@ -211,16 +211,22 @@ public abstract class Logger {
         StringBuilder sb = new StringBuilder();
         switch (level) {
             case ERROR:
-                sb.append("ERROR: ");
+                sb.append("E: ");
                 break;
             case WARNING:
-                sb.append("WARN: ");
+                sb.append("W: ");
                 break;
             case INFO:
-                sb.append("INFO: ");
+                sb.append("I: ");
+                break;
+            case DEBUG:
+                sb.append("D: ");
+                break;
+            case TRACE:
+                sb.append("T: ");
                 break;
             default:
-                sb.append("DEBUG: ");
+                sb.append("X: ");
                 break;
         }
 
@@ -234,24 +240,28 @@ public abstract class Logger {
      * @param params message parameters
      */
     public abstract void error(String category, String format, Object... params);
+
     /** Issue a warning message.
      * @param category the message category
      * @param format the format string
      * @param params message parameters
      */
     public abstract void warn(String category, String format, Object... params);
+
     /** Issue an informational message.
      * @param category the message category
      * @param format the format string
      * @param params message parameters
      */
     public abstract void info(String category, String format, Object... params);
+
     /** Issue a debug message.
      * @param category the message category
      * @param format the format string
      * @param params message parameters
      */
     public abstract void debug(String category, String format, Object... params);
+
     /** Issue a trace message.
      * @param category the message category
      * @param format the format string
