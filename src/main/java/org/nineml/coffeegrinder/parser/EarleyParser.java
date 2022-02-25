@@ -327,7 +327,7 @@ public class EarleyParser {
 
             // If we got here because there's no input, make the (only) node in the
             // graph a root, even though it doesn't have any children.
-            if (emptyInput && localRoots.isEmpty()) {
+            if (emptyInput && localRoots.isEmpty() && !graph.graph.isEmpty()) {
                 localRoots.add(graph.graph.get(0));
             }
 

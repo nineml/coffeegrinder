@@ -42,8 +42,24 @@ public class GrammarCompiler {
     private StringBuilder sb = null;
     private MessageDigest xdigest = null;
     private Grammar grammar = null;
+    private ParserOptions options = null;
     // A list rather than a Properties object so that order is preserved
     private ArrayList<Property> properties = new ArrayList<>();
+
+    /**
+     * Construct a grammar compiler with default parser options.
+     */
+    public GrammarCompiler() {
+        this(new ParserOptions());
+    }
+
+    /**
+     * Construct a grammar compiler.
+     * @param options the parse options.
+     */
+    public GrammarCompiler(ParserOptions options) {
+        this.options = options;
+    }
 
     public Grammar getGrammar() {
         return grammar;
@@ -503,9 +519,9 @@ public class GrammarCompiler {
     }
 
     private Grammar parse(InputSource source) {
-        ParserOptions options = new ParserOptions();
-        options.treesWithStates = true;
-        grammar = new Grammar(options);
+        ParserOptions localOptions = new ParserOptions(options);
+        localOptions.treesWithStates = true;
+        grammar = new Grammar(localOptions);
         properties = new ArrayList<>();
 
         initializeDigest();

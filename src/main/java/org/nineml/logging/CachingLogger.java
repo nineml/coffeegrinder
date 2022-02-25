@@ -3,6 +3,10 @@ package org.nineml.logging;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The caching logger stores all of the messages.
+ * <p>You can retrieve them by calling <code>getMessages</code>.</p>
+ */
 public class CachingLogger extends Logger {
     private final ArrayList<String> messages = new ArrayList<>();
 
