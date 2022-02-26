@@ -2,6 +2,7 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.CharacterSet;
 import org.nineml.coffeegrinder.tokens.Token;
@@ -329,4 +330,54 @@ public class ParserTest {
         EarleyResult result = parser.parse(Iterators.characterIterator(input));
         Assert.assertTrue(result.succeeded());
     }
+
+    @Test
+    public void docExample() {
+        Grammar grammar = new Grammar();
+
+        NonterminalSymbol S = grammar.getNonterminal("S");
+        NonterminalSymbol A = grammar.getNonterminal("A");
+        NonterminalSymbol B = grammar.getNonterminal("B");
+        NonterminalSymbol X = grammar.getNonterminal("X");
+        NonterminalSymbol Y = grammar.getNonterminal("Y");
+
+        Rule s1 = new Rule(S, A);
+        grammar.addRule(s1);
+
+        grammar.addRule(S, B);
+        grammar.addRule(A, TerminalSymbol.ch('a'), X);
+        grammar.addRule(A, TerminalSymbol.ch('b'), X);
+        grammar.addRule(B, TerminalSymbol.ch('b'), X);
+        grammar.addRule(X, TerminalSymbol.ch('x'));
+        grammar.addRule(Y, TerminalSymbol.ch('y'));
+
+        grammar.close();
+
+        HygieneReport report = grammar.checkHygiene(S);
+        if (!report.isClean()) {
+            // TODO: deal with undefined, unused, and unproductive items
+        }
+
+        EarleyParser parser = grammar.getParser(S);
+
+        EarleyResult result = parser.parse("bx");
+
+        if (result.succeeded()) {
+            ParseForest forest = result.getForest();
+            ParseTree tree = forest.parse();
+
+            // TODO: do something with the tree.
+
+            if (forest.isAmbiguous()) {
+                long totalParses = forest.getTotalParses();
+                // TODO: deal with multiple parses
+            }
+        } else {
+            // TODO: deal with failure
+        }
+
+        Assertions.assertFalse(report.isClean());
+        Assertions.assertTrue(result.succeeded());
+    }
+
 }

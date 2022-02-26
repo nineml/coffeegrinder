@@ -6,6 +6,7 @@ import org.nineml.logging.Logger;
 
 /**
  * Options to the parser.
+ * <p>This object is intentionally just a collection of public fields.</p>
  */
 public class ParserOptions {
     /**

@@ -11,7 +11,7 @@
 <title>CoffeeGrinder</title>
 <subtitle>An Earley parser in Java</subtitle>
 <author>
-  <personname>Norm Tovey Walsh</personname>
+  <personname>Norm Tovey-Walsh</personname>
 </author>
 <copyright><year>2022</year><holder>Norm Tovey-Walsh</holder></copyright>
 <productname>coffeepot</productname>
@@ -21,19 +21,154 @@
 <preface>
 <title>Introduction</title>
 
-<para>This package provides an implementation of an Earley parser. The
-Earley parsing algorithm allows grammars to be ambiguous. This API
+<para>This package provides an implementation of an
+<link xlink:href="https://en.wikipedia.org/wiki/Earley_parser">Earley parser</link>. The
+Earley parsing algorithm is able to use grammars that are ambiguous. This API
 parses a sequence of tokens and returns a Shared Packed Parser Forest.
 Individual parse trees can be obtained from the forest.</para>
 
 </preface>
 
 <chapter>
-<title>JavaDoc</title>
+<title>General use</title>
 
-<para>Until other documention is available, the
-<link xlink:href="/apidoc">JavaDoc</link> will have to suffice.</para>
+<para>This is just an overview, consult the 
+<link xlink:href="/apidoc">JavaDoc</link> for more details.</para>
 
+<programlistingco>
+<areaspec>
+<area xml:id="ex_g" coords="1 55"/>
+<area xml:id="ex_ntg" coords="3 55"/>
+<area xml:id="ex_r1a" coords="9 35"/>
+<area xml:id="ex_r1b" coords="10 35"/>
+<area xml:id="ex_r2" coords="12 55"/>
+<area xml:id="ex_term" coords="13 55"/>
+<area xml:id="ex_close" coords="19 55"/>
+<area xml:id="ex_hyg" coords="21 55"/>
+<area xml:id="ex_parser" coords="27 55"/>
+<area xml:id="ex_result" coords="29 55"/>
+<area xml:id="ex_success" coords="31 55"/>
+<area xml:id="ex_forest" coords="32 55"/>
+<area xml:id="ex_tree" coords="33 55"/>
+<area xml:id="ex_amb" coords="37 55"/>
+</areaspec>
+<programlisting language="java">Grammar grammar = new Grammar();
+
+NonterminalSymbol S = grammar.getNonterminal("S");
+NonterminalSymbol A = grammar.getNonterminal("A");
+NonterminalSymbol B = grammar.getNonterminal("B");
+NonterminalSymbol X = grammar.getNonterminal("X");
+NonterminalSymbol Y = grammar.getNonterminal("Y");
+
+Rule s1 = new Rule(S, A);
+grammar.addRule(s1);
+
+grammar.addRule(S, B);
+grammar.addRule(A, TerminalSymbol.ch('a'), X);
+grammar.addRule(A, TerminalSymbol.ch('b'), X);
+grammar.addRule(B, TerminalSymbol.ch('b'), X);
+grammar.addRule(X, TerminalSymbol.ch('x'));
+grammar.addRule(Y, TerminalSymbol.ch('y'));
+
+grammar.close();
+
+HygieneReport report = grammar.checkHygiene(S);
+if (!report.isClean()) {
+    // TODO: deal with undefined,
+    // unused, and unproductive items
+}
+
+EarleyParser parser = grammar.getParser(S);
+
+EarleyResult result = parser.parse("bx");
+
+if (result.succeeded()) {
+    ParseForest forest = result.getForest();
+    ParseTree tree = forest.parse();
+
+    // TODO: do something with the tree.
+
+    if (forest.isAmbiguous()) {
+        long totalParses = forest.getTotalParses();
+        // TODO: deal with multiple parses
+    }
+} else {
+    // TODO: deal with failure
+}</programlisting>
+<calloutlist>
+<callout arearefs="ex_g">
+<para>Create a
+<link xlink:href="/apidoc/org/nineml/coffeegrinder/parser/Grammar.html">Grammar</link>.
+</para>
+</callout>
+<callout arearefs="ex_ntg">
+<para>Use the grammar to create nonterminal symbols.
+</para>
+</callout>
+<callout arearefs="ex_r1a">
+<para>Create rules mapping each nonterminal symbol to zero or more other symbols.
+</para>
+</callout>
+<callout arearefs="ex_r1b">
+<para>Add the rules to the grammar.
+</para>
+</callout>
+<callout arearefs="ex_r2">
+<para>You can also just use the <methodname>addRule</methodname> method to add
+the symbols and their mappings directly.
+</para>
+</callout>
+<callout arearefs="ex_term">
+<para>Several flavors of
+<link xlink:href="/apidoc/org/nineml/coffeegrinder/parser/TerminalSymbol.html">TerminalSymbol</link>
+are supported out-of-the-box and the set of
+<link xlink:href="/apidoc/org/nineml/coffeegrinder/tokens/Token.html">Tokens</link>
+is extensible.
+</para>
+</callout>
+<callout arearefs="ex_close">
+<para>Close the grammar when you’re finished adding to it. After a grammar
+is closed, it cannot be modified.
+</para>
+</callout>
+<callout arearefs="ex_hyg">
+<para><link xlink:href="/apidoc/org/nineml/coffeegrinder/parser/HygieneReport.html">Hygiene</link>
+problems with a closed grammar will generate warning messages through the
+<link xlink:href="/apidoc/org/nineml/logging/package-summary.html">logging framework</link>.
+Hygiene problems include undefined or unused symbols as well as unproductive symbols
+and rules.
+</para>
+</callout>
+<callout arearefs="ex_parser">
+<para>Create a
+<link xlink:href="/apidoc/org/nineml/coffeegrinder/parser/EarleyParser.html">parser</link>.
+</para>
+</callout>
+<callout arearefs="ex_result">
+<para>Parse some input.
+</para>
+</callout>
+<callout arearefs="ex_success">
+<para>Examine the
+<link xlink:href="/apidoc/org/nineml/coffeegrinder/parser/EarleyResult.html">results</link>.
+</para>
+</callout>
+<callout arearefs="ex_forest">
+<para>Obtain the
+<link xlink:href="/apidoc/org/nineml/coffeegrinder/parser/ParseForest.html">forest</link>.
+</para>
+</callout>
+<callout arearefs="ex_tree">
+<para>Get the (first)
+<link xlink:href="/apidoc/org/nineml/coffeegrinder/parser/ParseTree.html">parse tree</link>.
+</para>
+</callout>
+<callout arearefs="ex_amb">
+<para>If the parse was ambiguous, you can get additional parse trees.
+</para>
+</callout>
+</calloutlist>
+</programlistingco>
 </chapter>
 
 </book>

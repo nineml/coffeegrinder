@@ -14,14 +14,16 @@ public class HygieneReport {
 
     private final Grammar grammar;
     private final HashSet<Rule> unproductiveRules;
-    private final HashSet<NonterminalSymbol> unproductiveNonterminals;
+    private final HashSet<NonterminalSymbol> unproductiveSymbols;
     private final HashSet<NonterminalSymbol> unreachableSymbols;
+    private final HashSet<NonterminalSymbol> undefinedSymbols;
 
     protected HygieneReport(Grammar grammar) {
         this.grammar = grammar;
         unproductiveRules = new HashSet<>();
-        unproductiveNonterminals = new HashSet<>();
+        unproductiveSymbols = new HashSet<>();
         unreachableSymbols = new HashSet<>();
+        undefinedSymbols = new HashSet<>();
     }
 
     /**
@@ -30,8 +32,9 @@ public class HygieneReport {
      */
     public boolean isClean() {
         return unproductiveRules.isEmpty()
-                && unproductiveNonterminals.isEmpty()
-                && unreachableSymbols.isEmpty();
+                && unproductiveSymbols.isEmpty()
+                && unreachableSymbols.isEmpty()
+                && undefinedSymbols.isEmpty();
     }
 
     /**
@@ -57,7 +60,7 @@ public class HygieneReport {
      * @return the unproductive symbols.
      */
     public Set<NonterminalSymbol> getUnproductiveSymbols() {
-        return unproductiveNonterminals;
+        return unproductiveSymbols;
     }
 
     /**
@@ -66,6 +69,14 @@ public class HygieneReport {
      */
     public Set<NonterminalSymbol> getUnreachableSymbols() {
         return unreachableSymbols;
+    }
+
+    /**
+     * Get the unreachable symbols.
+     * @return the unreachable symbols.
+     */
+    public Set<NonterminalSymbol> getUndefinedSymbols() {
+        return undefinedSymbols;
     }
 
     protected void addUnreachable(NonterminalSymbol symbol) {
@@ -79,12 +90,23 @@ public class HygieneReport {
         }
     }
 
-    protected void addUnproductive(NonterminalSymbol symbol) {
-        if (unproductiveNonterminals.contains(symbol)) {
+    protected void addUndefined(NonterminalSymbol symbol) {
+        if (undefinedSymbols.contains(symbol)) {
             return;
         }
 
-        unproductiveNonterminals.add(symbol);
+        undefinedSymbols.add(symbol);
+        if (!grammar.isOpen()) {
+            grammar.getParserOptions().logger.warn(logcategory, "Undefined symbol: %s", symbol);
+        }
+    }
+
+    protected void addUnproductive(NonterminalSymbol symbol) {
+        if (unproductiveSymbols.contains(symbol)) {
+            return;
+        }
+
+        unproductiveSymbols.add(symbol);
         if (!grammar.isOpen()) {
             grammar.getParserOptions().logger.warn(logcategory, "Unproductive symbol: %s", symbol);
         }
