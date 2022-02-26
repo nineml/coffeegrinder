@@ -1,7 +1,6 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.GrammarException;
-import org.nineml.coffeegrinder.util.Messages;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.*;

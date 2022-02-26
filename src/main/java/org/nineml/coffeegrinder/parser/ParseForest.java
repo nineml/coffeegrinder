@@ -2,7 +2,6 @@ package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ForestException;
 import org.nineml.coffeegrinder.util.DefaultTreeWalker;
-import org.nineml.coffeegrinder.util.Messages;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -105,6 +104,14 @@ public class ParseForest {
             }
         }
         return ambiguity;
+    }
+
+    /**
+     * Get the options for this forest.
+     * @return the options.
+     */
+    public ParserOptions getOptions() {
+        return options;
     }
 
     public ParseTree parse() {

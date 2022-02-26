@@ -19,7 +19,6 @@ import static org.nineml.coffeegrinder.parser.ForestNode.MAX_LONG;
 public class DefaultTreeWalker implements TreeWalker {
     private final ParseForest forest;
     private final TreeBuilder builder;
-    private final Messages messages;
     private final ArrayList<ForestNode> roots = new ArrayList<>();
     private final HashMap<ForestNode, NodeChoices> choiceMap = new HashMap<>();
     private int rootIndex = 0;
@@ -30,24 +29,10 @@ public class DefaultTreeWalker implements TreeWalker {
      * Construct the default tree walker for the given forest.
      * @param forest The forest
      * @param builder The builder to use
-     * @param messages The messages object will be used to print any progress or status or warning messages
-     */
-    public DefaultTreeWalker(ParseForest forest, TreeBuilder builder, Messages messages) {
-        this.builder = builder;
-        this.forest = forest;
-        this.messages = messages;
-        reset();
-    }
-
-    /**
-     * Construct the default tree walker for the given forest.
-     * @param forest The forest
-     * @param builder The builder to use
      */
     public DefaultTreeWalker(ParseForest forest, TreeBuilder builder) {
         this.builder = builder;
         this.forest = forest;
-        this.messages = null;
         reset();
     }
 
@@ -188,7 +173,7 @@ public class DefaultTreeWalker implements TreeWalker {
         if (node.getFamilies().size() > 1) {
             NodeChoices remaining;
             if (!choiceMap.containsKey(node)) {
-                remaining = new NodeChoices(node, messages);
+                remaining = new NodeChoices(node, forest.getOptions());
                 if (remaining.families.isEmpty()) {
                     // they were all loops
                     return null;

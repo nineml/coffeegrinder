@@ -2,7 +2,6 @@ package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.tokens.Token;
-import org.nineml.coffeegrinder.util.Messages;
 
 import java.util.ArrayList;
 import java.util.Iterator;
