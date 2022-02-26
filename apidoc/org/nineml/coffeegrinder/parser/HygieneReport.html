@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -157,24 +157,30 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/HygieneReport.html#getUndefinedSymbols--">getUndefinedSymbols</a></span>()</code>
+<div class="block">Get the unreachable symbols.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/HygieneReport.html#getUnproductiveRules--">getUnproductiveRules</a></span>()</code>
 <div class="block">Get the unproductive rules.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/HygieneReport.html#getUnproductiveSymbols--">getUnproductiveSymbols</a></span>()</code>
 <div class="block">Get the unproductive symbols.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/HygieneReport.html#getUnreachableSymbols--">getUnreachableSymbols</a></span>()</code>
 <div class="block">Get the unreachable symbols.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/HygieneReport.html#isClean--">isClean</a></span>()</code>
 <div class="block">Is this grammar "clean"?</div>
@@ -284,10 +290,24 @@ extends java.lang.Object</pre>
 <a name="getUnreachableSymbols--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getUnreachableSymbols</h4>
 <pre>public&nbsp;java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&gt;&nbsp;getUnreachableSymbols()</pre>
+<div class="block">Get the unreachable symbols.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the unreachable symbols.</dd>
+</dl>
+</li>
+</ul>
+<a name="getUndefinedSymbols--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getUndefinedSymbols</h4>
+<pre>public&nbsp;java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&gt;&nbsp;getUndefinedSymbols()</pre>
 <div class="block">Get the unreachable symbols.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>

@@ -114,12 +114,12 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre>public class <span class="typeNameLabel">SystemLogger</span>
 extends <a href="../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></pre>
-<div class="block">The system logger interfaces to a logging backend via a logging backend.
+<div class="block">The system logger routes messages to another logging framework.
 
  <p>This class supports either configuration with <code>org.slf4j.Logger</code> or
  configuration directly with a <code>java.util.logging.Logger</code>.</p>
 
- <p>This logger makes it easy to configure the resolver to log through a standard
+ <p>This logger makes it easy to configure logging through a standard
  logging framework, as might be present on a Java application server. By default
  the logger uses the <code>org.slf4j.LoggerFactory</code> to create a logger. This logger
  can be supported at runtime by a wide variety of concrete backend classes. For details
