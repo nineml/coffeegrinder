@@ -4,7 +4,6 @@ import org.nineml.coffeegrinder.exceptions.GrammarException;
 import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.util.Iterators;
-import org.nineml.coffeegrinder.util.Messages;
 
 import java.util.*;
 

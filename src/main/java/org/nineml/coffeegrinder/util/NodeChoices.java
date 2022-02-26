@@ -3,22 +3,25 @@ package org.nineml.coffeegrinder.util;
 import org.nineml.coffeegrinder.exceptions.TreeWalkerException;
 import org.nineml.coffeegrinder.parser.Family;
 import org.nineml.coffeegrinder.parser.ForestNode;
+import org.nineml.coffeegrinder.parser.ParserOptions;
+import org.nineml.logging.Logger;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NodeChoices {
+    public static final String logcategory = "NodeChoices";
     private final ForestNode node;
-    private final Messages messages;
+    protected final ParserOptions options;
     protected final ArrayList<Family> families = new ArrayList<>();
     protected final ArrayList<BigInteger> chooseW = new ArrayList<>();
     protected final ArrayList<BigInteger> chooseV = new ArrayList<>();
     private int index = 0;
 
-    protected NodeChoices(ForestNode node, Messages messages) {
+    protected NodeChoices(ForestNode node, ParserOptions options) {
         this.node = node;
-        this.messages = messages;
+        this.options = options;
         reset();
     }
 
@@ -74,16 +77,12 @@ public class NodeChoices {
             chooseV.set(index, v);
         } else {
             index++;
-            if (messages != null) {
-                messages.debug("Changing %s :: %d", node, index);
-            }
+            options.logger.trace(logcategory, "Changing %s :: %d", node, index);
         }
 
         if (index == families.size()) {
             index = 0;
-            if (messages != null) {
-                messages.debug("Resetting %s :: %d", node, index);
-            }
+            options.logger.trace(Logger.logcategory, "Resetting %s :: %d", node, index);
             reset();
         }
 
