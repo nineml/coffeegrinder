@@ -24,7 +24,7 @@ public class EarleyParser {
     private final Grammar grammar;
     private final ParseForest graph;
     private final NonterminalSymbol S;
-    private final HashMap<NonterminalSymbol, ArrayList<Rule>> Rho;
+    private final HashMap<NonterminalSymbol, List<Rule>> Rho;
     private final ArrayList<Token> tokenBuffer = new ArrayList<>();
     private boolean success = false;
     protected final ParserOptions options;
@@ -63,7 +63,14 @@ public class EarleyParser {
         S = seed;
         options = grammar.getParserOptions();
         graph = new ParseForest(options);
-        validate();
+
+        // Add special rules for undefined symbols. If any attempt is made to access
+        // the RHS of an UndefinedSymbolRule, it will throw the appropriate grammar
+        // exception. This approach means we don't have to test if the symbol is
+        // in Rho every time we access a symbol.
+        for (NonterminalSymbol nt : grammar.undefinedSymbols()) {
+            Rho.put(nt, Collections.singletonList(new UndefinedSymbolRule(nt)));
+        }
     }
 
     /**
@@ -429,25 +436,17 @@ public class EarleyParser {
         }
     }
 
-    private void validate() {
-        HashSet<NonterminalSymbol> definedNames = new HashSet<>();
-        HashSet<NonterminalSymbol> usedNames = new HashSet<>();
+    private static class UndefinedSymbolRule extends Rule {
+        private final NonterminalSymbol nt;
 
-        for (NonterminalSymbol rsymbol : Rho.keySet()) {
-            definedNames.add(rsymbol);
-            for (Rule rule : Rho.get(rsymbol)) {
-                for (Symbol symbol: rule.getRhs()) {
-                    if (symbol instanceof NonterminalSymbol) {
-                        usedNames.add((NonterminalSymbol) symbol);
-                    }
-                }
-            }
+        public UndefinedSymbolRule(NonterminalSymbol symbol) {
+            super(symbol);
+            nt = symbol;
         }
 
-        for (NonterminalSymbol nt : usedNames) {
-            if (!definedNames.contains(nt)) {
-                throw GrammarException.noRuleForSymbol(nt.toString());
-            }
+        @Override
+        public List<Symbol> getRhs() {
+            throw GrammarException.noRuleForSymbol(nt.toString());
         }
     }
 }

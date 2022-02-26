@@ -345,6 +345,29 @@ public class Grammar {
         }
     }
 
+    protected List<NonterminalSymbol> undefinedSymbols() {
+        HashSet<NonterminalSymbol> definedNames = new HashSet<>();
+        HashSet<NonterminalSymbol> usedNames = new HashSet<>();
+
+        for (Rule rule : rules) {
+            definedNames.add(rule.getSymbol());
+            for (Symbol s : rule.getRhs()) {
+                if (s instanceof NonterminalSymbol) {
+                    usedNames.add((NonterminalSymbol) s);
+                }
+            }
+        }
+
+        ArrayList<NonterminalSymbol> unused = new ArrayList<>();
+        for (NonterminalSymbol nt : usedNames) {
+            if (!definedNames.contains(nt)) {
+                unused.add(nt);
+            }
+        }
+
+        return unused;
+    }
+
     /**
      * Get a hygiene report for the specified start symbol.
      * <p>See {@link #checkHygiene(NonterminalSymbol)}.</p>
@@ -364,12 +387,17 @@ public class Grammar {
      */
     public HygieneReport checkHygiene(NonterminalSymbol seed) {
         HygieneReport report = new HygieneReport(this);
+
         HashSet<NonterminalSymbol> reachable = new HashSet<>();
         walk(seed, reachable);
         for (Rule rule : rules) {
             if (!reachable.contains(rule.getSymbol())) {
                 report.addUnreachable(rule.getSymbol());
             }
+        }
+
+        for (NonterminalSymbol nt : undefinedSymbols()) {
+            report.addUndefined(nt);
         }
 
         // What about unproductive non-terminals?

@@ -2,10 +2,60 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.nineml.coffeegrinder.exceptions.GrammarException;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.logging.Logger;
 
+import static org.junit.Assert.fail;
+
 public class GrammarTest {
+
+    @Test
+    public void undefinedNonterminal() {
+        Grammar grammar = new Grammar();
+
+        /*
+        S: A ; B
+        A: 'a', X
+        B: 'b', Y
+        X: 'x'
+        // Y is undefined
+         */
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _B = grammar.getNonterminal("B");
+        NonterminalSymbol _X = grammar.getNonterminal("X");
+        NonterminalSymbol _Y = grammar.getNonterminal("Y");
+
+        grammar.addRule(_S, _A);
+        grammar.addRule(_S, _B);
+        grammar.addRule(_A, TerminalSymbol.ch('a'), _X);
+        grammar.addRule(_B, TerminalSymbol.ch('b'), _Y);
+        grammar.addRule(_X, TerminalSymbol.ch('x'));
+
+        grammar.close();
+
+        HygieneReport report = grammar.checkHygiene(_S);
+        Assertions.assertFalse(report.isClean());
+        Assertions.assertEquals(1, report.getUndefinedSymbols().size());
+        Assertions.assertTrue(report.getUndefinedSymbols().contains(_Y));
+
+        String input = "ax";
+
+        EarleyParser parser = grammar.getParser(_S);
+        EarleyResult result = parser.parse(input);
+        Assert.assertTrue(result.succeeded());
+
+        try {
+            input = "by";
+            result = parser.parse(input);
+            fail();
+        } catch (GrammarException ex) {
+            Assertions.assertEquals(GrammarException.noRuleForSymbol("spoon").getCode(), ex.getCode());
+        }
+    }
 
     @Test
     public void unusedNonterminal() {
