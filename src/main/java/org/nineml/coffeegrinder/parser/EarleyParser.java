@@ -347,7 +347,11 @@ public class EarleyParser {
 
         EarleyResult result;
         if (success) {
-            options.logger.info(logcategory, "Parse succeeded, %d tokens at %4.2f tokens/sec", tokenCount, tokenCount / ((endTime-startTime) / 1000.0));
+            if (tokenCount == 0 || endTime == startTime) {
+                options.logger.info(logcategory, "Parse succeeded");
+            } else {
+                options.logger.info(logcategory, "Parse succeeded, %d tokens at %4.2f tokens/sec", tokenCount, tokenCount / ((endTime-startTime) / 1000.0));
+            }
 
             int count = graph.prune();
             options.logger.debug(logcategory, "Pruned %d nodes from graph", count);
@@ -359,7 +363,11 @@ public class EarleyParser {
                 result = new EarleyResult(this, graph, success, tokenCount, lastInputToken);
             }
         } else {
-            options.logger.info(logcategory, "Parse failed after %d tokens at %4.2f tokens/sec", tokenCount, tokenCount / ((endTime-startTime) / 1000.0));
+            if (endTime == startTime) {
+                options.logger.info(logcategory, "Parse failed after %d tokens", tokenCount);
+            } else {
+                options.logger.info(logcategory, "Parse failed after %d tokens at %4.2f tokens/sec", tokenCount, tokenCount / ((endTime-startTime) / 1000.0));
+            }
             if (options.prefixParsing && checkpoint >= 0) {
                 graph.rollback(checkpoint);
                 int count = graph.prune();
