@@ -7,6 +7,7 @@ import org.nineml.coffeegrinder.parser.EarleyParser;
 import org.nineml.coffeegrinder.parser.EarleyResult;
 import org.nineml.coffeegrinder.parser.Grammar;
 import org.nineml.coffeegrinder.parser.ParserOptions;
+import org.nineml.coffeegrinder.util.DefaultProgressMonitor;
 import org.nineml.coffeegrinder.util.GrammarCompiler;
 import org.nineml.coffeegrinder.util.GrammarParser;
 import org.nineml.coffeegrinder.util.Iterators;
@@ -64,12 +65,13 @@ public class IxmlTest {
         }
     }
 
-    @Ignore
+    @Test
     public void testIxmlParse() {
         try {
-            GrammarParser gparser = new GrammarParser();
-            Grammar grammar = gparser.parseFile("src/test/resources/ixml.grammar");
-            //grammar.getParseListener().setMessageLevel(ParseListener.DEBUG);
+            Grammar grammar = new GrammarCompiler().parse(new File("src/test/resources/ixml.cxml"));
+
+            TestProgressMonitor monitor = new TestProgressMonitor();
+            grammar.getParserOptions().monitor = monitor;
 
             FileInputStream fis = new FileInputStream(new File("src/test/resources/ixml.ixml"));
             StringBuilder sb = new StringBuilder();
@@ -82,7 +84,7 @@ public class IxmlTest {
             long start = Calendar.getInstance().getTimeInMillis();
 
             String input = sb.toString();
-            EarleyParser parser = grammar.getParser(grammar.getNonterminal("_0"));
+            EarleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
             EarleyResult result = parser.parse(Iterators.characterIterator(input));
 
             long end = Calendar.getInstance().getTimeInMillis();
@@ -98,9 +100,37 @@ public class IxmlTest {
             fos.close();
             */
 
+            Assert.assertTrue(monitor.started);
+            Assert.assertTrue(monitor.ran);
+            Assert.assertTrue(monitor.finished);
             Assert.assertTrue(result.succeeded());
         } catch (Exception ex) {
             fail();
+        }
+    }
+
+    private static class TestProgressMonitor extends DefaultProgressMonitor {
+        public boolean started = false;
+        public boolean ran = false;
+        public boolean finished = false;
+
+        @Override
+        public int starting(EarleyParser parser) {
+            int size = super.starting(parser);
+            started = true;
+            return size;
+        }
+
+        @Override
+        public void progress(EarleyParser parser, long count) {
+            super.progress(parser, count);
+            ran = true;
+        }
+
+        @Override
+        public void finished(EarleyParser parser) {
+            super.finished(parser);
+            finished = true;
         }
     }
 }

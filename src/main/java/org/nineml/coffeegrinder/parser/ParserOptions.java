@@ -38,6 +38,13 @@ public class ParserOptions {
     public Logger logger;
 
     /**
+     * The progress monitor.
+     * <p>If this option is not null, the monitor will be called before, during, and after
+     * the parse.</p>
+     */
+    public ProgressMonitor monitor = null;
+
+    /**
      * The default constructor.
      * <p>This object is intended to be just a collection of publicly modifiable fields. The
      * default constructor creates a {@link DefaultLogger} and uses {@link DefaultLogger#readSystemProperties readSystemProperties()}

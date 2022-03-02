@@ -28,6 +28,9 @@ public class EarleyParser {
     private boolean success = false;
     protected final ParserOptions options;
     protected Iterator<Token> iterator;
+    protected ProgressMonitor monitor = null;
+    protected int progressSize = 0;
+    protected int progressCount = 0;
 
     protected EarleyParser(Grammar grammar, NonterminalSymbol seed) {
         if (grammar.isOpen()) {
@@ -109,6 +112,12 @@ public class EarleyParser {
     public EarleyResult parse(Iterator<Token> input) {
         iterator = input;
 
+        monitor = options.monitor;
+        if (monitor != null) {
+            progressSize = monitor.starting(this);
+            progressCount = progressSize;
+        }
+
         ArrayList<EarleyItem> Q = new ArrayList<>();
         ArrayList<EarleyItem> Qprime = new ArrayList<>();
         int tokenCount = 0;
@@ -148,6 +157,15 @@ public class EarleyParser {
         int i = 0;
         while (!done) {
             currentToken = nextToken;
+
+            if (progressSize > 0) {
+                if (progressCount == 0) {
+                    monitor.progress(this, tokenCount);
+                    progressCount = progressSize - 1;
+                } else {
+                    progressCount--;
+                }
+            }
 
             if (currentToken != null) {
                 lastInputToken = currentToken;
@@ -309,6 +327,11 @@ public class EarleyParser {
             done = done || (chart.get(i).isEmpty() && Qprime.isEmpty());
         }
 
+        if (progressSize > 0 && progressCount > 0) {
+            monitor.progress(this, tokenCount);
+            progressCount = 0;
+        }
+
         long endTime = Calendar.getInstance().getTimeInMillis();
 
         // If there are still tokens left, we bailed early. (No pun intended.)
@@ -369,6 +392,11 @@ public class EarleyParser {
         }
 
         result.setParseTime(endTime - startTime);
+
+        if (monitor != null) {
+            monitor.finished(this);
+        }
+
         return result;
     }
 
