@@ -130,18 +130,24 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#monitor">monitor</a></span></code>
+<div class="block">The progress monitor.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#prefixParsing">prefixParsing</a></span></code>
 <div class="block">If a parse fails, but some prefix of the input was successfully parsed, make that available.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#returnChart">returnChart</a></span></code>
 <div class="block">Return the Earley chart even for a successful parse?</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#treesWithStates">treesWithStates</a></span></code>
 <div class="block">Return intermediate "state" nodes in parse trees?</div>
@@ -239,7 +245,7 @@ extends java.lang.Object</pre>
 <a name="logger">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>logger</h4>
 <pre>public&nbsp;<a href="../../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a> logger</pre>
@@ -247,6 +253,18 @@ extends java.lang.Object</pre>
  <p>The logger controls what messages are issued, and how. This component is also used by
  higher-level components such as CoffeeFilter, CoffeePot, and CoffeeSacks.</p>
  <p>Must not be null.</p></div>
+</li>
+</ul>
+<a name="monitor">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>monitor</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a> monitor</pre>
+<div class="block">The progress monitor.
+ <p>If this option is not null, the monitor will be called before, during, and after
+ the parse.</p></div>
 </li>
 </ul>
 </li>

@@ -268,6 +268,12 @@
 <dd>
 <div class="block">Create a default listener with a particular message level.</div>
 </dd>
+<dt><a href="org/nineml/coffeegrinder/util/DefaultProgressMonitor.html" title="class in org.nineml.coffeegrinder.util"><span class="typeNameLink">DefaultProgressMonitor</span></a> - Class in <a href="org/nineml/coffeegrinder/util/package-summary.html">org.nineml.coffeegrinder.util</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#DefaultProgressMonitor--">DefaultProgressMonitor()</a></span> - Constructor for class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/DefaultProgressMonitor.html" title="class in org.nineml.coffeegrinder.util">DefaultProgressMonitor</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#DefaultProgressMonitor-int-">DefaultProgressMonitor(int)</a></span> - Constructor for class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/DefaultProgressMonitor.html" title="class in org.nineml.coffeegrinder.util">DefaultProgressMonitor</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="org/nineml/coffeegrinder/util/DefaultTreeBuilder.html" title="class in org.nineml.coffeegrinder.util"><span class="typeNameLink">DefaultTreeBuilder</span></a> - Class in <a href="org/nineml/coffeegrinder/util/package-summary.html">org.nineml.coffeegrinder.util</a></dt>
 <dd>
 <div class="block">The default tree builder.</div>
@@ -424,6 +430,12 @@
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/Iterators.html#fileIterator-java.lang.String-">fileIterator(String)</a></span> - Static method in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/Iterators.html" title="class in org.nineml.coffeegrinder.util">Iterators</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ProgressMonitor.html#finished-org.nineml.coffeegrinder.parser.EarleyParser-">finished(EarleyParser)</a></span> - Method in interface org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></dt>
+<dd>
+<div class="block">Indicates that the parse has finished.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#finished-org.nineml.coffeegrinder.parser.EarleyParser-">finished(EarleyParser)</a></span> - Method in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/DefaultProgressMonitor.html" title="class in org.nineml.coffeegrinder.util">DefaultProgressMonitor</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="org/nineml/coffeegrinder/exceptions/ForestException.html" title="class in org.nineml.coffeegrinder.exceptions"><span class="typeNameLink">ForestException</span></a> - Exception in <a href="org/nineml/coffeegrinder/exceptions/package-summary.html">org.nineml.coffeegrinder.exceptions</a></dt>
 <dd>
 <div class="block">Exceptions that arise processing the shared packed parse forest (SPPF).</div>
@@ -440,6 +452,8 @@
 <dd>
 <div class="block">A node in the SPPF.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#frequency">frequency</a></span> - Static variable in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/DefaultProgressMonitor.html" title="class in org.nineml.coffeegrinder.util">DefaultProgressMonitor</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:G">
 <!--   -->
@@ -1174,6 +1188,10 @@
 <dd>
 <div class="block">Raised if an element is missing a required xml:id</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParserOptions.html#monitor">monitor</a></span> - Variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a></dt>
+<dd>
+<div class="block">The progress monitor.</div>
+</dd>
 </dl>
 <a name="I:N">
 <!--   -->
@@ -1340,6 +1358,16 @@
 <dd>
 <div class="block">Did the parse match the beginning of the input?</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ProgressMonitor.html#progress-org.nineml.coffeegrinder.parser.EarleyParser-long-">progress(EarleyParser, long)</a></span> - Method in interface org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></dt>
+<dd>
+<div class="block">Indicates progress in the parse.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#progress-org.nineml.coffeegrinder.parser.EarleyParser-long-">progress(EarleyParser, long)</a></span> - Method in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/DefaultProgressMonitor.html" title="class in org.nineml.coffeegrinder.util">DefaultProgressMonitor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser"><span class="typeNameLink">ProgressMonitor</span></a> - Interface in <a href="org/nineml/coffeegrinder/parser/package-summary.html">org.nineml.coffeegrinder.parser</a></dt>
+<dd>
+<div class="block">The ProgressMonitor allows you to track the progress of a parse.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/ParserAttribute.html#PRUNING">PRUNING</a></span> - Static variable in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/ParserAttribute.html#PRUNING_ALLOWED">PRUNING_ALLOWED</a></span> - Static variable in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a></dt>
@@ -1478,6 +1506,12 @@
 <dd>
 <div class="block">How big is the graph?</div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ProgressMonitor.html#starting-org.nineml.coffeegrinder.parser.EarleyParser-">starting(EarleyParser)</a></span> - Method in interface org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></dt>
+<dd>
+<div class="block">Indicates that the parse is about to begin.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#starting-org.nineml.coffeegrinder.parser.EarleyParser-">starting(EarleyParser)</a></span> - Method in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/DefaultProgressMonitor.html" title="class in org.nineml.coffeegrinder.util">DefaultProgressMonitor</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParseTreeBuilder.html#startNode-org.nineml.coffeegrinder.parser.ForestNode-">startNode(ForestNode)</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParseTreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">ParseTreeBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/TreeBuilder.html#startNode-org.nineml.coffeegrinder.parser.ForestNode-">startNode(ForestNode)</a></span> - Method in interface org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/TreeBuilder.html" title="interface in org.nineml.coffeegrinder.parser">TreeBuilder</a></dt>
