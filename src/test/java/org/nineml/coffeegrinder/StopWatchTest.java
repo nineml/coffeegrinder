@@ -32,6 +32,7 @@ public class StopWatchTest {
         StopWatch stopWatch = new StopWatch();
         try {
             Thread.sleep(500);
+            stopWatch.stop();
         } catch (InterruptedException ex) {
             fail();
         }
@@ -39,8 +40,8 @@ public class StopWatchTest {
         // I don't trust Thread.sleep to be that accurate...
         double perS = Double.parseDouble(stopWatch.perSecond(1000));
 
-        Assertions.assertTrue(perS > 1.9);
-        Assertions.assertTrue(perS < 2.1);
+        Assertions.assertTrue(perS > 1999.0);
+        Assertions.assertTrue(perS < 2001.0);
     }
 
     @Test
