@@ -4,6 +4,7 @@ import org.nineml.coffeegrinder.exceptions.GrammarException;
 import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.util.Iterators;
+import org.nineml.coffeegrinder.util.StopWatch;
 
 import java.util.*;
 
@@ -146,8 +147,6 @@ public class EarleyParser {
             }
         }
 
-        long startTime = Calendar.getInstance().getTimeInMillis();
-
         Token nextToken = currentToken;
         boolean buffering = false;
         boolean consumedInput = true;
@@ -155,6 +154,9 @@ public class EarleyParser {
         boolean lastToken = false;
         int checkpoint = -1;
         int i = 0;
+
+        StopWatch timer = new StopWatch();
+
         while (!done) {
             currentToken = nextToken;
 
@@ -182,6 +184,7 @@ public class EarleyParser {
             Qprime.clear();
 
             while (!R.isEmpty()) {
+                options.logger.trace(logcategory, "Processing R: %d", R.size());
                 EarleyItem Lambda = R.remove(0);
                 if (Lambda.state != null && Lambda.state.nextSymbol() instanceof NonterminalSymbol) {
                     NonterminalSymbol C = (NonterminalSymbol) Lambda.state.nextSymbol();
@@ -207,6 +210,7 @@ public class EarleyParser {
                         }
                     }
 
+                    options.logger.trace(logcategory, "Processing H: %d", H.size());
                     for (Hitem hitem : H) {
                         if (hitem.symbol.equals(C)) {
                             State newState = Lambda.state.advance();
@@ -243,6 +247,7 @@ public class EarleyParser {
                     }
                     int hpos = 0;
                     while (hpos < chart.get(h).size()) {
+                        options.logger.trace(logcategory, "Processing chart: %d: %d of %d", h, hpos, chart.get(h).size());
                         EarleyItem item = chart.get(h).get(hpos);
                         if (item.state != null && D.equals(item.state.nextSymbol())) {
                             State newState = item.state.advance();
@@ -267,6 +272,7 @@ public class EarleyParser {
             }
 
             if (chart.size() > 0) {
+                options.logger.trace(logcategory, "Processing chart: %d: %d", chart.size()-1, chart.get(chart.size()-1).size());
                 for (EarleyItem item : chart.get(chart.size()-1)) {
                     ArrayList<ForestNode> localRoots = new ArrayList<>();
                     if (item.state.completed() && item.j == 0 && item.state.getSymbol().equals(S)) {
@@ -307,6 +313,7 @@ public class EarleyParser {
             }
 
             while (!Q.isEmpty()) {
+                options.logger.trace(logcategory, "Processing Q: %d", Q.size());
                 EarleyItem Lambda = Q.remove(0);
                 State nextState = Lambda.state.advance();
                 ForestNode y = make_node(nextState, Lambda.j, i+1, Lambda.w, v);
@@ -327,12 +334,14 @@ public class EarleyParser {
             done = done || (chart.get(i).isEmpty() && Qprime.isEmpty());
         }
 
-        if (progressSize > 0 && progressCount > 0) {
-            monitor.progress(this, tokenCount);
-            progressCount = 0;
-        }
+        timer.stop();
 
-        long endTime = Calendar.getInstance().getTimeInMillis();
+        if (monitor != null) {
+            if (progressSize > 0) {
+                monitor.progress(this, tokenCount);
+            }
+            monitor.finished(this);
+        }
 
         // If there are still tokens left, we bailed early. (No pun intended.)
         if (input.hasNext() || !tokenBuffer.isEmpty()) {
@@ -370,10 +379,11 @@ public class EarleyParser {
 
         EarleyResult result;
         if (success) {
-            if (tokenCount == 0 || endTime == startTime) {
+            if (tokenCount == 0 || timer.duration() == 0) {
                 options.logger.info(logcategory, "Parse succeeded");
             } else {
-                options.logger.info(logcategory, "Parse succeeded, %d tokens at %4.2f tokens/sec", tokenCount, tokenCount / ((endTime-startTime) / 1000.0));
+                options.logger.info(logcategory, "Parse succeeded, %d tokens in %s (%s tokens/sec)",
+                        tokenCount, timer.elapsed(), timer.perSecond(tokenCount));
             }
 
             int count = graph.prune();
@@ -386,10 +396,11 @@ public class EarleyParser {
                 result = new EarleyResult(this, graph, success, tokenCount, lastInputToken);
             }
         } else {
-            if (endTime == startTime) {
+            if (timer.duration() == 0) {
                 options.logger.info(logcategory, "Parse failed after %d tokens", tokenCount);
             } else {
-                options.logger.info(logcategory, "Parse failed after %d tokens at %4.2f tokens/sec", tokenCount, tokenCount / ((endTime-startTime) / 1000.0));
+                options.logger.info(logcategory, "Parse failed after %d tokens in %s (%s tokens/sec)",
+                        tokenCount, timer.elapsed(), timer.perSecond(tokenCount));
             }
             if (options.prefixParsing && checkpoint >= 0) {
                 graph.rollback(checkpoint);
@@ -399,11 +410,7 @@ public class EarleyParser {
             result = new EarleyResult(this, chart, graph, success, tokenCount, lastInputToken);
         }
 
-        result.setParseTime(endTime - startTime);
-
-        if (monitor != null) {
-            monitor.finished(this);
-        }
+        result.setParseTime(timer.duration());
 
         return result;
     }

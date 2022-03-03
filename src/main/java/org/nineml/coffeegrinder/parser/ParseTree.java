@@ -133,31 +133,6 @@ public class ParseTree {
                         id, xml, getSymbol() instanceof NonterminalSymbol ? "nonterminal" : "terminal");
             }
 
-            /*
-            boolean ambiguous = forest.isAmbiguous();
-            long totalParses = forest.treeManager.getTotalParses(node);  <- this isn't really a root
-            if (totalParses != 1) {
-                String parseCountStr, totalParseStr;
-                if (totalParses == Long.MAX_VALUE) {
-                    BigInteger total = forest.treeManager.getExactTotalParses();
-                    totalParseStr = total.toString();
-                    parseCountStr = total.subtract(forest.treeManager.getExactRemainingParses()).add(TreeManager.ONE).toString();
-                } else {
-                    long remainingParses = forest.treeManager.getRemainingParses(node);
-                    parseCountStr = "" + (totalParses - remainingParses + 1);
-                    totalParseStr = "" + totalParses;
-                }
-                stream.printf("%s parseNumber='%s' parseCount='%s'", ambiguous ? " ambiguous='true'" : "", parseCountStr, totalParseStr);
-            }
-             */
-            /*
-            if (parsenumber != null) {
-                stream.printf("%s parseNumber='%s' parseCount='%s'", ambiguous ? " ambiguous='true'" : "", parsenumber, totalparses);
-            } else {
-                stream.printf("%s", ambiguous ? " ambiguous='true'" : "");
-            }
-             */
-
             if (children.isEmpty()) {
                 if (nonterminal) {
                     stream.printf("><epsilon/></%s>\n", localName);

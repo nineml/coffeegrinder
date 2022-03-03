@@ -519,9 +519,7 @@ public class GrammarCompiler {
     }
 
     private Grammar parse(InputSource source) {
-        ParserOptions localOptions = new ParserOptions(options);
-        localOptions.treesWithStates = true;
-        grammar = new Grammar(localOptions);
+        grammar = new Grammar(options);
         properties = new ArrayList<>();
 
         initializeDigest();
