@@ -54,15 +54,4 @@ public class ParserOptions {
         logger = new DefaultLogger();
         logger.readSystemProperties();
     }
-
-    /**
-     * A copy constructor.
-     * @param copy the options to copy.
-     */
-    public ParserOptions(ParserOptions copy) {
-        returnChart = copy.returnChart;
-        prefixParsing = copy.prefixParsing;
-        treesWithStates = copy.treesWithStates;
-        logger = copy.logger;
-    }
 }

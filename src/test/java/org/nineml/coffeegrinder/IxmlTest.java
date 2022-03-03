@@ -23,7 +23,6 @@ public class IxmlTest {
     public void testRuleParse() {
         try {
             ParserOptions options = new ParserOptions();
-            options.treesWithStates = true;
             Grammar grammar = new GrammarCompiler().parse(new File("src/test/resources/ixml.cxml"));
             grammar.setParserOptions(options);
 
