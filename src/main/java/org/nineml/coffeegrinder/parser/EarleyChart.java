@@ -38,6 +38,9 @@ public class EarleyChart {
     /**
      * Determine if an item is in the chart.
      * <p>This method will be faster than a linear search of the row.</p>
+     * @param row the row to search
+     * @param item the item to search form
+     * @return true if the row contains the item
      */
     public boolean contains(int row, EarleyItem item) {
         assureRow(row);
