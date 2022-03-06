@@ -6,6 +6,8 @@ import org.nineml.coffeegrinder.util.DefaultTreeWalker;
 import java.io.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import static java.lang.Math.abs;
@@ -20,6 +22,8 @@ public class ParseForest {
 
     protected final ArrayList<ForestNode> graph = new ArrayList<>();
     protected final ArrayList<ForestNode> roots = new ArrayList<>();
+    protected final HashSet<Integer> graphIds = new HashSet<>();
+    protected final HashSet<Integer> rootIds = new HashSet<>();
     protected final ParserOptions options;
     private Ambiguity ambiguity = null;
     private boolean ambiguous = false;
@@ -33,6 +37,7 @@ public class ParseForest {
     /**
      * Is the grammar represented by this graph ambiguous?
      * <p>A grammar is ambiguous if there are more than two parses that will recognize the input.</p>
+     *
      * @return true if the grammar is ambiguous
      */
     public boolean isAmbiguous() {
@@ -44,6 +49,7 @@ public class ParseForest {
      * <p>Briefly: if the graph contains a loop. Consider: if a graph contains a nonterminal that can match the
      * empty string, then a parse that uses that nonterminal 0 times will match the sentence. But it will
      * also match the sentence if it uses that nonterminal 1, 2, 3...or any arbitrary number of times.</p>
+     *
      * @return true if the parse forest is infinitely ambiguous
      */
     public boolean isInfinitelyAmbiguous() {
@@ -52,6 +58,7 @@ public class ParseForest {
 
     /**
      * How big is the graph?
+     *
      * @return the number of nodes in the graph
      */
     public int size() {
@@ -60,6 +67,7 @@ public class ParseForest {
 
     /**
      * Get the nodes in the graph.
+     *
      * @return the nodes in the graph.
      */
     public List<ForestNode> getNodes() {
@@ -68,6 +76,7 @@ public class ParseForest {
 
     /**
      * Get the root nodes in the graph.
+     *
      * @return the nodes in the graph.
      */
     public List<ForestNode> getRoots() {
@@ -108,6 +117,7 @@ public class ParseForest {
 
     /**
      * Get the options for this forest.
+     *
      * @return the options.
      */
     public ParserOptions getOptions() {
@@ -136,6 +146,7 @@ public class ParseForest {
 
     /**
      * Serialize the graph as XML.
+     *
      * @return an XML serialization as a string
      */
     public String serialize() {
@@ -151,6 +162,7 @@ public class ParseForest {
 
     /**
      * Serialize the graph as XML.
+     *
      * @param stream the stream on which to write the XML serialization
      */
     public void serialize(PrintStream stream) {
@@ -186,9 +198,6 @@ public class ParseForest {
                     stream.printf(" label=\"%s, %d, %d\" state=\"%s\"", symstr, node.j, node.i, stastr);
                 }
                 if (node.symbol instanceof TerminalSymbol) {
-                    if (node.state != null) {
-                        System.err.println( node.state.toString().replaceAll("\"","&quot;"));
-                    }
                     stream.print(" type='terminal'");
                 } else {
                     stream.print(" type='nonterminal'");
@@ -226,6 +235,7 @@ public class ParseForest {
     /**
      * Serialize the graph as XML.
      * <p>This method attempts to write the XML to a file.</p>
+     *
      * @param filename the name of the file
      * @throws ForestException if a error occurs attempt to write to the file
      */
@@ -242,39 +252,43 @@ public class ParseForest {
     }
 
     protected ForestNode createNode(Symbol symbol, int j, int i) {
-        ForestNode testnode = new ForestNode(this, symbol, j, i);
-        return getOrAddNode(testnode);
+        ForestNode node = new ForestNode(this, symbol, j, i);
+        graph.add(node);
+        graphIds.add(node.id);
+        return node;
     }
 
     protected ForestNode createNode(Symbol symbol, State state, int j, int i) {
-        ForestNode testnode = new ForestNode(this, symbol, state, j, i);
-        return getOrAddNode(testnode);
+        ForestNode node = new ForestNode(this, symbol, state, j, i);
+        graph.add(node);
+        graphIds.add(node.id);
+        return node;
     }
 
     protected ForestNode createNode(State state, int j, int i) {
-        ForestNode testnode = new ForestNode(this, state, j, i);
-        return getOrAddNode(testnode);
+        ForestNode node = new ForestNode(this, state, j, i);
+        graph.add(node);
+        graphIds.add(node.id);
+        return node;
     }
 
     protected void root(ForestNode w) {
-        for (ForestNode node : roots) {
-            if (node.equals(w)) {
-                return;
-            }
+        if (rootIds.contains(w.id)) {
+            return;
         }
 
-        for (ForestNode node : graph) {
-            if (node.equals(w)) {
-                roots.add(w);
-                return;
-            }
+        if (graphIds.contains(w.id)) {
+            roots.add(w);
+            rootIds.add(w.id);
+            return;
         }
 
         throw ForestException.noSuchNode(w.toString());
     }
 
     protected void clearRoots() {
-        roots.clear();;
+        roots.clear();
+        rootIds.clear();
     }
 
     protected int prune() {
@@ -298,9 +312,11 @@ public class ParseForest {
 
         int count = 0;
         ArrayList<ForestNode> prunedGraph = new ArrayList<>();
+        HashSet<Integer> prunedMap = new HashSet<>();
         for (ForestNode node : graph) {
             if (node.reachable) {
                 prunedGraph.add(node);
+                prunedMap.add(node.id);
             } else {
                 count++;
             }
@@ -308,6 +324,8 @@ public class ParseForest {
 
         graph.clear();
         graph.addAll(prunedGraph);
+        graphIds.clear();
+        graphIds.addAll(prunedMap);
 
         options.logger.trace(logcategory, "Graph contained %d unreachable nodes", count);
 
@@ -323,23 +341,14 @@ public class ParseForest {
         }
     }
 
-    private ForestNode getOrAddNode(ForestNode testnode) {
-        for (ForestNode node : graph) {
-            if (node.equals(testnode)) {
-                return node;
-            }
-        }
-        graph.add(testnode);
-        return testnode;
-    }
-
     protected void rollback(int size) {
         if (size < 0) {
             throw new IllegalArgumentException("Cannot rollback to less than zero nodes");
         }
         while (graph.size() > size) {
-            graph.remove(graph.size() - 1);
+            ForestNode node = graph.remove(graph.size() - 1);
+            graphIds.remove(node.id);
+            rootIds.remove(node.id);
         }
     }
-
 }

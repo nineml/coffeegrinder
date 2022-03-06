@@ -27,9 +27,18 @@ public class ForestNode {
     protected final ParseForest graph;
     protected final Symbol symbol;
     protected final State state;
-    protected final int i;
-    protected final int j;
-    protected final int id;
+    /**
+     * The last position in the input covered by this node.
+     */
+    public final int i;
+    /**
+     * The first position in the input covered by this node.
+     */
+    public final int j;
+    /**
+     * This node's unique identifier.
+     */
+    public final int id;
     protected final ArrayList<Family> families = new ArrayList<>();
     protected final ArrayList<Family> loops = new ArrayList<>();
     protected boolean reachable = false;
@@ -56,6 +65,8 @@ public class ForestNode {
         id = nextNodeId++;
     }
 
+    // N.B. This is a *symbol* node, the state is just being carried along so that we can tell
+    // what rule defined this symbol. That can be useful when analysing the parse tree.
     protected ForestNode(ParseForest graph, Symbol symbol, State state, int j, int i) {
         this.graph = graph;
         this.symbol = symbol;
@@ -467,12 +478,12 @@ public class ForestNode {
 
     @Override
     public int hashCode() {
-        int code = 31 * id;
+        int code = (17 * i) + (31 * j);
         if (symbol != null) {
-            code += 3 * symbol.hashCode();
-        }
-        if (state != null) {
-            code += 17 * state.hashCode();
+            code += 11 * symbol.hashCode();
+        } else {
+            assert state != null;
+            code += 13 * state.hashCode();
         }
         return code;
     }
