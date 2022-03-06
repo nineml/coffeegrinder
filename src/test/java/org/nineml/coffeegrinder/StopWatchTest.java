@@ -40,18 +40,18 @@ public class StopWatchTest {
         // I don't trust Thread.sleep to be that accurate...
         double perS = Double.parseDouble(stopWatch.perSecond(1000));
 
-        Assertions.assertTrue(perS > 1999.0);
-        Assertions.assertTrue(perS < 2001.0);
+        Assertions.assertTrue(perS > 1900.0);
+        Assertions.assertTrue(perS < 2100.0);
     }
 
     @Test
     public void testFormatter() {
         StopWatch stopWatch = new StopWatch();
-        Assertions.assertEquals("3s", stopWatch.elapsed(3000));
-        Assertions.assertEquals("30s", stopWatch.elapsed(30000));
-        Assertions.assertEquals("5m1s", stopWatch.elapsed(301000));
-        Assertions.assertEquals("50m10s", stopWatch.elapsed(3010000));
-        Assertions.assertEquals("1d4h36m50s", stopWatch.elapsed(103010000));
-        Assertions.assertEquals("24d8h10m10s", stopWatch.elapsed(2103010000));
+        Assertions.assertEquals("3.01s", stopWatch.elapsed(3010));
+        Assertions.assertEquals("30.00s", stopWatch.elapsed(30000));
+        Assertions.assertEquals("5m1.00s", stopWatch.elapsed(301000));
+        Assertions.assertEquals("50m10.00s", stopWatch.elapsed(3010000));
+        Assertions.assertEquals("1d4h36m50.00s", stopWatch.elapsed(103010000));
+        Assertions.assertEquals("24d8h10m10.00s", stopWatch.elapsed(2103010000));
     }
 }

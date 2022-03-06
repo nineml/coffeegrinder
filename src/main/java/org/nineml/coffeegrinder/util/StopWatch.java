@@ -97,7 +97,7 @@ public class StopWatch {
         if (days > 0 || hours > 0 || minutes > 0) {
             sb.append(minutes).append("m");
         }
-        sb.append((int) left / 1000).append("s");
+        sb.append(String.format("%1.2f", (1.0*left/1000.0))).append("s");
 
         return sb.toString();
     }

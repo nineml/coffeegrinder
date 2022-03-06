@@ -22,6 +22,7 @@ public class DefaultProgressMonitor implements ProgressMonitor {
 
     /**
      * Create a monitor with a specific update interval.
+     * @param size the update frequency
      */
     public DefaultProgressMonitor(int size) {
         this.size = size;
