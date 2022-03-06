@@ -1,6 +1,7 @@
 package org.nineml.coffeegrinder.parser;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -8,9 +9,11 @@ import java.util.List;
  */
 public class EarleyChart {
     private final ArrayList<ArrayList<EarleyItem>> chart;
+    private final ArrayList<HashSet<EarleyItem>> rowmaps;
 
     protected EarleyChart() {
         chart = new ArrayList<>();
+        rowmaps = new ArrayList<>();
     }
 
     /**
@@ -32,27 +35,34 @@ public class EarleyChart {
         return chart.get(row);
     }
 
+    /**
+     * Determine if an item is in the chart.
+     * <p>This method will be faster than a linear search of the row.</p>
+     */
+    public boolean contains(int row, EarleyItem item) {
+        assureRow(row);
+        return rowmaps.get(row).contains(item);
+    }
+
     protected void clear() {
         chart.clear();
+        rowmaps.clear();
     }
 
     protected ArrayList<ArrayList<EarleyItem>> rows() {
         return chart;
     }
 
-    protected void add(List<EarleyItem> row) {
-        ArrayList<EarleyItem> data = new ArrayList<>(row);
-        chart.add(data);
-    }
-
     protected void add(int row, EarleyItem item) {
         assureRow(row);
+        rowmaps.get(row).add(item);
         chart.get(row).add(item);
     }
 
     private void assureRow(int row) {
         if (chart.size() <= row) {
             chart.add(new ArrayList<>());
+            rowmaps.add(new HashSet<>());
         }
     }
 }

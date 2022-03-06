@@ -17,6 +17,7 @@ public class State {
     private final NonterminalSymbol symbol;
     private final Symbol[] rhs;
     private final int position;
+    private Integer cachedCode = null;
 
     protected State(Rule rule) {
         symbol = rule.getSymbol();
@@ -115,7 +116,10 @@ public class State {
 
     @Override
     public int hashCode() {
-        return symbol.hashCode() + (13 * position) + Arrays.hashCode(rhs);
+        if (cachedCode == null) {
+            cachedCode = symbol.hashCode() + (13 * position) + Arrays.hashCode(rhs);
+        }
+        return cachedCode;
     }
 
     @Override

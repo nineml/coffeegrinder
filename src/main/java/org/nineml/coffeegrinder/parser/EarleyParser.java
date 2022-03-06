@@ -20,7 +20,7 @@ public class EarleyParser {
     public static final String logcategory = "Parser";
 
     private final EarleyChart chart = new EarleyChart();
-    private final ArrayList<ForestNode> V = new ArrayList<>();
+    private final ForestNodeSet V;
     private final Grammar grammar;
     private final ParseForest graph;
     private final NonterminalSymbol S;
@@ -66,6 +66,7 @@ public class EarleyParser {
         S = seed;
         options = grammar.getParserOptions();
         graph = new ParseForest(options);
+        V = new ForestNodeSet(graph);
 
         // Add special rules for undefined symbols. If any attempt is made to access
         // the RHS of an UndefinedSymbolRule, it will throw the appropriate grammar
@@ -157,6 +158,8 @@ public class EarleyParser {
 
         StopWatch timer = new StopWatch();
 
+        ArrayList<Hitem> H = new ArrayList<>();
+
         while (!done) {
             currentToken = nextToken;
 
@@ -175,7 +178,7 @@ public class EarleyParser {
                 options.logger.trace(logcategory, "Parsing token %d: %s", tokenCount, currentToken);
             }
 
-            ArrayList<Hitem> H = new ArrayList<>();
+            H.clear();
             ArrayList<EarleyItem> R = new ArrayList<>(chart.get(i));
 
             Q.clear();
@@ -184,7 +187,7 @@ public class EarleyParser {
             Qprime.clear();
 
             while (!R.isEmpty()) {
-                options.logger.trace(logcategory, "Processing R: %d", R.size());
+                //options.logger.trace(logcategory, "Processing R: %d", R.size());
                 EarleyItem Lambda = R.remove(0);
                 if (Lambda.state != null && Lambda.state.nextSymbol() instanceof NonterminalSymbol) {
                     NonterminalSymbol C = (NonterminalSymbol) Lambda.state.nextSymbol();
@@ -195,7 +198,7 @@ public class EarleyParser {
                         }
                         if (delta == null || delta instanceof NonterminalSymbol) {
                             EarleyItem item = new EarleyItem(new State(rule), i, null);
-                            if (!chart.get(i).contains(item)) {
+                            if (!chart.contains(i, item)) {
                                 chart.add(i, item);
                                 R.add(item);
                                 consumedInput = consumedInput || delta != null;
@@ -210,7 +213,7 @@ public class EarleyParser {
                         }
                     }
 
-                    options.logger.trace(logcategory, "Processing H: %d", H.size());
+                    //options.logger.trace(logcategory, "Processing H: %d", H.size());
                     for (Hitem hitem : H) {
                         if (hitem.symbol.equals(C)) {
                             State newState = Lambda.state.advance();
@@ -218,7 +221,7 @@ public class EarleyParser {
                             Symbol Beta = newState.nextSymbol();
                             EarleyItem item = new EarleyItem(newState, Lambda.j, y);
                             if (Beta == null || Beta instanceof NonterminalSymbol) {
-                                if (!chart.get(i).contains(item)) {
+                                if (!chart.contains(i, item)) {
                                     chart.add(i, item);
                                     R.add(item);
                                     consumedInput = consumedInput || Beta != null;
@@ -239,7 +242,7 @@ public class EarleyParser {
                     int h = Lambda.j;
                     NonterminalSymbol D = Lambda.state.getSymbol();
                     if (w == null) {
-                        w = graph.createNode(D, Lambda.state, i, i);;
+                        w = V.conditionallyCreateNode(D, Lambda.state, i, i);
                         w.addFamily(null);
                     }
                     if (h == i) {
@@ -247,7 +250,7 @@ public class EarleyParser {
                     }
                     int hpos = 0;
                     while (hpos < chart.get(h).size()) {
-                        options.logger.trace(logcategory, "Processing chart: %d: %d of %d", h, hpos, chart.get(h).size());
+                        //options.logger.trace(logcategory, "Processing chart: %d: %d of %d", h, hpos, chart.get(h).size());
                         EarleyItem item = chart.get(h).get(hpos);
                         if (item.state != null && D.equals(item.state.nextSymbol())) {
                             State newState = item.state.advance();
@@ -255,7 +258,7 @@ public class EarleyParser {
                             Symbol delta = newState.nextSymbol();
                             EarleyItem nextItem = new EarleyItem(newState, item.j, y);
                             if (delta == null || delta instanceof NonterminalSymbol) {
-                                if (!chart.get(i).contains(nextItem)) {
+                                if (!chart.contains(i, nextItem)) {
                                     chart.add(i, nextItem);
                                     R.add(nextItem);
                                     consumedInput = consumedInput || delta != null;
@@ -272,7 +275,7 @@ public class EarleyParser {
             }
 
             if (chart.size() > 0) {
-                options.logger.trace(logcategory, "Processing chart: %d: %d", chart.size()-1, chart.get(chart.size()-1).size());
+                //options.logger.trace(logcategory, "Processing chart: %d: %d", chart.size()-1, chart.get(chart.size()-1).size());
                 for (EarleyItem item : chart.get(chart.size()-1)) {
                     ArrayList<ForestNode> localRoots = new ArrayList<>();
                     if (item.state.completed() && item.j == 0 && item.state.getSymbol().equals(S)) {
@@ -313,14 +316,14 @@ public class EarleyParser {
             }
 
             while (!Q.isEmpty()) {
-                options.logger.trace(logcategory, "Processing Q: %d", Q.size());
+                //options.logger.trace(logcategory, "Processing Q: %d", Q.size());
                 EarleyItem Lambda = Q.remove(0);
                 State nextState = Lambda.state.advance();
                 ForestNode y = make_node(nextState, Lambda.j, i+1, Lambda.w, v);
                 Symbol Beta = nextState.nextSymbol();
                 if (Beta == null || Beta instanceof NonterminalSymbol) {
                     EarleyItem nextItem = new EarleyItem(nextState, Lambda.j, y);
-                    if (!chart.get(i+1).contains(nextItem)) {
+                    if (!chart.contains(i+1, nextItem)) {
                         chart.add(i+1, nextItem);
                     }
                 }
@@ -415,26 +418,29 @@ public class EarleyParser {
         return result;
     }
 
-    private ForestNode make_node(State state, int j, int i, ForestNode w, ForestNode v) {
+    private ForestNode make_node(State B, int j, int i, ForestNode w, ForestNode v) {
         ForestNode y;
-        if (state.completed()) {
-            y = graph.createNode(state.getSymbol(), state, j, i);
-        } else {
-            if (state.getPosition() == 1) {
-                // alpha is epsilon
-                return v;
+
+        if (B.completed()) {
+            Symbol s = B.getSymbol();
+            y = V.conditionallyCreateNode(s, B, j, i);
+            if (w == null) {
+                y.addFamily(v);
+            } else {
+                y.addFamily(w, v);
             }
-            y = graph.createNode(state, j, i);
-        }
-
-        if (!V.contains(y)) {
-            V.add(y);
-        }
-
-        if (w == null) {
-            y.addFamily(v);
         } else {
-            y.addFamily(w,v);
+            State s = B;
+            if (B.getPosition() == 1 && !B.completed()) {
+                y = v;
+            } else {
+                y = V.conditionallyCreateNode(s, j, i);
+                if (w == null) {
+                    y.addFamily(v);
+                } else {
+                    y.addFamily(w, v);
+                }
+            }
         }
 
         return y;
