@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10};
+var methods = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -129,12 +129,19 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyChart.html#contains-int-org.nineml.coffeegrinder.parser.EarleyItem-">contains</a></span>(int&nbsp;row,
+        <a href="../../../../org/nineml/coffeegrinder/parser/EarleyItem.html" title="class in org.nineml.coffeegrinder.parser">EarleyItem</a>&nbsp;item)</code>
+<div class="block">Determine if an item is in the chart.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/EarleyItem.html" title="class in org.nineml.coffeegrinder.parser">EarleyItem</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyChart.html#get-int-">get</a></span>(int&nbsp;row)</code>
 <div class="block">Get a row from the chart.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyChart.html#size--">size</a></span>()</code>
 <div class="block">How big is the chart?</div>
@@ -179,7 +186,7 @@ extends java.lang.Object</pre>
 <a name="get-int-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
 <pre>public&nbsp;java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/EarleyItem.html" title="class in org.nineml.coffeegrinder.parser">EarleyItem</a>&gt;&nbsp;get(int&nbsp;row)</pre>
@@ -191,6 +198,18 @@ extends java.lang.Object</pre>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the contents of the row.</dd>
 </dl>
+</li>
+</ul>
+<a name="contains-int-org.nineml.coffeegrinder.parser.EarleyItem-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>contains</h4>
+<pre>public&nbsp;boolean&nbsp;contains(int&nbsp;row,
+                        <a href="../../../../org/nineml/coffeegrinder/parser/EarleyItem.html" title="class in org.nineml.coffeegrinder.parser">EarleyItem</a>&nbsp;item)</pre>
+<div class="block">Determine if an item is in the chart.
+ <p>This method will be faster than a linear search of the row.</p></div>
 </li>
 </ul>
 </li>
