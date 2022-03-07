@@ -2,8 +2,11 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.nineml.logging.DefaultLogger;
 import org.nineml.logging.Logger;
+
+import java.util.Set;
 
 import static junit.framework.TestCase.fail;
 
@@ -125,6 +128,36 @@ public class LoggerTest {
         }
     }
 
+    @Test
+    public void testCategories() {
+        Logger logger = new DefaultLogger();
+        logger.setLogLevels("a:1,b:2,c:info,d:warning");
 
+        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("a"));
+        Assert.assertEquals(Logger.WARNING, logger.getLogLevel("b"));
+        Assert.assertEquals(Logger.INFO, logger.getLogLevel("c"));
+        Assert.assertEquals(Logger.WARNING, logger.getLogLevel("d"));
 
+        Set<String> cats = logger.getLogCategories();
+        Assertions.assertTrue(cats.contains("a"));
+        Assertions.assertTrue(cats.contains("b"));
+        Assertions.assertTrue(cats.contains("c"));
+        Assertions.assertTrue(cats.contains("d"));
+        Assertions.assertEquals(4, cats.size());
+    }
+
+    @Test
+    public void testClear() {
+        Logger logger = new DefaultLogger();
+        logger.setLogLevels("a:1,b:2,c:info,d:warning");
+
+        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("a"));
+
+        Set<String> cats = logger.getLogCategories();
+        Assertions.assertTrue(cats.contains("a"));
+        Assertions.assertEquals(4, cats.size());
+
+        logger.clearLogLevels();
+        Assertions.assertEquals(0, logger.getLogCategories().size());
+    }
 }

@@ -2,10 +2,9 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.nineml.coffeegrinder.parser.*;
-import org.nineml.coffeegrinder.tokens.CharacterSet;
-import org.nineml.coffeegrinder.tokens.TokenCharacter;
-import org.nineml.coffeegrinder.tokens.TokenCharacterSet;
+import org.nineml.coffeegrinder.tokens.*;
 import org.nineml.coffeegrinder.util.GrammarCompiler;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
@@ -122,5 +121,37 @@ public class CompilerTest {
         */
 
         Assert.assertEquals(cxml, compiled);
+    }
+
+    @Test
+    public void compileNulls() {
+        GrammarCompiler compiler = new GrammarCompiler();
+        Grammar grammar = new Grammar();
+
+        /*
+        letters: letter+#0.
+        letter: ['A'-'Z'; 'a'-'z'].
+         */
+
+        NonterminalSymbol letters = grammar.getNonterminal("letters");
+        NonterminalSymbol letter = grammar.getNonterminal("letter");
+        NonterminalSymbol optmore = grammar.getNonterminal("optmore");
+
+        grammar.addRule(letter, new TerminalSymbol(TokenRegex.get("[a-z]")));
+        grammar.addRule(letters, letter, optmore);
+        grammar.addRule(optmore);
+        grammar.addRule(optmore, new TerminalSymbol(TokenCharacter.get('\0')), letter, optmore);
+        grammar.addRule(optmore, new TerminalSymbol(TokenString.get("\1\2\3" + (char) 0x81 + "test")), letter, optmore);
+
+        String cxml = compiler.compile(grammar);
+
+        grammar = compiler.parse(cxml);
+
+        EarleyParser parser = grammar.getParser(letters);
+        EarleyResult result = parser.parse("a\0b\0c");
+
+        Assert.assertTrue(result.succeeded());
+
+        Assertions.assertEquals(cxml, compiler.compile(grammar));
     }
 }

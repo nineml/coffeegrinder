@@ -1,6 +1,7 @@
 package org.nineml.logging;
 
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * The abstract class that all concrete loggers must extend.
@@ -58,7 +59,7 @@ public abstract class Logger {
 
     private int defaultLogLevel = ERROR;
 
-    private static final HashMap<String,Integer> logLevels = new HashMap<>();
+    private final HashMap<String,Integer> logLevels = new HashMap<>();
 
     /**
      * Set the log levels by reading system properties.
@@ -139,6 +140,14 @@ public abstract class Logger {
     }
 
     /**
+     * Get all of the configured log level categories
+     * @return the set of categories
+     */
+    public Set<String> getLogCategories() {
+        return logLevels.keySet();
+    }
+
+    /**
      * Get the log level for a particular category.
      * <p>Category names are not case sensitive.</p>
      * @param category the category
@@ -205,6 +214,15 @@ public abstract class Logger {
                 error(logcategory, "Cannot parse log level setting: %s", pair);
             }
         }
+    }
+
+    /**
+     * Clear the log levels.
+     * <p>This method removes all configured log levels. All subsequent logging (until more
+     * levels are set) will be based entirely on the default log level.</p>
+     */
+    public void clearLogLevels() {
+        logLevels.clear();
     }
 
     protected String message(String category, int level, String message, Object... params) {
