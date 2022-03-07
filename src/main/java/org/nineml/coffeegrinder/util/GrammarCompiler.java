@@ -308,16 +308,29 @@ public class GrammarCompiler {
 
     private String xmlChar(char ch) {
         updateDigest(ch);
-        StringBuilder sb = new StringBuilder();
-        sb.appendCodePoint(ch);
-        if (ch < 32 || (ch >= 0x80 && ch <= 0x9f)) {
-            return String.format("&#x%x;", (int) ch);
-        }
         if (entities.containsKey(ch)) {
             return entities.get(ch);
-        } else {
+        }
+
+        if (ch == '\\') {
+            return "&#x5c;";
+        }
+
+        // Java characters that are also valid XML characters
+        boolean ok = ch == 0x09 /*tab*/ || ch == 0x0a /*lf*/ || ch == 0x0d /*cr*/ ;
+        ok = ok || (ch >= 0x20 && ch <= 0xd7ff);
+        ok = ok || (ch >= 0xe000 && ch <= 0xfffd);
+
+        if (ok) {
+            if (ch < 32 || (ch >= 0x80 && ch <= 0x9f)) {
+                return String.format("&#x%x;", (int) ch);
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.appendCodePoint(ch);
             return sb.toString();
         }
+
+        return String.format("\\U+%04x;", (int) ch);
     }
 
     private String unxmlString(String xml) {
@@ -334,25 +347,37 @@ public class GrammarCompiler {
             }
         }
 
-        StringBuilder nsb = new StringBuilder();
-        int pos = value.indexOf("&#x");
-        while (pos >= 0) {
-            nsb.append(value, 0, pos);
-            value = value.substring(pos+3);
-            pos = value.indexOf(";");
-            if (pos <= 0) {
-                throw CompilerException.invalidNameEscaping(value, xml);
-            }
-            String hex = value.substring(0, pos);
-            nsb.appendCodePoint(Integer.parseInt(hex, 16));
-            value = value.substring(pos+1);
-            pos = value.indexOf("&#x");
-        }
-        nsb.append(value);
+        // Do \U+ first because there may be "\"'s in the hex encoded chars
+        value = unescape("\\U+", value);
+        value = unescape("&#x", value);
+
         if (updateDigest) {
-            updateDigest(nsb.toString());
+            updateDigest(value);
         }
-        return nsb.toString();
+
+        return value;
+    }
+
+    private String unescape(String prefix, String value) {
+        int pos = value.indexOf(prefix);
+        if (pos >= 0) {
+            StringBuilder nsb = new StringBuilder();
+            while (pos >= 0) {
+                nsb.append(value, 0, pos);
+                value = value.substring(pos+prefix.length());
+                pos = value.indexOf(";");
+                if (pos <= 0) {
+                    throw CompilerException.invalidNameEscaping(value, value);
+                }
+                String hex = value.substring(0, pos);
+                nsb.appendCodePoint(Integer.parseInt(hex, 16));
+                value = value.substring(pos+1);
+                pos = value.indexOf(prefix);
+            }
+            nsb.append(value);
+            return nsb.toString();
+        }
+        return value;
     }
 
     private void standardAttributes(Collection<ParserAttribute> attributes) {
