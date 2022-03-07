@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6,"i2":10,"i3":10,"i4":6,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":6,"i12":6};
+var methods = {"i0":10,"i1":6,"i2":6,"i3":10,"i4":10,"i5":10,"i6":6,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":6,"i14":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -219,6 +219,12 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#clearLogLevels--">clearLogLevels</a></span>()</code>
+<div class="block">Clear the log levels.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>abstract void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#debug-java.lang.String-java.lang.String-java.lang.Object...-">debug</a></span>(java.lang.String&nbsp;category,
      java.lang.String&nbsp;format,
@@ -226,7 +232,7 @@ extends java.lang.Object</pre>
 <div class="block">Issue a debug message.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>abstract void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#error-java.lang.String-java.lang.String-java.lang.Object...-">error</a></span>(java.lang.String&nbsp;category,
      java.lang.String&nbsp;format,
@@ -234,19 +240,25 @@ extends java.lang.Object</pre>
 <div class="block">Issue an error message.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#getDefaultLogLevel--">getDefaultLogLevel</a></span>()</code>
 <div class="block">Get the default log level</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>java.util.Set&lt;java.lang.String&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#getLogCategories--">getLogCategories</a></span>()</code>
+<div class="block">Get all of the configured log level categories</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#getLogLevel-java.lang.String-">getLogLevel</a></span>(java.lang.String&nbsp;category)</code>
 <div class="block">Get the log level for a particular category.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>abstract void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#info-java.lang.String-java.lang.String-java.lang.Object...-">info</a></span>(java.lang.String&nbsp;category,
     java.lang.String&nbsp;format,
@@ -254,45 +266,45 @@ extends java.lang.Object</pre>
 <div class="block">Issue an informational message.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#readSystemProperties--">readSystemProperties</a></span>()</code>
 <div class="block">Set the log levels by reading system properties.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#setDefaultLogLevel-int-">setDefaultLogLevel</a></span>(int&nbsp;level)</code>
 <div class="block">Set the default log level.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#setDefaultLogLevel-java.lang.String-">setDefaultLogLevel</a></span>(java.lang.String&nbsp;level)</code>
 <div class="block">Set the default log level.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#setLogLevel-java.lang.String-int-">setLogLevel</a></span>(java.lang.String&nbsp;category,
            int&nbsp;level)</code>
 <div class="block">Set the log level for a particular category.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#setLogLevel-java.lang.String-java.lang.String-">setLogLevel</a></span>(java.lang.String&nbsp;category,
            java.lang.String&nbsp;level)</code>
 <div class="block">Set the log level for a particular category.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#setLogLevels-java.lang.String-">setLogLevels</a></span>(java.lang.String&nbsp;config)</code>
 <div class="block">Set the log levels for a set of categories.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>abstract void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#trace-java.lang.String-java.lang.String-java.lang.Object...-">trace</a></span>(java.lang.String&nbsp;category,
      java.lang.String&nbsp;format,
@@ -300,7 +312,7 @@ extends java.lang.Object</pre>
 <div class="block">Issue a trace message.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>abstract void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/nineml/logging/Logger.html#warn-java.lang.String-java.lang.String-java.lang.Object...-">warn</a></span>(java.lang.String&nbsp;category,
     java.lang.String&nbsp;format,
@@ -551,6 +563,20 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
+<a name="getLogCategories--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLogCategories</h4>
+<pre>public&nbsp;java.util.Set&lt;java.lang.String&gt;&nbsp;getLogCategories()</pre>
+<div class="block">Get all of the configured log level categories</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the set of categories</dd>
+</dl>
+</li>
+</ul>
 <a name="getLogLevel-java.lang.String-">
 <!--   -->
 </a>
@@ -625,6 +651,18 @@ extends java.lang.Object</pre>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>config</code> - the category.</dd>
 </dl>
+</li>
+</ul>
+<a name="clearLogLevels--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>clearLogLevels</h4>
+<pre>public&nbsp;void&nbsp;clearLogLevels()</pre>
+<div class="block">Clear the log levels.
+ <p>This method removes all configured log levels. All subsequent logging (until more
+ levels are set) will be based entirely on the default log level.</p></div>
 </li>
 </ul>
 <a name="error-java.lang.String-java.lang.String-java.lang.Object...-">
