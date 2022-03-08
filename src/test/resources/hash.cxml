@@ -36,7 +36,8 @@
 <r n="$9_option" a="?p" ag="g17"><nt n="d" ag="g8"/><nt n="$10_option" a="?p" ag="g18"/></r>
 <ag xml:id="g19" httpsǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.CoffeeGrinderǝ2f.attributesǝ2f.optionality="optional" name="$11_option" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
 <r n="$10_option" a="?p" ag="g18"><nt n="d" ag="g8"/><nt n="$11_option" a="?p" ag="g19"/></r>
-<r n="$11_option" a="?p" ag="g19"><nt n="d" ag="g8"/><nt n="d" a="?" ag="g8"/></r>
+<ag xml:id="g20" httpsǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.CoffeeGrinderǝ2f.attributesǝ2f.optionality="optional" name="d" mark="-"/>
+<r n="$11_option" a="?p" ag="g19"><nt n="d" ag="g8"/><nt n="d" a="?" ag="g20"/></r>
 <r n="d6" ag="g7"><nt n="d" ag="g8"/></r>
 <r n="$2" a="p" ag="g12"></r>
 <r n="$4" a="p" ag="g3"></r>
@@ -45,5 +46,5 @@
 <r n="$9_option" a="?p" ag="g17"><nt n="d" ag="g8"/></r>
 <r n="$10_option" a="?p" ag="g18"><nt n="d" ag="g8"/></r>
 <r n="$11_option" a="?p" ag="g19"><nt n="d" ag="g8"/></r>
-<check Σ="c054ad91e70e07b1"/>
+<check Σ="364953e237744a23"/>
 </grammar>

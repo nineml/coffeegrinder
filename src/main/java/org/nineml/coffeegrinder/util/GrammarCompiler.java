@@ -403,29 +403,13 @@ public class GrammarCompiler {
     }
 
     private boolean sameCollection(Collection<ParserAttribute> group, Collection<ParserAttribute> candidate) {
-        ArrayList<ParserAttribute> fgroup = new ArrayList<>();
-        ArrayList<ParserAttribute> fcandidate = new ArrayList<>();
-
-        for (ParserAttribute attr : group) {
-            if (!attr.getName().equals(Symbol.OPTIONAL.getName())
-                && !attr.getName().equals(ParserAttribute.PRUNING)) {
-                fgroup.add(attr);
+        if (group.size() == candidate.size()) {
+            for (ParserAttribute attr : candidate) {
+                if (!group.contains(attr)) {
+                    return false;
+                };
             }
-        }
-
-        for (ParserAttribute attr : candidate) {
-            if (!attr.getName().equals(Symbol.OPTIONAL.getName())
-                    && !attr.getName().equals(ParserAttribute.PRUNING)) {
-                fcandidate.add(attr);
-            }
-        }
-
-        if (fgroup.size() == fcandidate.size()) {
-            boolean same = true;
-            for (ParserAttribute attr : fcandidate) {
-                same = same && fgroup.contains(attr);
-            }
-            return same;
+            return true;
         }
         return false;
     }
