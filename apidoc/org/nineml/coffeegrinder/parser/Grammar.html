@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -227,75 +227,94 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
+<td class="colFirst"><code>java.util.Map&lt;java.lang.String,java.lang.String&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getMetadataProperies--">getMetadataProperies</a></span>()</code>
+<div class="block">Gets the metadata properties.</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getMetadataProperty-java.lang.String-">getMetadataProperty</a></span>(java.lang.String&nbsp;name)</code>
+<div class="block">Gets a metadata property.</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getNonterminal-java.lang.String-">getNonterminal</a></span>(java.lang.String&nbsp;name)</code>
 <div class="block">Return the nonterminal symbol identified by name for this grammar.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getNonterminal-java.lang.String-boolean-">getNonterminal</a></span>(java.lang.String&nbsp;name,
               boolean&nbsp;optional)</code>
 <div class="block">Return the nonterminal symbol identified by name.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getNonterminal-java.lang.String-java.util.Collection-">getNonterminal</a></span>(java.lang.String&nbsp;name,
               java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code>
 <div class="block">Return the nonterminal symbol identified by name.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getNonterminal-java.lang.String-org.nineml.coffeegrinder.util.ParserAttribute-">getNonterminal</a></span>(java.lang.String&nbsp;name,
               <a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&nbsp;attribute)</code>
 <div class="block">Return the nonterminal symbol identified by name.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html" title="class in org.nineml.coffeegrinder.parser">EarleyParser</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getParser-org.nineml.coffeegrinder.parser.NonterminalSymbol-">getParser</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</code>
 <div class="block">Get a parser for this grammar.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html" title="class in org.nineml.coffeegrinder.parser">EarleyParser</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getParser-java.lang.String-">getParser</a></span>(java.lang.String&nbsp;seed)</code>
 <div class="block">Get a parser for this grammar.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getParserOptions--">getParserOptions</a></span>()</code>
 <div class="block">Gets the parser options.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getRules--">getRules</a></span>()</code>
 <div class="block">What rules are in this grammar?</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#getSymbols--">getSymbols</a></span>()</code>
 <div class="block">Get the currently defined nonterminals in the grammar.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#isNullable-org.nineml.coffeegrinder.parser.NonterminalSymbol-">isNullable</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol)</code>
 <div class="block">Is a symbol nullable?</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#isOpen--">isOpen</a></span>()</code>
 <div class="block">Is this grammar still open, can you still add rules to it?</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i20" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#setMetadataProperty-java.lang.String-java.lang.String-">setMetadataProperty</a></span>(java.lang.String&nbsp;name,
+                   java.lang.String&nbsp;value)</code>
+<div class="block">Sets a metadata property.</div>
+</td>
+</tr>
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#setParserOptions-org.nineml.coffeegrinder.parser.ParserOptions-">setParserOptions</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a>&nbsp;options)</code>
 <div class="block">Sets the parser options.</div>
@@ -695,6 +714,68 @@ extends java.lang.Object</pre>
 <dd><code>candidate</code> - the candidat rule</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if the grammar contains an equivalent rule</dd>
+</dl>
+</li>
+</ul>
+<a name="setMetadataProperty-java.lang.String-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setMetadataProperty</h4>
+<pre>public&nbsp;void&nbsp;setMetadataProperty(java.lang.String&nbsp;name,
+                                java.lang.String&nbsp;value)</pre>
+<div class="block">Sets a metadata property.
+ <p>Metadata properties exist solely for annotations by an application. They have
+ no bearing on the function of the grammar. The <a href="../../../../org/nineml/coffeegrinder/util/GrammarCompiler.html" title="class in org.nineml.coffeegrinder.util"><code>GrammarCompiler</code></a>
+ stores metadata properties in the compiled grammar and they are restored when a parsed
+ grammar is loaded.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>name</code> - the name of the property</dd>
+<dd><code>value</code> - the value of the property, or null to remove a property</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.NullPointerException</code> - if the name is null</dd>
+</dl>
+</li>
+</ul>
+<a name="getMetadataProperty-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getMetadataProperty</h4>
+<pre>public&nbsp;java.lang.String&nbsp;getMetadataProperty(java.lang.String&nbsp;name)</pre>
+<div class="block">Gets a metadata property.
+ <p>Metadata properties exist solely for annotations by an application. They have
+ no bearing on the function of the grammar. The <a href="../../../../org/nineml/coffeegrinder/util/GrammarCompiler.html" title="class in org.nineml.coffeegrinder.util"><code>GrammarCompiler</code></a>
+ stores metadata properties in the compiled grammar and they are restored when a parsed
+ grammar is loaded.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>name</code> - the name of the property</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the value of the property, or null if no such property exists</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.NullPointerException</code> - if the name is null</dd>
+</dl>
+</li>
+</ul>
+<a name="getMetadataProperies--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getMetadataProperies</h4>
+<pre>public&nbsp;java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;getMetadataProperies()</pre>
+<div class="block">Gets the metadata properties.
+ <p>Metadata properties exist solely for annotations by an application. They have
+ no bearing on the function of the grammar. The <a href="../../../../org/nineml/coffeegrinder/util/GrammarCompiler.html" title="class in org.nineml.coffeegrinder.util"><code>GrammarCompiler</code></a>
+ stores metadata properties in the compiled grammar and they are restored when a parsed
+ grammar is loaded.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the metadata properties</dd>
 </dl>
 </li>
 </ul>
