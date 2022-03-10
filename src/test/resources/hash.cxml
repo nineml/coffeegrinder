@@ -1,6 +1,6 @@
 <grammar xmlns="http://nineml.org/coffeegrinder/ns/grammar/compiled" version="0.9.2">
-<meta name='Source' value='Invisible XML test suite'/>
 <meta name='Date' value='2022-01-30'/>
+<meta name='Source' value='Invisible XML test suite'/>
 <ag xml:id="g1" name="$$" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
 <ag xml:id="g2" name="hashes" mark="^"/>
 <r n="$$" a="p" ag="g1"><nt n="hashes" ag="g2"/></r>

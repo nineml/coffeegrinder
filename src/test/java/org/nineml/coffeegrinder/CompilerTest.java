@@ -98,27 +98,15 @@ public class CompilerTest {
         GrammarCompiler compiler = new GrammarCompiler();
         Grammar grammar = compiler.parse(cxml);
 
-        /*
-        System.err.println("=====");
-        System.err.println(compiler.compile(grammar));
-        System.err.println("=====");
-         */
-
         NonterminalSymbol start = grammar.getNonterminal("hashes");
         EarleyParser parser = grammar.getParser(start);
         EarleyResult result = parser.parse("#12.");
 
         Assert.assertTrue(result.succeeded());
 
-        compiler.setProperty("Source", "Invisible XML test suite");
-        compiler.setProperty("Date", "2022-01-30");
+        grammar.setMetadataProperty("Source", "Invisible XML test suite");
+        grammar.setMetadataProperty("Date", "2022-01-30");
         String compiled = compiler.compile(grammar);
-
-        /*
-        System.err.println("=====");
-        System.err.println(compiled);
-        System.err.println("=====");
-        */
 
         Assert.assertEquals(cxml, compiled);
     }

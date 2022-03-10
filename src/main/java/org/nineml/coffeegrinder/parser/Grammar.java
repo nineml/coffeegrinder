@@ -22,6 +22,7 @@ public class Grammar {
     private final HashSet<NonterminalSymbol> nonterminals;
     private final HashSet<NonterminalSymbol> nullable;
     protected final int id;
+    private final HashMap<String,String> metadata = new HashMap<>();
     private ParserOptions options;
     private boolean open = true;
 
@@ -297,6 +298,56 @@ public class Grammar {
             }
         }
         return false;
+    }
+
+    /**
+     * Sets a metadata property.
+     * <p>Metadata properties exist solely for annotations by an application. They have
+     * no bearing on the function of the grammar. The {@link org.nineml.coffeegrinder.util.GrammarCompiler GrammarCompiler}
+     * stores metadata properties in the compiled grammar and they are restored when a parsed
+     * grammar is loaded.</p>
+     * @param name the name of the property
+     * @param value the value of the property, or null to remove a property
+     * @throws NullPointerException if the name is null
+     */
+    public void setMetadataProperty(String name, String value) {
+        if (name == null) {
+            throw new NullPointerException("Name must not be null");
+        }
+        if (value == null) {
+            metadata.remove(name);
+        } else {
+            metadata.put(name, value);
+        }
+    }
+
+    /**
+     * Gets a metadata property.
+     * <p>Metadata properties exist solely for annotations by an application. They have
+     * no bearing on the function of the grammar. The {@link org.nineml.coffeegrinder.util.GrammarCompiler GrammarCompiler}
+     * stores metadata properties in the compiled grammar and they are restored when a parsed
+     * grammar is loaded.</p>
+     * @param name the name of the property
+     * @return the value of the property, or null if no such property exists
+     * @throws NullPointerException if the name is null
+     */
+    public String getMetadataProperty(String name) {
+        if (name == null) {
+            throw new NullPointerException("Name must not be null");
+        }
+        return metadata.getOrDefault(name, null);
+    }
+
+    /**
+     * Gets the metadata properties.
+     * <p>Metadata properties exist solely for annotations by an application. They have
+     * no bearing on the function of the grammar. The {@link org.nineml.coffeegrinder.util.GrammarCompiler GrammarCompiler}
+     * stores metadata properties in the compiled grammar and they are restored when a parsed
+     * grammar is loaded.</p>
+     * @return the metadata properties
+     */
+    public Map<String,String> getMetadataProperies() {
+        return metadata;
     }
 
     protected void computeNullable(Rule rule) {
