@@ -41,10 +41,9 @@ public class GrammarCompiler {
     private final HashMap<String,Collection<ParserAttribute>> agroups = new HashMap<>();
     private StringBuilder sb = null;
     private MessageDigest xdigest = null;
-    private Grammar grammar = null;
     private ParserOptions options = null;
     // A list rather than a Properties object so that order is preserved
-    private ArrayList<Property> properties = new ArrayList<>();
+    private HashMap<String,String> properties = new HashMap<>();
 
     /**
      * Construct a grammar compiler with default parser options.
@@ -59,10 +58,6 @@ public class GrammarCompiler {
      */
     public GrammarCompiler(ParserOptions options) {
         this.options = options;
-    }
-
-    public Grammar getGrammar() {
-        return grammar;
     }
 
     private void initializeDigest() {
@@ -80,41 +75,6 @@ public class GrammarCompiler {
 
     private void updateDigest(char value) {
         updateDigest(""+value);
-    }
-
-    private Property findProperty(String name) {
-        for (Property property : properties) {
-            if (property.name.equals(name)) {
-                return property;
-            }
-        }
-        return null;
-    }
-
-    public void setProperty(String name, String value) {
-        if (name == null) {
-            throw new NullPointerException("Name must not be null");
-        }
-        if ("".equals(name)) {
-            throw new IllegalArgumentException("Name must not be the empty string");
-        }
-        if (value == null) {
-            throw new NullPointerException("Value must not be null");
-        }
-        Property property = findProperty(name);
-        if (property == null) {
-            properties.add(new Property(name, value));
-        } else {
-            property.value = value;
-        }
-    }
-
-    public String getProperty(String name) {
-        Property property = findProperty(name);
-        if (property == null) {
-            return null;
-        }
-        return property.value;
     }
 
     /**
@@ -143,16 +103,20 @@ public class GrammarCompiler {
     public void compile(Grammar grammar, PrintStream ps) {
         initializeDigest();
         agroups.clear();
-        this.grammar = null;
         sb = new StringBuilder();
         sb.append("<grammar xmlns=\"").append(NS).append("\"");
         sb.append(" version=\"").append(formatVersion).append("\">\n");
 
-        for (Property property : properties) {
-            if (!"".equals(property.name)) {
-                sb.append("<meta name='").append(xmlString(property.name));
+        // Sort this list so that the order of the keys returned from the map
+        // doesn't have any bearing on the compiled grammar produced.
+        List<String> names = new ArrayList<> (grammar.getMetadataProperies().keySet());
+        Collections.sort(names);
+
+        for (String name : names) {
+            if (!"".equals(name)) {
+                sb.append("<meta name='").append(xmlString(name));
                 sb.append("' value='");
-                sb.append(xmlString(property.value));
+                sb.append(xmlString(grammar.getMetadataProperies().get(name)));
                 sb.append("'/>\n");
             }
         }
@@ -266,33 +230,6 @@ public class GrammarCompiler {
         sb.append("\"/>\n</grammar>\n");
 
         ps.print(sb);
-    }
-
-    public void compile(Grammar grammar, String filename) {
-        try {
-            FileOutputStream fos = new FileOutputStream(filename);
-            PrintStream stream = new PrintStream(fos);
-            compile(grammar, stream);
-            stream.close();
-            fos.close();
-        } catch (IOException ex) {
-            throw ForestException.ioError(filename, ex);
-        }
-    }
-
-    private List<ParserAttribute> filtered(Collection<ParserAttribute> attributes) {
-        if (attributes.isEmpty()) {
-            return Collections.emptyList();
-        }
-        ArrayList<ParserAttribute> filtered = new ArrayList<>();
-        for (ParserAttribute attr : attributes) {
-            if (!Symbol.OPTIONAL.getName().equals(attr.getName())
-                && !ParserAttribute.PRUNING.equals(attr.getName())) {
-                filtered.add(attr);
-            }
-        }
-
-        return filtered;
     }
 
     private String xmlString(String str) {
@@ -528,8 +465,8 @@ public class GrammarCompiler {
     }
 
     private Grammar parse(InputSource source) {
-        grammar = new Grammar(options);
-        properties = new ArrayList<>();
+        Grammar grammar = new Grammar(options);
+        properties = new HashMap<>();
 
         initializeDigest();
 
@@ -540,6 +477,10 @@ public class GrammarCompiler {
             SAXParser parser = factory.newSAXParser();
             GrammarContentHandler handler = new GrammarContentHandler(grammar);
             parser.parse(source, handler);
+
+            for (String name : properties.keySet()) {
+                grammar.setMetadataProperty(name, properties.get(name));
+            }
         } catch (IOException|SAXException|ParserConfigurationException ex) {
             throw CompilerException.errorReadingGrammar(ex.getMessage());
         }
@@ -929,7 +870,7 @@ public class GrammarCompiler {
             }
             name = unnameString(name, false);
             value = unxmlString(value, false);
-            setProperty(name, value);
+            properties.put(name, value);
         }
 
         @Override
@@ -943,15 +884,6 @@ public class GrammarCompiler {
             if (!"".equals(text.trim())) {
                 throw CompilerException.textNotAllowed(text);
             }
-        }
-    }
-
-    private static final class Property {
-        public String name;
-        public String value;
-        public Property(String name, String value) {
-            this.name = name;
-            this.value = value;
         }
     }
 }
