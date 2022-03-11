@@ -70,8 +70,8 @@ public class ParseTree {
      *
      * @return The parent node in the tree, or null if this is the root
      */
-    public ForestNode getParent() {
-        return node;
+    public ParseTree getParent() {
+        return parent;
     }
 
     /**
