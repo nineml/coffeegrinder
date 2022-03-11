@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":10,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":10,"i12":10,"i13":10};
+var methods = {"i0":10,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":10,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":10,"i13":10,"i14":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -137,88 +137,94 @@ extends <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#equals-java.lang.Object-">equals</a></span>(java.lang.Object&nbsp;obj)</code>
+<div class="block">Are two token character sets "equal"?</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacterSet</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#exclusion-org.nineml.coffeegrinder.tokens.CharacterSet...-">exclusion</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a>...&nbsp;ranges)</code>
 <div class="block">Create a character set terminal that matches any character <em>not</em> in the specified ranges.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacterSet</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#exclusion-org.nineml.coffeegrinder.tokens.CharacterSet-">exclusion</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a>&nbsp;range)</code>
 <div class="block">Create a character set terminal that matches any character <em>not</em> in the specified range.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacterSet</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#exclusion-org.nineml.coffeegrinder.tokens.CharacterSet-java.util.Collection-">exclusion</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a>&nbsp;range,
          java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code>
 <div class="block">Create a character set terminal that matches any character <em>not</em> in the specified range (with attributes).</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacterSet</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#exclusion-java.util.List-">exclusion</a></span>(java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a>&gt;&nbsp;range)</code>
 <div class="block">Create a character set terminal that matches any character <em>not</em> in any of the specified ranges.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacterSet</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#exclusion-java.util.List-java.util.Collection-">exclusion</a></span>(java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a>&gt;&nbsp;range,
          java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code>
 <div class="block">Create a character set terminal that matches any character <em>not</em> in any of the specified ranges (with attributes).</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#getCharacterSets--">getCharacterSets</a></span>()</code>
 <div class="block">What are the character sets?</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacterSet</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#inclusion-org.nineml.coffeegrinder.tokens.CharacterSet...-">inclusion</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a>...&nbsp;ranges)</code>
 <div class="block">Create a character set terminal that matches any character in the specified ranges.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacterSet</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#inclusion-org.nineml.coffeegrinder.tokens.CharacterSet-">inclusion</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a>&nbsp;range)</code>
 <div class="block">Create a character set terminal that matches any character in the specified range.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacterSet</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#inclusion-org.nineml.coffeegrinder.tokens.CharacterSet-java.util.Collection-">inclusion</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a>&nbsp;range,
          java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code>
 <div class="block">Create a character set terminal that matches any character in the specified range (with attributes)</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacterSet</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#inclusion-java.util.List-">inclusion</a></span>(java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a>&gt;&nbsp;range)</code>
 <div class="block">Create a character set terminal that matches any character in the specified ranges.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacterSet</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#inclusion-java.util.List-java.util.Collection-">inclusion</a></span>(java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a>&gt;&nbsp;range,
          java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code>
 <div class="block">Create a character set terminal that matches any character in the specified ranges (with attributes).</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#isInclusion--">isInclusion</a></span>()</code>
 <div class="block">Is this an inclusion characater set?</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#matches-org.nineml.coffeegrinder.tokens.Token-">matches</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token)</code>
 <div class="block">Returns true if and only if the specified token matches.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacterSet.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
@@ -235,7 +241,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>equals, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
+<code>getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -469,6 +475,31 @@ extends <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="
 <dd><code>token</code> - The token character.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>True iff the token matches.</dd>
+</dl>
+</li>
+</ul>
+<a name="equals-java.lang.Object-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>equals</h4>
+<pre>public&nbsp;boolean&nbsp;equals(java.lang.Object&nbsp;obj)</pre>
+<div class="block">Are two token character sets "equal"?
+ <p>This method checks to see if they contain the same ranges. That's not the only
+ possible definition of equality. For example, a set with the single range ['0'-'9']
+ is in some sense "the same" as a set with the ranges ['0'-'5'] and ['6'-'9'], but
+ they would not be equal by this method.</p>
+ <p>It's temping to write an equality function in broader terms, but to do it correctly,
+ it would be necessary to be able to compare Unicode classes to other kinds of ranges
+ and that seems impractical.</p></div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>obj</code> - the object to test</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if they are equal</dd>
 </dl>
 </li>
 </ul>
