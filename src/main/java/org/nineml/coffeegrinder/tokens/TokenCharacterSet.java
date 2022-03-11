@@ -168,6 +168,44 @@ public class TokenCharacterSet extends Token {
         return false;
     }
 
+    /**
+     * Are two token character sets "equal"?
+     * <p>This method checks to see if they contain the same ranges. That's not the only
+     * possible definition of equality. For example, a set with the single range ['0'-'9']
+     * is in some sense "the same" as a set with the ranges ['0'-'5'] and ['6'-'9'], but
+     * they would not be equal by this method.</p>
+     * <p>It's temping to write an equality function in broader terms, but to do it correctly,
+     * it would be necessary to be able to compare Unicode classes to other kinds of ranges
+     * and that seems impractical.</p>
+     * @param obj the object to test
+     * @return true if they are equal
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof TokenCharacterSet) {
+            TokenCharacterSet other = (TokenCharacterSet) obj;
+            if (inclusion == other.inclusion && ranges.size() == other.ranges.size()) {
+                // If every character set is .equal() to a range in the other,
+                // then they're the same. This means the ranges don't have to
+                // appear in the same order.
+                for (CharacterSet range : ranges) {
+                    boolean same = false;
+                    for (CharacterSet otherRange: other.ranges) {
+                        if (range.equals(otherRange)) {
+                            same = true;
+                            break;
+                        }
+                    }
+                    if (!same) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

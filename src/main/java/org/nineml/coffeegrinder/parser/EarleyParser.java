@@ -339,6 +339,12 @@ public class EarleyParser {
 
         timer.stop();
 
+        // If we weren't buffering, but we didn't reach the end of the input,
+        // make sure the next token is available.
+        if (!buffering && !lastToken) {
+            tokenBuffer.add(nextToken);
+        }
+
         if (monitor != null) {
             if (progressSize > 0) {
                 monitor.progress(this, tokenCount);
@@ -416,6 +422,17 @@ public class EarleyParser {
         result.setParseTime(timer.duration());
 
         return result;
+    }
+
+    /**
+     * Is there more input?
+     * <p>If the parse succeeded, the answer will always be false. But a failed parse
+     * can fail because it was unable to process a token or because it ran out of tokens.
+     * This method checks if there was any more input after the parse completed.</p>
+     * @return true if parsing failed before the entire input was consumed
+     */
+    public boolean moreInput() {
+        return !tokenBuffer.isEmpty() || iterator.hasNext();
     }
 
     private ForestNode make_node(State B, int j, int i, ForestNode w, ForestNode v) {
