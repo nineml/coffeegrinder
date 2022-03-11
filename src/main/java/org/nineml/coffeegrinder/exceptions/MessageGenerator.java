@@ -74,6 +74,7 @@ public class MessageGenerator {
                 int pnum = 1;
                 for (String param : params) {
                     String subst = "%" + pnum;
+                    param = param.replaceAll("\\$", "\\\\\\$");
                     message = message.replaceAll(subst, param);
                     pnum++;
                 }
