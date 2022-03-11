@@ -267,7 +267,7 @@ public class Grammar {
      * Does this grammar contain an equivalent rule?
      * <p>Two rules are equivalent if they have the same symbol, the same list of right-hand-side
      * symbols, and if the optionality of every symbol on the right-hand-side is the same in both rules.</p>
-     * @param candidate the candidat rule
+     * @param candidate the candidate rule
      * @return true if the grammar contains an equivalent rule
      */
     public boolean contains(Rule candidate) {
@@ -389,7 +389,12 @@ public class Grammar {
                     }
                 }
                 Rule newRule = new Rule(rule.getSymbol(), newRhs);
-                addRule(newRule);
+                // The contains() test is in some sense unnecessary here because addRule() tests
+                // for this. But addRule() generates a trace message if the rules are the same
+                // and that's potentially misleading here, so let's avoid it.
+                if (!contains(newRule)) {
+                    addRule(newRule);
+                }
                 expandOptionalSymbols(newRule, pos);
             }
         }
