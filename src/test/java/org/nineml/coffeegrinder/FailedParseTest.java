@@ -28,6 +28,6 @@ public class FailedParseTest {
         EarleyResult result = parser.parse(Iterators.characterIterator("1+2-3"));
         Assert.assertFalse(result.succeeded());
         Assert.assertEquals(4, result.getTokenCount());
-        Assert.assertEquals('-', ((TokenCharacter) result.getLastToken()).getValue());
+        Assert.assertEquals('-', ((TokenCharacter) result.getLastToken()).getCharacter());
     }
 }

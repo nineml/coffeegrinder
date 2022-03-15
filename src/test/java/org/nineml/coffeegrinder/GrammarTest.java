@@ -12,7 +12,7 @@ import static org.junit.Assert.fail;
 public class GrammarTest {
 
     @Test
-    public void undefinedNonterminal() {
+    public void undefinedUnusedNonterminal() {
         Grammar grammar = new Grammar();
 
         /*
@@ -48,13 +48,89 @@ public class GrammarTest {
         EarleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
 
-        try {
-            input = "by";
-            result = parser.parse(input);
-            fail();
-        } catch (GrammarException ex) {
-            Assertions.assertEquals(GrammarException.noRuleForSymbol("spoon").getCode(), ex.getCode());
-        }
+        input = "by";
+        result = parser.parse(input);
+        Assert.assertFalse(result.succeeded());
+    }
+
+    @Test
+    public void undefinedReferencedRequiredNonterminal() {
+        Grammar grammar = new Grammar();
+
+        /*
+        S: A ; B
+        A: 'a', X
+        B: 'b', Y
+        X: 'x'
+        // Y is undefined
+         */
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _B = grammar.getNonterminal("B");
+        NonterminalSymbol _X = grammar.getNonterminal("X");
+        NonterminalSymbol _Y = grammar.getNonterminal("Y");
+
+        grammar.addRule(_S, _A);
+        grammar.addRule(_S, _B);
+        grammar.addRule(_A, TerminalSymbol.ch('a'), _X);
+        grammar.addRule(_B, TerminalSymbol.ch('b'), _Y);
+        grammar.addRule(_X, TerminalSymbol.ch('x'));
+
+        grammar.close();
+
+        HygieneReport report = grammar.checkHygiene(_S);
+        Assertions.assertFalse(report.isClean());
+        Assertions.assertEquals(1, report.getUndefinedSymbols().size());
+        Assertions.assertTrue(report.getUndefinedSymbols().contains(_Y));
+
+        // This fails because B depends on Y so B is effectively absent
+        String input = "bx";
+
+        EarleyParser parser = grammar.getParser(_S);
+        EarleyResult result = parser.parse(input);
+        Assert.assertFalse(result.succeeded());
+    }
+
+    @Test
+    public void undefinedReferencedUnnecessaryNonterminal() {
+        Grammar grammar = new Grammar();
+
+        /*
+        S: A ; B
+        A: 'a', X
+        B: 'b', Y
+        B: 'b', X
+        X: 'x'
+        // Y is undefined
+         */
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _B = grammar.getNonterminal("B");
+        NonterminalSymbol _X = grammar.getNonterminal("X");
+        NonterminalSymbol _Y = grammar.getNonterminal("Y");
+
+        grammar.addRule(_S, _A);
+        grammar.addRule(_S, _B);
+        grammar.addRule(_A, TerminalSymbol.ch('a'), _X);
+        grammar.addRule(_B, TerminalSymbol.ch('b'), _Y);
+        grammar.addRule(_B, TerminalSymbol.ch('b'), _X);
+        grammar.addRule(_X, TerminalSymbol.ch('x'));
+
+        grammar.close();
+
+        HygieneReport report = grammar.checkHygiene(_S);
+        Assertions.assertFalse(report.isClean());
+        Assertions.assertEquals(1, report.getUndefinedSymbols().size());
+        Assertions.assertTrue(report.getUndefinedSymbols().contains(_Y));
+
+        // This succeeds even though there's a B rule that uses Y which doesn't exist.
+        String input = "bx";
+
+        EarleyParser parser = grammar.getParser(_S);
+        EarleyResult result = parser.parse(input);
+        Assert.assertTrue(result.succeeded());
     }
 
     @Test
@@ -210,7 +286,7 @@ public class GrammarTest {
         grammar.addRule(_B, TerminalSymbol.ch('b'));
 
         TestLogger logger = new TestLogger();
-        grammar.getParserOptions().logger = logger;
+        grammar.getParserOptions().setLogger(logger);
 
         HygieneReport report = grammar.checkHygiene(_S);
         Assert.assertEquals(0, logger.warncount);

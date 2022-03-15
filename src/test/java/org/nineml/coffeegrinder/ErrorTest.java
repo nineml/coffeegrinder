@@ -3,6 +3,7 @@ package org.nineml.coffeegrinder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.nineml.coffeegrinder.exceptions.GrammarException;
+import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.parser.EarleyParser;
 import org.nineml.coffeegrinder.parser.EarleyResult;
 import org.nineml.coffeegrinder.parser.Grammar;
@@ -22,10 +23,9 @@ public class ErrorTest {
 
         try {
             grammar.getParser(grammar.getNonterminal("S"));
-        } catch (GrammarException ex) {
-            Assert.assertEquals("E001", ex.getCode());
+        } catch (ParseException ex) {
+            Assert.assertEquals("P001", ex.getCode());
         }
-
     }
 
     @Test
