@@ -104,7 +104,7 @@ public class EarleyResult {
      * @return true if a prefix was successfully parsed, false otherwise.
      */
     public boolean prefixSucceeded() {
-        if (success || !parser.getGrammar().getParserOptions().prefixParsing) {
+        if (success || !parser.getGrammar().getParserOptions().getPrefixParsing()) {
             return false;
         }
 
@@ -132,7 +132,7 @@ public class EarleyResult {
         }
 
         if (continuingIteratorReturned) {
-            options.logger.debug(EarleyParser.logcategory, "Attempting to continue parsing after the continuing iterator was exposed");
+            options.getLogger().debug(EarleyParser.logcategory, "Attempting to continue parsing after the continuing iterator was exposed");
         }
 
         EarleyParser newParser = parser.getGrammar().getParser(parser.getSeed());

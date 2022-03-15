@@ -114,7 +114,7 @@ public class ParseTree {
     public void serialize(PrintStream stream) {
         String localName = "symbol";
         boolean nonterminal = true;
-        if (getSymbol() != null || forest.options.treesWithStates) {
+        if (getSymbol() != null || forest.options.getTreesWithStates()) {
             if (getSymbol() != null) {
                 nonterminal = !(getSymbol() instanceof TerminalSymbol);
                 String xml = getSymbol().toString().replaceAll("&", "&amp;");
@@ -149,7 +149,7 @@ public class ParseTree {
             node.serialize(stream);
         }
 
-        if (getSymbol() != null || forest.options.treesWithStates) {
+        if (getSymbol() != null || forest.options.getTreesWithStates()) {
             if (!children.isEmpty()) {
                 stream.printf("</%s>\n", localName);
             }

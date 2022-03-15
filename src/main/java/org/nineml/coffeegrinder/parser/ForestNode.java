@@ -256,7 +256,7 @@ public class ForestNode {
                     } else {
                         if ((family.v.j == family.w.j || family.v.i == family.w.i)) {
                             visitor.ambiguous = true;
-                            graph.options.logger.debug(logcategory, "Ambiguity detected; overlap: %d,%d :: %d,%d", family.v.j, family.v.i, family.w.j, family.w.i);
+                            graph.options.getLogger().debug(logcategory, "Ambiguity detected; overlap: %d,%d :: %d,%d", family.v.j, family.v.i, family.w.j, family.w.i);
                         }
                     }
                 }

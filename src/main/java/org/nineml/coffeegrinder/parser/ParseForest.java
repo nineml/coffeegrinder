@@ -327,7 +327,7 @@ public class ParseForest {
         graphIds.clear();
         graphIds.addAll(prunedMap);
 
-        options.logger.trace(logcategory, "Graph contained %d unreachable nodes", count);
+        options.getLogger().trace(logcategory, "Graph contained %d unreachable nodes", count);
 
         return count;
     }
