@@ -72,6 +72,19 @@ public abstract class Symbol {
     }
 
     /**
+     * Get the value of a specific symbol attribute.
+     * @param name the name of the attribute.
+     * @param defaultValue the default value
+     * @return the associated value, or the default value if there is no symbol with that name.
+     */
+    public final String getAttributeValue(String name, String defaultValue) {
+        if (attributes.containsKey(name)) {
+            return attributes.get(name).getValue();
+        }
+        return defaultValue;
+    }
+
+    /**
      * Get all of the attributes for this symbol.
      * @return the symbol attributes
      */

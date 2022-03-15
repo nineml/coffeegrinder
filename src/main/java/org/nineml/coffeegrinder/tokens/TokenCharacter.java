@@ -12,10 +12,12 @@ import java.util.HashMap;
 public class TokenCharacter extends Token {
     private static HashMap<Character,String> charmap = null;
     private final char ch;
+    private final String chstr; // So we only have to convert char to String once.
 
     private TokenCharacter(char ch,  Collection<ParserAttribute> attributes) {
         super(attributes);
         this.ch = ch;
+        chstr = Character.toString(ch);
         if (charmap == null) {
             charmap = new HashMap<>();
             charmap.put('\n', "\\n");
@@ -60,7 +62,15 @@ public class TokenCharacter extends Token {
      * Return the value of this token (its character).
      * @return The character value of the token.
      */
-    public char getValue() {
+    public String getValue() {
+        return chstr;
+    }
+
+    /**
+     * Return the value of this token (its character).
+     * @return The character value of the token.
+     */
+    public char getCharacter() {
         return ch;
     }
 

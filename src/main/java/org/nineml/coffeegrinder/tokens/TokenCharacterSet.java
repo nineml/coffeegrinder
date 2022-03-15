@@ -153,7 +153,7 @@ public class TokenCharacterSet extends Token {
     @Override
     public boolean matches(Token token) {
         if (token instanceof TokenCharacter) {
-            int cp = ((TokenCharacter) token).getValue();
+            int cp = ((TokenCharacter) token).getCharacter();
             boolean found = false;
             for (CharacterSet range : ranges) {
                 found = found || range.matches(cp);
@@ -204,6 +204,11 @@ public class TokenCharacterSet extends Token {
             }
         }
         return false;
+    }
+
+    @Override
+    public String getValue() {
+        return toString();
     }
 
     @Override
