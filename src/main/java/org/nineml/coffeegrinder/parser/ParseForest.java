@@ -292,10 +292,14 @@ public class ParseForest {
     }
 
     protected int prune() {
+        options.getLogger().trace(logcategory, "Pruning forest of %d nodes with %d roots", graph.size(), roots.size());
+
         // Step 1. Trim epsilon twigs
         for (ForestNode node : roots) {
             node.trimEpsilon();
         }
+
+        options.getLogger().trace(logcategory, "Trimmed ε twigs: %d nodes remail", graph.size());
 
         ambiguous = roots.size() > 1;
         // Step 2. Prune unreachable nodes
@@ -327,7 +331,7 @@ public class ParseForest {
         graphIds.clear();
         graphIds.addAll(prunedMap);
 
-        options.logger.trace(logcategory, "Graph contained %d unreachable nodes", count);
+        options.getLogger().trace(logcategory, "Graph contained %d unreachable nodes", count);
 
         return count;
     }

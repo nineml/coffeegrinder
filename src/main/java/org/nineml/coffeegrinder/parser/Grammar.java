@@ -43,7 +43,7 @@ public class Grammar {
         this.options = options;
         nullable = new HashSet<>();
         nonterminals = new HashSet<>();
-        options.logger.debug(logcategory, "Created grammar %d", id);
+        options.getLogger().debug(logcategory, "Created grammar %d", id);
     }
 
     /**
@@ -58,7 +58,7 @@ public class Grammar {
         nullable = new HashSet<>(current.nullable);
         nonterminals = new HashSet<>();
         open = true;
-        options.logger.debug(logcategory, "Created grammar %d", id);
+        options.getLogger().debug(logcategory, "Created grammar %d", id);
     }
 
     /**
@@ -117,7 +117,7 @@ public class Grammar {
      * @throws GrammarException if the symbol already exists and attributes are different
      */
     public NonterminalSymbol getNonterminal(String name, Collection<ParserAttribute> attributes) {
-        options.logger.debug(logcategory, "Creating nonterminal %s for grammar %d", name, id);
+        options.getLogger().debug(logcategory, "Creating nonterminal %s for grammar %d", name, id);
         return new NonterminalSymbol(this, name, attributes);
     }
 
@@ -143,10 +143,10 @@ public class Grammar {
             throw GrammarException.grammarIsClosed();
         }
         if (contains(rule)) {
-            options.logger.trace(logcategory, "Ignoring duplicate rule: %s", rule);
+            options.getLogger().trace(logcategory, "Ignoring duplicate rule: %s", rule);
         } else {
             nonterminals.add(rule.getSymbol());
-            options.logger.trace(logcategory, "Adding rule: %s", rule);
+            options.getLogger().trace(logcategory, "Adding rule: %s", rule);
             rules.add(rule);
             computeNullable(rule);
         }

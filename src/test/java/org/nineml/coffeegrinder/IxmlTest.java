@@ -70,7 +70,7 @@ public class IxmlTest {
             Grammar grammar = new GrammarCompiler().parse(new File("src/test/resources/ixml.cxml"));
 
             TestProgressMonitor monitor = new TestProgressMonitor();
-            grammar.getParserOptions().monitor = monitor;
+            grammar.getParserOptions().setProgressMonitor(monitor);
 
             FileInputStream fis = new FileInputStream(new File("src/test/resources/ixml.ixml"));
             StringBuilder sb = new StringBuilder();

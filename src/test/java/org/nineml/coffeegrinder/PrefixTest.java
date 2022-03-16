@@ -14,7 +14,7 @@ public class PrefixTest {
     @Test
     public void testAB() {
         ParserOptions options = new ParserOptions();
-        options.prefixParsing = true;
+        options.setPrefixParsing(true);
         Grammar grammar = new Grammar(options);
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
@@ -43,4 +43,29 @@ public class PrefixTest {
         Assert.assertTrue(result.succeeded());
     }
 
+    @Test
+    public void testParens() {
+        ParserOptions options = new ParserOptions();
+        options.setPrefixParsing(true);
+        Grammar grammar = new Grammar(options);
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _B = grammar.getNonterminal("B");
+        TerminalSymbol _b = TerminalSymbol.ch('b');
+        TerminalSymbol _op = TerminalSymbol.ch('(');
+        TerminalSymbol _cp = TerminalSymbol.ch(')');
+
+        grammar.addRule(_S, _B);
+        grammar.addRule(_S, _op, _S, _cp);
+        grammar.addRule(_B, _b);
+        grammar.addRule(_B, _B);
+
+        EarleyParser parser = grammar.getParser(_S);
+
+        Iterator<Token> input = Iterators.characterIterator("(b))");
+
+        EarleyResult result = parser.parse(input);
+        Assert.assertFalse(result.succeeded());
+        Assert.assertTrue(result.prefixSucceeded());
+    }
 }

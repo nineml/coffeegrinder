@@ -40,6 +40,11 @@ public abstract class Token {
      */
     public abstract boolean matches(Token input);
 
+    /**
+     * What is this token?
+     * @return the token string
+     */
+    public abstract String getValue();
 
     /**
      * Check if a specific attribute is specified.
@@ -60,6 +65,19 @@ public abstract class Token {
             return attributes.get(name);
         }
         return null;
+    }
+
+    /**
+     * Get a specific token attribute value.
+     * @param name the name of the attribute.
+     * @param defaultValue the default value.
+     * @return the associated attribute value, or the default if there is no attribute with that name.
+     */
+    public final String getAttributeValue(String name, String defaultValue) {
+        if (attributes.containsKey(name)) {
+            return attributes.get(name).getValue();
+        }
+        return defaultValue;
     }
 
     /**

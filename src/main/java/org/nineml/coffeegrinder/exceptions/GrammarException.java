@@ -44,13 +44,6 @@ public class GrammarException extends CoffeeGrinderException {
     public static GrammarException grammarIsClosed() { return getException("G001"); }
 
     /**
-     * Raised if the grammar contains an undefined symbol.
-     * @param name The name of the undefined symbol.
-     * @return a GrammarException.
-     */
-    public static GrammarException noRuleForSymbol(String name) { return getException("E001", name); }
-
-    /**
      * Raised if an invalid Unicode character class is specified.
      * @param name the Unicode character class
      * @return a GrammarException.

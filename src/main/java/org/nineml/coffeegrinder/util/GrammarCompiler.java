@@ -189,19 +189,19 @@ public class GrammarCompiler {
                         sb.append(xmlString(csvalue.toString()));
                         sb.append("\"/>");
                     } else if (token instanceof TokenCharacter) {
-                        char ch = ((TokenCharacter) token).getValue();
+                        char ch = ((TokenCharacter) token).getCharacter();
                         sb.append("<c");
                         standardAttributes(token.getAttributes());
                         sb.append(" ag=\"").append(atgroup(token.getAttributes())).append("\"");
                         sb.append(" v=\"").append(xmlChar(ch)).append("\"/>");
                     } else if (token instanceof TokenString) {
-                        String str = ((TokenString) token).getValue();
+                        String str = token.getValue();
                         sb.append("<s");
                         standardAttributes(token.getAttributes());
                         sb.append(" ag=\"").append(atgroup(token.getAttributes())).append("\"");
                         sb.append(" v=\"").append(xmlString(str)).append("\"/>");
                     } else if (token instanceof TokenRegex) {
-                        String regex = ((TokenRegex) token).getValue();
+                        String regex = token.getValue();
                         sb.append("<re");
                         standardAttributes(token.getAttributes());
                         sb.append(" ag=\"").append(atgroup(token.getAttributes())).append("\"");

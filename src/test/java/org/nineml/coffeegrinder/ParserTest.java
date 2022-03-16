@@ -7,11 +7,13 @@ import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.CharacterSet;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenCharacterSet;
+import org.nineml.coffeegrinder.tokens.TokenRegex;
 import org.nineml.coffeegrinder.util.Iterators;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 import org.nineml.coffeegrinder.util.GrammarParser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 
 public class ParserTest {
@@ -380,4 +382,49 @@ public class ParserTest {
         Assertions.assertTrue(result.succeeded());
     }
 
+    @Test
+    public void lettersAndNumbers() {
+        Grammar grammar = new Grammar(new ParserOptions());
+
+        ParserAttribute greedyLetters = new ParserAttribute("regex", "[^0-9]");
+        ParserAttribute greedyNumbers = new ParserAttribute("regex", "[0-9]");
+
+        NonterminalSymbol _String = grammar.getNonterminal("String");
+        NonterminalSymbol _Numbers = grammar.getNonterminal("Numbers");
+        NonterminalSymbol _Letters = grammar.getNonterminal("Letters");
+
+        TerminalSymbol _number = new TerminalSymbol(TokenRegex.get("[0-9]"), greedyNumbers);
+        TerminalSymbol _letter = new TerminalSymbol(TokenRegex.get("[^0-9]"), greedyLetters);
+
+        grammar.addRule(_String, _Numbers, _String);
+        grammar.addRule(_String, _Letters, _String);
+        grammar.addRule(_String, _Numbers);
+        grammar.addRule(_String, _Letters);
+
+        grammar.addRule(_Numbers, _number, _Numbers);
+        grammar.addRule(_Numbers, _number);
+        grammar.addRule(_Letters, _letter, _Letters);
+        grammar.addRule(_Letters, _letter);
+
+        long last = 0;
+        for (int len = 19; len < 20; len++) {
+            StringBuilder sb = new StringBuilder();
+            for (int count = 0; count < len*5; count++) {
+                sb.append("abcde");
+                sb.append("01234");
+            }
+
+            String input = sb.toString();
+
+            long start = Calendar.getInstance().getTimeInMillis();
+            EarleyParser parser = grammar.getParser(_String);
+            EarleyResult result = parser.parse(input);
+            long dur = Calendar.getInstance().getTimeInMillis() - start;
+
+            Assert.assertTrue(result.succeeded());
+
+            //System.out.printf("%d took %dms (%d) %n", input.length(), dur, dur - last);
+            last = dur;
+        }
+    }
 }

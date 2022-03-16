@@ -77,12 +77,12 @@ public class NodeChoices {
             chooseV.set(index, v);
         } else {
             index++;
-            options.logger.trace(logcategory, "Changing %s :: %d", node, index);
+            options.getLogger().trace(logcategory, "Changing %s :: %d", node, index);
         }
 
         if (index == families.size()) {
             index = 0;
-            options.logger.trace(Logger.logcategory, "Resetting %s :: %d", node, index);
+            options.getLogger().trace(Logger.logcategory, "Resetting %s :: %d", node, index);
             reset();
         }
 

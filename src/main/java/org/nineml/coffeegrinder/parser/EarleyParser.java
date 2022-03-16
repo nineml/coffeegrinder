@@ -1,12 +1,17 @@
 package org.nineml.coffeegrinder.parser;
 
-import org.nineml.coffeegrinder.exceptions.GrammarException;
 import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.tokens.Token;
+import org.nineml.coffeegrinder.tokens.TokenString;
 import org.nineml.coffeegrinder.util.Iterators;
 import org.nineml.coffeegrinder.util.StopWatch;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /** The Earley parser.
  *
@@ -38,11 +43,14 @@ public class EarleyParser {
             throw new IllegalArgumentException("Cannot create a parser for an open grammar");
         }
         this.grammar = grammar;
+        options = grammar.getParserOptions();
+
+        List<Rule> usefulRules = usefulSubset(grammar.getRules());
 
         // I actually only care about the rules, so copy them.
         HashSet<NonterminalSymbol> nulled = new HashSet<>();
         Rho = new HashMap<>();
-        for (Rule rule : grammar.getRules()) {
+        for (Rule rule : usefulRules) {
             if (!Rho.containsKey(rule.getSymbol())) {
                 Rho.put(rule.getSymbol(), new ArrayList<>());
             }
@@ -64,17 +72,41 @@ public class EarleyParser {
         }
 
         S = seed;
-        options = grammar.getParserOptions();
         graph = new ParseForest(options);
         V = new ForestNodeSet(graph);
+    }
 
-        // Add special rules for undefined symbols. If any attempt is made to access
-        // the RHS of an UndefinedSymbolRule, it will throw the appropriate grammar
-        // exception. This approach means we don't have to test if the symbol is
-        // in Rho every time we access a symbol.
-        for (NonterminalSymbol nt : grammar.undefinedSymbols()) {
-            Rho.put(nt, Collections.singletonList(new UndefinedSymbolRule(nt)));
+    private List<Rule> usefulSubset(List<Rule> initiallist) {
+        ArrayList<Rule> currentList = new ArrayList<>();
+        ArrayList<Rule> rules = new ArrayList<>(initiallist);
+        boolean done = false;
+        while (!done) {
+            done = true;
+            currentList.clear();
+            currentList.addAll(rules);
+            rules.clear();
+
+            HashSet<NonterminalSymbol> defined = new HashSet<>();
+            for (Rule rule : currentList) {
+                defined.add(rule.getSymbol());
+            }
+            for (Rule rule : currentList) {
+                boolean exclude = false;
+                for (Symbol symbol : rule.getRhs()) {
+                    if (symbol instanceof NonterminalSymbol && !defined.contains(symbol)) {
+                        options.getLogger().debug(logcategory, "Ignoring rule with undefined symbol: %s", rule);
+                        exclude = true;
+                        done = false;
+                        break;
+                    }
+                }
+                if (!exclude) {
+                    rules.add(rule);
+                }
+            }
         }
+
+        return rules;
     }
 
     /**
@@ -114,7 +146,7 @@ public class EarleyParser {
     public EarleyResult parse(Iterator<Token> input) {
         iterator = input;
 
-        monitor = options.monitor;
+        monitor = options.getProgressMonitor();
         if (monitor != null) {
             progressSize = monitor.starting(this);
             progressCount = progressSize;
@@ -159,9 +191,19 @@ public class EarleyParser {
         StopWatch timer = new StopWatch();
 
         ArrayList<Hitem> H = new ArrayList<>();
+        ArrayList<ForestNode> localRoots = new ArrayList<>();
 
+        String greedy = null;
         while (!done) {
             currentToken = nextToken;
+
+            // Whether we consumed the input or not matters during the process
+            // and also at the end. If there are no more tokens, make sure that
+            // consumedInput is true so that we don't think we missed one at the end.
+            // (Conversely, if we did just get a token, then we haven't consumed it yet
+            // and we want to keep track of that fact so that if we exit the loop, we
+            // know there was a token left over.)
+            consumedInput = currentToken == null;
 
             if (progressSize > 0) {
                 if (progressCount == 0) {
@@ -175,7 +217,7 @@ public class EarleyParser {
             if (currentToken != null) {
                 lastInputToken = currentToken;
                 tokenCount = i + 1;
-                options.logger.trace(logcategory, "Parsing token %d: %s", tokenCount, currentToken);
+                //options.getLogger().trace(logcategory, "Parsing token %d: %s", tokenCount, currentToken);
             }
 
             H.clear();
@@ -187,7 +229,7 @@ public class EarleyParser {
             Qprime.clear();
 
             while (!R.isEmpty()) {
-                //options.logger.trace(logcategory, "Processing R: %d", R.size());
+                //options.getLogger().trace(logcategory, "Processing R: %d", R.size());
                 EarleyItem Lambda = R.remove(0);
                 if (Lambda.state != null && Lambda.state.nextSymbol() instanceof NonterminalSymbol) {
                     NonterminalSymbol C = (NonterminalSymbol) Lambda.state.nextSymbol();
@@ -209,11 +251,14 @@ public class EarleyParser {
                             if (!Q.contains(item)) {
                                 Q.add(item);
                                 consumedInput = true;
+
+                                Symbol symbol = item.state.nextSymbol();
+                                greedy = symbol.getAttributeValue("regex", null);
                             }
                         }
                     }
 
-                    //options.logger.trace(logcategory, "Processing H: %d", H.size());
+                    //options.getLogger().trace(logcategory, "Processing H: %d", H.size());
                     for (Hitem hitem : H) {
                         if (hitem.symbol.equals(C)) {
                             State newState = Lambda.state.advance();
@@ -250,7 +295,7 @@ public class EarleyParser {
                     }
                     int hpos = 0;
                     while (hpos < chart.get(h).size()) {
-                        //options.logger.trace(logcategory, "Processing chart: %d: %d of %d", h, hpos, chart.get(h).size());
+                        //options.getLogger().trace(logcategory, "Processing chart: %d: %d of %d", h, hpos, chart.get(h).size());
                         EarleyItem item = chart.get(h).get(hpos);
                         if (item.state != null && D.equals(item.state.nextSymbol())) {
                             State newState = item.state.advance();
@@ -274,10 +319,10 @@ public class EarleyParser {
                 }
             }
 
-            if (chart.size() > 0) {
-                //options.logger.trace(logcategory, "Processing chart: %d: %d", chart.size()-1, chart.get(chart.size()-1).size());
+            if (options.getPrefixParsing() && chart.size() > 0) {
+                //options.getLogger().trace(logcategory, "Processing chart: %d: %d", chart.size()-1, chart.get(chart.size()-1).size());
+                localRoots.clear();
                 for (EarleyItem item : chart.get(chart.size()-1)) {
-                    ArrayList<ForestNode> localRoots = new ArrayList<>();
                     if (item.state.completed() && item.j == 0 && item.state.getSymbol().equals(S)) {
                         if (item.w != null) {
                             localRoots.add(item.w);
@@ -286,27 +331,46 @@ public class EarleyParser {
                         checkpoint = graph.size();
                         if (consumedInput) {
                             tokenBuffer.clear();
-                            consumedInput = false;
                         }
                     }
-                    if (!localRoots.isEmpty()) {
-                        graph.clearRoots();
-                        for (ForestNode node : localRoots) {
-                            graph.root(node);
-                        }
+                }
+                if (!localRoots.isEmpty()) {
+                    options.getLogger().debug(logcategory, "Resetting graph roots, %d new roots", localRoots.size());
+                    graph.clearRoots();
+                    for (ForestNode node : localRoots) {
+                        graph.root(node);
                     }
                 }
             }
 
+            Token peek = null;
             V.clear();
             ForestNode v = null;
             if (currentToken != null) {
+                if (greedy != null) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(currentToken.getValue());
+                    Pattern patn = Pattern.compile(greedy);
+                    while (input.hasNext()) {
+                        nextToken = input.next();
+                        String s = nextToken.getValue();
+                        if (patn.matcher(s).matches()) {
+                            sb.append(s);
+                        } else {
+                            peek = nextToken;
+                            break;
+                        }
+                    }
+                    currentToken = TokenString.get(sb.toString());
+                    options.getLogger().trace(logcategory, "Regex matched: " + sb.toString());
+                }
+
                 v = graph.createNode(new TerminalSymbol(currentToken), i, i+1);
             }
 
             done = lastToken;
-            if (input.hasNext()) {
-                nextToken = input.next();
+            if (peek != null || input.hasNext()) {
+                nextToken = peek == null ? input.next() : peek;
                 if (buffering) {
                     tokenBuffer.add(nextToken);
                 }
@@ -316,7 +380,7 @@ public class EarleyParser {
             }
 
             while (!Q.isEmpty()) {
-                //options.logger.trace(logcategory, "Processing Q: %d", Q.size());
+                //options.getLogger().trace(logcategory, "Processing Q: %d", Q.size());
                 EarleyItem Lambda = Q.remove(0);
                 State nextState = Lambda.state.advance();
                 ForestNode y = make_node(nextState, Lambda.j, i+1, Lambda.w, v);
@@ -339,6 +403,11 @@ public class EarleyParser {
 
         timer.stop();
 
+        // If we didn't consume the last token, buffer it
+        if (!consumedInput && tokenBuffer.isEmpty()) {
+            tokenBuffer.add(lastInputToken);
+        }
+
         // If we weren't buffering, but we didn't reach the end of the input,
         // make sure the next token is available.
         if (!buffering && !lastToken) {
@@ -356,7 +425,7 @@ public class EarleyParser {
         if (input.hasNext() || !tokenBuffer.isEmpty()) {
             success = false;
         } else {
-            ArrayList<ForestNode> localRoots = new ArrayList<>();
+            localRoots.clear();
             int index = chart.size() - 1;
             while (index > 0 && chart.get(index).isEmpty()) {
                 index--;
@@ -379,6 +448,7 @@ public class EarleyParser {
             }
 
             if (!localRoots.isEmpty()) {
+                options.getLogger().debug(logcategory, "Resetting graph roots, %d new roots", localRoots.size());
                 graph.clearRoots();
                 for (ForestNode node : localRoots) {
                     graph.root(node);
@@ -389,16 +459,16 @@ public class EarleyParser {
         EarleyResult result;
         if (success) {
             if (tokenCount == 0 || timer.duration() == 0) {
-                options.logger.info(logcategory, "Parse succeeded");
+                options.getLogger().info(logcategory, "Parse succeeded");
             } else {
-                options.logger.info(logcategory, "Parse succeeded, %d tokens in %s (%s tokens/sec)",
+                options.getLogger().info(logcategory, "Parse succeeded, %d tokens in %s (%s tokens/sec)",
                         tokenCount, timer.elapsed(), timer.perSecond(tokenCount));
             }
 
             int count = graph.prune();
-            options.logger.debug(logcategory, "Pruned %d nodes from graph", count);
+            options.getLogger().debug(logcategory, "Pruned %d nodes from graph; %d remain", count, graph.graph.size());
 
-            if (options.returnChart) {
+            if (options.getReturnChart()) {
                 result = new EarleyResult(this, chart, graph, success, tokenCount, lastInputToken);
             } else {
                 chart.clear();
@@ -406,15 +476,15 @@ public class EarleyParser {
             }
         } else {
             if (timer.duration() == 0) {
-                options.logger.info(logcategory, "Parse failed after %d tokens", tokenCount);
+                options.getLogger().info(logcategory, "Parse failed after %d tokens", tokenCount);
             } else {
-                options.logger.info(logcategory, "Parse failed after %d tokens in %s (%s tokens/sec)",
+                options.getLogger().info(logcategory, "Parse failed after %d tokens in %s (%s tokens/sec)",
                         tokenCount, timer.elapsed(), timer.perSecond(tokenCount));
             }
-            if (options.prefixParsing && checkpoint >= 0) {
+            if (options.getPrefixParsing() && checkpoint >= 0) {
                 graph.rollback(checkpoint);
                 int count = graph.prune();
-                options.logger.debug(logcategory, "Pruned %d nodes from prefix graph", count);
+                options.getLogger().debug(logcategory, "Pruned %d nodes from prefix graph", count);
             }
             result = new EarleyResult(this, chart, graph, success, tokenCount, lastInputToken);
         }
@@ -498,20 +568,6 @@ public class EarleyParser {
         @Override
         public String toString() {
             return symbol + ", " + w;
-        }
-    }
-
-    private static class UndefinedSymbolRule extends Rule {
-        private final NonterminalSymbol nt;
-
-        public UndefinedSymbolRule(NonterminalSymbol symbol) {
-            super(symbol);
-            nt = symbol;
-        }
-
-        @Override
-        public List<Symbol> getRhs() {
-            throw GrammarException.noRuleForSymbol(nt.toString());
         }
     }
 }

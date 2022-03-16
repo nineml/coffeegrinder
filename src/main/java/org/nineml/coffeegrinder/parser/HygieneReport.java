@@ -86,7 +86,7 @@ public class HygieneReport {
 
         unreachableSymbols.add(symbol);
         if (!grammar.isOpen()) {
-            grammar.getParserOptions().logger.warn(logcategory, "Unreachable symbol: %s", symbol);
+            grammar.getParserOptions().getLogger().warn(logcategory, "Unreachable symbol: %s", symbol);
         }
     }
 
@@ -97,7 +97,7 @@ public class HygieneReport {
 
         undefinedSymbols.add(symbol);
         if (!grammar.isOpen()) {
-            grammar.getParserOptions().logger.warn(logcategory, "Undefined symbol: %s", symbol);
+            grammar.getParserOptions().getLogger().warn(logcategory, "Undefined symbol: %s", symbol);
         }
     }
 
@@ -108,7 +108,7 @@ public class HygieneReport {
 
         unproductiveSymbols.add(symbol);
         if (!grammar.isOpen()) {
-            grammar.getParserOptions().logger.warn(logcategory, "Unproductive symbol: %s", symbol);
+            grammar.getParserOptions().getLogger().warn(logcategory, "Unproductive symbol: %s", symbol);
         }
     }
 
@@ -119,7 +119,7 @@ public class HygieneReport {
 
         unproductiveRules.add(rule);
         if (!grammar.isOpen()) {
-            grammar.getParserOptions().logger.warn(logcategory, "Unproductive rule: %s", rule);
+            grammar.getParserOptions().getLogger().warn(logcategory, "Unproductive rule: %s", rule);
         }
     }
 }
