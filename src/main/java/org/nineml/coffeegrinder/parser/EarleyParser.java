@@ -319,10 +319,10 @@ public class EarleyParser {
                 }
             }
 
-            if (chart.size() > 0) {
+            if (options.getPrefixParsing() && chart.size() > 0) {
                 //options.getLogger().trace(logcategory, "Processing chart: %d: %d", chart.size()-1, chart.get(chart.size()-1).size());
+                localRoots.clear();
                 for (EarleyItem item : chart.get(chart.size()-1)) {
-                    localRoots.clear();
                     if (item.state.completed() && item.j == 0 && item.state.getSymbol().equals(S)) {
                         if (item.w != null) {
                             localRoots.add(item.w);
@@ -333,11 +333,12 @@ public class EarleyParser {
                             tokenBuffer.clear();
                         }
                     }
-                    if (!localRoots.isEmpty()) {
-                        graph.clearRoots();
-                        for (ForestNode node : localRoots) {
-                            graph.root(node);
-                        }
+                }
+                if (!localRoots.isEmpty()) {
+                    options.getLogger().debug(logcategory, "Resetting graph roots, %d new roots", localRoots.size());
+                    graph.clearRoots();
+                    for (ForestNode node : localRoots) {
+                        graph.root(node);
                     }
                 }
             }
@@ -361,6 +362,7 @@ public class EarleyParser {
                         }
                     }
                     currentToken = TokenString.get(sb.toString());
+                    options.getLogger().trace(logcategory, "Regex matched: " + sb.toString());
                 }
 
                 v = graph.createNode(new TerminalSymbol(currentToken), i, i+1);
@@ -446,6 +448,7 @@ public class EarleyParser {
             }
 
             if (!localRoots.isEmpty()) {
+                options.getLogger().debug(logcategory, "Resetting graph roots, %d new roots", localRoots.size());
                 graph.clearRoots();
                 for (ForestNode node : localRoots) {
                     graph.root(node);
@@ -463,7 +466,7 @@ public class EarleyParser {
             }
 
             int count = graph.prune();
-            options.getLogger().debug(logcategory, "Pruned %d nodes from graph", count);
+            options.getLogger().debug(logcategory, "Pruned %d nodes from graph; %d remain", count, graph.graph.size());
 
             if (options.getReturnChart()) {
                 result = new EarleyResult(this, chart, graph, success, tokenCount, lastInputToken);
