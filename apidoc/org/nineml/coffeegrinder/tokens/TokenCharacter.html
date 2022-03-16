@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":9,"i2":9,"i3":9,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
+var methods = {"i0":10,"i1":9,"i2":9,"i3":9,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -161,35 +161,41 @@ extends <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>char</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#getValue--">getValue</a></span>()</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#getCharacter--">getCharacter</a></span>()</code>
 <div class="block">Return the value of this token (its character).</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#getValue--">getValue</a></span>()</code>
+<div class="block">Return the value of this token (its character).</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#hashCode--">hashCode</a></span>()</code>
 <div class="block">Assure that equal tokens return the same hash code.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#matches-char-">matches</a></span>(char&nbsp;input)</code>
 <div class="block">Does this token match this character?</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#matches-java.lang.String-">matches</a></span>(java.lang.String&nbsp;input)</code>
 <div class="block">Does this token match this string?</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#matches-org.nineml.coffeegrinder.tokens.Token-">matches</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;input)</code>
 <div class="block">Does this token match the input?</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#toString--">toString</a></span>()</code>
 <div class="block">Pretty print a token.</div>
@@ -201,7 +207,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;org.nineml.coffeegrinder.tokens.<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a></h3>
-<code><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#addAttribute-org.nineml.coffeegrinder.util.ParserAttribute-">addAttribute</a>, <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#addAttributes-java.util.Collection-">addAttributes</a>, <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#getAttribute-java.lang.String-">getAttribute</a>, <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#getAttributes--">getAttributes</a>, <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#hasAttribute-java.lang.String-">hasAttribute</a></code></li>
+<code><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#addAttribute-org.nineml.coffeegrinder.util.ParserAttribute-">addAttribute</a>, <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#addAttributes-java.util.Collection-">addAttributes</a>, <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#getAttribute-java.lang.String-">getAttribute</a>, <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#getAttributes--">getAttributes</a>, <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#getAttributeValue-java.lang.String-java.lang.String-">getAttributeValue</a>, <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#hasAttribute-java.lang.String-">hasAttribute</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -282,7 +288,23 @@ extends <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>getValue</h4>
-<pre>public&nbsp;char&nbsp;getValue()</pre>
+<pre>public&nbsp;java.lang.String&nbsp;getValue()</pre>
+<div class="block">Return the value of this token (its character).</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#getValue--">getValue</a></code>&nbsp;in class&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The character value of the token.</dd>
+</dl>
+</li>
+</ul>
+<a name="getCharacter--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCharacter</h4>
+<pre>public&nbsp;char&nbsp;getCharacter()</pre>
 <div class="block">Return the value of this token (its character).</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>

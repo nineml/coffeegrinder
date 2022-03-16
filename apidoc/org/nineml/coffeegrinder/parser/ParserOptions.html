@@ -17,6 +17,12 @@
     catch(err) {
     }
 //-->
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
+var altColor = "altColor";
+var rowColor = "rowColor";
+var tableTab = "tableTab";
+var activeTableTab = "activeTableTab";
 </script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
@@ -67,15 +73,15 @@
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#methods.inherited.from.class.java.lang.Object">Method</a></li>
+<li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
-<li>Method</li>
+<li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
 <a name="skip.navbar.top">
@@ -104,58 +110,15 @@
 <pre>public class <span class="typeNameLabel">ParserOptions</span>
 extends java.lang.Object</pre>
 <div class="block">Options to the parser.
- <p>This object is intentionally just a collection of public fields.</p></div>
+ <p>This object is extended by other members of the NineML family to provide additional options.
+ It started out as a collection of public fields, but changed to a more traditional collection of
+ getters and setters when it began to develop options that were not entirely independent.</p></div>
 </li>
 </ul>
 </div>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
-<!-- =========== FIELD SUMMARY =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.summary">
-<!--   -->
-</a>
-<h3>Field Summary</h3>
-<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
-<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Field and Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#logger">logger</a></span></code>
-<div class="block">The parser logger.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#monitor">monitor</a></span></code>
-<div class="block">The progress monitor.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#prefixParsing">prefixParsing</a></span></code>
-<div class="block">If a parse fails, but some prefix of the input was successfully parsed, make that available.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#returnChart">returnChart</a></span></code>
-<div class="block">Return the Earley chart even for a successful parse?</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#treesWithStates">treesWithStates</a></span></code>
-<div class="block">Return intermediate "state" nodes in parse trees?</div>
-</td>
-</tr>
-</table>
-</li>
-</ul>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.summary">
@@ -169,7 +132,12 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#ParserOptions--">ParserOptions</a></span>()</code>
-<div class="block">The default constructor.</div>
+<div class="block">Create the parser options.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#ParserOptions-org.nineml.logging.Logger-">ParserOptions</a></span>(<a href="../../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a>&nbsp;logger)</code>
+<div class="block">Create the parser options with an explicit logger.</div>
 </td>
 </tr>
 </table>
@@ -181,6 +149,73 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Summary</h3>
+<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr id="i0" class="altColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getLogger--">getLogger</a></span>()</code>
+<div class="block">The parser logger.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getPrefixParsing--">getPrefixParsing</a></span>()</code>
+<div class="block">If a parse fails, but some prefix of the input was successfully parsed, make that available.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getProgressMonitor--">getProgressMonitor</a></span>()</code>
+<div class="block">The progress monitor.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getReturnChart--">getReturnChart</a></span>()</code>
+<div class="block">Return the Earley chart even for a successful parse?</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getTreesWithStates--">getTreesWithStates</a></span>()</code>
+<div class="block">Return intermediate "state" nodes in parse trees?</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#setLogger-org.nineml.logging.Logger-">setLogger</a></span>(<a href="../../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a>&nbsp;logger)</code>
+<div class="block">Set the logger.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#setPrefixParsing-boolean-">setPrefixParsing</a></span>(boolean&nbsp;prefixParsing)</code>
+<div class="block">Set the <a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getPrefixParsing--"><code>getPrefixParsing()</code></a> property.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#setProgressMonitor-org.nineml.coffeegrinder.parser.ProgressMonitor-">setProgressMonitor</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a>&nbsp;monitor)</code>
+<div class="block">Set the progress monitor.</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#setReturnChart-boolean-">setReturnChart</a></span>(boolean&nbsp;returnChart)</code>
+<div class="block">Set the <a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getReturnChart--"><code>getReturnChart()</code></a> property.</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#setTreesWithStates-boolean-">setTreesWithStates</a></span>(boolean&nbsp;treesWithStates)</code>
+<div class="block">Set the <a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getTreesWithStates--"><code>getTreesWithStates()</code></a> property.</div>
+</td>
+</tr>
+</table>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
 <!--   -->
@@ -196,74 +231,6 @@ extends java.lang.Object</pre>
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ============ FIELD DETAIL =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.detail">
-<!--   -->
-</a>
-<h3>Field Detail</h3>
-<a name="returnChart">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>returnChart</h4>
-<pre>public&nbsp;boolean returnChart</pre>
-<div class="block">Return the Earley chart even for a successful parse?</div>
-</li>
-</ul>
-<a name="prefixParsing">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>prefixParsing</h4>
-<pre>public&nbsp;boolean prefixParsing</pre>
-<div class="block">If a parse fails, but some prefix of the input was successfully parsed, make that available.
-
- <p>This is optional mostly because it requires internally buffering some of the input tokens.
- (Probably no more than two, but I haven't tried to prove that.)</p></div>
-</li>
-</ul>
-<a name="treesWithStates">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>treesWithStates</h4>
-<pre>public&nbsp;boolean treesWithStates</pre>
-<div class="block">Return intermediate "state" nodes in parse trees?
- <p>If true, intermediate nodes in the forest that represent states (as distinct from
- nodes that actually represent a symbol) will be returned.</p></div>
-</li>
-</ul>
-<a name="logger">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>logger</h4>
-<pre>public&nbsp;<a href="../../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a> logger</pre>
-<div class="block">The parser logger.
- <p>The logger controls what messages are issued, and how. This component is also used by
- higher-level components such as CoffeeFilter, CoffeePot, and CoffeeSacks.</p>
- <p>Must not be null.</p></div>
-</li>
-</ul>
-<a name="monitor">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>monitor</h4>
-<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a> monitor</pre>
-<div class="block">The progress monitor.
- <p>If this option is not null, the monitor will be called before, during, and after
- the parse.</p></div>
-</li>
-</ul>
-</li>
-</ul>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.detail">
@@ -273,14 +240,187 @@ extends java.lang.Object</pre>
 <a name="ParserOptions--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>ParserOptions</h4>
 <pre>public&nbsp;ParserOptions()</pre>
-<div class="block">The default constructor.
- <p>This object is intended to be just a collection of publicly modifiable fields. The
- default constructor creates a <a href="../../../../org/nineml/logging/DefaultLogger.html" title="class in org.nineml.logging"><code>DefaultLogger</code></a> and uses <a href="../../../../org/nineml/logging/Logger.html#readSystemProperties--"><code>readSystemProperties()</code></a>
- to initialize it.</p></div>
+<div class="block">Create the parser options.
+ <p>The initial logger will be a <a href="../../../../org/nineml/logging/DefaultLogger.html" title="class in org.nineml.logging"><code>DefaultLogger</code></a> initialized with
+ <a href="../../../../org/nineml/logging/Logger.html#readSystemProperties--"><code>readSystemProperties()</code></a>.</p></div>
+</li>
+</ul>
+<a name="ParserOptions-org.nineml.logging.Logger-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>ParserOptions</h4>
+<pre>public&nbsp;ParserOptions(<a href="../../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a>&nbsp;logger)</pre>
+<div class="block">Create the parser options with an explicit logger.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>logger</code> - the logger.</dd>
+</dl>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method.detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="getReturnChart--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getReturnChart</h4>
+<pre>public&nbsp;boolean&nbsp;getReturnChart()</pre>
+<div class="block">Return the Earley chart even for a successful parse?</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if the Earley chart should be returned even for an unsuccessful parse</dd>
+</dl>
+</li>
+</ul>
+<a name="setReturnChart-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setReturnChart</h4>
+<pre>public&nbsp;void&nbsp;setReturnChart(boolean&nbsp;returnChart)</pre>
+<div class="block">Set the <a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getReturnChart--"><code>getReturnChart()</code></a> property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>returnChart</code> - return the chart?</dd>
+</dl>
+</li>
+</ul>
+<a name="getPrefixParsing--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPrefixParsing</h4>
+<pre>public&nbsp;boolean&nbsp;getPrefixParsing()</pre>
+<div class="block">If a parse fails, but some prefix of the input was successfully parsed, make that available.
+
+ <p>This is optional mostly because it requires internally buffering some of the input tokens.
+ (Probably no more than two, but I haven't tried to prove that.)</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if prefix parsing is enabled.</dd>
+</dl>
+</li>
+</ul>
+<a name="setPrefixParsing-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setPrefixParsing</h4>
+<pre>public&nbsp;void&nbsp;setPrefixParsing(boolean&nbsp;prefixParsing)</pre>
+<div class="block">Set the <a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getPrefixParsing--"><code>getPrefixParsing()</code></a> property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>prefixParsing</code> - prefix parsing?</dd>
+</dl>
+</li>
+</ul>
+<a name="getTreesWithStates--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTreesWithStates</h4>
+<pre>public&nbsp;boolean&nbsp;getTreesWithStates()</pre>
+<div class="block">Return intermediate "state" nodes in parse trees?
+ <p>If true, intermediate nodes in the forest that represent states (as distinct from
+ nodes that actually represent a symbol) will be returned.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if trees with states should be constructed.</dd>
+</dl>
+</li>
+</ul>
+<a name="setTreesWithStates-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setTreesWithStates</h4>
+<pre>public&nbsp;void&nbsp;setTreesWithStates(boolean&nbsp;treesWithStates)</pre>
+<div class="block">Set the <a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getTreesWithStates--"><code>getTreesWithStates()</code></a> property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>treesWithStates</code> - trees with states?</dd>
+</dl>
+</li>
+</ul>
+<a name="getLogger--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLogger</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a>&nbsp;getLogger()</pre>
+<div class="block">The parser logger.
+ <p>The logger controls what messages are issued, and how. This component is also used by
+ higher-level components such as CoffeeFilter, CoffeePot, and CoffeeSacks.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the logger.</dd>
+</dl>
+</li>
+</ul>
+<a name="setLogger-org.nineml.logging.Logger-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setLogger</h4>
+<pre>public&nbsp;void&nbsp;setLogger(<a href="../../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a>&nbsp;logger)</pre>
+<div class="block">Set the logger.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>logger</code> - the logger.</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.NullPointerException</code> - if the logger is null.</dd>
+</dl>
+</li>
+</ul>
+<a name="getProgressMonitor--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getProgressMonitor</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a>&nbsp;getProgressMonitor()</pre>
+<div class="block">The progress monitor.
+ <p>If this option is not null, the monitor will be called before, during, and after
+ the parse.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the monitor</dd>
+</dl>
+</li>
+</ul>
+<a name="setProgressMonitor-org.nineml.coffeegrinder.parser.ProgressMonitor-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setProgressMonitor</h4>
+<pre>public&nbsp;void&nbsp;setProgressMonitor(<a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a>&nbsp;monitor)</pre>
+<div class="block">Set the progress monitor.
+ <p>Setting the monitor to <code>null</code> disables monitoring.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>monitor</code> - the monitor.</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -336,15 +476,15 @@ extends java.lang.Object</pre>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#methods.inherited.from.class.java.lang.Object">Method</a></li>
+<li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
-<li>Method</li>
+<li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
 <a name="skip.navbar.bottom">

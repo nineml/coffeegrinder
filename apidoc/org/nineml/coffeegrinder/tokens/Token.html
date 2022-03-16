@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":6};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":6,"i6":10,"i7":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -183,12 +183,25 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i4" class="altColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#getAttributeValue-java.lang.String-java.lang.String-">getAttributeValue</a></span>(java.lang.String&nbsp;name,
+                 java.lang.String&nbsp;defaultValue)</code>
+<div class="block">Get a specific token attribute value.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>abstract java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#getValue--">getValue</a></span>()</code>
+<div class="block">What is this token?</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#hasAttribute-java.lang.String-">hasAttribute</a></span>(java.lang.String&nbsp;name)</code>
 <div class="block">Check if a specific attribute is specified.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>abstract boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#matches-org.nineml.coffeegrinder.tokens.Token-">matches</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;input)</code>
 <div class="block">Does this token match the input?</div>
@@ -256,6 +269,20 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
+<a name="getValue--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getValue</h4>
+<pre>public abstract&nbsp;java.lang.String&nbsp;getValue()</pre>
+<div class="block">What is this token?</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the token string</dd>
+</dl>
+</li>
+</ul>
 <a name="hasAttribute-java.lang.String-">
 <!--   -->
 </a>
@@ -285,6 +312,24 @@ extends java.lang.Object</pre>
 <dd><code>name</code> - the name of the attribute.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the associated attribute, or null if there is no attribute with that name.</dd>
+</dl>
+</li>
+</ul>
+<a name="getAttributeValue-java.lang.String-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAttributeValue</h4>
+<pre>public final&nbsp;java.lang.String&nbsp;getAttributeValue(java.lang.String&nbsp;name,
+                                                java.lang.String&nbsp;defaultValue)</pre>
+<div class="block">Get a specific token attribute value.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>name</code> - the name of the attribute.</dd>
+<dd><code>defaultValue</code> - the default value.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the associated attribute value, or the default if there is no attribute with that name.</dd>
 </dl>
 </li>
 </ul>
