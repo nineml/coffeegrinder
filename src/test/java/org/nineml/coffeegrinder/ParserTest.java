@@ -427,4 +427,46 @@ public class ParserTest {
             last = dur;
         }
     }
+
+    @Test
+    public void infiniteLoop() {
+        Grammar grammar = new Grammar(new ParserOptions());
+
+/*
+S: A .
+A: 'a', B ; 'x' .
+B: 'b', A ; LDOE, A .
+LDOE: M; 'l' .
+M: 'm'; LDOE .
+*/
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _B = grammar.getNonterminal("B");
+        NonterminalSymbol _LDOE = grammar.getNonterminal("LDOE");
+        NonterminalSymbol _M = grammar.getNonterminal("M");
+
+        TerminalSymbol _a = TerminalSymbol.ch('a');
+        TerminalSymbol _b = TerminalSymbol.ch('b');
+        TerminalSymbol _x = TerminalSymbol.ch('x');
+        TerminalSymbol _l = TerminalSymbol.ch('l');
+        TerminalSymbol _m = TerminalSymbol.ch('m');
+
+        grammar.addRule(_S, _A);
+        grammar.addRule(_A, _a, _B);
+        grammar.addRule(_A, _x);
+        grammar.addRule(_B, _b, _A);
+        grammar.addRule(_B, _LDOE, _A);
+        grammar.addRule(_LDOE, _M);
+        grammar.addRule(_LDOE, _l);
+        grammar.addRule(_M, _m);
+        grammar.addRule(_M, _LDOE);
+
+        EarleyParser parser = grammar.getParser(_S);
+        EarleyResult result = parser.parse("amalx");
+        Assertions.assertTrue(result.getForest().isAmbiguous());
+        Assertions.assertTrue(result.getForest().isInfinitelyAmbiguous());
+        ParseTree tree = result.getForest().parse();
+        Assertions.assertNotNull(tree);
+    }
 }
