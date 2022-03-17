@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Stack;
 
 import static org.nineml.coffeegrinder.parser.ForestNode.MAX_LONG;
 
@@ -93,7 +94,8 @@ public class DefaultTreeWalker implements TreeWalker {
         builder.reset();
         builder.startTree();
         ForestNode root = roots.get(rootIndex);
-        walk(root);
+        Stack<ForestNode> seen = new Stack<>();
+        walk(root, seen);
         builder.endTree();
     }
 
@@ -130,17 +132,21 @@ public class DefaultTreeWalker implements TreeWalker {
         return builder;
     }
 
-    private void walk(ForestNode node) {
+    private void walk(ForestNode node, Stack<ForestNode> seen) {
         builder.startNode(node);
 
         if (!node.getFamilies().isEmpty()) {
             Family family = getCurrentFamily(node);
             if (family != null) {
-                if (family.w != null) {
-                    walk(family.w);
+                if (family.w != null && !seen.contains(family.w)) {
+                    seen.push(family.w);
+                    walk(family.w, seen);
+                    seen.pop();
                 }
-                if (family.v != null) {
-                    walk(family.v);
+                if (family.v != null && !seen.contains(family.v)) {
+                    seen.push(family.v);
+                    walk(family.v, seen);
+                    seen.pop();
                 }
             }
         }
