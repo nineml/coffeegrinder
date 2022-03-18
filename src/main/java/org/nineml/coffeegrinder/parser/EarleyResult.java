@@ -4,8 +4,10 @@ import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.tokens.Token;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The results of an Earley parse.
@@ -18,6 +20,7 @@ public class EarleyResult {
     private final int tokenCount;
     private final Token lastToken;
     private final ParserOptions options;
+    private final HashSet<TerminalSymbol> predicted = new HashSet<>();
     private boolean continuingIteratorReturned = false;
     private long parseTime = -1;
 
@@ -174,6 +177,14 @@ public class EarleyResult {
      */
     public Token getLastToken() {
         return lastToken;
+    }
+
+    protected void addPredicted(Set<TerminalSymbol> symbols) {
+        predicted.addAll(symbols);
+    }
+
+    public Set<TerminalSymbol> predictedTerminals() {
+        return predicted;
     }
 
     private static final class PrefixIterator<Token> implements Iterator<Token> {
