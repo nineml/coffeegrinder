@@ -487,6 +487,7 @@ public class EarleyParser {
                 options.getLogger().debug(logcategory, "Pruned %d nodes from prefix graph", count);
             }
             result = new EarleyResult(this, chart, graph, success, tokenCount, lastInputToken);
+            result.addPredicted(V.openPredictions());
         }
 
         result.setParseTime(timer.duration());

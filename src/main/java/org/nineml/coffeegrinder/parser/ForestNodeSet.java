@@ -1,6 +1,8 @@
 package org.nineml.coffeegrinder.parser;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ForestNodeSet {
     // These odd data structures are an attempt to avoid creating new ForestNode
@@ -74,5 +76,18 @@ public class ForestNodeSet {
             forestStateMap.get(state).put(ji, node);
         }
         return node;
+    }
+
+    protected Set<TerminalSymbol> openPredictions() {
+        HashSet<TerminalSymbol> set = new HashSet<>();
+        for (State state : forestStateMap.keySet()) {
+            if (!state.completed()) {
+                Symbol s = state.nextSymbol();
+                if (s instanceof TerminalSymbol) {
+                    set.add((TerminalSymbol) s);
+                }
+            }
+        }
+        return set;
     }
 }
