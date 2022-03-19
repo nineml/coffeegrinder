@@ -243,7 +243,6 @@ public class EarleyParser {
                             if (!chart.contains(i, item)) {
                                 chart.add(i, item);
                                 R.add(item);
-                                consumedInput = consumedInput || delta != null;
                             }
                         }
                         if (delta instanceof TerminalSymbol && delta.matches(currentToken)) {
@@ -269,7 +268,6 @@ public class EarleyParser {
                                 if (!chart.contains(i, item)) {
                                     chart.add(i, item);
                                     R.add(item);
-                                    consumedInput = consumedInput || Beta != null;
                                 }
                             }
                             if (Beta instanceof TerminalSymbol && Beta.matches(currentToken)) {
@@ -306,7 +304,6 @@ public class EarleyParser {
                                 if (!chart.contains(i, nextItem)) {
                                     chart.add(i, nextItem);
                                     R.add(nextItem);
-                                    consumedInput = consumedInput || delta != null;
                                 }
                             }
                             if (delta instanceof TerminalSymbol && delta.matches(currentToken)) {
@@ -335,7 +332,7 @@ public class EarleyParser {
                     }
                 }
                 if (!localRoots.isEmpty()) {
-                    options.getLogger().debug(logcategory, "Resetting graph roots, %d new roots", localRoots.size());
+                    //options.getLogger().debug(logcategory, "Resetting graph roots, %d new roots", localRoots.size());
                     graph.clearRoots();
                     for (ForestNode node : localRoots) {
                         graph.root(node);
