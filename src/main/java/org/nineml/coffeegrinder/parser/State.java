@@ -1,6 +1,7 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ParseException;
+import org.nineml.coffeegrinder.tokens.TokenEmpty;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,25 +16,24 @@ public class State {
     private final int id;
     private final Rule rule;
     private final NonterminalSymbol symbol;
-    private final Symbol[] rhs;
+    private final RightHandSide rhs;
     private final int position;
     private Integer cachedCode = null;
 
     protected State(Rule rule) {
-        symbol = rule.getSymbol();
-        rhs = new Symbol[rule.getRhs().size()];
-        rule.getRhs().toArray(rhs);
         this.rule = rule;
-        this.position = 0;
+        this.symbol = rule.getSymbol();
+        this.rhs = rule.getRhs();
+        this.position = rhs.getNextPosition(0);
         id = nextStateId;
         nextStateId++;
     }
 
     private State(State other, int position) {
+        this.rule = other.rule;
         this.symbol = other.symbol;
         this.rhs = other.rhs;
-        this.position = position;
-        this.rule = other.rule;
+        this.position = rhs.getNextPosition(position);
         id = nextStateId;
         nextStateId++;
     }
@@ -58,8 +58,8 @@ public class State {
      * Get the list of symbols that define this state's nonterminal symbol.
      * @return the list of symbols on the "right hand side"
      */
-    public List<Symbol> getRhs() {
-        return Arrays.asList(rhs);
+    public RightHandSide getRhs() {
+        return rhs;
     }
 
     /**
@@ -77,8 +77,8 @@ public class State {
      * @return the next symbol, or null if the state is completed
      */
     public Symbol nextSymbol() {
-        if (position < rhs.length) {
-            return rhs[position];
+        if (position < rhs.size()) {
+            return rhs.get(position);
         }
         return null;
     }
@@ -89,7 +89,7 @@ public class State {
      * @throws ParseException if an attempt is made to advance a completed state
      */
     public State advance() {
-        if (position < rhs.length) {
+        if (position < rhs.size()) {
             return new State(this, position+1);
         } else {
             throw ParseException.internalError("Cannot advance a completed state");
@@ -101,7 +101,7 @@ public class State {
      * @return true if the position indicates that we've seen all of the symbols on the "right hand side"
      */
     public boolean completed() {
-        return position == rhs.length;
+        return position == rhs.size();
     }
 
     @Override
@@ -109,7 +109,7 @@ public class State {
         if (obj instanceof State) {
             State other = (State) obj;
             return symbol.equals(other.symbol) && position == other.position
-                    && Arrays.equals(rhs, other.rhs);
+                    && rhs.equals(other.rhs);
         }
         return false;
     }
@@ -117,7 +117,7 @@ public class State {
     @Override
     public int hashCode() {
         if (cachedCode == null) {
-            cachedCode = symbol.hashCode() + (13 * position) + Arrays.hashCode(rhs);
+            cachedCode = symbol.hashCode() + (13 * position) + rhs.hashCode();
         }
         return cachedCode;
     }
@@ -128,7 +128,7 @@ public class State {
         sb.append(symbol);
         sb.append(" ⇒ ");
         int count = 0;
-        for (Symbol symbol : rhs) {
+        for (Symbol symbol : rhs.getSymbols()) {
             if (count > 0) {
                 sb.append(" ");
             }

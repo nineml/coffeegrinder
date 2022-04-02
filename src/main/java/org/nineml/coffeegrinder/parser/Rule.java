@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Rule {
     private final NonterminalSymbol nonterminal;
-    private final List<Symbol> rhs;
+    private final RightHandSide rhs;
 
     /**
      * Construct a new rule mapping the nonterminal to a sequence of symbols.
@@ -27,10 +27,7 @@ public class Rule {
         }
 
         this.nonterminal = nonterminal;
-        this.rhs = new ArrayList<>();
-        if (rhs != null) {
-            this.rhs.addAll(Arrays.asList(rhs));
-        }
+        this.rhs = new RightHandSide(rhs);
     }
 
     /**
@@ -46,10 +43,7 @@ public class Rule {
         }
 
         this.nonterminal = nonterminal;
-        this.rhs = new ArrayList<>();
-        if (rhs != null) {
-            this.rhs.addAll(rhs);
-        }
+        this.rhs = new RightHandSide(rhs);
     }
 
     /**
@@ -66,7 +60,7 @@ public class Rule {
      * always returns an empty list in such cases.</p>
      * @return The sequence of symbols.
      */
-    public List<Symbol> getRhs() {
+    public RightHandSide getRhs() {
         return rhs;
     }
 
@@ -74,26 +68,17 @@ public class Rule {
     public boolean equals(Object obj) {
         if (obj instanceof Rule) {
             Rule other = (Rule) obj;
-            if (nonterminal != other.nonterminal || rhs.size() != other.rhs.size()) {
+            if (nonterminal != other.nonterminal) {
                 return false;
             }
-            for (int pos = 0; pos < rhs.size(); pos++) {
-                if (!rhs.get(pos).equals(other.rhs.get(pos))) {
-                    return false;
-                }
-            }
-            return true;
+            return rhs.equals(other.rhs);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        int hash = nonterminal.hashCode();
-        for (Symbol s: rhs) {
-            hash += (3 * s.hashCode());
-        }
-        return hash;
+        return nonterminal.hashCode() + rhs.hashCode();
     }
 
     /**
@@ -106,7 +91,7 @@ public class Rule {
         sb.append(nonterminal);
         sb.append(" ⇒ ");
         int count = 0;
-        for (Symbol symbol : rhs) {
+        for (Symbol symbol : rhs.getSymbols()) {
             if (count > 0) {
                 sb.append(", ");
             }

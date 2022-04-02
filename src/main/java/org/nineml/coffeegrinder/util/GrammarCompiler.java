@@ -128,7 +128,7 @@ public class GrammarCompiler {
         for (Rule rule : grammar.getRules()) {
             // Before we output the rule, make sure we output any new attribute groups
             atgroup(rule.getSymbol().getAttributes());
-            for (Symbol symbol : rule.getRhs()) {
+            for (Symbol symbol : rule.getRhs().getSymbols()) {
                 atgroup(symbol.getAttributes());
                 if (symbol instanceof TerminalSymbol) {
                     atgroup(((TerminalSymbol) symbol).getToken().getAttributes());
@@ -140,7 +140,7 @@ public class GrammarCompiler {
             sb.append(" ag=\"").append(atgroup(rule.getSymbol().getAttributes())).append("\"");
             sb.append(">");
 
-            for (Symbol symbol : rule.getRhs()) {
+            for (Symbol symbol : rule.getRhs().getSymbols()) {
                 if (symbol instanceof TerminalSymbol) {
                     sb.append("<t");
                     standardAttributes(symbol.getAttributes());
