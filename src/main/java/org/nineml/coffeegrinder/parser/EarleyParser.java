@@ -2,6 +2,7 @@ package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.tokens.Token;
+import org.nineml.coffeegrinder.tokens.TokenEmpty;
 import org.nineml.coffeegrinder.tokens.TokenString;
 import org.nineml.coffeegrinder.util.Iterators;
 import org.nineml.coffeegrinder.util.StopWatch;
@@ -92,7 +93,7 @@ public class EarleyParser {
             }
             for (Rule rule : currentList) {
                 boolean exclude = false;
-                for (Symbol symbol : rule.getRhs()) {
+                for (Symbol symbol : rule.getRhs().getSymbols()) {
                     if (symbol instanceof NonterminalSymbol && !defined.contains(symbol)) {
                         options.getLogger().debug(logcategory, "Ignoring rule with undefined symbol: %s", rule);
                         exclude = true;
@@ -164,10 +165,7 @@ public class EarleyParser {
             currentToken = input.next();
         }
         for (Rule rule : Rho.get(S)) {
-            Symbol alpha = null;
-            if (rule.getRhs().size() > 0) {
-                alpha = rule.getRhs().get(0);
-            }
+            final Symbol alpha = rule.getRhs().getFirst();
 
             if (alpha == null || alpha instanceof NonterminalSymbol) {
                 State state = new State(rule);
@@ -234,10 +232,7 @@ public class EarleyParser {
                 if (Lambda.state != null && Lambda.state.nextSymbol() instanceof NonterminalSymbol) {
                     NonterminalSymbol C = (NonterminalSymbol) Lambda.state.nextSymbol();
                     for (Rule rule : Rho.get(C)) {
-                        Symbol delta = null;
-                        if (rule.getRhs().size() > 0) {
-                            delta = rule.getRhs().get(0);
-                        }
+                        final Symbol delta = rule.getRhs().getFirst();
                         if (delta == null || delta instanceof NonterminalSymbol) {
                             EarleyItem item = new EarleyItem(new State(rule), i, null);
                             if (!chart.contains(i, item)) {

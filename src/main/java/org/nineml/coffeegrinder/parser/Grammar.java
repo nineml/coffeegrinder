@@ -357,7 +357,7 @@ public class Grammar {
             return;
         }
         boolean isNullable = true;
-        for (Symbol symbol : rule.getRhs()) {
+        for (Symbol symbol : rule.getRhs().getSymbols()) {
             isNullable = isNullable && symbol.isOptional();
         }
         if (isNullable) {
@@ -406,7 +406,7 @@ public class Grammar {
 
         for (Rule rule : rules) {
             definedNames.add(rule.getSymbol());
-            for (Symbol s : rule.getRhs()) {
+            for (Symbol s : rule.getRhs().getSymbols()) {
                 if (s instanceof NonterminalSymbol) {
                     usedNames.add((NonterminalSymbol) s);
                 }
@@ -471,7 +471,7 @@ public class Grammar {
                         boolean isProductiveRule = productiveRule.contains(rule);
                         if (!isProductiveRule) {
                             isProductiveRule = true;
-                            for (Symbol s : rule.getRhs()) {
+                            for (Symbol s : rule.getRhs().getSymbols()) {
                                 if (s instanceof NonterminalSymbol && !productiveNT.contains((NonterminalSymbol) s)) {
                                     isProductiveRule = false;
                                     break;
@@ -508,7 +508,7 @@ public class Grammar {
         reachable.add(symbol);
         for (Rule rule : rules) {
             if (rule.getSymbol().equals(symbol)) {
-                for (Symbol s : rule.getRhs()) {
+                for (Symbol s : rule.getRhs().getSymbols()) {
                     if (s instanceof NonterminalSymbol) {
                         NonterminalSymbol nt = (NonterminalSymbol) s;
                         if (!reachable.contains(nt)) {
