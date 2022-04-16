@@ -72,10 +72,10 @@ public class TokenRegex extends Token {
      */
     public final boolean matches(Token input) {
         if (input instanceof TokenCharacter) {
-            return regex.matcher("" + ((TokenCharacter) input).getValue()).matches();
+            return regex.matcher("" + input.getValue()).matches();
         }
         if (input instanceof TokenString) {
-            return regex.matcher(((TokenString) input).getValue()).matches();
+            return regex.matcher(input.getValue()).matches();
         }
         return false;
     }
