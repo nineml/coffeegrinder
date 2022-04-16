@@ -270,5 +270,19 @@ MAKE_NODE(B ::= αx·β, j, i, w, v,V) {
   return y
 }</programlisting>
 </appendix>
+<appendix xml:id="changelog">
+<title>Change log</title>
 
+<revhistory>
+<revision>
+  <date>2022-04-16</date>
+  <revremark>Internal changes to support the 15 April 2022 Invisible XML “insertions” feature, version 1.1.0</revremark>
+</revision>
+<revision>
+  <date>2022-03-20</date>
+  <revremark>Initial release, version 1.0.0</revremark>
+</revision>
+</revhistory>
+
+</appendix>
 </book>
