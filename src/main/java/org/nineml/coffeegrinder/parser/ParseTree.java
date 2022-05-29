@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ParseTree {
     private static int nextNodeId = 0;
-    private final ParseForest forest;
+    private final EarleyForest forest;
     private final ForestNode node;
     private final ArrayList<ParseTree> children;
     private final int id;
@@ -32,7 +32,7 @@ public class ParseTree {
      * Get the forest this tree is in.
      * @return the forest
      */
-    public ParseForest getForest() {
+    public EarleyForest getForest() {
         return forest;
     }
 

@@ -5,13 +5,14 @@ import org.nineml.coffeegrinder.util.ParserAttribute;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Stack;
 
 /**
  * A node in the SPPF.
  *
  * <p>When walking the graph, for example to extract parses, these nodes represent what's
- * avaialable in the graph.</p>
+ * available in the graph.</p>
  */
 public class ForestNode {
     public static final String logcategory = "ForestNode";
@@ -24,17 +25,17 @@ public class ForestNode {
 
     private static int nextNodeId = 0;
 
-    protected final ParseForest graph;
-    protected final Symbol symbol;
-    protected final State state;
+    protected final EarleyForest graph;
+    public final Symbol symbol;
+    public final State state;
     /**
      * The last position in the input covered by this node.
      */
-    public final int i;
+    public final int rightExtent;
     /**
      * The first position in the input covered by this node.
      */
-    public final int j;
+    public final int leftExtent;
     /**
      * This node's unique identifier.
      */
@@ -47,32 +48,32 @@ public class ForestNode {
     protected long parsesBelow = 0;
     protected BigInteger exactParsesBelow = BigInteger.ZERO;
 
-    protected ForestNode(ParseForest graph, Symbol symbol, int j, int i) {
+    protected ForestNode(EarleyForest graph, Symbol symbol, int leftExtent, int rightExtent) {
         this.graph = graph;
         this.symbol = symbol;
         this.state = null;
-        this.i = i;
-        this.j = j;
+        this.rightExtent = rightExtent;
+        this.leftExtent = leftExtent;
         id = nextNodeId++;
     }
 
-    protected ForestNode(ParseForest graph, State state, int j, int i) {
+    protected ForestNode(EarleyForest graph, State state, int leftExtent, int rightExtent) {
         this.graph = graph;
         this.symbol = null;
         this.state = state;
-        this.i = i;
-        this.j = j;
+        this.rightExtent = rightExtent;
+        this.leftExtent = leftExtent;
         id = nextNodeId++;
     }
 
     // N.B. This is a *symbol* node, the state is just being carried along so that we can tell
     // what rule defined this symbol. That can be useful when analysing the parse tree.
-    protected ForestNode(ParseForest graph, Symbol symbol, State state, int j, int i) {
+    protected ForestNode(EarleyForest graph, Symbol symbol, State state, int leftExtent, int rightExtent) {
         this.graph = graph;
         this.symbol = symbol;
         this.state = state;
-        this.i = i;
-        this.j = j;
+        this.rightExtent = rightExtent;
+        this.leftExtent = leftExtent;
         id = nextNodeId++;
     }
 
@@ -117,7 +118,7 @@ public class ForestNode {
         return exactParsesBelow;
     }
 
-    protected void addFamily(ForestNode v) {
+    public void addFamily(ForestNode v) {
         for (Family family : families) {
             if (family.w == null) {
                 if ((v == null && family.v == null) || (v != null && v.equals(family.v))) {
@@ -129,7 +130,7 @@ public class ForestNode {
         families.add(new Family(v));
     }
 
-    protected void addFamily(ForestNode w, ForestNode v) {
+    public void addFamily(ForestNode w, ForestNode v) {
         for (Family family : families) {
             if (((v == null && family.v == null) || (v != null && v.equals(family.v)))
                     && ((w == null && family.w == null) || (w != null && w.equals(family.w)))) {
@@ -168,12 +169,12 @@ public class ForestNode {
                     // If the left and right sides cover overlapping regions, then there must be
                     // ambiguity in the parse. (I wish I'd kept track of the test case that
                     // persuaded me this was possible.)
-                    if ((family.v.j == family.v.i) || (family.w.j == family.w.i)) {
+                    if ((family.v.leftExtent == family.v.rightExtent) || (family.w.leftExtent == family.w.rightExtent)) {
                         // If one side is an epsilon transition, that doesn't count as overlap
                     } else {
-                        if ((family.v.j == family.w.j || family.v.i == family.w.i)) {
+                        if ((family.v.leftExtent == family.w.leftExtent || family.v.rightExtent == family.w.rightExtent)) {
                             visitor.ambiguous = true;
-                            graph.options.getLogger().debug(logcategory, "Ambiguity detected; overlap: %d,%d :: %d,%d", family.v.j, family.v.i, family.w.j, family.w.i);
+                            graph.options.getLogger().debug(logcategory, "Ambiguity detected; overlap: %d,%d :: %d,%d", family.v.leftExtent, family.v.rightExtent, family.w.leftExtent, family.w.rightExtent);
                         }
                     }
                 }
@@ -322,16 +323,16 @@ public class ForestNode {
             ForestNode other = (ForestNode) obj;
             if (state == null) {
                 assert symbol != null;
-                return symbol.equals(other.symbol) && i == other.i && j == other.j;
+                return symbol.equals(other.symbol) && rightExtent == other.rightExtent && leftExtent == other.leftExtent;
             }
-            return state.equals(other.state) && i == other.i && j == other.j;
+            return Objects.equals(symbol, other.symbol) && state.equals(other.state) && rightExtent == other.rightExtent && leftExtent == other.leftExtent;
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        int code = (17 * i) + (31 * j);
+        int code = (17 * rightExtent) + (31 * leftExtent);
         if (symbol != null) {
             code += 11 * symbol.hashCode();
         } else {
@@ -344,9 +345,9 @@ public class ForestNode {
     @Override
     public String toString() {
         if (symbol == null) {
-            return state + ", " + j + ", " + i;
+            return state + ", " + leftExtent + ", " + rightExtent;
         } else {
-            return symbol + ", " + j + ", " + i;
+            return symbol + ", " + leftExtent + ", " + rightExtent;
         }
     }
 

@@ -2,16 +2,11 @@ package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.tokens.Token;
-import org.nineml.coffeegrinder.tokens.TokenEmpty;
 import org.nineml.coffeegrinder.tokens.TokenString;
 import org.nineml.coffeegrinder.util.Iterators;
 import org.nineml.coffeegrinder.util.StopWatch;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /** The Earley parser.
@@ -22,13 +17,13 @@ import java.util.regex.Pattern;
  * <a href="https://www.sciencedirect.com/science/article/pii/S1571066108001497?via%3Dihub">SPPF-Style
  * Parsing From Earley Recognisers</a>.</p>
  */
-public class EarleyParser {
+public class EarleyParser implements GearleyParser {
     public static final String logcategory = "Parser";
 
     private final EarleyChart chart = new EarleyChart();
     private final ForestNodeSet V;
     private final Grammar grammar;
-    private final ParseForest graph;
+    private final EarleyForest graph;
     private final NonterminalSymbol S;
     private final HashMap<NonterminalSymbol, List<Rule>> Rho;
     private final ArrayList<Token> tokenBuffer = new ArrayList<>();
@@ -39,7 +34,7 @@ public class EarleyParser {
     protected int progressSize = 0;
     protected int progressCount = 0;
 
-    protected EarleyParser(Grammar grammar, NonterminalSymbol seed) {
+    protected EarleyParser(Grammar grammar) {
         if (grammar.isOpen()) {
             throw new IllegalArgumentException("Cannot create a parser for an open grammar");
         }
@@ -68,13 +63,22 @@ public class EarleyParser {
             }
         }
 
-        if (!Rho.containsKey(seed)) {
-            throw ParseException.seedNotInGrammar(seed.toString());
+        S = grammar.getSeed();
+
+        if (!Rho.containsKey(S)) {
+            throw ParseException.seedNotInGrammar(S.toString());
         }
 
-        S = seed;
-        graph = new ParseForest(options);
+        graph = new EarleyForest(options);
         V = new ForestNodeSet(graph);
+    }
+
+    /**
+     * Return the parser type.
+     * @return {@link ParserType#Earley}
+     */
+    public ParserType getParserType() {
+        return ParserType.Earley;
     }
 
     private List<Rule> usefulSubset(List<Rule> initiallist) {
@@ -93,7 +97,7 @@ public class EarleyParser {
             }
             for (Rule rule : currentList) {
                 boolean exclude = false;
-                for (Symbol symbol : rule.getRhs().getSymbols()) {
+                for (Symbol symbol : rule.getRhs().symbols) {
                     if (symbol instanceof NonterminalSymbol && !defined.contains(symbol)) {
                         options.getLogger().debug(logcategory, "Ignoring rule with undefined symbol: %s", rule);
                         exclude = true;
@@ -136,6 +140,10 @@ public class EarleyParser {
      */
     public EarleyResult parse(String input) {
         return parse(Iterators.characterIterator(input));
+    }
+
+    public EarleyResult parse(Token[] input) {
+        return parse(Arrays.asList(input).iterator());
     }
 
     /**
@@ -494,7 +502,7 @@ public class EarleyParser {
      * This method checks if there was any more input after the parse completed.</p>
      * @return true if parsing failed before the entire input was consumed
      */
-    public boolean moreInput() {
+    public boolean hasMoreInput() {
         return !tokenBuffer.isEmpty() || iterator.hasNext();
     }
 

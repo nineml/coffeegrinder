@@ -1,15 +1,10 @@
 package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.nineml.coffeegrinder.parser.EarleyParser;
-import org.nineml.coffeegrinder.parser.EarleyResult;
-import org.nineml.coffeegrinder.parser.Grammar;
-import org.nineml.coffeegrinder.parser.ParserOptions;
+import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.util.DefaultProgressMonitor;
 import org.nineml.coffeegrinder.util.GrammarCompiler;
-import org.nineml.coffeegrinder.util.GrammarParser;
 import org.nineml.coffeegrinder.util.Iterators;
 
 import java.io.File;
@@ -28,8 +23,8 @@ public class IxmlTest {
 
             String input = "date: s?, day, s, month, (s, year)? .";
 
-            EarleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
-            EarleyResult result = parser.parse(Iterators.characterIterator(input));
+            GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
+            GearleyResult result = parser.parse(Iterators.characterIterator(input));
 
             Assert.assertTrue(result.succeeded());
         } catch (Exception ex) {
@@ -51,9 +46,8 @@ public class IxmlTest {
                     "       \"September\"; \"October\"; \"November\"; \"December\".\n" +
                     "year: ((digit, digit); -\"'\")?, digit, digit .";
 
-            EarleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
-            EarleyResult result = parser.parse(Iterators.characterIterator(input));
-            System.out.printf("Duration: %dms\n", result.getParseTime());
+            GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
+            GearleyResult result = parser.parse(Iterators.characterIterator(input));
 
             //result.getForest().serialize("graph.xml");
             //result.getForest().parse().serialize("tree.xml");
@@ -79,16 +73,17 @@ public class IxmlTest {
                 sb.appendCodePoint(ch);
                 ch = fis.read();
             }
+            fis.close();
 
             long start = Calendar.getInstance().getTimeInMillis();
 
             String input = sb.toString();
-            EarleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
-            EarleyResult result = parser.parse(Iterators.characterIterator(input));
+            GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
+            GearleyResult result = parser.parse(Iterators.characterIterator(input));
 
             long end = Calendar.getInstance().getTimeInMillis();
 
-            System.err.println("Duration: " + (end-start));
+            //System.err.println("Duration: " + (end-start));
 
             /*
             File date_xml = new File("ixml.xml");
@@ -114,20 +109,20 @@ public class IxmlTest {
         public boolean finished = false;
 
         @Override
-        public int starting(EarleyParser parser) {
+        public int starting(GearleyParser parser) {
             int size = super.starting(parser);
             started = true;
             return size;
         }
 
         @Override
-        public void progress(EarleyParser parser, long count) {
+        public void progress(GearleyParser parser, long count) {
             super.progress(parser, count);
             ran = true;
         }
 
         @Override
-        public void finished(EarleyParser parser) {
+        public void finished(GearleyParser parser) {
             super.finished(parser);
             finished = true;
         }

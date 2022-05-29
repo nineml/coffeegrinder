@@ -28,11 +28,11 @@ public class PrefixTest {
         grammar.addRule(_B, _b, _B);
         grammar.addRule(_B, _b);
 
-        EarleyParser parser = grammar.getParser(_S);
+        GearleyParser parser = grammar.getParser(_S);
 
         Iterator<Token> input = Iterators.characterIterator("abbabbbba");
 
-        EarleyResult result = parser.parse(input);
+        GearleyResult result = parser.parse(input);
         Assert.assertFalse(result.succeeded());
         Assert.assertTrue(result.prefixSucceeded());
 
@@ -60,11 +60,11 @@ public class PrefixTest {
         grammar.addRule(_B, _b);
         grammar.addRule(_B, _B);
 
-        EarleyParser parser = grammar.getParser(_S);
+        GearleyParser parser = grammar.getParser(_S);
 
         Iterator<Token> input = Iterators.characterIterator("(b))");
 
-        EarleyResult result = parser.parse(input);
+        GearleyResult result = parser.parse(input);
         Assert.assertFalse(result.succeeded());
         Assert.assertTrue(result.prefixSucceeded());
     }

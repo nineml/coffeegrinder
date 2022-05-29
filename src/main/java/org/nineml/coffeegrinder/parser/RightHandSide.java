@@ -6,26 +6,21 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RightHandSide {
-    private final Symbol[] symbols;
+    public final Symbol[] symbols;
     private final int hcode;
+    public final int length;
 
     public RightHandSide(Symbol[] symbols) {
         this.symbols = symbols;
+        this.length = this.symbols.length;
         hcode = Arrays.hashCode(this.symbols);
     }
 
     public RightHandSide(List<Symbol> symbols) {
         this.symbols = new Symbol[symbols.size()];
         symbols.toArray(this.symbols);
+        this.length = this.symbols.length;
         hcode = Arrays.hashCode(this.symbols);
-    }
-
-    public int size() {
-        return symbols.length;
-    }
-
-    public Symbol[] getSymbols() {
-        return symbols;
     }
 
     public Symbol get(int pos) {

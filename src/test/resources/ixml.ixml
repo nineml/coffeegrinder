@@ -1,4 +1,4 @@
-ixml: s,rule+s,s.
+ixml: s,rule++s,s.
 -s: (whitespace; comment)*.
 -whitespace: -[Zs];tab;lf;cr.
 -tab: -#9.
@@ -8,12 +8,12 @@ comment: -"{",(cchar;comment)*,-"}".
 -cchar: ~["{}"].
 rule: (mark,s)?,name,s,-["=:"],s,-alts,-".".
 @mark: ["@^-"].
-alts: alt+(-[";|"],s).
-alt: term*(-",",s).
+alts: alt++(-[";|"],s).
+alt: term**(-",",s).
 -term: factor;option;repeat0;repeat1.
 -factor: terminal;nonterminal;-"(",s,alts,-")",s.
-repeat0: factor,-"*",s,sep?.
-repeat1: factor,-"+",s,sep?.
+repeat0: factor, (-"*", s; -"**", s, sep).
+repeat1: factor, (-"+", s; -"++", s, sep).
 option: factor,-"?",s.
 sep: factor.
 nonterminal: (mark,s)?,name,s.
@@ -34,7 +34,7 @@ hex: ["0"-"9";"a"-"f";"A"-"F"]+.
 -charset: inclusion;exclusion.
 inclusion: (tmark,s)?,         set.
 exclusion: (tmark,s)?,-"~",s,set.
--set: -"[",s, member*(-[";|"],s),-"]",s.
+-set: -"[",s, member**(-[";|"],s),-"]",s.
 -member: literal;range;class.
 range: from,-"-",s,to.
 @from: character.

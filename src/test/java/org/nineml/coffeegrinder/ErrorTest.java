@@ -4,11 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.nineml.coffeegrinder.exceptions.GrammarException;
 import org.nineml.coffeegrinder.exceptions.ParseException;
-import org.nineml.coffeegrinder.parser.EarleyParser;
-import org.nineml.coffeegrinder.parser.EarleyResult;
 import org.nineml.coffeegrinder.parser.Grammar;
 import org.nineml.coffeegrinder.util.GrammarParser;
-import org.nineml.coffeegrinder.util.Iterators;
 
 import static junit.framework.TestCase.fail;
 

@@ -20,7 +20,7 @@ public class RewriteTest {
         Rule newRule = new Rule(S, B);
         Assert.assertFalse(grammar.contains(newRule));
 
-        grammar.close();
+        grammar.close(S);
 
         Assert.assertTrue(grammar.contains(newRule));
     }
@@ -36,7 +36,7 @@ public class RewriteTest {
         Rule newRule = new Rule(S, B);
         Assert.assertFalse(grammar.contains(newRule));
 
-        grammar.close();
+        grammar.close(S);
 
         Assert.assertTrue(grammar.contains(newRule));
     }
@@ -65,9 +65,7 @@ public class RewriteTest {
             Assert.assertFalse(grammar.contains(rule));
         }
 
-        Assert.assertTrue(grammar.isNullable(S));
-
-        grammar.close();
+        grammar.close(S);
 
         for (Rule rule : rules) {
             Assert.assertTrue(grammar.contains(rule));
@@ -92,7 +90,7 @@ public class RewriteTest {
         Assert.assertFalse(grammar.contains(newRule2));
         Assert.assertFalse(grammar.contains(newRule3));
 
-        grammar.close();
+        grammar.close(S);
 
         Assert.assertTrue(grammar.contains(newRule1));
         Assert.assertTrue(grammar.contains(newRule2));
@@ -111,7 +109,7 @@ public class RewriteTest {
         Rule newRule = new Rule(S, B);
         Assert.assertFalse(grammar.contains(newRule));
 
-        grammar.close();
+        grammar.close(S);
 
         Assert.assertFalse(grammar.contains(newRule));
     }
@@ -133,7 +131,7 @@ public class RewriteTest {
         Assert.assertFalse(grammar.contains(newRule2));
         Assert.assertFalse(grammar.contains(newRule3));
 
-        grammar.close();
+        grammar.close(S);
 
         Assert.assertFalse(grammar.contains(newRule1));
         Assert.assertTrue(grammar.contains(newRule2));
@@ -158,7 +156,7 @@ public class RewriteTest {
         Assert.assertFalse(grammar.contains(newRule2));
         Assert.assertFalse(grammar.contains(newRule3));
 
-        grammar.close();
+        grammar.close(S);
 
         Assert.assertFalse(grammar.contains(newRule1));
         Assert.assertFalse(grammar.contains(newRule2));

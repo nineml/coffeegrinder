@@ -24,8 +24,8 @@ public class ReadmeExampleTests {
         Grammar grammar = grammarParser.parse(input);
         Assert.assertNotNull(grammar);
 
-        EarleyParser parser = grammar.getParser("id");
-        EarleyResult result = parser.parse("07f");
+        GearleyParser parser = grammar.getParser("id");
+        GearleyResult result = parser.parse("07f");
         Assert.assertTrue(result.succeeded());
 
         //result.getForest().serialize("id07f-graph.xml");
@@ -59,8 +59,8 @@ public class ReadmeExampleTests {
     public void idTestApi() {
         Grammar grammar = idGrammar();
 
-        EarleyParser parser = grammar.getParser("id");
-        EarleyResult result = parser.parse("07f");
+        GearleyParser parser = grammar.getParser("id");
+        GearleyResult result = parser.parse("07f");
         Assert.assertTrue(result.succeeded());
 
         ParseTree tree = result.getForest().parse();
@@ -70,8 +70,8 @@ public class ReadmeExampleTests {
     public void idTestFab() {
         Grammar grammar = idGrammar();
 
-        EarleyParser parser = grammar.getParser("id");
-        EarleyResult result = parser.parse("fab");
+        GearleyParser parser = grammar.getParser("id");
+        GearleyResult result = parser.parse("fab");
         Assert.assertTrue(result.succeeded());
 
         //result.getForest().serialize("idfab-graph.xml");
@@ -101,8 +101,8 @@ public class ReadmeExampleTests {
         Grammar grammar = grammarParser.parse(input);
         Assert.assertNotNull(grammar);
 
-        EarleyParser parser = grammar.getParser("id");
-        EarleyResult result = parser.parse("12345");
+        GearleyParser parser = grammar.getParser("id");
+        GearleyResult result = parser.parse("12345");
         Assert.assertTrue(result.succeeded());
 
         //result.getForest().serialize("repeat-graph.xml");
@@ -140,8 +140,8 @@ public class ReadmeExampleTests {
 
         Assert.assertNotNull(grammar);
 
-        EarleyParser parser = grammar.getParser("id");
-        EarleyResult result = parser.parse("12345");
+        GearleyParser parser = grammar.getParser("id");
+        GearleyResult result = parser.parse("12345");
         Assert.assertTrue(result.succeeded());
 
         //result.getForest().serialize("repeat-graph.xml");
@@ -175,8 +175,8 @@ public class ReadmeExampleTests {
 
         Assert.assertNotNull(grammar);
 
-        EarleyParser parser = grammar.getParser("id");
-        EarleyResult result = parser.parse("12345");
+        GearleyParser parser = grammar.getParser("id");
+        GearleyResult result = parser.parse("12345");
         Assert.assertTrue(result.succeeded());
 
         //result.getForest().serialize("repeat-graph.xml");
@@ -215,8 +215,8 @@ public class ReadmeExampleTests {
 
         Assert.assertNotNull(grammar);
 
-        EarleyParser parser = grammar.getParser("id");
-        EarleyResult result = parser.parse("12345");
+        GearleyParser parser = grammar.getParser("id");
+        GearleyResult result = parser.parse("12345");
         Assert.assertTrue(result.succeeded());
 
         //result.getForest().serialize("repeat-graph.xml");

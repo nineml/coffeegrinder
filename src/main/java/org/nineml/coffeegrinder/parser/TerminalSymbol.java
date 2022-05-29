@@ -1,10 +1,7 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.GrammarException;
-import org.nineml.coffeegrinder.tokens.Token;
-import org.nineml.coffeegrinder.tokens.TokenCharacter;
-import org.nineml.coffeegrinder.tokens.TokenRegex;
-import org.nineml.coffeegrinder.tokens.TokenString;
+import org.nineml.coffeegrinder.tokens.*;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.Collection;
@@ -14,7 +11,9 @@ import java.util.Collection;
  * <p>Terminal symbols match some input token(s) literally.</p>
  */
 public class TerminalSymbol extends Symbol {
-    protected final Token token;
+    public static final TerminalSymbol EPSILON = new TerminalSymbol(TokenEPSILON.EPSILON);
+    public static final TerminalSymbol EOF = new TerminalSymbol(TokenEOF.EOF);
+    protected Token token;
 
     /**
      * Make a symbol for the specified token.

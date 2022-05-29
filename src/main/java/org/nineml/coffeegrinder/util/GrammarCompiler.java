@@ -26,7 +26,7 @@ import java.util.*;
  * can be loaded with the {@link #parse} method.</p>
  */
 public class GrammarCompiler {
-    private static final String formatVersion="0.9.2";
+    private static final String formatVersion="0.9.3";
     private static final char nameEscape = 'ǝ';
     private static final String NS = "http://nineml.org/coffeegrinder/ns/grammar/compiled";
     private static final HashMap<Character,String> entities = new HashMap<>();
@@ -128,7 +128,7 @@ public class GrammarCompiler {
         for (Rule rule : grammar.getRules()) {
             // Before we output the rule, make sure we output any new attribute groups
             atgroup(rule.getSymbol().getAttributes());
-            for (Symbol symbol : rule.getRhs().getSymbols()) {
+            for (Symbol symbol : rule.getRhs().symbols) {
                 atgroup(symbol.getAttributes());
                 if (symbol instanceof TerminalSymbol) {
                     atgroup(((TerminalSymbol) symbol).getToken().getAttributes());
@@ -140,7 +140,7 @@ public class GrammarCompiler {
             sb.append(" ag=\"").append(atgroup(rule.getSymbol().getAttributes())).append("\"");
             sb.append(">");
 
-            for (Symbol symbol : rule.getRhs().getSymbols()) {
+            for (Symbol symbol : rule.getRhs().symbols) {
                 if (symbol instanceof TerminalSymbol) {
                     sb.append("<t");
                     standardAttributes(symbol.getAttributes());

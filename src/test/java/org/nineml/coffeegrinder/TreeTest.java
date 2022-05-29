@@ -5,10 +5,8 @@ import org.junit.Test;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.util.GrammarCompiler;
 import org.nineml.coffeegrinder.util.Iterators;
-import org.nineml.coffeegrinder.util.NodeChoices;
 
 import java.io.File;
-import java.util.Map;
 
 import static junit.framework.TestCase.fail;
 
@@ -20,23 +18,26 @@ public class TreeTest {
         // S: a, b, c. a:. b:. c:.
 
         NonterminalSymbol S = grammar.getNonterminal("S");
+        //NonterminalSymbol T = grammar.getNonterminal("T");
         NonterminalSymbol a = grammar.getNonterminal("a");
         NonterminalSymbol b = grammar.getNonterminal("b");
         NonterminalSymbol c = grammar.getNonterminal("c");
 
+        //grammar.addRule(S, T);
         grammar.addRule(S, a, b, c);
+        grammar.addRule(S);
         grammar.addRule(a);
         grammar.addRule(b);
         grammar.addRule(c);
 
-        EarleyParser parser = grammar.getParser(S);
-        EarleyResult result = parser.parse(Iterators.characterIterator(""));
+        GearleyParser parser = grammar.getParser(S);
+        GearleyResult result = parser.parse(Iterators.characterIterator(""));
 
-        //result.getForest().serialize("graph.xml");
+        //result.getForest().serialize("/tmp/graph.xml");
         //result.getForest().parse().serialize("tree.xml");
 
         Assert.assertTrue(result.succeeded());
-        Assert.assertEquals(1, result.getForest().getTotalParses());
+        Assert.assertEquals(2, result.getForest().getTotalParses());
     }
 
     @Test
@@ -44,12 +45,12 @@ public class TreeTest {
         try {
             GrammarCompiler compiler = new GrammarCompiler();
             Grammar grammar = compiler.parse(new File("src/test/resources/ixml.cxml"));
-            EarleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
+            GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
 
-            String input = "ixml:'x',empty.empty:.";
-            EarleyResult result = parser.parse(Iterators.characterIterator(input));
+            String input = "ixml:'x',empty. empty:.";
+            GearleyResult result = parser.parse(Iterators.characterIterator(input));
 
-            //result.getForest().serialize("graph.xml");
+            //result.getForest().serialize("/tmp/graph.xml");
             //ParseTree tree = result.getForest().parse();
             //tree.serialize("tree.xml");
 
@@ -69,8 +70,8 @@ public class TreeTest {
             GrammarCompiler compiler = new GrammarCompiler();
             Grammar grammar = compiler.parse(new File("src/test/resources/property-file.cxml"));
 
-            EarleyParser parser = grammar.getParser("$$");
-            EarleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/short-example.properties"));
+            GearleyParser parser = grammar.getParser("$$");
+            GearleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/short-example.properties"));
 
             Ambiguity ambiguity = result.getForest().getAmbiguity();
 

@@ -2,15 +2,7 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.nineml.coffeegrinder.parser.EarleyParser;
-import org.nineml.coffeegrinder.parser.EarleyResult;
-import org.nineml.coffeegrinder.parser.Grammar;
-import org.nineml.coffeegrinder.parser.HygieneReport;
-import org.nineml.coffeegrinder.parser.NonterminalSymbol;
-import org.nineml.coffeegrinder.parser.ParseForest;
-import org.nineml.coffeegrinder.parser.ParseTree;
-import org.nineml.coffeegrinder.parser.Rule;
-import org.nineml.coffeegrinder.parser.TerminalSymbol;
+import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.TokenEmpty;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
@@ -32,13 +24,13 @@ public class EmptyTokenTest {
         grammar.addRule(A, TerminalSymbol.ch('a'));
         grammar.addRule(B, TerminalSymbol.ch('b'));
 
-        grammar.close();
+        grammar.close(S);
 
         HygieneReport report = grammar.checkHygiene(S);
         Assertions.assertTrue(report.isClean());
 
-        EarleyParser parser = grammar.getParser(S);
-        EarleyResult result = parser.parse("ab");
+        GearleyParser parser = grammar.getParser(S);
+        GearleyResult result = parser.parse("ab");
         Assertions.assertTrue(result.succeeded());
     }
 
@@ -59,13 +51,13 @@ public class EmptyTokenTest {
         grammar.addRule(A, TerminalSymbol.ch('a'));
         grammar.addRule(B, TerminalSymbol.ch('b'));
 
-        grammar.close();
+        grammar.close(S);
 
         HygieneReport report = grammar.checkHygiene(S);
         Assertions.assertTrue(report.isClean());
 
-        EarleyParser parser = grammar.getParser(S);
-        EarleyResult result = parser.parse("ab");
+        GearleyParser parser = grammar.getParser(S);
+        GearleyResult result = parser.parse("ab");
 
         ParseTree tree = result.getForest().parse();
 

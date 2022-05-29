@@ -3,11 +3,7 @@ package org.nineml.coffeegrinder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.nineml.coffeegrinder.parser.EarleyResult;
-import org.nineml.coffeegrinder.parser.Grammar;
-import org.nineml.coffeegrinder.parser.EarleyParser;
-import org.nineml.coffeegrinder.parser.NonterminalSymbol;
-import org.nineml.coffeegrinder.parser.TerminalSymbol;
+import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.tokens.TokenRegex;
 import org.nineml.coffeegrinder.util.GrammarCompiler;
@@ -30,8 +26,8 @@ public class FailedParseTest {
         grammar.addRule(_E, _E, _plus, _E);
         grammar.addRule(_E, new TerminalSymbol(TokenRegex.get("[0-9]")));
 
-        EarleyParser parser = grammar.getParser(_S);
-        EarleyResult result = parser.parse(Iterators.characterIterator("1+2-3"));
+        GearleyParser parser = grammar.getParser(_S);
+        GearleyResult result = parser.parse(Iterators.characterIterator("1+2-3"));
         Assert.assertFalse(result.succeeded());
         Assert.assertEquals(4, result.getTokenCount());
         Assert.assertEquals('-', ((TokenCharacter) result.getLastToken()).getCharacter());
@@ -43,10 +39,14 @@ public class FailedParseTest {
             GrammarCompiler compiler = new GrammarCompiler();
             Grammar grammar = compiler.parse(new File("src/test/resources/month.cxml"));
             NonterminalSymbol start = grammar.getNonterminal("$$");
-            EarleyParser parser = grammar.getParser(start);
-            EarleyResult result = parser.parse("March");
+            GearleyParser parser = grammar.getParser(start);
+            GearleyResult result = parser.parse("March");
             Assertions.assertTrue(result.succeeded());
-            Assertions.assertTrue(result.predictedTerminals().isEmpty());
+
+            if (result instanceof EarleyResult) {
+                Assertions.assertTrue(((EarleyResult) result).getPredictedTerminals().isEmpty());
+            }
+
         } catch (Exception ex) {
             fail();
         }
@@ -58,13 +58,16 @@ public class FailedParseTest {
             GrammarCompiler compiler = new GrammarCompiler();
             Grammar grammar = compiler.parse(new File("src/test/resources/month.cxml"));
             NonterminalSymbol start = grammar.getNonterminal("$$");
-            EarleyParser parser = grammar.getParser(start);
-            EarleyResult result = parser.parse("Max");
+            GearleyParser parser = grammar.getParser(start);
+            GearleyResult result = parser.parse("Max");
             Assertions.assertFalse(result.succeeded());
-            Assertions.assertEquals(2, result.predictedTerminals().size());
-            for (TerminalSymbol t : result.predictedTerminals()) {
-                String value = t.getToken().getValue();
-                Assertions.assertTrue("r".equals(value) || "y".equals(value));
+
+            if (result instanceof EarleyResult) {
+                Assertions.assertEquals(2, ((EarleyResult) result).getPredictedTerminals().size());
+                for (TerminalSymbol t : ((EarleyResult) result).getPredictedTerminals()) {
+                    String value = t.getToken().getValue();
+                    Assertions.assertTrue("r".equals(value) || "y".equals(value));
+                }
             }
         } catch (Exception ex) {
             fail();
@@ -77,13 +80,15 @@ public class FailedParseTest {
             GrammarCompiler compiler = new GrammarCompiler();
             Grammar grammar = compiler.parse(new File("src/test/resources/month.cxml"));
             NonterminalSymbol start = grammar.getNonterminal("$$");
-            EarleyParser parser = grammar.getParser(start);
-            EarleyResult result = parser.parse("Marsh");
+            GearleyParser parser = grammar.getParser(start);
+            GearleyResult result = parser.parse("Marsh");
             Assertions.assertFalse(result.succeeded());
-            Assertions.assertEquals(1, result.predictedTerminals().size());
-            for (TerminalSymbol t : result.predictedTerminals()) {
-                String value = t.getToken().getValue();
-                Assertions.assertTrue("c".equals(value));
+            if (result instanceof EarleyResult) {
+                Assertions.assertEquals(1, ((EarleyResult) result).getPredictedTerminals().size());
+                for (TerminalSymbol t : ((EarleyResult) result).getPredictedTerminals()) {
+                    String value = t.getToken().getValue();
+                    Assertions.assertEquals("c", value);
+                }
             }
         } catch (Exception ex) {
             fail();

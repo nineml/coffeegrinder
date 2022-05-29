@@ -16,18 +16,18 @@ public interface ProgressMonitor {
      * @param parser the parser
      * @return the update frequency
      */
-    int starting(EarleyParser parser);
+    int starting(GearleyParser parser);
 
     /**
      * Indicates progress in the parse.
      * @param parser the parser
      * @param tokens the number of tokens processed so far.
      */
-    void progress(EarleyParser parser, long tokens);
+    void progress(GearleyParser parser, long tokens);
 
     /**
      * Indicates that the parse has finished.
      * @param parser the parser
      */
-    void finished(EarleyParser parser);
+    void finished(GearleyParser parser);
 }

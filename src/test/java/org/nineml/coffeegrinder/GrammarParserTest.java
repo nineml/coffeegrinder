@@ -2,9 +2,7 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.nineml.coffeegrinder.parser.EarleyResult;
-import org.nineml.coffeegrinder.parser.Grammar;
-import org.nineml.coffeegrinder.parser.EarleyParser;
+import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.util.GrammarParser;
 import org.nineml.coffeegrinder.util.Iterators;
 
@@ -38,8 +36,8 @@ public class GrammarParserTest {
         GrammarParser gparser = new GrammarParser();
         Grammar grammar = gparser.parseFile("src/test/resources/expression.grammar");
         Assert.assertNotNull(grammar);
-        EarleyParser parser = grammar.getParser(grammar.getNonterminal("Sum"));
-        EarleyResult result = parser.parse(Iterators.characterIterator("1+(2*3-4)"));
+        GearleyParser parser = grammar.getParser(grammar.getNonterminal("Sum"));
+        GearleyResult result = parser.parse(Iterators.characterIterator("1+(2*3-4)"));
         Assert.assertTrue(result.succeeded());
     }
 
