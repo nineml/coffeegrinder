@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.util.GrammarCompiler;
 import org.nineml.coffeegrinder.util.Iterators;
+import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.io.File;
 
@@ -73,6 +74,8 @@ public class TreeTest {
             GearleyParser parser = grammar.getParser("$$");
             GearleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/short-example.properties"));
 
+            //result.getForest().serialize("/tmp/walker1.xml");
+
             Ambiguity ambiguity = result.getForest().getAmbiguity();
 
             Assert.assertTrue(ambiguity.getAmbiguous());
@@ -85,5 +88,38 @@ public class TreeTest {
             fail();
         }
     }
+
+    @Test
+    public void testAmbiguous() {
+        Grammar grammar = new Grammar();
+
+        // S: a, b, c. a:. b:. c:.
+
+        NonterminalSymbol S = grammar.getNonterminal("S");
+        //NonterminalSymbol T = grammar.getNonterminal("T");
+        NonterminalSymbol A = grammar.getNonterminal("A");
+        NonterminalSymbol d1 = grammar.getNonterminal("$1", true);
+        NonterminalSymbol d2 = grammar.getNonterminal("$2", true);
+        NonterminalSymbol d3 = grammar.getNonterminal("$3", true);
+        NonterminalSymbol d4 = grammar.getNonterminal("$4", true);
+
+        grammar.addRule(S, A);
+        grammar.addRule(A, d1);
+        grammar.addRule(A, d3);
+        grammar.addRule(d1, d2);
+        grammar.addRule(d2, TerminalSymbol.ch('a'), d2);
+        grammar.addRule(d3, d4);
+        grammar.addRule(d4, TerminalSymbol.ch('b'), d4);
+
+        GearleyParser parser = grammar.getParser(S);
+        GearleyResult result = parser.parse(Iterators.characterIterator(""));
+
+        //result.getForest().serialize("/tmp/graph.xml");
+        //result.getForest().parse().serialize("tree.xml");
+
+        Assert.assertTrue(result.succeeded());
+        Assert.assertEquals(2, result.getForest().getTotalParses());
+    }
+
 
 }

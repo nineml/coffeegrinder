@@ -412,6 +412,18 @@ public class Grammar {
     }
 
     protected void expandOptionalSymbols() {
+        // This whole business of allowing symbols to be marked as optional is a bit of a problem.
+        // We now have the challenge of working out which ones should be allowed to go to epsilon.
+        // I suspect this feature should be pulled out and CoffeeFilter should be rewritten to
+        // deal with it through rewrite rules.
+        //
+        // But in the meantime, the following appears to work:
+        // 1. If all of the symbols on the RHS of a rule are optional (or nullable)
+        // 2. And if the symbol defined by the rule is marked as optional
+        // then add an epsilon rule for it.
+        //
+        // That seems to work, at least for the grammars produced by CoffeeFilter
+
         HashSet<NonterminalSymbol> finished = new HashSet<>();
         HashSet<NonterminalSymbol> optional = new HashSet<>();
 
@@ -435,6 +447,7 @@ public class Grammar {
                         if (symbol instanceof NonterminalSymbol) {
                             canBeNull = canBeNull
                                     && (optional.contains((NonterminalSymbol) symbol)
+                                        || nullable.contains(symbol)
                                         || symbol.isOptional());
                         } else {
                             canBeNull = false;
@@ -450,7 +463,11 @@ public class Grammar {
             }
         }
 
-        nullable.addAll(optional);
+        for (Symbol symbol : optional) {
+            if (symbol.isOptional()) {
+                nullable.add(symbol);
+            }
+        }
 
         ArrayList<Rule> copyRules = new ArrayList<>(rules);
         for (Rule rule : copyRules) {
