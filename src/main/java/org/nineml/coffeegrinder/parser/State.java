@@ -40,7 +40,7 @@ public class State {
         this.rule = rule;
         this.symbol = rule.getSymbol();
         this.rhs = rule.getRhs();
-        this.position = rhs.getNextPosition(0);
+        this.position = 0;
         label = nextStateId++;
         descriptors = new HashSet<>();
     }
@@ -49,7 +49,7 @@ public class State {
         this.rule = other.rule;
         this.symbol = other.symbol;
         this.rhs = other.rhs;
-        this.position = rhs.getNextPosition(position);
+        this.position = position;
         label = nextStateId++;
         descriptors = new HashSet<>();
     }
@@ -58,7 +58,7 @@ public class State {
         this.rule = rule;
         this.symbol = rule.symbol;
         this.rhs = rule.rhs;
-        this.position = rhs.getNextPosition(position);
+        this.position = position;
         label = nextStateId++;
         descriptors = new HashSet<>();
     }
