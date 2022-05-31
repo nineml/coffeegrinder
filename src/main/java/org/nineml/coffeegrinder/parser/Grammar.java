@@ -22,6 +22,7 @@ public class Grammar {
     private final ArrayList<Rule> rules;
     private final HashMap<NonterminalSymbol,ArrayList<Rule>> rulesBySymbol;
     private final HashSet<Symbol> nullable;
+    private final HashSet<Symbol> alwaysOptional;
     private NonterminalSymbol seed = null;
     private final HashMap<String,String> metadata = new HashMap<>();
     private ParserOptions options;
@@ -48,6 +49,7 @@ public class Grammar {
         rulesBySymbol = new HashMap<>();
         this.options = options;
         nullable = new HashSet<>();
+        alwaysOptional = new HashSet<>();
         if ("Earley".equals(options.getParserType())) {
             defaultParserType = ParserType.Earley;
         } else {
@@ -67,6 +69,7 @@ public class Grammar {
         rulesBySymbol = new HashMap<>(current.rulesBySymbol);
         options = current.options;
         nullable = new HashSet<>(current.nullable);
+        alwaysOptional = new HashSet<>(current.alwaysOptional);
         defaultParserType = current.defaultParserType;
         seed = null;
         computedSets = false;
@@ -426,12 +429,25 @@ public class Grammar {
 
         HashSet<NonterminalSymbol> finished = new HashSet<>();
         HashSet<NonterminalSymbol> optional = new HashSet<>();
+        HashSet<Symbol> sometimesRequired = new HashSet<>();
 
         for (Rule rule : rules) {
             if (rule.getRhs().isEmpty()) {
                 nullable.add(rule.getSymbol());
                 finished.add(rule.getSymbol());
+            } else {
+                for (Symbol symbol : rule.getRhs().symbols) {
+                    if (symbol.isOptional()) {
+                        alwaysOptional.add(symbol);
+                    } else {
+                        sometimesRequired.add(symbol);
+                    }
+                }
             }
+        }
+
+        for (Symbol symbol : sometimesRequired) {
+            alwaysOptional.remove(symbol);
         }
 
         boolean changed = true;
@@ -492,16 +508,21 @@ public class Grammar {
                     }
                 }
                 Rule newRule = new Rule(rule.getSymbol(), newRhs);
-                // The contains() test is in some sense unnecessary here because addRule() tests
-                // for this. But addRule() generates a trace message if the rules are the same
-                // and that's potentially misleading here, so let's avoid it.
-                if (!contains(newRule)) {
-                    addRule(newRule);
-                }
 
-                // If the newRhs is empty, then this is a nullable rule.
-                if (newRhs.isEmpty()) {
-                    nullable.add(rule.getSymbol());
+                // Don't make epsilon productions for symbols that are always optional, it isn't
+                // necessary and it can introduce ambiguity.
+                if (!newRhs.isEmpty() || !alwaysOptional.contains(rule.getSymbol())) {
+                    // The contains() test is in some sense unnecessary here because addRule() tests
+                    // for this. But addRule() generates a trace message if the rules are the same
+                    // and that's potentially misleading here, so let's avoid it.
+                    if (!contains(newRule)) {
+                        addRule(newRule);
+                    }
+
+                    // If the newRhs is empty, then this is a nullable rule.
+                    if (newRhs.isEmpty()) {
+                        nullable.add(rule.getSymbol());
+                    }
                 }
 
                 expandOptionalSymbols(newRule, pos);
