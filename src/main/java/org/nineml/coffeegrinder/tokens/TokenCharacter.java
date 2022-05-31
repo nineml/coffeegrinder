@@ -10,19 +10,21 @@ import java.util.HashMap;
  * A single character {@link Token}.
  */
 public class TokenCharacter extends Token {
-    private static HashMap<Character,String> charmap = null;
-    private final char ch;
-    private final String chstr; // So we only have to convert char to String once.
+    private static HashMap<Integer,String> charmap = null;
+    private final String chstr; // String because non-BMP characters are longer than one Java char
+    private final int codepoint;
 
-    private TokenCharacter(char ch,  Collection<ParserAttribute> attributes) {
+    private TokenCharacter(int codepoint,  Collection<ParserAttribute> attributes) {
         super(attributes);
-        this.ch = ch;
-        chstr = Character.toString(ch);
+        this.codepoint = codepoint;
+        StringBuilder sb = new StringBuilder();
+        sb.appendCodePoint(codepoint);
+        chstr = sb.toString();
         if (charmap == null) {
             charmap = new HashMap<>();
-            charmap.put('\n', "\\n");
-            charmap.put('\r', "\\r");
-            charmap.put('\t', "\\t");
+            charmap.put("\n".codePointAt(0), "\\n");
+            charmap.put("\r".codePointAt(0), "\\r");
+            charmap.put("\t".codePointAt(0), "\\t");
         }
     }
 
@@ -31,7 +33,7 @@ public class TokenCharacter extends Token {
      * @param ch the character
      * @return a token
      */
-    public static TokenCharacter get(char ch) {
+    public static TokenCharacter get(int ch) {
         return new TokenCharacter(ch, null);
     }
 
@@ -41,7 +43,7 @@ public class TokenCharacter extends Token {
      * @param attribute the attribute
      * @return a token
      */
-    public static TokenCharacter get(char ch, ParserAttribute attribute) {
+    public static TokenCharacter get(int ch, ParserAttribute attribute) {
         if (attribute == null) {
             throw new NullPointerException("Token attribute must not be null");
         }
@@ -54,7 +56,7 @@ public class TokenCharacter extends Token {
      * @param attributes the attributes
      * @return a token
      */
-    public static TokenCharacter get(char ch, Collection<ParserAttribute> attributes) {
+    public static TokenCharacter get(int ch, Collection<ParserAttribute> attributes) {
         return new TokenCharacter(ch, attributes);
     }
 
@@ -67,11 +69,11 @@ public class TokenCharacter extends Token {
     }
 
     /**
-     * Return the value of this token (its character).
-     * @return The character value of the token.
+     * Return the codepoint value of this token (its character codepoint)
+     * @return the codepoint
      */
-    public char getCharacter() {
-        return ch;
+    public int getCodepoint() {
+        return codepoint;
     }
 
     /**
@@ -85,22 +87,13 @@ public class TokenCharacter extends Token {
     @Override
     public boolean matches(Token input) {
         if (input instanceof TokenCharacter) {
-            return ((TokenCharacter) input).ch == ch;
+            return codepoint == ((TokenCharacter) input).codepoint;
         }
+
         if (input instanceof TokenString) {
-            return matches(((TokenString) input).getValue());
+            return chstr.equals(input.getValue());
         }
-
         return false;
-    }
-
-    /**
-     * Does this token match this character?
-     * @param input the input character.
-     * @return true if it's the same character as this token.
-     */
-    public boolean matches(char input) {
-        return this.ch == input;
     }
 
     /**
@@ -109,7 +102,7 @@ public class TokenCharacter extends Token {
      * @return true if it's a single-character long string containing the same character as this token.
      */
     public boolean matches(String input) {
-        return input != null && input.length() == 1 && input.charAt(0) == ch;
+        return chstr.equals(input);
     }
 
     /**
@@ -123,7 +116,7 @@ public class TokenCharacter extends Token {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof TokenCharacter) {
-            return ((TokenCharacter) obj).ch == ch;
+            return codepoint == ((TokenCharacter) obj).codepoint;
         }
         return false;
     }
@@ -134,7 +127,7 @@ public class TokenCharacter extends Token {
      */
     @Override
     public int hashCode() {
-        return 11 * ch;
+        return codepoint;
     }
 
     /**
@@ -143,9 +136,9 @@ public class TokenCharacter extends Token {
      */
     @Override
     public String toString() {
-        if (charmap.containsKey(ch)) {
-            return "'" + charmap.get(ch) + "'";
+        if (charmap.containsKey(codepoint)) {
+            return "'" + charmap.get(codepoint) + "'";
         }
-        return "'" + ch + "'";
+        return "'" + chstr + "'";
     }
 }

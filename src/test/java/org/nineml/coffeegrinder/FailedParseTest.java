@@ -30,7 +30,7 @@ public class FailedParseTest {
         GearleyResult result = parser.parse(Iterators.characterIterator("1+2-3"));
         Assert.assertFalse(result.succeeded());
         Assert.assertEquals(4, result.getTokenCount());
-        Assert.assertEquals('-', ((TokenCharacter) result.getLastToken()).getCharacter());
+        Assert.assertEquals("-", result.getLastToken().getValue());
     }
 
     @Test

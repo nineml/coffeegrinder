@@ -70,14 +70,9 @@ public class TokenString extends Token {
      */
     @Override
     public boolean matches(Token input) {
-        if (input instanceof TokenString) {
-            return value.equals(((TokenString) input).value);
+        if (input instanceof TokenString || input instanceof TokenCharacter) {
+            return value.equals(input.getValue());
         }
-
-        if (input instanceof TokenCharacter && value.length() == 1) {
-            return ((TokenCharacter) input).matches(value.charAt(0));
-        }
-
         return false;
     }
 
