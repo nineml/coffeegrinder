@@ -2,10 +2,12 @@ package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ForestException;
 import org.nineml.coffeegrinder.util.DefaultTreeWalker;
+import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.io.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
@@ -186,24 +188,45 @@ public class EarleyForest implements ParseForest {
                 }
             }
 
+            StringBuilder attrs = new StringBuilder();
             if (node.symbol == null) {
                 assert node.state != null;
-                stream.printf(" label=\"%s, %d, %d\"", stastr, node.leftExtent, node.rightExtent);
+                stream.printf(" label=\"%s\"", stastr);
                 stream.print(" type='state'");
             } else {
                 if (stastr == null) {
-                    stream.printf(" label=\"%s, %d, %d\"", symstr, node.leftExtent, node.rightExtent);
+                    stream.printf(" label=\"%s\"", symstr);
                 } else {
-                    stream.printf(" label=\"%s, %d, %d\" state=\"%s\"", symstr, node.leftExtent, node.rightExtent, stastr);
+                    stream.printf(" label=\"%s\" state=\"%s\"", symstr, stastr);
                 }
                 if (node.symbol instanceof TerminalSymbol) {
                     stream.print(" type='terminal'");
                 } else {
                     stream.print(" type='nonterminal'");
                 }
+
+                Collection<ParserAttribute> pattrs;
+                if (node.symbol instanceof TerminalSymbol) {
+                     pattrs = ((TerminalSymbol) node.symbol).getToken().getAttributes();
+                } else {
+                     pattrs = node.symbol.getAttributes();
+                }
+                for (ParserAttribute attr : pattrs) {
+                    attrs.append("    <attr name=\"").append(attr.getName());
+                    attrs.append("\" value=\"").append(attr.getValue()).append("\"/>\n");
+                }
             }
+            stream.printf(" leftExtent='%d' rightExtent='%d'", node.leftExtent, node.rightExtent);
+            stream.printf(" trees='%d'", node.exactParsesBelow);
+
             if (node.families.isEmpty()) {
-                stream.println("/>");
+                if ("".equals(attrs.toString())) {
+                    stream.println("/>");
+                } else {
+                    stream.println(">");
+                    stream.print(attrs);
+                    stream.printf("  </u%d>\n", count);
+                }
             } else {
                 stream.println(">");
                 for (Family family : node.families) {
