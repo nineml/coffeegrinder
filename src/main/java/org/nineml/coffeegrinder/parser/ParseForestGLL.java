@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class EarleyForestGLL extends EarleyForest {
+public class ParseForestGLL extends ParseForest {
     private final HashSet<ForestNodeGLL> extendedLeaves;
     private final HashMap<Symbol, PrefixTrie> intermediate;
     private final HashMap<Symbol, PrefixTrie> slotPrefixes;
@@ -16,7 +16,7 @@ public class EarleyForestGLL extends EarleyForest {
     private final int rightExtent;
     private final Token[] inputTokens;
 
-    public EarleyForestGLL(ParserOptions options, Grammar grammar, int rightExtent, Token[] inputTokens) {
+    public ParseForestGLL(ParserOptions options, Grammar grammar, int rightExtent, Token[] inputTokens) {
         super(options);
         this.grammar = grammar;
         this.rightExtent = rightExtent;

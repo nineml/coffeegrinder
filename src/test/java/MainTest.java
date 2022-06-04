@@ -138,7 +138,6 @@ value ⇒ notSemiStar
 
         try {
             GllParser gllParser = new GllParser(grammar);
-            gllParser.trace = false;
 
             int lineCount = 0;
 

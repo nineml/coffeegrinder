@@ -11,9 +11,9 @@ public class ForestNodeSet {
     // the question, did I need to create one? seems like something to avoid.
     private final HashMap<Symbol, HashMap<Long, ForestNode>> forestSymbolMap = new HashMap<>();
     private final HashMap<State, HashMap<Long, ForestNode>> forestStateMap = new HashMap<>();
-    private final EarleyForest graph;
+    private final ParseForest graph;
 
-    protected ForestNodeSet(EarleyForest graph) {
+    protected ForestNodeSet(ParseForest graph) {
         this.graph = graph;
     }
 

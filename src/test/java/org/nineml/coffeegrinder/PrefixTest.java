@@ -6,6 +6,7 @@ import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.util.Iterators;
 
+import javax.swing.text.html.parser.Parser;
 import java.util.Iterator;
 
 import static junit.framework.TestCase.fail;
@@ -29,6 +30,11 @@ public class PrefixTest {
         grammar.addRule(_B, _b);
 
         GearleyParser parser = grammar.getParser(_S);
+
+        if (parser.getParserType() != ParserType.Earley) {
+            System.err.println("Prefix parsing is only supported by the Earley parser");
+            return;
+        }
 
         Iterator<Token> input = Iterators.characterIterator("abbabbbba");
 
@@ -61,6 +67,11 @@ public class PrefixTest {
         grammar.addRule(_B, _B);
 
         GearleyParser parser = grammar.getParser(_S);
+
+        if (parser.getParserType() != ParserType.Earley) {
+            System.err.println("Prefix parsing is only supported by the Earley parser");
+            return;
+        }
 
         Iterator<Token> input = Iterators.characterIterator("(b))");
 

@@ -250,6 +250,7 @@ public class GllGrammarTest {
     @Test
     public void testInsertionNT() {
         Grammar grammar = new Grammar();
+        grammar.getParserOptions().getLogger().setDefaultLogLevel(99);
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");

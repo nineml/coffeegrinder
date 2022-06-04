@@ -10,9 +10,6 @@ public class MGoto extends MStatement {
     }
 
     protected void execute(GllParser gllParser) {
-        if (gllParser.trace) {
-            System.err.println("goto " + label.getInstructionPointer());
-        }
         gllParser.jump(label);
     }
 

@@ -23,7 +23,7 @@ public class EarleyParser implements GearleyParser {
     private final EarleyChart chart = new EarleyChart();
     private final ForestNodeSet V;
     private final Grammar grammar;
-    private final EarleyForest graph;
+    private final ParseForest graph;
     private final NonterminalSymbol S;
     private final HashMap<NonterminalSymbol, List<Rule>> Rho;
     private final ArrayList<Token> tokenBuffer = new ArrayList<>();
@@ -71,7 +71,7 @@ public class EarleyParser implements GearleyParser {
             throw ParseException.seedNotInGrammar(S.toString());
         }
 
-        graph = new EarleyForest(options);
+        graph = new ParseForest(options);
         V = new ForestNodeSet(graph);
     }
 

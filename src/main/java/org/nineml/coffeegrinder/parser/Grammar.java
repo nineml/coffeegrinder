@@ -50,7 +50,7 @@ public class Grammar {
         this.options = options;
         nullable = new HashSet<>();
         alwaysOptional = new HashSet<>();
-        if ("Earley".equals(options.getParserType())) {
+        if (false && "Earley".equals(options.getParserType())) {
             defaultParserType = ParserType.Earley;
         } else {
             defaultParserType = ParserType.GLL;
@@ -216,8 +216,6 @@ public class Grammar {
 
     /**
      * Is a symbol nullable?
-     * <p>Note: in an open grammar, the result of calling this method can vary. Once a symbol
-     * is nullable, it will forever be nullable.</p>
      * @param symbol the symbol
      * @return true if the symbol is nullable
      * @throws UnsupportedOperationException if the grammar is open
@@ -511,7 +509,7 @@ public class Grammar {
 
                 // Don't make epsilon productions for symbols that are always optional, it isn't
                 // necessary and it can introduce ambiguity.
-                if (!newRhs.isEmpty() || !alwaysOptional.contains(rule.getSymbol())) {
+                if (true || !newRhs.isEmpty() || !alwaysOptional.contains(rule.getSymbol())) {
                     // The contains() test is in some sense unnecessary here because addRule() tests
                     // for this. But addRule() generates a trace message if the rules are the same
                     // and that's potentially misleading here, so let's avoid it.
@@ -683,6 +681,7 @@ public class Grammar {
         if (computedSets) {
             return; // we don't need to do this twice
         }
+
         if (seed == null) {
             throw new NullPointerException("Start symbol is null");
         }
@@ -690,6 +689,7 @@ public class Grammar {
 
         firstSets.clear();
         followSets.clear();
+        Set<NonterminalSymbol> canGoToEpsilon = canGoToEpsilon();
 
         for (Rule rule : rules) {
             if (!firstSets.containsKey(rule.symbol)) {
@@ -704,7 +704,7 @@ public class Grammar {
             HashSet<Symbol> first = firstSets.get(rule.symbol);
             for (Symbol symbol : rule.rhs.symbols) {
                 first.add(symbol);
-                if (!nullable.contains(symbol)) {
+                if (!canGoToEpsilon.contains(symbol)) {
                     break;
                 }
             }
@@ -805,5 +805,40 @@ public class Grammar {
             }
         }
         return combined;
+    }
+
+    private Set<NonterminalSymbol> canGoToEpsilon() {
+        // Whatever nullable meant when we were [expletive] about trying to work
+        // out the optional symbols, it means something different now. :-(
+        HashSet<NonterminalSymbol> notNullable = new HashSet<>();
+        HashSet<NonterminalSymbol> isNullable = new HashSet<>();
+
+        boolean changed = true;
+        while (changed) {
+            changed = false;
+            for (Rule rule : rules) {
+                if (!isNullable.contains(rule.symbol) && !notNullable.contains(rule.symbol)) {
+                    if (rule.rhs.isEmpty()) {
+                        isNullable.add(rule.symbol);
+                        changed = true;
+                    } else {
+                        boolean canBeNull = true;
+                        for (Symbol symbol : rule.rhs.symbols) {
+                            if (symbol instanceof TerminalSymbol || notNullable.contains(symbol)) {
+                                notNullable.add(rule.symbol);
+                                changed = true;
+                                canBeNull = false;
+                            }
+                        }
+                        if (canBeNull) {
+                            isNullable.add(rule.symbol);
+                            changed = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return isNullable;
     }
 }

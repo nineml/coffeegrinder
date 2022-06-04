@@ -3,9 +3,9 @@ package org.nineml.coffeegrinder.gll;
 import org.nineml.coffeegrinder.parser.NonterminalSymbol;
 
 public class PoppedNode {
-    public final NonterminalSymbol symbol;
-    public final int k;
-    public final int j;
+    protected final NonterminalSymbol symbol;
+    protected final int k;
+    protected final int j;
 
     protected PoppedNode(NonterminalSymbol symbol, int k, int j) {
         this.symbol = symbol;

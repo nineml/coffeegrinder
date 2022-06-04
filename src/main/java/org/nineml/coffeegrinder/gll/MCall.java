@@ -10,9 +10,6 @@ public class MCall extends MStatement {
     }
 
     protected void execute(GllParser gllParser) {
-        if (gllParser.trace) {
-            System.err.printf("call(%s, %d, %d)\n", slot, gllParser.c_U, gllParser.c_I);
-        }
         gllParser.call(slot, gllParser.c_U, gllParser.c_I);
     }
 

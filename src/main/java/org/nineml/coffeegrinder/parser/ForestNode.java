@@ -25,7 +25,7 @@ public class ForestNode {
 
     private static int nextNodeId = 0;
 
-    protected final EarleyForest graph;
+    protected final ParseForest graph;
     public final Symbol symbol;
     public final State state;
     /**
@@ -48,7 +48,7 @@ public class ForestNode {
     protected long parsesBelow = 0;
     protected BigInteger exactParsesBelow = BigInteger.ZERO;
 
-    protected ForestNode(EarleyForest graph, Symbol symbol, int leftExtent, int rightExtent) {
+    protected ForestNode(ParseForest graph, Symbol symbol, int leftExtent, int rightExtent) {
         this.graph = graph;
         this.symbol = symbol;
         this.state = null;
@@ -57,7 +57,7 @@ public class ForestNode {
         id = nextNodeId++;
     }
 
-    protected ForestNode(EarleyForest graph, State state, int leftExtent, int rightExtent) {
+    protected ForestNode(ParseForest graph, State state, int leftExtent, int rightExtent) {
         this.graph = graph;
         this.symbol = null;
         this.state = state;
@@ -68,7 +68,7 @@ public class ForestNode {
 
     // N.B. This is a *symbol* node, the state is just being carried along so that we can tell
     // what rule defined this symbol. That can be useful when analysing the parse tree.
-    protected ForestNode(EarleyForest graph, Symbol symbol, State state, int leftExtent, int rightExtent) {
+    protected ForestNode(ParseForest graph, Symbol symbol, State state, int leftExtent, int rightExtent) {
         this.graph = graph;
         this.symbol = symbol;
         this.state = state;

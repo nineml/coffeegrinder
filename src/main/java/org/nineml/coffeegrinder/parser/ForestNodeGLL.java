@@ -1,9 +1,5 @@
 package org.nineml.coffeegrinder.parser;
 
-import org.nineml.coffeegrinder.gll.PackedForestIntermediate;
-import org.nineml.coffeegrinder.gll.PackedForestNode;
-import org.nineml.coffeegrinder.gll.XFamily;
-
 import java.util.Objects;
 
 public class ForestNodeGLL extends ForestNode {
@@ -11,25 +7,25 @@ public class ForestNodeGLL extends ForestNode {
     public final int pivot;
     protected ForestNodeGLL parent = null;
 
-    protected ForestNodeGLL(EarleyForest graph, Symbol symbol, int j, int i) {
+    protected ForestNodeGLL(ParseForest graph, Symbol symbol, int j, int i) {
         super(graph, symbol, j, i);
         intermediate = false;
         pivot = -1;
     }
 
-    protected ForestNodeGLL(EarleyForest graph, State state, int j, int i) {
+    protected ForestNodeGLL(ParseForest graph, State state, int j, int i) {
         super(graph, state, j, i);
         intermediate = false;
         pivot = -1;
     }
 
-    protected ForestNodeGLL(EarleyForest graph, Symbol symbol, State state, int j, int i) {
+    protected ForestNodeGLL(ParseForest graph, Symbol symbol, State state, int j, int i) {
         super(graph, symbol, state, j, i);
         intermediate = false;
         pivot = -1;
     }
 
-    protected ForestNodeGLL(EarleyForest graph, State state, int pivot) {
+    protected ForestNodeGLL(ParseForest graph, State state, int pivot) {
         super(graph, state, -1, -1);
         intermediate = true;
         this.pivot = pivot;

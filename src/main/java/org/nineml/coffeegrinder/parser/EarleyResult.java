@@ -15,7 +15,7 @@ import java.util.Set;
 public class EarleyResult implements GearleyResult {
     private final EarleyParser parser;
     private final EarleyChart chart;
-    private final EarleyForest graph;
+    private final ParseForest graph;
     private final boolean success;
     private final int tokenCount;
     private final Token lastToken;
@@ -24,7 +24,7 @@ public class EarleyResult implements GearleyResult {
     private boolean continuingIteratorReturned = false;
     private long parseTime = -1;
 
-    protected EarleyResult(EarleyParser parser, EarleyChart chart, EarleyForest graph, boolean success, int tokenCount, Token lastToken) {
+    protected EarleyResult(EarleyParser parser, EarleyChart chart, ParseForest graph, boolean success, int tokenCount, Token lastToken) {
         this.parser = parser;
         this.chart = chart;
         this.graph = graph;
@@ -34,7 +34,7 @@ public class EarleyResult implements GearleyResult {
         this.options = parser.options;
     }
 
-    protected EarleyResult(EarleyParser parser, EarleyForest graph, boolean success, int tokenCount, Token lastToken) {
+    protected EarleyResult(EarleyParser parser, ParseForest graph, boolean success, int tokenCount, Token lastToken) {
         this.parser = parser;
         this.chart = null;
         this.graph = graph;
@@ -84,7 +84,7 @@ public class EarleyResult implements GearleyResult {
      * the parsed prefix..</p>
      * @return the SPPF.
      */
-    public EarleyForest getForest() {
+    public ParseForest getForest() {
         return graph;
     }
 

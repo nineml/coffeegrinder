@@ -11,20 +11,6 @@ public class BinarySubtreePrefix extends BinarySubtreeNode {
         super(slot, left, pivot, right);
     }
 
-    protected boolean matches(PackedForestSymbol fslot) {
-        if (slot.position != fslot.slot.position) {
-            return false;
-        }
-
-        for (int pos = 0; pos < slot.position; pos++) {
-            if (!slot.rhs.get(pos).equals(fslot.slot.rhs.get(pos))) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     protected boolean matches(ForestNodeGLL fslot) {
         assert fslot.state != null;
         if (slot.position != fslot.state.position) {

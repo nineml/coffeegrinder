@@ -92,11 +92,9 @@ public class TreeTest {
     @Test
     public void testAmbiguous() {
         Grammar grammar = new Grammar();
-
-        // S: a, b, c. a:. b:. c:.
+        grammar.getParserOptions().getLogger().setDefaultLogLevel(99);
 
         NonterminalSymbol S = grammar.getNonterminal("S");
-        //NonterminalSymbol T = grammar.getNonterminal("T");
         NonterminalSymbol A = grammar.getNonterminal("A");
         NonterminalSymbol d1 = grammar.getNonterminal("$1", true);
         NonterminalSymbol d2 = grammar.getNonterminal("$2", true);
@@ -114,7 +112,7 @@ public class TreeTest {
         GearleyParser parser = grammar.getParser(S);
         GearleyResult result = parser.parse(Iterators.characterIterator(""));
 
-        //result.getForest().serialize("/tmp/graph.xml");
+        result.getForest().serialize("/tmp/graph.xml");
         //result.getForest().parse().serialize("tree.xml");
 
         Assert.assertTrue(result.succeeded());
