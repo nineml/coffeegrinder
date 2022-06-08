@@ -180,20 +180,20 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#finished-org.nineml.coffeegrinder.parser.EarleyParser-">finished</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html" title="class in org.nineml.coffeegrinder.parser">EarleyParser</a>&nbsp;parser)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#finished-org.nineml.coffeegrinder.parser.GearleyParser-">finished</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser)</code>
 <div class="block">Finish the monitor.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#progress-org.nineml.coffeegrinder.parser.EarleyParser-long-">progress</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html" title="class in org.nineml.coffeegrinder.parser">EarleyParser</a>&nbsp;parser,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#progress-org.nineml.coffeegrinder.parser.GearleyParser-long-">progress</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
         long&nbsp;tokens)</code>
 <div class="block">Report progress.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#starting-org.nineml.coffeegrinder.parser.EarleyParser-">starting</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html" title="class in org.nineml.coffeegrinder.parser">EarleyParser</a>&nbsp;parser)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#starting-org.nineml.coffeegrinder.parser.GearleyParser-">starting</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser)</code>
 <div class="block">Start the monitor.</div>
 </td>
 </tr>
@@ -269,17 +269,17 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="starting-org.nineml.coffeegrinder.parser.EarleyParser-">
+<a name="starting-org.nineml.coffeegrinder.parser.GearleyParser-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>starting</h4>
-<pre>public&nbsp;int&nbsp;starting(<a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html" title="class in org.nineml.coffeegrinder.parser">EarleyParser</a>&nbsp;parser)</pre>
+<pre>public&nbsp;int&nbsp;starting(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser)</pre>
 <div class="block">Start the monitor.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#starting-org.nineml.coffeegrinder.parser.EarleyParser-">starting</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></dd>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#starting-org.nineml.coffeegrinder.parser.GearleyParser-">starting</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>parser</code> - the parser</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -287,36 +287,36 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.
 </dl>
 </li>
 </ul>
-<a name="progress-org.nineml.coffeegrinder.parser.EarleyParser-long-">
+<a name="progress-org.nineml.coffeegrinder.parser.GearleyParser-long-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>progress</h4>
-<pre>public&nbsp;void&nbsp;progress(<a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html" title="class in org.nineml.coffeegrinder.parser">EarleyParser</a>&nbsp;parser,
+<pre>public&nbsp;void&nbsp;progress(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
                      long&nbsp;tokens)</pre>
 <div class="block">Report progress.
  <p>This implementation just prints a simple message to <code>System.out</code>.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#progress-org.nineml.coffeegrinder.parser.EarleyParser-long-">progress</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></dd>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#progress-org.nineml.coffeegrinder.parser.GearleyParser-long-">progress</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>parser</code> - the parser</dd>
 <dd><code>tokens</code> - the number of tokens processed so far.</dd>
 </dl>
 </li>
 </ul>
-<a name="finished-org.nineml.coffeegrinder.parser.EarleyParser-">
+<a name="finished-org.nineml.coffeegrinder.parser.GearleyParser-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>finished</h4>
-<pre>public&nbsp;void&nbsp;finished(<a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html" title="class in org.nineml.coffeegrinder.parser">EarleyParser</a>&nbsp;parser)</pre>
+<pre>public&nbsp;void&nbsp;finished(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser)</pre>
 <div class="block">Finish the monitor.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#finished-org.nineml.coffeegrinder.parser.EarleyParser-">finished</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></dd>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#finished-org.nineml.coffeegrinder.parser.GearleyParser-">finished</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>parser</code> - the parser</dd>
 </dl>

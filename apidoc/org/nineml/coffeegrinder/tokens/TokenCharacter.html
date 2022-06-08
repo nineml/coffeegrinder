@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":9,"i2":9,"i3":9,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10};
+var methods = {"i0":10,"i1":9,"i2":9,"i3":9,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -141,28 +141,28 @@ extends <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacter</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#get-char-">get</a></span>(char&nbsp;ch)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#get-int-">get</a></span>(int&nbsp;ch)</code>
 <div class="block">Create a token for the specified character.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacter</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#get-char-java.util.Collection-">get</a></span>(char&nbsp;ch,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#get-int-java.util.Collection-">get</a></span>(int&nbsp;ch,
    java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code>
 <div class="block">Create a token for the specified character.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacter</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#get-char-org.nineml.coffeegrinder.util.ParserAttribute-">get</a></span>(char&nbsp;ch,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#get-int-org.nineml.coffeegrinder.util.ParserAttribute-">get</a></span>(int&nbsp;ch,
    <a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&nbsp;attribute)</code>
 <div class="block">Create a token for the specified character.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>char</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#getCharacter--">getCharacter</a></span>()</code>
-<div class="block">Return the value of this token (its character).</div>
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#getCodepoint--">getCodepoint</a></span>()</code>
+<div class="block">Return the codepoint value of this token (its character codepoint)</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
@@ -179,23 +179,17 @@ extends <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#matches-char-">matches</a></span>(char&nbsp;input)</code>
-<div class="block">Does this token match this character?</div>
-</td>
-</tr>
-<tr id="i8" class="altColor">
-<td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#matches-java.lang.String-">matches</a></span>(java.lang.String&nbsp;input)</code>
 <div class="block">Does this token match this string?</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#matches-org.nineml.coffeegrinder.tokens.Token-">matches</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;input)</code>
 <div class="block">Does this token match the input?</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html#toString--">toString</a></span>()</code>
 <div class="block">Pretty print a token.</div>
@@ -230,13 +224,13 @@ extends <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="get-char-">
+<a name="get-int-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacter</a>&nbsp;get(char&nbsp;ch)</pre>
+<pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacter</a>&nbsp;get(int&nbsp;ch)</pre>
 <div class="block">Create a token for the specified character.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -246,13 +240,13 @@ extends <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="
 </dl>
 </li>
 </ul>
-<a name="get-char-org.nineml.coffeegrinder.util.ParserAttribute-">
+<a name="get-int-org.nineml.coffeegrinder.util.ParserAttribute-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacter</a>&nbsp;get(char&nbsp;ch,
+<pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacter</a>&nbsp;get(int&nbsp;ch,
                                  <a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&nbsp;attribute)</pre>
 <div class="block">Create a token for the specified character.</div>
 <dl>
@@ -264,13 +258,13 @@ extends <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="
 </dl>
 </li>
 </ul>
-<a name="get-char-java.util.Collection-">
+<a name="get-int-java.util.Collection-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacter</a>&nbsp;get(char&nbsp;ch,
+<pre>public static&nbsp;<a href="../../../../org/nineml/coffeegrinder/tokens/TokenCharacter.html" title="class in org.nineml.coffeegrinder.tokens">TokenCharacter</a>&nbsp;get(int&nbsp;ch,
                                  java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</pre>
 <div class="block">Create a token for the specified character.</div>
 <dl>
@@ -298,17 +292,17 @@ extends <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="
 </dl>
 </li>
 </ul>
-<a name="getCharacter--">
+<a name="getCodepoint--">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getCharacter</h4>
-<pre>public&nbsp;char&nbsp;getCharacter()</pre>
-<div class="block">Return the value of this token (its character).</div>
+<h4>getCodepoint</h4>
+<pre>public&nbsp;int&nbsp;getCodepoint()</pre>
+<div class="block">Return the codepoint value of this token (its character codepoint)</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The character value of the token.</dd>
+<dd>the codepoint</dd>
 </dl>
 </li>
 </ul>
@@ -330,22 +324,6 @@ extends <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="
 <dd><code>input</code> - The input.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if they match.</dd>
-</dl>
-</li>
-</ul>
-<a name="matches-char-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>matches</h4>
-<pre>public&nbsp;boolean&nbsp;matches(char&nbsp;input)</pre>
-<div class="block">Does this token match this character?</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>input</code> - the input character.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>true if it's the same character as this token.</dd>
 </dl>
 </li>
 </ul>

@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -48,7 +48,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../org/nineml/coffeegrinder/parser/Family.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../org/nineml/coffeegrinder/parser/ForestNodeSet.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../org/nineml/coffeegrinder/parser/ForestNodeGLL.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?org/nineml/coffeegrinder/parser/ForestNode.html" target="_top">Frames</a></li>
@@ -105,6 +105,10 @@ var activeTableTab = "activeTableTab";
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
+<dl>
+<dt>Direct Known Subclasses:</dt>
+<dd><a href="../../../../org/nineml/coffeegrinder/parser/ForestNodeGLL.html" title="class in org.nineml.coffeegrinder.parser">ForestNodeGLL</a></dd>
+</dl>
 <hr>
 <br>
 <pre>public class <span class="typeNameLabel">ForestNode</span>
@@ -112,7 +116,7 @@ extends java.lang.Object</pre>
 <div class="block">A node in the SPPF.
 
  <p>When walking the graph, for example to extract parses, these nodes represent what's
- avaialable in the graph.</p></div>
+ available in the graph.</p></div>
 </li>
 </ul>
 </div>
@@ -137,33 +141,41 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#i">i</a></span></code>
-<div class="block">The last position in the input covered by this node.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#id">id</a></span></code>
 <div class="block">This node's unique identifier.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#INFINITELY_AMBIGUOUS">INFINITELY_AMBIGUOUS</a></span></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#j">j</a></span></code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#leftExtent">leftExtent</a></span></code>
 <div class="block">The first position in the input covered by this node.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#logcategory">logcategory</a></span></code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static java.math.BigInteger</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#MAX_LONG">MAX_LONG</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#rightExtent">rightExtent</a></span></code>
+<div class="block">The last position in the input covered by this node.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/State.html" title="class in org.nineml.coffeegrinder.parser">State</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#state">state</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#symbol">symbol</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static int</code></td>
@@ -185,42 +197,51 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#addFamily-org.nineml.coffeegrinder.parser.ForestNode-">addFamily</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;v)</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#addFamily-org.nineml.coffeegrinder.parser.ForestNode-org.nineml.coffeegrinder.parser.ForestNode-">addFamily</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;w,
+         <a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;v)</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#equals-java.lang.Object-">equals</a></span>(java.lang.Object&nbsp;obj)</code>&nbsp;</td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.math.BigInteger</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#getExactParsesBelow--">getExactParsesBelow</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#getFamilies--">getFamilies</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#getLoops--">getLoops</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>long</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#getParsesBelow--">getParsesBelow</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/State.html" title="class in org.nineml.coffeegrinder.parser">State</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#getState--">getState</a></span>()</code>
 <div class="block">What state does this node represent?</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#getSymbol--">getSymbol</a></span>()</code>
 <div class="block">What symbol does this node represent?</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#hashCode--">hashCode</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
@@ -307,23 +328,41 @@ extends java.lang.Object</pre>
 <pre>public static final&nbsp;java.math.BigInteger MAX_LONG</pre>
 </li>
 </ul>
-<a name="i">
+<a name="symbol">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>i</h4>
-<pre>public final&nbsp;int i</pre>
+<h4>symbol</h4>
+<pre>public final&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a> symbol</pre>
+</li>
+</ul>
+<a name="state">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>state</h4>
+<pre>public final&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/State.html" title="class in org.nineml.coffeegrinder.parser">State</a> state</pre>
+</li>
+</ul>
+<a name="rightExtent">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>rightExtent</h4>
+<pre>public final&nbsp;int rightExtent</pre>
 <div class="block">The last position in the input covered by this node.</div>
 </li>
 </ul>
-<a name="j">
+<a name="leftExtent">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>j</h4>
-<pre>public final&nbsp;int j</pre>
+<h4>leftExtent</h4>
+<pre>public final&nbsp;int leftExtent</pre>
 <div class="block">The first position in the input covered by this node.</div>
 </li>
 </ul>
@@ -414,6 +453,25 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;java.math.BigInteger&nbsp;getExactParsesBelow()</pre>
 </li>
 </ul>
+<a name="addFamily-org.nineml.coffeegrinder.parser.ForestNode-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>addFamily</h4>
+<pre>public&nbsp;void&nbsp;addFamily(<a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;v)</pre>
+</li>
+</ul>
+<a name="addFamily-org.nineml.coffeegrinder.parser.ForestNode-org.nineml.coffeegrinder.parser.ForestNode-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>addFamily</h4>
+<pre>public&nbsp;void&nbsp;addFamily(<a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;w,
+                      <a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;v)</pre>
+</li>
+</ul>
 <a name="equals-java.lang.Object-">
 <!--   -->
 </a>
@@ -481,7 +539,7 @@ extends java.lang.Object</pre>
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../org/nineml/coffeegrinder/parser/Family.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../org/nineml/coffeegrinder/parser/ForestNodeSet.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../org/nineml/coffeegrinder/parser/ForestNodeGLL.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?org/nineml/coffeegrinder/parser/ForestNode.html" target="_top">Frames</a></li>

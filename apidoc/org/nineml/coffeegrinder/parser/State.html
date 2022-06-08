@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -73,14 +73,14 @@ var activeTableTab = "activeTableTab";
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
@@ -118,6 +118,70 @@ extends java.lang.Object</pre>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
+<!-- =========== FIELD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field.summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
+<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Field and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../org/nineml/coffeegrinder/parser/State.html" title="class in org.nineml.coffeegrinder.parser">State</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#L0">L0</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#label">label</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#position">position</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/RightHandSide.html" title="class in org.nineml.coffeegrinder.parser">RightHandSide</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#rhs">rhs</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#rule">rule</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#symbol">symbol</a></span></code>&nbsp;</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor.summary">
+<!--   -->
+</a>
+<h3>Constructor Summary</h3>
+<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Constructor Summary table, listing constructors, and an explanation">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Constructor and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#State-org.nineml.coffeegrinder.parser.Rule-">State</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a>&nbsp;rule)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#State-org.nineml.coffeegrinder.parser.Rule-int-">State</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a>&nbsp;rule,
+     int&nbsp;position)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#State-org.nineml.coffeegrinder.parser.State-int-">State</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/State.html" title="class in org.nineml.coffeegrinder.parser">State</a>&nbsp;other,
+     int&nbsp;position)</code>&nbsp;</td>
+</tr>
+</table>
+</li>
+</ul>
 <!-- ========== METHOD SUMMARY =========== -->
 <ul class="blockList">
 <li class="blockList"><a name="method.summary">
@@ -147,40 +211,61 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#equals-java.lang.Object-">equals</a></span>(java.lang.Object&nbsp;obj)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/gll/Descriptor.html" title="class in org.nineml.coffeegrinder.gll">Descriptor</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#getDescriptor-int-int-">getDescriptor</a></span>(int&nbsp;k,
+             int&nbsp;i)</code>&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#getFirst-org.nineml.coffeegrinder.parser.Grammar-">getFirst</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html" title="class in org.nineml.coffeegrinder.parser">Grammar</a>&nbsp;grammar)</code>&nbsp;</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#getInstructionPointer--">getInstructionPointer</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#getPosition--">getPosition</a></span>()</code>
 <div class="block">Get the current position in this state</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/RightHandSide.html" title="class in org.nineml.coffeegrinder.parser">RightHandSide</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#getRhs--">getRhs</a></span>()</code>
 <div class="block">Get the list of symbols that define this state's nonterminal symbol.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#getRule--">getRule</a></span>()</code>
 <div class="block">Get the rule that originated this state.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#getSymbol--">getSymbol</a></span>()</code>
 <div class="block">Get the nonterminal associated with this state</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#hashCode--">hashCode</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#nextSymbol--">nextSymbol</a></span>()</code>
 <div class="block">Get the next symbol</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i12" class="altColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#prevSymbol--">prevSymbol</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i13" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#setInstructionPointer-int-">setInstructionPointer</a></span>(int&nbsp;ip)</code>&nbsp;</td>
+</tr>
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/State.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
@@ -200,12 +285,164 @@ extends java.lang.Object</pre>
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
+<!-- ============ FIELD DETAIL =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field.detail">
+<!--   -->
+</a>
+<h3>Field Detail</h3>
+<a name="L0">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>L0</h4>
+<pre>public static final&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/State.html" title="class in org.nineml.coffeegrinder.parser">State</a> L0</pre>
+</li>
+</ul>
+<a name="label">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>label</h4>
+<pre>public final&nbsp;int label</pre>
+</li>
+</ul>
+<a name="rule">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>rule</h4>
+<pre>public final&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a> rule</pre>
+</li>
+</ul>
+<a name="symbol">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>symbol</h4>
+<pre>public final&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a> symbol</pre>
+</li>
+</ul>
+<a name="position">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>position</h4>
+<pre>public final&nbsp;int position</pre>
+</li>
+</ul>
+<a name="rhs">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>rhs</h4>
+<pre>public final&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/RightHandSide.html" title="class in org.nineml.coffeegrinder.parser">RightHandSide</a> rhs</pre>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor.detail">
+<!--   -->
+</a>
+<h3>Constructor Detail</h3>
+<a name="State-org.nineml.coffeegrinder.parser.Rule-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>State</h4>
+<pre>public&nbsp;State(<a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a>&nbsp;rule)</pre>
+</li>
+</ul>
+<a name="State-org.nineml.coffeegrinder.parser.State-int-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>State</h4>
+<pre>public&nbsp;State(<a href="../../../../org/nineml/coffeegrinder/parser/State.html" title="class in org.nineml.coffeegrinder.parser">State</a>&nbsp;other,
+             int&nbsp;position)</pre>
+</li>
+</ul>
+<a name="State-org.nineml.coffeegrinder.parser.Rule-int-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>State</h4>
+<pre>public&nbsp;State(<a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a>&nbsp;rule,
+             int&nbsp;position)</pre>
+</li>
+</ul>
+</li>
+</ul>
 <!-- ============ METHOD DETAIL ========== -->
 <ul class="blockList">
 <li class="blockList"><a name="method.detail">
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="nextSymbol--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>nextSymbol</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>&nbsp;nextSymbol()</pre>
+<div class="block">Get the next symbol
+ <p>If the state has more symbols, return the symbol that occurs after the current position.
+ </p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the next symbol, or null if position is last</dd>
+</dl>
+</li>
+</ul>
+<a name="prevSymbol--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>prevSymbol</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>&nbsp;prevSymbol()</pre>
+</li>
+</ul>
+<a name="setInstructionPointer-int-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setInstructionPointer</h4>
+<pre>public&nbsp;void&nbsp;setInstructionPointer(int&nbsp;ip)</pre>
+</li>
+</ul>
+<a name="getInstructionPointer--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getInstructionPointer</h4>
+<pre>public&nbsp;int&nbsp;getInstructionPointer()</pre>
+</li>
+</ul>
+<a name="getDescriptor-int-int-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getDescriptor</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/gll/Descriptor.html" title="class in org.nineml.coffeegrinder.gll">Descriptor</a>&nbsp;getDescriptor(int&nbsp;k,
+                                int&nbsp;i)</pre>
+</li>
+</ul>
 <a name="getSymbol--">
 <!--   -->
 </a>
@@ -262,22 +499,6 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a name="nextSymbol--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>nextSymbol</h4>
-<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>&nbsp;nextSymbol()</pre>
-<div class="block">Get the next symbol
- <p>If the state is not completed, return the symbol that occurs after the current position.
- </p></div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the next symbol, or null if the state is completed</dd>
-</dl>
-</li>
-</ul>
 <a name="advance--">
 <!--   -->
 </a>
@@ -306,6 +527,15 @@ extends java.lang.Object</pre>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if the position indicates that we've seen all of the symbols on the "right hand side"</dd>
 </dl>
+</li>
+</ul>
+<a name="getFirst-org.nineml.coffeegrinder.parser.Grammar-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getFirst</h4>
+<pre>public&nbsp;java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>&gt;&nbsp;getFirst(<a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html" title="class in org.nineml.coffeegrinder.parser">Grammar</a>&nbsp;grammar)</pre>
 </li>
 </ul>
 <a name="equals-java.lang.Object-">
@@ -400,14 +630,14 @@ extends java.lang.Object</pre>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
 </div>

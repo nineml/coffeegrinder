@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -48,7 +48,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../org/nineml/coffeegrinder/parser/ParseListener.html" title="interface in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../org/nineml/coffeegrinder/parser/ParseTree.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../org/nineml/coffeegrinder/parser/ParserType.html" title="enum in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?org/nineml/coffeegrinder/parser/ParserOptions.html" target="_top">Frames</a></li>
@@ -140,6 +140,11 @@ extends java.lang.Object</pre>
 <div class="block">Create the parser options with an explicit logger.</div>
 </td>
 </tr>
+<tr class="altColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#ParserOptions-org.nineml.coffeegrinder.parser.ParserOptions-">ParserOptions</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a>&nbsp;copy)</code>
+<div class="block">Create a new set of options from an existing set.</div>
+</td>
+</tr>
 </table>
 </li>
 </ul>
@@ -162,54 +167,66 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getParserType--">getParserType</a></span>()</code>
+<div class="block">Return the default parser type.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getPrefixParsing--">getPrefixParsing</a></span>()</code>
 <div class="block">If a parse fails, but some prefix of the input was successfully parsed, make that available.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getProgressMonitor--">getProgressMonitor</a></span>()</code>
 <div class="block">The progress monitor.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getReturnChart--">getReturnChart</a></span>()</code>
 <div class="block">Return the Earley chart even for a successful parse?</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getTreesWithStates--">getTreesWithStates</a></span>()</code>
 <div class="block">Return intermediate "state" nodes in parse trees?</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#setLogger-org.nineml.logging.Logger-">setLogger</a></span>(<a href="../../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a>&nbsp;logger)</code>
 <div class="block">Set the logger.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#setParserType-java.lang.String-">setParserType</a></span>(java.lang.String&nbsp;parserType)</code>
+<div class="block">Set the default parser type.</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#setPrefixParsing-boolean-">setPrefixParsing</a></span>(boolean&nbsp;prefixParsing)</code>
 <div class="block">Set the <a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getPrefixParsing--"><code>getPrefixParsing()</code></a> property.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#setProgressMonitor-org.nineml.coffeegrinder.parser.ProgressMonitor-">setProgressMonitor</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a>&nbsp;monitor)</code>
 <div class="block">Set the progress monitor.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#setReturnChart-boolean-">setReturnChart</a></span>(boolean&nbsp;returnChart)</code>
 <div class="block">Set the <a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getReturnChart--"><code>getReturnChart()</code></a> property.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#setTreesWithStates-boolean-">setTreesWithStates</a></span>(boolean&nbsp;treesWithStates)</code>
 <div class="block">Set the <a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getTreesWithStates--"><code>getTreesWithStates()</code></a> property.</div>
@@ -252,7 +269,7 @@ extends java.lang.Object</pre>
 <a name="ParserOptions-org.nineml.logging.Logger-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>ParserOptions</h4>
 <pre>public&nbsp;ParserOptions(<a href="../../../../org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a>&nbsp;logger)</pre>
@@ -260,6 +277,22 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>logger</code> - the logger.</dd>
+</dl>
+</li>
+</ul>
+<a name="ParserOptions-org.nineml.coffeegrinder.parser.ParserOptions-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>ParserOptions</h4>
+<pre>public&nbsp;ParserOptions(<a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a>&nbsp;copy)</pre>
+<div class="block">Create a new set of options from an existing set.
+ <p>Beware that the logger and monitor are not copied, so the copied options have pointers to the
+ same logger and monitor instances.</p></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>copy</code> - the options to copy</dd>
 </dl>
 </li>
 </ul>
@@ -271,6 +304,36 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="getParserType--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getParserType</h4>
+<pre>public&nbsp;java.lang.String&nbsp;getParserType()</pre>
+<div class="block">Return the default parser type.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The default parser type, "Earley" or "GLL"</dd>
+</dl>
+</li>
+</ul>
+<a name="setParserType-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setParserType</h4>
+<pre>public&nbsp;void&nbsp;setParserType(java.lang.String&nbsp;parserType)</pre>
+<div class="block">Set the default parser type.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>parserType</code> - the parser type, "Earley" or "GLL"</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.IllegalArgumentException</code> - if the parser type is not recognized</dd>
+</dl>
+</li>
+</ul>
 <a name="getReturnChart--">
 <!--   -->
 </a>
@@ -451,7 +514,7 @@ extends java.lang.Object</pre>
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../org/nineml/coffeegrinder/parser/ParseListener.html" title="interface in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../org/nineml/coffeegrinder/parser/ParseTree.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../org/nineml/coffeegrinder/parser/ParserType.html" title="enum in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?org/nineml/coffeegrinder/parser/ParserOptions.html" target="_top">Frames</a></li>

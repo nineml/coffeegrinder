@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -105,10 +105,15 @@ var activeTableTab = "activeTableTab";
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></dd>
+</dl>
 <hr>
 <br>
 <pre>public class <span class="typeNameLabel">EarleyParser</span>
-extends java.lang.Object</pre>
+extends java.lang.Object
+implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></pre>
 <div class="block">The Earley parser.
 
  <p>The Earley parser compares an input sequence against a grammar and determines if the input
@@ -160,28 +165,38 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ParserType.html" title="enum in org.nineml.coffeegrinder.parser">ParserType</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#getParserType--">getParserType</a></span>()</code>
+<div class="block">Return the parser type.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#getSeed--">getSeed</a></span>()</code>
 <div class="block">Get the <a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser"><code>NonterminalSymbol</code></a> seed value used by this parser.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#moreInput--">moreInput</a></span>()</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#hasMoreInput--">hasMoreInput</a></span>()</code>
 <div class="block">Is there more input?</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html" title="class in org.nineml.coffeegrinder.parser">EarleyResult</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#parse-java.util.Iterator-">parse</a></span>(java.util.Iterator&lt;<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&gt;&nbsp;input)</code>
 <div class="block">Parse a sequence of tokens against the grammar.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html" title="class in org.nineml.coffeegrinder.parser">EarleyResult</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#parse-java.lang.String-">parse</a></span>(java.lang.String&nbsp;input)</code>
 <div class="block">Parse an input string against the grammar.</div>
 </td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html" title="class in org.nineml.coffeegrinder.parser">EarleyResult</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#parse-org.nineml.coffeegrinder.tokens.Token:A-">parse</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]&nbsp;input)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -226,6 +241,22 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="getParserType--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getParserType</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/ParserType.html" title="enum in org.nineml.coffeegrinder.parser">ParserType</a>&nbsp;getParserType()</pre>
+<div class="block">Return the parser type.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html#getParserType--">getParserType</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><a href="../../../../org/nineml/coffeegrinder/parser/ParserType.html#Earley"><code>ParserType.Earley</code></a></dd>
+</dl>
+</li>
+</ul>
 <a name="getGrammar--">
 <!--   -->
 </a>
@@ -235,6 +266,8 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html" title="class in org.nineml.coffeegrinder.parser">Grammar</a>&nbsp;getGrammar()</pre>
 <div class="block">Get the grammar used by this parser.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html#getGrammar--">getGrammar</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the grammar</dd>
 </dl>
@@ -249,6 +282,8 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;getSeed()</pre>
 <div class="block">Get the <a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser"><code>NonterminalSymbol</code></a> seed value used by this parser.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html#getSeed--">getSeed</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the seed</dd>
 </dl>
@@ -265,10 +300,25 @@ extends java.lang.Object</pre>
 
  <p>This is a shortcut for parsing a sequence of characters.</p></div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html#parse-java.lang.String-">parse</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>input</code> - the input string</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a parse result</dd>
+</dl>
+</li>
+</ul>
+<a name="parse-org.nineml.coffeegrinder.tokens.Token:A-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>parse</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html" title="class in org.nineml.coffeegrinder.parser">EarleyResult</a>&nbsp;parse(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]&nbsp;input)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html#parse-org.nineml.coffeegrinder.tokens.Token:A-">parse</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -281,6 +331,8 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html" title="class in org.nineml.coffeegrinder.parser">EarleyResult</a>&nbsp;parse(java.util.Iterator&lt;<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&gt;&nbsp;input)</pre>
 <div class="block">Parse a sequence of tokens against the grammar.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html#parse-java.util.Iterator-">parse</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>input</code> - the input sequence</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -288,18 +340,20 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a name="moreInput--">
+<a name="hasMoreInput--">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>moreInput</h4>
-<pre>public&nbsp;boolean&nbsp;moreInput()</pre>
+<h4>hasMoreInput</h4>
+<pre>public&nbsp;boolean&nbsp;hasMoreInput()</pre>
 <div class="block">Is there more input?
  <p>If the parse succeeded, the answer will always be false. But a failed parse
  can fail because it was unable to process a token or because it ran out of tokens.
  This method checks if there was any more input after the parse completed.</p></div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html#hasMoreInput--">hasMoreInput</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if parsing failed before the entire input was consumed</dd>
 </dl>

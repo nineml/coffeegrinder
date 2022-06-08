@@ -105,10 +105,15 @@ var activeTableTab = "activeTableTab";
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></dd>
+</dl>
 <hr>
 <br>
 <pre>public class <span class="typeNameLabel">EarleyResult</span>
-extends java.lang.Object</pre>
+extends java.lang.Object
+implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></pre>
 <div class="block">The results of an Earley parse.</div>
 </li>
 </ul>
@@ -171,14 +176,14 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
+<td class="colFirst"><code>java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">TerminalSymbol</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getPredictedTerminals--">getPredictedTerminals</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getTokenCount--">getTokenCount</a></span>()</code>
 <div class="block">How many tokens were parsed?</div>
 </td>
-</tr>
-<tr id="i8" class="altColor">
-<td class="colFirst"><code>java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">TerminalSymbol</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#predictedTerminals--">predictedTerminals</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
@@ -225,6 +230,8 @@ extends java.lang.Object</pre>
  <p>Returns the number of milliseconds required to parse the input. Returns -1 if
  the timing is unavailable.</p></div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#getParseTime--">getParseTime</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the parse time</dd>
 </dl>
@@ -239,6 +246,8 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html" title="class in org.nineml.coffeegrinder.parser">EarleyParser</a>&nbsp;getParser()</pre>
 <div class="block">Get the parser for this result.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#getParser--">getParser</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the parser that produced this result.</dd>
 </dl>
@@ -253,7 +262,7 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/EarleyChart.html" title="class in org.nineml.coffeegrinder.parser">EarleyChart</a>&nbsp;getChart()</pre>
 <div class="block">Get the Earley chart for the parse.
  <p>After a parse, the Earley chart isn't usually very useful. It's discarded unless the
- <a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#returnChart"><code>returnChart</code></a> option is enabled.</p></div>
+ <a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getReturnChart--"><code>ParserOptions.getReturnChart()</code></a> returnChart} option is enabled.</p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the Earley chart if it's available, or null otherwise.</dd>
@@ -272,6 +281,8 @@ extends java.lang.Object</pre>
  was performed. If prefix parsing is enabled and a prefix is found, the chart returned represents
  the parsed prefix..</p></div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#getForest--">getForest</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the SPPF.</dd>
 </dl>
@@ -286,6 +297,8 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;boolean&nbsp;succeeded()</pre>
 <div class="block">Did the parse succeed?</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#succeeded--">succeeded</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if the parse succeeded</dd>
 </dl>
@@ -302,10 +315,12 @@ extends java.lang.Object</pre>
  <p>Suppose you're looking for "abb" and you give "abbc" as the input. That parse will fail,
  but it did succeed on a prefix of the input. This method will return true if the input began
  with a string that could be successfully parsed.</p>
- <p>Prefix parsing is only performed if the  <a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#prefixParsing"><code>prefixParsing</code></a> option is
+ <p>Prefix parsing is only performed if the  <a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html#getPrefixParsing--"><code>prefixParsing</code></a> option is
  enabled.</p>
  <p>Note: if the whole parse succeeded, this method returns false.</p></div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#prefixSucceeded--">prefixSucceeded</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if a prefix was successfully parsed, false otherwise.</dd>
 </dl>
@@ -322,6 +337,8 @@ extends java.lang.Object</pre>
  <p>If prefix parsing is enabled, and a prefix was identified, this method will attempt to continue
  parsing from the next token after the previous prefix parse.</p></div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#continueParsing--">continueParsing</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a parse result</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -360,6 +377,8 @@ extends java.lang.Object</pre>
  right place from <a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getContinuingIterator--"><code>getContinuingIterator()</code></a>. Note, however, that if you read
  from that iterator and then attempt to continue parsing, it will give unpredicatable results.</p></div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#getTokenCount--">getTokenCount</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the number of the last (successfully) parsed token.</dd>
 </dl>
@@ -378,18 +397,24 @@ extends java.lang.Object</pre>
  right place from <a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getContinuingIterator--"><code>getContinuingIterator()</code></a>. Note, however, that if you read
  from that iterator and then attempt to continue parsing, it will give unpredicatable results.</p></div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#getLastToken--">getLastToken</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the last (successfully) parsed token.</dd>
 </dl>
 </li>
 </ul>
-<a name="predictedTerminals--">
+<a name="getPredictedTerminals--">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>predictedTerminals</h4>
-<pre>public&nbsp;java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">TerminalSymbol</a>&gt;&nbsp;predictedTerminals()</pre>
+<h4>getPredictedTerminals</h4>
+<pre>public&nbsp;java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">TerminalSymbol</a>&gt;&nbsp;getPredictedTerminals()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#getPredictedTerminals--">getPredictedTerminals</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+</dl>
 </li>
 </ul>
 </li>
