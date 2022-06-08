@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * The results of an Earley parse.
  */
-public class EarleyResult {
+public class EarleyResult implements GearleyResult {
     private final EarleyParser parser;
     private final EarleyChart chart;
     private final ParseForest graph;
@@ -69,7 +69,7 @@ public class EarleyResult {
     /**
      * Get the Earley chart for the parse.
      * <p>After a parse, the Earley chart isn't usually very useful. It's discarded unless the
-     * {@link ParserOptions#returnChart returnChart} option is enabled.</p>
+     * {@link ParserOptions#getReturnChart()} returnChart} option is enabled.</p>
      *
      * @return the Earley chart if it's available, or null otherwise.
      */
@@ -101,7 +101,7 @@ public class EarleyResult {
      * <p>Suppose you're looking for "abb" and you give "abbc" as the input. That parse will fail,
      * but it did succeed on a prefix of the input. This method will return true if the input began
      * with a string that could be successfully parsed.</p>
-     * <p>Prefix parsing is only performed if the  {@link ParserOptions#prefixParsing prefixParsing} option is
+     * <p>Prefix parsing is only performed if the  {@link ParserOptions#getPrefixParsing() prefixParsing} option is
      * enabled.</p>
      * <p>Note: if the whole parse succeeded, this method returns false.</p>
      * @return true if a prefix was successfully parsed, false otherwise.
@@ -138,7 +138,7 @@ public class EarleyResult {
             options.getLogger().debug(EarleyParser.logcategory, "Attempting to continue parsing after the continuing iterator was exposed");
         }
 
-        EarleyParser newParser = parser.getGrammar().getParser(parser.getSeed());
+        EarleyParser newParser = (EarleyParser) parser.getGrammar().getParser(ParserType.Earley, parser.getSeed());
         return newParser.parse(new PrefixIterator<>(parser.getBufferedTokens(), parser.iterator));
     }
 
@@ -183,7 +183,7 @@ public class EarleyResult {
         predicted.addAll(symbols);
     }
 
-    public Set<TerminalSymbol> predictedTerminals() {
+    public Set<TerminalSymbol> getPredictedTerminals() {
         return predicted;
     }
 

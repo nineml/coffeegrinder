@@ -1,6 +1,7 @@
 package org.nineml.coffeegrinder.util;
 
 import org.nineml.coffeegrinder.parser.EarleyParser;
+import org.nineml.coffeegrinder.parser.GearleyParser;
 import org.nineml.coffeegrinder.parser.ProgressMonitor;
 
 /**
@@ -34,7 +35,7 @@ public class DefaultProgressMonitor implements ProgressMonitor {
      * @return the update interval.
      */
     @Override
-    public int starting(EarleyParser parser) {
+    public int starting(GearleyParser parser) {
         return size;
     }
 
@@ -45,7 +46,7 @@ public class DefaultProgressMonitor implements ProgressMonitor {
      * @param tokens the number of tokens processed so far.
      */
     @Override
-    public void progress(EarleyParser parser, long tokens) {
+    public void progress(GearleyParser parser, long tokens) {
         System.out.printf("Processed %d tokens.%n", tokens);
     }
 
@@ -54,7 +55,7 @@ public class DefaultProgressMonitor implements ProgressMonitor {
      * @param parser the parser
      */
     @Override
-    public void finished(EarleyParser parser) {
+    public void finished(GearleyParser parser) {
         // nop
     }
 }

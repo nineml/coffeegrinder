@@ -1,7 +1,7 @@
-<grammar xmlns="http://nineml.org/coffeegrinder/ns/grammar/compiled" version="0.9.2">
-<meta name='coffeepot-version' value='0.10.2'/>
-<meta name='date' value='2022-03-18T18:09:58Z'/>
-<meta name='uri' value='file:/Volumes/Projects/nineml/pot/month.ixml'/>
+<grammar xmlns="http://nineml.org/coffeegrinder/ns/grammar/compiled" version="0.9.4">
+<meta name='coffeepot-version' value='1.9.0'/>
+<meta name='date' value='2022-06-05T08:33:00Z'/>
+<meta name='uri' value='file:/Volumes/Projects/nineml/grinder/src/test/resources/month.ixml'/>
 <ag xml:id="g1" name="$$" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
 <ag xml:id="g2" mark="^"/>
 <r n="$$" a="p" ag="g1"><nt n="month" ag="g2"/></r>
@@ -20,6 +20,6 @@
 <r n="month" ag="g3"><t ag="g4"><c ag="g5" v="O"/></t><t ag="g4"><c ag="g5" v="c"/></t><t ag="g4"><c ag="g5" v="t"/></t><t ag="g4"><c ag="g5" v="o"/></t><t ag="g4"><c ag="g5" v="b"/></t><t ag="g4"><c ag="g5" v="e"/></t><t ag="g4"><c ag="g5" v="r"/></t></r>
 <r n="month" ag="g3"><t ag="g4"><c ag="g5" v="N"/></t><t ag="g4"><c ag="g5" v="o"/></t><t ag="g4"><c ag="g5" v="v"/></t><t ag="g4"><c ag="g5" v="e"/></t><t ag="g4"><c ag="g5" v="m"/></t><t ag="g4"><c ag="g5" v="b"/></t><t ag="g4"><c ag="g5" v="e"/></t><t ag="g4"><c ag="g5" v="r"/></t></r>
 <r n="month" ag="g3"><t ag="g4"><c ag="g5" v="D"/></t><t ag="g4"><c ag="g5" v="e"/></t><t ag="g4"><c ag="g5" v="c"/></t><t ag="g4"><c ag="g5" v="e"/></t><t ag="g4"><c ag="g5" v="m"/></t><t ag="g4"><c ag="g5" v="b"/></t><t ag="g4"><c ag="g5" v="e"/></t><t ag="g4"><c ag="g5" v="r"/></t></r>
-<check Σ="f7b54d28d14e5b8e"/>
+<check Σ="d58d1a2822217241"/>
 </grammar>
 

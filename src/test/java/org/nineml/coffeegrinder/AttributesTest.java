@@ -33,7 +33,7 @@ public class AttributesTest {
         grammar.addRule(_statement, _if, _condition, _then, _statement, _else, _statement);
         grammar.addRule(_statement, _variable, _eq, _variable);
         grammar.addRule(_condition, _op, _variable, _eqeq, _variable, _cp);
-        EarleyParser parser = grammar.getParser(_statement);
+        GearleyParser parser = grammar.getParser(_statement);
 
         ArrayList<ParserAttribute> attrs = new ArrayList<>();
         attrs.add(new ParserAttribute("line", "1"));
@@ -52,7 +52,7 @@ public class AttributesTest {
                 TokenString.get("d")
         };
 
-        EarleyResult result = parser.parse(Arrays.stream(inputTokens).iterator());
+        GearleyResult result = parser.parse(inputTokens);
         Assert.assertTrue(result.succeeded());
 
         ParseTree tree = result.getForest().parse();
@@ -90,8 +90,8 @@ public class AttributesTest {
                         "Y => 'c'\n");
         // grammar.getParseListener().setMessageLevel(ParseListener.DEBUG);
 
-        EarleyParser parser = grammar.getParser(grammar.getNonterminal("start"));
-        EarleyResult result = parser.parse(Iterators.characterIterator("ab"));
+        GearleyParser parser = grammar.getParser(grammar.getNonterminal("start"));
+        GearleyResult result = parser.parse(Iterators.characterIterator("ab"));
         Assert.assertTrue(result.succeeded());
     }
 }

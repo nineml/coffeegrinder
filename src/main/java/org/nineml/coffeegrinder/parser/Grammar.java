@@ -1,6 +1,7 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.GrammarException;
+import org.nineml.coffeegrinder.gll.GllParser;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.*;
@@ -19,12 +20,16 @@ public class Grammar {
 
     private static int nextGrammarId = 0;
     private final ArrayList<Rule> rules;
-    private final HashSet<NonterminalSymbol> nonterminals;
-    private final HashSet<NonterminalSymbol> nullable;
-    protected final int id;
+    private final HashMap<NonterminalSymbol,ArrayList<Rule>> rulesBySymbol;
+    private final HashSet<Symbol> nullable;
+    private NonterminalSymbol seed = null;
     private final HashMap<String,String> metadata = new HashMap<>();
     private ParserOptions options;
-    private boolean open = true;
+    private final HashMap<NonterminalSymbol, HashSet<Symbol>> firstSets = new HashMap<>();
+    private final HashMap<NonterminalSymbol, HashSet<Symbol>> followSets = new HashMap<>();
+    private boolean computedSets = false;
+    protected final int id;
+    protected final ParserType defaultParserType;
 
     /**
      * Create a new grammar.
@@ -40,9 +45,14 @@ public class Grammar {
     public Grammar(ParserOptions options) {
         id = nextGrammarId++;
         rules = new ArrayList<>();
+        rulesBySymbol = new HashMap<>();
         this.options = options;
         nullable = new HashSet<>();
-        nonterminals = new HashSet<>();
+        if ("Earley".equals(options.getParserType())) {
+            defaultParserType = ParserType.Earley;
+        } else {
+            defaultParserType = ParserType.GLL;
+        }
         options.getLogger().debug(logcategory, "Created grammar %d", id);
     }
 
@@ -53,24 +63,25 @@ public class Grammar {
      */
     public Grammar(Grammar current) {
         id = nextGrammarId++;
-        rules = new ArrayList<>(current.getRules());
+        rules = new ArrayList<>(current.rules);
+        rulesBySymbol = new HashMap<>(current.rulesBySymbol);
         options = current.options;
         nullable = new HashSet<>(current.nullable);
-        nonterminals = new HashSet<>();
-        open = true;
+        defaultParserType = current.defaultParserType;
+        seed = null;
+        computedSets = false;
         options.getLogger().debug(logcategory, "Created grammar %d", id);
     }
 
-    /**
-     * Return the nonterminal symbol identified by name for this grammar.
-     * <p>Nonterminal symbols are uniquely identified by their name.</p>
-     * <p>Any string can be used as a name. Symbols are required (i.e., not optional) by default.</p>
-     * @param name The name of this symbol.
-     * @return The nonterminal for the name specified.
-     * @throws NullPointerException if the name is null.
-     */
-    public NonterminalSymbol getNonterminal(String name) {
-        return getNonterminal(name, false);
+    public NonterminalSymbol getSeed() {
+        return seed;
+    }
+
+    public List<Rule> getRulesForSymbol(NonterminalSymbol symbol) {
+        if (!rulesBySymbol.containsKey(symbol)) {
+            return null;
+        }
+        return new ArrayList<>(rulesBySymbol.get(symbol));
     }
 
     /**
@@ -78,15 +89,11 @@ public class Grammar {
      * <p>Nonterminal symbols are uniquely identified by their name.</p>
      * <p>Any string can be used as a name.</p>
      * @param name The name of this symbol.
-     * @param optional true if the symbol is optional.
      * @return The nonterminal for the name specified.
      * @throws NullPointerException if the name is null.
      */
-    public NonterminalSymbol getNonterminal(String name, boolean optional) {
+    public NonterminalSymbol getNonterminal(String name) {
         ArrayList<ParserAttribute> attr = new ArrayList<>();
-        if (optional) {
-            attr.add(Symbol.OPTIONAL);
-        }
         return getNonterminal(name, attr);
     }
 
@@ -127,7 +134,7 @@ public class Grammar {
      * @return the set of nonterminals.
      */
     public Set<NonterminalSymbol> getSymbols() {
-        return nonterminals;
+        return rulesBySymbol.keySet();
     }
 
     /**
@@ -139,16 +146,18 @@ public class Grammar {
      * @throws GrammarException if any nonterminal in the rule is not from this grammar, or if the grammar is closed
      */
     public void addRule(Rule rule) {
-        if (!open) {
+        if (seed != null) {
             throw GrammarException.grammarIsClosed();
         }
         if (contains(rule)) {
             options.getLogger().trace(logcategory, "Ignoring duplicate rule: %s", rule);
         } else {
-            nonterminals.add(rule.getSymbol());
             options.getLogger().trace(logcategory, "Adding rule: %s", rule);
             rules.add(rule);
-            computeNullable(rule);
+            if (!rulesBySymbol.containsKey(rule.symbol)) {
+                rulesBySymbol.put(rule.symbol, new ArrayList<>());
+            }
+            rulesBySymbol.get(rule.symbol).add(rule);
         }
     }
 
@@ -188,29 +197,39 @@ public class Grammar {
 
     /**
      * Is a symbol nullable?
-     * <p>Note: in an open grammar, the result of calling this method can vary. Once a symbol
-     * is nullable, it will forever be nullable.</p>
      * @param symbol the symbol
      * @return true if the symbol is nullable
+     * @throws UnsupportedOperationException if the grammar is open
      */
-    public boolean isNullable(NonterminalSymbol symbol) {
-        return nullable.contains(symbol);
+    public boolean isNullable(Symbol symbol) {
+        if (isOpen()) {
+            throw new UnsupportedOperationException("Cannot ask about nullability on an open grammar");
+        }
+        if (symbol instanceof NonterminalSymbol) {
+            return nullable.contains(symbol);
+        }
+        return false;
+    }
+
+    public GearleyParser getParser(String seed) {
+        return getParser(getNonterminal(seed));
     }
 
     /**
      * Get a parser for this grammar.
      *
-     * <p>Returns a parser that will parse an input against the rules that define this grammar.</p>
+     * <p>Returns a parser that will parse an input against the rules that define this grammar.
+     * The parser type returned is the grammar's default parser type.</p>
      *
      * @param seed The {@link NonterminalSymbol} that your input is expected to match.
      * @return the parser
-     * @throws GrammarException if there are any nonterminals mentioned in the grammar that are not defined by rules in the grammar.
      */
-    public EarleyParser getParser(NonterminalSymbol seed) {
-        if (open) {
-            close();
-        }
-        return new EarleyParser(this, seed);
+    public GearleyParser getParser(NonterminalSymbol seed) {
+        return getParser(defaultParserType, seed);
+    }
+
+    public GearleyParser getParser(ParserType parserType, String seed) {
+        return getParser(parserType, getNonterminal(seed));
     }
 
     /**
@@ -218,15 +237,25 @@ public class Grammar {
      *
      * <p>Returns a parser that will parse an input against the rules that define this grammar.</p>
      *
-     * @param seed The name of the nonterminal that your input is expected to match.
+     * @param parserType the type of parser
+     * @param seed The {@link NonterminalSymbol} that your input is expected to match.
      * @return the parser
-     * @throws GrammarException if there are any nonterminals mentioned in the grammar that are not defined by rules in the grammar.
      */
-    public EarleyParser getParser(String seed) {
-        if (open) {
-            close();
+    public GearleyParser getParser(ParserType parserType, NonterminalSymbol seed) {
+        if (this.seed == null) {
+            close(seed);
+        } else {
+            if (!this.seed.equals(seed)) {
+                throw new RuntimeException("Cannot change seed");
+            }
         }
-        return new EarleyParser(this, getNonterminal(seed));
+        if (parserType == ParserType.Earley) {
+            computeEarleyNullable();
+            return new EarleyParser(this);
+        } else {
+            computeGllNullable();
+            return new GllParser(this);
+        }
     }
 
     /**
@@ -252,15 +281,66 @@ public class Grammar {
      * @return true if the grammar is open.
      */
     public boolean isOpen() {
-        return open;
+        return seed == null;
     }
 
     /**
      * Close the grammar.
+     * @param seed The start symbol
      */
-    public void close() {
-        expandOptionalSymbols();
-        open = false;
+    public void close(NonterminalSymbol seed) {
+        if (!rulesBySymbol.containsKey(seed)) {
+            throw new IllegalArgumentException("Grammar does not contain " + seed);
+        }
+        // Don't use the seed passed in, it may not have the right attributes.
+        // FIXME: this is a bit fragile, isn't it?
+        this.seed = rulesBySymbol.get(seed).get(0).symbol;
+    }
+
+    private void computeEarleyNullable() {
+        // For the Earley parser, the only symbols that are nullable are the ones
+        // that have an epsilon production.
+        nullable.clear();
+        for (Rule rule : rules) {
+            if (rule.rhs.isEmpty()) {
+                nullable.add(rule.symbol);
+            }
+        }
+    }
+
+    private void computeGllNullable() {
+        // For the GLL parser, any symbol that can lead to an epsilon production
+        // is nullable.
+        computeEarleyNullable();
+        HashSet<Symbol> notNullable = new HashSet<>();
+
+        boolean changed = true;
+        while (changed) {
+            changed = false;
+            for (Rule rule : rules) {
+                if (!nullable.contains(rule.symbol) && !notNullable.contains(rule.symbol)) {
+                    if (rule.rhs.isEmpty()) {
+                        nullable.add(rule.symbol);
+                        changed = true;
+                    } else {
+                        boolean canBeNull = true;
+                        for (Symbol symbol : rule.rhs.symbols) {
+                            if (symbol instanceof TerminalSymbol || notNullable.contains(symbol)) {
+                                notNullable.add(rule.symbol);
+                                changed = true;
+                                canBeNull = false;
+                            } else if (!nullable.contains(symbol)) {
+                                canBeNull = false;
+                            }
+                        }
+                        if (canBeNull) {
+                            nullable.add(rule.symbol);
+                            changed = true;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -273,17 +353,14 @@ public class Grammar {
     public boolean contains(Rule candidate) {
         for (Rule rule : rules) {
             if (rule.getSymbol().equals(candidate.getSymbol())) {
-                if (rule.getRhs().size() == candidate.getRhs().size()) {
+                if (rule.getRhs().length == candidate.getRhs().length) {
                     boolean same = true;
-                    for (int pos = 0; pos < rule.getRhs().size(); pos++) {
+                    for (int pos = 0; pos < rule.getRhs().length; pos++) {
                         Symbol symbol = rule.getRhs().get(pos);
                         Symbol csym = candidate.getRhs().get(pos);
                         if (symbol instanceof NonterminalSymbol) {
                             if (csym instanceof NonterminalSymbol) {
-                                if (!((NonterminalSymbol) symbol).getName().equals(((NonterminalSymbol) csym).getName())
-                                    || symbol.isOptional() != csym.isOptional()) {
-                                    same = false;
-                                }
+                                same = same && ((NonterminalSymbol) symbol).getName().equals(((NonterminalSymbol) csym).getName());
                             } else {
                                 same = false;
                             }
@@ -350,22 +427,78 @@ public class Grammar {
         return metadata;
     }
 
-    protected void computeNullable(Rule rule) {
-        // A symbol is nullable if every symbol on the right-hand-side of any
-        // rule that defines it is entirely optional.
-        if (nullable.contains(rule.getSymbol())) {
-            return;
-        }
-        boolean isNullable = true;
-        for (Symbol symbol : rule.getRhs().getSymbols()) {
-            isNullable = isNullable && symbol.isOptional();
-        }
-        if (isNullable) {
-            nullable.add(rule.getSymbol());
-        }
-    }
-
+    /*
     protected void expandOptionalSymbols() {
+        // This whole business of allowing symbols to be marked as optional is a bit of a problem.
+        // We now have the challenge of working out which ones should be allowed to go to epsilon.
+        // I suspect this feature should be pulled out and CoffeeFilter should be rewritten to
+        // deal with it through rewrite rules.
+        //
+        // But in the meantime, the following appears to work:
+        // 1. If all of the symbols on the RHS of a rule are optional (or nullable)
+        // 2. And if the symbol defined by the rule is marked as optional
+        // then add an epsilon rule for it.
+        //
+        // That seems to work, at least for the grammars produced by CoffeeFilter
+
+        HashSet<NonterminalSymbol> finished = new HashSet<>();
+        HashSet<NonterminalSymbol> optional = new HashSet<>();
+        HashSet<Symbol> sometimesRequired = new HashSet<>();
+
+        for (Rule rule : rules) {
+            if (rule.getRhs().isEmpty()) {
+                nullable.add(rule.getSymbol());
+                finished.add(rule.getSymbol());
+            } else {
+                for (Symbol symbol : rule.getRhs().symbols) {
+                    if (symbol.isOptional()) {
+                        alwaysOptional.add(symbol);
+                    } else {
+                        sometimesRequired.add(symbol);
+                    }
+                }
+            }
+        }
+
+        for (Symbol symbol : sometimesRequired) {
+            alwaysOptional.remove(symbol);
+        }
+
+        boolean changed = true;
+        while (changed) {
+            changed = false;
+
+            for (Rule rule : rules) {
+                NonterminalSymbol curSymbol = rule.getSymbol();
+
+                if (!finished.contains(curSymbol)) {
+                    boolean canBeNull = true;
+                    for (Symbol symbol : rule.getRhs().symbols) {
+                        if (symbol instanceof NonterminalSymbol) {
+                            canBeNull = canBeNull
+                                    && (optional.contains((NonterminalSymbol) symbol)
+                                        || nullable.contains(symbol)
+                                        || symbol.isOptional());
+                        } else {
+                            canBeNull = false;
+                            finished.add(curSymbol);
+                        }
+                    }
+                    if (canBeNull) {
+                        changed = true;
+                        optional.add(curSymbol);
+                        finished.add(curSymbol);
+                    }
+                }
+            }
+        }
+
+        for (Symbol symbol : optional) {
+            if (symbol.isOptional()) {
+                nullable.add(symbol);
+            }
+        }
+
         ArrayList<Rule> copyRules = new ArrayList<>(rules);
         for (Rule rule : copyRules) {
             expandOptionalSymbols(rule, 0);
@@ -373,7 +506,7 @@ public class Grammar {
     }
 
     private void expandOptionalSymbols(Rule rule, int pos) {
-        if (pos >= rule.getRhs().size()) {
+        if (pos >= rule.getRhs().length) {
             return;
         }
         Symbol symbol = rule.getRhs().get(pos);
@@ -383,22 +516,34 @@ public class Grammar {
             // rule where it's absent. It'll be made absent by the parser.
             if (symbol instanceof TerminalSymbol || !nullable.contains((NonterminalSymbol) symbol)) {
                 ArrayList<Symbol> newRhs = new ArrayList<>();
-                for (int rhspos = 0; rhspos < rule.getRhs().size(); rhspos++) {
+                for (int rhspos = 0; rhspos < rule.getRhs().length; rhspos++) {
                     if (rhspos != pos) {
                         newRhs.add(rule.getRhs().get(rhspos));
                     }
                 }
                 Rule newRule = new Rule(rule.getSymbol(), newRhs);
-                // The contains() test is in some sense unnecessary here because addRule() tests
-                // for this. But addRule() generates a trace message if the rules are the same
-                // and that's potentially misleading here, so let's avoid it.
-                if (!contains(newRule)) {
-                    addRule(newRule);
+
+                // Don't make epsilon productions for symbols that are always optional, it isn't
+                // necessary and it can introduce ambiguity.
+                if (true || !newRhs.isEmpty() || !alwaysOptional.contains(rule.getSymbol())) {
+                    // The contains() test is in some sense unnecessary here because addRule() tests
+                    // for this. But addRule() generates a trace message if the rules are the same
+                    // and that's potentially misleading here, so let's avoid it.
+                    if (!contains(newRule)) {
+                        addRule(newRule);
+                    }
+
+                    // If the newRhs is empty, then this is a nullable rule.
+                    if (newRhs.isEmpty()) {
+                        nullable.add(rule.getSymbol());
+                    }
                 }
+
                 expandOptionalSymbols(newRule, pos);
             }
         }
     }
+     */
 
     protected List<NonterminalSymbol> undefinedSymbols() {
         HashSet<NonterminalSymbol> definedNames = new HashSet<>();
@@ -406,7 +551,7 @@ public class Grammar {
 
         for (Rule rule : rules) {
             definedNames.add(rule.getSymbol());
-            for (Symbol s : rule.getRhs().getSymbols()) {
+            for (Symbol s : rule.getRhs().symbols) {
                 if (s instanceof NonterminalSymbol) {
                     usedNames.add((NonterminalSymbol) s);
                 }
@@ -464,14 +609,14 @@ public class Grammar {
             psize = productiveNT.size();
             rsize = productiveRule.size();
 
-            for (NonterminalSymbol nt : nonterminals) {
+            for (NonterminalSymbol nt : rulesBySymbol.keySet()) {
                 boolean isProductiveSymbol = false;
                 for (Rule rule : rules) {
                     if (nt.equals(rule.getSymbol())) {
                         boolean isProductiveRule = productiveRule.contains(rule);
                         if (!isProductiveRule) {
                             isProductiveRule = true;
-                            for (Symbol s : rule.getRhs().getSymbols()) {
+                            for (Symbol s : rule.getRhs().symbols) {
                                 if (s instanceof NonterminalSymbol && !productiveNT.contains((NonterminalSymbol) s)) {
                                     isProductiveRule = false;
                                     break;
@@ -490,7 +635,7 @@ public class Grammar {
             }
         }
 
-        for (NonterminalSymbol s : nonterminals) {
+        for (NonterminalSymbol s : rulesBySymbol.keySet()) {
             if (!productiveNT.contains(s)) {
                 report.addUnproductive(s);
             }
@@ -508,7 +653,7 @@ public class Grammar {
         reachable.add(symbol);
         for (Rule rule : rules) {
             if (rule.getSymbol().equals(symbol)) {
-                for (Symbol s : rule.getRhs().getSymbols()) {
+                for (Symbol s : rule.getRhs().symbols) {
                     if (s instanceof NonterminalSymbol) {
                         NonterminalSymbol nt = (NonterminalSymbol) s;
                         if (!reachable.contains(nt)) {
@@ -520,4 +665,179 @@ public class Grammar {
         }
     }
 
+    public Set<Symbol> getFirst(Symbol symbol) {
+        computeFirstAndFollowSets();
+
+        final HashSet<Symbol> firstSet;
+        if (symbol instanceof NonterminalSymbol && firstSets.containsKey(symbol)) {
+            firstSet = firstSets.get(symbol);
+        } else {
+            firstSet = new HashSet<>();
+        }
+
+        if (!(symbol instanceof NonterminalSymbol)) {
+            firstSet.add(symbol);
+        }
+
+        return firstSet;
+    }
+
+    public Set<Symbol> getFollow(Symbol symbol) {
+        computeFirstAndFollowSets();
+
+        final HashSet<Symbol> followSet;
+        if (symbol instanceof NonterminalSymbol && followSets.containsKey(symbol)) {
+            followSet = followSets.get(symbol);
+        } else {
+            followSet = new HashSet<>();
+        }
+
+        return followSet;
+    }
+
+    private void computeFirstAndFollowSets() {
+        if (computedSets) {
+            return; // we don't need to do this twice
+        }
+
+        if (seed == null) {
+            throw new NullPointerException("Start symbol is null");
+        }
+        computedSets = true;
+
+        firstSets.clear();
+        followSets.clear();
+
+        for (Rule rule : rules) {
+            if (!firstSets.containsKey(rule.symbol)) {
+                firstSets.put(rule.symbol, new HashSet<>());
+                followSets.put(rule.symbol, new HashSet<>());
+            }
+
+            if (rule.epsilonRule()) {
+                firstSets.get(rule.symbol).add(TerminalSymbol.EPSILON);
+            }
+
+            HashSet<Symbol> first = firstSets.get(rule.symbol);
+            for (Symbol symbol : rule.rhs.symbols) {
+                first.add(symbol);
+                if (!nullable.contains(symbol)) {
+                    break;
+                }
+            }
+        }
+
+        for (NonterminalSymbol symbol : firstSets.keySet()) {
+            HashSet<Symbol> first = expandFirstSet(symbol, new HashSet<>());
+            firstSets.get(symbol).clear();
+            firstSets.get(symbol).addAll(first);
+        }
+
+        followSets.get(seed).add(TerminalSymbol.EOF);
+        for (Rule rule : rules) {
+            for (int pos = 0; pos < rule.rhs.length; pos++) {
+                NonterminalSymbol prev = pos > 0 && rule.rhs.get(pos-1) instanceof NonterminalSymbol
+                        ? (NonterminalSymbol) rule.rhs.get(pos-1)
+                        : null;
+                Symbol symbol = rule.rhs.get(pos);
+
+                if (prev != null) {
+                    computeFollow(rule, pos, prev);
+                }
+
+                if (pos+1 == rule.rhs.length && symbol instanceof NonterminalSymbol) {
+                    NonterminalSymbol nt = (NonterminalSymbol) symbol;
+                    // N.B. In an unhygienic grammar where there are undefined symbols,
+                    // the followSet can be null.
+                    HashSet<Symbol> followSet = followSets.get(nt);
+                    if (followSet == null) {
+                        followSet = new HashSet<>();
+                        followSet.add(rule.symbol);
+                        followSets.put(nt, followSet);
+                    } else {
+                        followSet.add(rule.symbol);
+                    }
+                }
+            }
+        }
+
+        for (NonterminalSymbol symbol : followSets.keySet()) {
+            HashSet<Symbol> follow = expandFollowSet(symbol, new HashSet<>());
+            followSets.get(symbol).clear();
+            followSets.get(symbol).addAll(follow);
+        }
+    }
+
+    private void computeFollow(Rule rule, int pos, NonterminalSymbol symbol) {
+        Symbol current = rule.rhs.get(pos);
+        if (current instanceof TerminalSymbol) {
+            followSets.get(symbol).add(current);
+            return;
+        }
+
+        // In an unhygienic grammar, the symbol might be unknown.
+        if (!firstSets.containsKey((NonterminalSymbol) current)) {
+            return;
+        }
+
+        Set<Symbol> first = firstSets.get((NonterminalSymbol) current);
+        if (!first.contains(TerminalSymbol.EPSILON)) {
+            // In an unhygienic grammar, the symbol might be unknown.
+            if (followSets.containsKey(symbol)) {
+                followSets.get(symbol).addAll(first);
+            }
+            return;
+        }
+
+        for (Symbol fs : first) {
+            if (fs != TerminalSymbol.EPSILON) {
+                followSets.get(symbol).add(fs);
+            }
+        }
+
+        if (pos+1 == rule.rhs.length) {
+            // In an unhygienic grammar, the symbol might be unknown.
+            if (followSets.containsKey(symbol)) {
+                followSets.get(symbol).add(rule.symbol);
+            }
+        } else {
+            computeFollow(rule, pos+1, symbol);
+        }
+    }
+
+    private HashSet<Symbol> expandFirstSet(NonterminalSymbol symbol, HashSet<NonterminalSymbol> seen) {
+        HashSet<Symbol> combined = new HashSet<>();
+        if (!seen.contains(symbol)) {
+            seen.add(symbol);
+            // In an unhygienic grammar, the symbol might be unknown.
+            if (firstSets.containsKey(symbol)) {
+                for (Symbol first : firstSets.get(symbol)) {
+                    if (first instanceof TerminalSymbol) {
+                        combined.add(first);
+                    } else {
+                        combined.addAll(expandFirstSet((NonterminalSymbol) first, seen));
+                    }
+                }
+            }
+        }
+        return combined;
+    }
+
+    private HashSet<Symbol> expandFollowSet(NonterminalSymbol symbol, HashSet<NonterminalSymbol> seen) {
+        HashSet<Symbol> combined = new HashSet<>();
+        if (!seen.contains(symbol)) {
+            seen.add(symbol);
+            // In an unhygienic grammar, the symbol might be unknown.
+            if (followSets.containsKey(symbol)) {
+                for (Symbol follow : followSets.get(symbol)) {
+                    if (follow instanceof TerminalSymbol) {
+                        combined.add(follow);
+                    } else {
+                        combined.addAll(expandFollowSet((NonterminalSymbol) follow, seen));
+                    }
+                }
+            }
+        }
+        return combined;
+    }
 }

@@ -2,9 +2,9 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.nineml.coffeegrinder.parser.EarleyResult;
+import org.nineml.coffeegrinder.parser.GearleyResult;
 import org.nineml.coffeegrinder.parser.Grammar;
-import org.nineml.coffeegrinder.parser.EarleyParser;
+import org.nineml.coffeegrinder.parser.GearleyParser;
 import org.nineml.coffeegrinder.util.GrammarParser;
 
 // N.B. THESE TESTS ARE CAKE! (These tests are a lie.)
@@ -24,8 +24,8 @@ public class SppfTest {
         // grammar.getParseListener().setMessageLevel(ParseListener.DEBUG);
 
         String input = "abcd";
-        EarleyParser parser = grammar.getParser(grammar.getNonterminal("S"));
-        EarleyResult result = parser.parse("abcd");
+        GearleyParser parser = grammar.getParser(grammar.getNonterminal("S"));
+        GearleyResult result = parser.parse("abcd");
         Assert.assertTrue(result.succeeded());
     }
 
@@ -42,8 +42,8 @@ public class SppfTest {
         // grammar.getParseListener().setMessageLevel(ParseListener.DEBUG);
 
         String input = "abcd";
-        EarleyParser parser = grammar.getParser(grammar.getNonterminal("S"));
-        EarleyResult result = parser.parse(input);
+        GearleyParser parser = grammar.getParser(grammar.getNonterminal("S"));
+        GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
     }
 
@@ -57,8 +57,8 @@ public class SppfTest {
 
         String input = "bbb";
 
-        EarleyParser parser = grammar.getParser(grammar.getNonterminal("S"));
-        EarleyResult result = parser.parse(input);
+        GearleyParser parser = grammar.getParser(grammar.getNonterminal("S"));
+        GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
     }
 
@@ -69,7 +69,7 @@ public class SppfTest {
                 "S => A, T\n" +
                         "S => 'a', T\n" +
                         "A => 'a'\n" +
-                        "A => B?, A\n" +
+                        "A => B, A\n" +
                         "B => 'b'\n" +
                         "T => 'b', 'b', 'b'\n" +
                         "");
@@ -77,8 +77,8 @@ public class SppfTest {
 
         String input = "abbb";
 
-        EarleyParser parser = grammar.getParser(grammar.getNonterminal("S"));
-        EarleyResult result = parser.parse(input);
+        GearleyParser parser = grammar.getParser(grammar.getNonterminal("S"));
+        GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
     }
 
@@ -90,8 +90,8 @@ public class SppfTest {
 
         String input = "1+(2*3-4)";
 
-        EarleyParser parser = grammar.getParser(grammar.getNonterminal("Sum"));
-        EarleyResult result = parser.parse(input);
+        GearleyParser parser = grammar.getParser(grammar.getNonterminal("Sum"));
+        GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
     }
 }

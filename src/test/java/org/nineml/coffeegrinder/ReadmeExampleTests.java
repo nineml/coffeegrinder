@@ -24,8 +24,8 @@ public class ReadmeExampleTests {
         Grammar grammar = grammarParser.parse(input);
         Assert.assertNotNull(grammar);
 
-        EarleyParser parser = grammar.getParser("id");
-        EarleyResult result = parser.parse("07f");
+        GearleyParser parser = grammar.getParser("id");
+        GearleyResult result = parser.parse("07f");
         Assert.assertTrue(result.succeeded());
 
         //result.getForest().serialize("id07f-graph.xml");
@@ -59,8 +59,8 @@ public class ReadmeExampleTests {
     public void idTestApi() {
         Grammar grammar = idGrammar();
 
-        EarleyParser parser = grammar.getParser("id");
-        EarleyResult result = parser.parse("07f");
+        GearleyParser parser = grammar.getParser("id");
+        GearleyResult result = parser.parse("07f");
         Assert.assertTrue(result.succeeded());
 
         ParseTree tree = result.getForest().parse();
@@ -70,8 +70,8 @@ public class ReadmeExampleTests {
     public void idTestFab() {
         Grammar grammar = idGrammar();
 
-        EarleyParser parser = grammar.getParser("id");
-        EarleyResult result = parser.parse("fab");
+        GearleyParser parser = grammar.getParser("id");
+        GearleyResult result = parser.parse("fab");
         Assert.assertTrue(result.succeeded());
 
         //result.getForest().serialize("idfab-graph.xml");
@@ -91,18 +91,20 @@ public class ReadmeExampleTests {
     public void idTestRepeat() {
         String input = "id => word\n" +
                 "id => hex\n" +
-                "word => letter, _letter?\n" +
-                "_letter => letter, _letter?\n" +
-                "hex => digit, _digit?\n" +
-                "_digit => digit, _digit?\n" +
+                "word => letter, _letter\n" +
+                "_letter => letter, _letter\n" +
+                "_letter => letter\n" +
+                "hex => digit, _digit\n" +
+                "_digit => digit, _digit\n" +
+                "_digit => digit\n" +
                 "letter => [\"a\"-\"z\"; \"A\"-\"Z\"]\n" +
                 "digit => [\"0\"-\"9\"; \"a\"-\"f\"; \"A\"-\"F\"]";
         GrammarParser grammarParser = new GrammarParser();
         Grammar grammar = grammarParser.parse(input);
         Assert.assertNotNull(grammar);
 
-        EarleyParser parser = grammar.getParser("id");
-        EarleyResult result = parser.parse("12345");
+        GearleyParser parser = grammar.getParser("id");
+        GearleyResult result = parser.parse("12345");
         Assert.assertTrue(result.succeeded());
 
         //result.getForest().serialize("repeat-graph.xml");
@@ -140,8 +142,8 @@ public class ReadmeExampleTests {
 
         Assert.assertNotNull(grammar);
 
-        EarleyParser parser = grammar.getParser("id");
-        EarleyResult result = parser.parse("12345");
+        GearleyParser parser = grammar.getParser("id");
+        GearleyResult result = parser.parse("12345");
         Assert.assertTrue(result.succeeded());
 
         //result.getForest().serialize("repeat-graph.xml");
@@ -154,8 +156,8 @@ public class ReadmeExampleTests {
         NonterminalSymbol id = grammar.getNonterminal("id");
         NonterminalSymbol word = grammar.getNonterminal("word");
         NonterminalSymbol hex = grammar.getNonterminal("hex");
-        NonterminalSymbol _letter = grammar.getNonterminal("_letter", Symbol.OPTIONAL);
-        NonterminalSymbol _digit = grammar.getNonterminal("_digit", Symbol.OPTIONAL);
+        NonterminalSymbol _letter = grammar.getNonterminal("_letter");
+        NonterminalSymbol _digit = grammar.getNonterminal("_digit");
 
         CharacterSet set_0_9 = CharacterSet.range('0', '9');
         CharacterSet set_a_f = CharacterSet.range('a', 'f');
@@ -170,13 +172,15 @@ public class ReadmeExampleTests {
         grammar.addRule(id, hex);
         grammar.addRule(word, letter, _letter);
         grammar.addRule(_letter, letter, _letter);
+        grammar.addRule(_letter);
         grammar.addRule(hex, digit, _digit);
         grammar.addRule(_digit, digit, _digit);
+        grammar.addRule(_digit);
 
         Assert.assertNotNull(grammar);
 
-        EarleyParser parser = grammar.getParser("id");
-        EarleyResult result = parser.parse("12345");
+        GearleyParser parser = grammar.getParser("id");
+        GearleyResult result = parser.parse("12345");
         Assert.assertTrue(result.succeeded());
 
         //result.getForest().serialize("repeat-graph.xml");
@@ -191,7 +195,6 @@ public class ReadmeExampleTests {
         NonterminalSymbol hex = grammar.getNonterminal("hex");
 
         List<ParserAttribute> attributes = new ArrayList<>();
-        attributes.add(Symbol.OPTIONAL);
         attributes.add(ParserAttribute.PRUNING_ALLOWED);
 
         NonterminalSymbol _letter = grammar.getNonterminal("_letter", attributes);
@@ -210,13 +213,15 @@ public class ReadmeExampleTests {
         grammar.addRule(id, hex);
         grammar.addRule(word, letter, _letter);
         grammar.addRule(_letter, letter, _letter);
+        grammar.addRule(_letter);
         grammar.addRule(hex, digit, _digit);
         grammar.addRule(_digit, digit, _digit);
+        grammar.addRule(_digit);
 
         Assert.assertNotNull(grammar);
 
-        EarleyParser parser = grammar.getParser("id");
-        EarleyResult result = parser.parse("12345");
+        GearleyParser parser = grammar.getParser("id");
+        GearleyResult result = parser.parse("12345");
         Assert.assertTrue(result.succeeded());
 
         //result.getForest().serialize("repeat-graph.xml");

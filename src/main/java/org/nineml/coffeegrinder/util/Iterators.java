@@ -33,8 +33,20 @@ public class Iterators {
                 if (pos >= seq.length()) {
                     throw new NoSuchElementException("No more characters");
                 }
-                TokenCharacter tok = TokenCharacter.get(seq.charAt(pos));
-                pos++;
+
+                final TokenCharacter tok;
+                char ch = seq.charAt(pos);
+                if (ch >= 0xD800 && ch <= 0xDFFF && pos+1 < seq.length()) {
+                    // Is there a faster way to do this?
+                    char ch2 = seq.charAt(pos+1);
+                    String s = "" + ch + ch2;
+                    tok = TokenCharacter.get(s.codePointAt(0));
+                    pos += 2;
+                } else {
+                    tok = TokenCharacter.get(ch);
+                    pos++;
+                }
+
                 return tok;
             }
         };

@@ -1,7 +1,6 @@
 package org.nineml.coffeegrinder.parser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -11,22 +10,22 @@ import java.util.List;
  * or further {@link NonterminalSymbol Nonterminals}).</p>
  */
 public class Rule {
-    private final NonterminalSymbol nonterminal;
-    private final RightHandSide rhs;
+    public final NonterminalSymbol symbol;
+    public final RightHandSide rhs;
 
     /**
      * Construct a new rule mapping the nonterminal to a sequence of symbols.
      * <p>If the sequence of symbols is empty or null, then the nonterminal maps to "ε", that is to say,
      * it's allowed to be absent.</p>
-     * @param nonterminal The nonterminal.
+     * @param symbol The nonterminal.
      * @param rhs The sequence of symbols.
      */
-    public Rule(NonterminalSymbol nonterminal, Symbol... rhs) {
-        if (nonterminal == null) {
+    public Rule(NonterminalSymbol symbol, Symbol... rhs) {
+        if (symbol == null) {
             throw new NullPointerException("Rule name cannot be null");
         }
 
-        this.nonterminal = nonterminal;
+        this.symbol = symbol;
         this.rhs = new RightHandSide(rhs);
     }
 
@@ -34,15 +33,15 @@ public class Rule {
      * Construct a new rule mapping the nonterminal to a sequence of symbols.
      * <p>If the sequence of symbols is empty or null, then the nonterminal maps to "ε", that is to say,
      * it's allowed to be absent.</p>
-     * @param nonterminal The nonterminal.
+     * @param symbol The nonterminal.
      * @param rhs The list of symbols.
      */
-    public Rule(NonterminalSymbol nonterminal, List<Symbol> rhs) {
-        if (nonterminal == null) {
+    public Rule(NonterminalSymbol symbol, List<Symbol> rhs) {
+        if (symbol == null) {
             throw new NullPointerException("Rule name cannot be null");
         }
 
-        this.nonterminal = nonterminal;
+        this.symbol = symbol;
         this.rhs = new RightHandSide(rhs);
     }
 
@@ -51,7 +50,7 @@ public class Rule {
      * @return The nonterminal symbol.
      */
     public NonterminalSymbol getSymbol() {
-        return nonterminal;
+        return symbol;
     }
 
     /**
@@ -64,11 +63,24 @@ public class Rule {
         return rhs;
     }
 
+    public boolean epsilonRule() {
+        return rhs.isEmpty();
+    }
+
+    public List<State> getSlots() {
+        // You want a copy every time.
+        ArrayList<State> ruleSlots = new ArrayList<>();
+        for (int pos = 0; pos <= rhs.length; pos++) {
+            ruleSlots.add(new State(this, pos));
+        }
+        return ruleSlots;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Rule) {
             Rule other = (Rule) obj;
-            if (nonterminal != other.nonterminal) {
+            if (symbol != other.symbol) {
                 return false;
             }
             return rhs.equals(other.rhs);
@@ -78,7 +90,7 @@ public class Rule {
 
     @Override
     public int hashCode() {
-        return nonterminal.hashCode() + rhs.hashCode();
+        return symbol.hashCode() + rhs.hashCode();
     }
 
     /**
@@ -88,10 +100,10 @@ public class Rule {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(nonterminal);
+        sb.append(symbol);
         sb.append(" ⇒ ");
         int count = 0;
-        for (Symbol symbol : rhs.getSymbols()) {
+        for (Symbol symbol : rhs.symbols) {
             if (count > 0) {
                 sb.append(", ");
             }

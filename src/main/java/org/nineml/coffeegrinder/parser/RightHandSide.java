@@ -1,31 +1,24 @@
 package org.nineml.coffeegrinder.parser;
 
-import org.nineml.coffeegrinder.tokens.TokenEmpty;
-
 import java.util.Arrays;
 import java.util.List;
 
 public class RightHandSide {
-    private final Symbol[] symbols;
+    public final Symbol[] symbols;
     private final int hcode;
+    public final int length;
 
     public RightHandSide(Symbol[] symbols) {
         this.symbols = symbols;
+        this.length = this.symbols.length;
         hcode = Arrays.hashCode(this.symbols);
     }
 
     public RightHandSide(List<Symbol> symbols) {
         this.symbols = new Symbol[symbols.size()];
         symbols.toArray(this.symbols);
+        this.length = this.symbols.length;
         hcode = Arrays.hashCode(this.symbols);
-    }
-
-    public int size() {
-        return symbols.length;
-    }
-
-    public Symbol[] getSymbols() {
-        return symbols;
     }
 
     public Symbol get(int pos) {
@@ -36,34 +29,10 @@ public class RightHandSide {
     }
 
     public Symbol getFirst() {
-        int pos = 0;
-        while (pos < symbols.length) {
-            if (symbols[pos] instanceof NonterminalSymbol
-                || !TokenEmpty.EMPTY.equals(((TerminalSymbol) symbols[pos]).getToken())) {
-                return symbols[pos];
-            }
-            pos++;
+        if (symbols.length == 0) {
+            return null;
         }
-        return null;
-    }
-
-    public Symbol getNext(int pos) {
-        int npos = getNextPosition(pos);
-        if (npos < symbols.length) {
-            return symbols[npos];
-        }
-        return null;
-    }
-
-    public int getNextPosition(int pos) {
-        while (pos < symbols.length) {
-            if (symbols[pos] instanceof NonterminalSymbol
-                    || !TokenEmpty.EMPTY.equals(((TerminalSymbol) symbols[pos]).getToken())) {
-                return pos;
-            }
-            pos++;
-        }
-        return pos;
+        return symbols[0];
     }
 
     public boolean isEmpty() {

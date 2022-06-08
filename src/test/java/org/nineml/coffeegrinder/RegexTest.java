@@ -2,14 +2,7 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
 import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.nineml.coffeegrinder.parser.EarleyParser;
-import org.nineml.coffeegrinder.parser.EarleyResult;
-import org.nineml.coffeegrinder.parser.Grammar;
-import org.nineml.coffeegrinder.parser.HygieneReport;
-import org.nineml.coffeegrinder.parser.NonterminalSymbol;
-import org.nineml.coffeegrinder.parser.TerminalSymbol;
+import org.nineml.coffeegrinder.parser.*;
 
 public class RegexTest {
 
@@ -34,12 +27,12 @@ public class RegexTest {
         //grammar.addRule(_D, TerminalSymbol.regex("[0-9]+"), _D);
         //grammar.addRule(_D);
 
-        grammar.close();
+        grammar.close(_S);
 
         String input = "a0123a";
 
-        EarleyParser parser = grammar.getParser(_S);
-        EarleyResult result = parser.parse(input);
+        GearleyParser parser = grammar.getParser(_S);
+        GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
     }
 

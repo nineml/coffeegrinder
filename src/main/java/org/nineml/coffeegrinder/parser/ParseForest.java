@@ -2,11 +2,12 @@ package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ForestException;
 import org.nineml.coffeegrinder.util.DefaultTreeWalker;
+import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.io.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
@@ -25,12 +26,12 @@ public class ParseForest {
     protected final HashSet<Integer> graphIds = new HashSet<>();
     protected final HashSet<Integer> rootIds = new HashSet<>();
     protected final ParserOptions options;
-    private Ambiguity ambiguity = null;
-    private boolean ambiguous = false;
-    private boolean infinitelyAmbiguous = false;
+    protected Ambiguity ambiguity = null;
+    protected boolean ambiguous = false;
+    protected boolean infinitelyAmbiguous = false;
     private TreeWalker treeWalker = null;
 
-    protected ParseForest(ParserOptions options) {
+    public ParseForest(ParserOptions options) {
         this.options = options;
     }
 
@@ -187,24 +188,45 @@ public class ParseForest {
                 }
             }
 
+            StringBuilder attrs = new StringBuilder();
             if (node.symbol == null) {
                 assert node.state != null;
-                stream.printf(" label=\"%s, %d, %d\"", stastr, node.j, node.i);
+                stream.printf(" label=\"%s\"", stastr);
                 stream.print(" type='state'");
             } else {
                 if (stastr == null) {
-                    stream.printf(" label=\"%s, %d, %d\"", symstr, node.j, node.i);
+                    stream.printf(" label=\"%s\"", symstr);
                 } else {
-                    stream.printf(" label=\"%s, %d, %d\" state=\"%s\"", symstr, node.j, node.i, stastr);
+                    stream.printf(" label=\"%s\" state=\"%s\"", symstr, stastr);
                 }
                 if (node.symbol instanceof TerminalSymbol) {
                     stream.print(" type='terminal'");
                 } else {
                     stream.print(" type='nonterminal'");
                 }
+
+                Collection<ParserAttribute> pattrs;
+                if (node.symbol instanceof TerminalSymbol) {
+                     pattrs = ((TerminalSymbol) node.symbol).getToken().getAttributes();
+                } else {
+                     pattrs = node.symbol.getAttributes();
+                }
+                for (ParserAttribute attr : pattrs) {
+                    attrs.append("    <attr name=\"").append(attr.getName());
+                    attrs.append("\" value=\"").append(attr.getValue()).append("\"/>\n");
+                }
             }
+            stream.printf(" leftExtent='%d' rightExtent='%d'", node.leftExtent, node.rightExtent);
+            stream.printf(" trees='%d'", node.exactParsesBelow);
+
             if (node.families.isEmpty()) {
-                stream.println("/>");
+                if ("".equals(attrs.toString())) {
+                    stream.println("/>");
+                } else {
+                    stream.println(">");
+                    stream.print(attrs);
+                    stream.printf("  </u%d>\n", count);
+                }
             } else {
                 stream.println(">");
                 for (Family family : node.families) {
@@ -251,28 +273,28 @@ public class ParseForest {
         }
     }
 
-    protected ForestNode createNode(Symbol symbol, int j, int i) {
+    public ForestNode createNode(Symbol symbol, int j, int i) {
         ForestNode node = new ForestNode(this, symbol, j, i);
         graph.add(node);
         graphIds.add(node.id);
         return node;
     }
 
-    protected ForestNode createNode(Symbol symbol, State state, int j, int i) {
+    public ForestNode createNode(Symbol symbol, State state, int j, int i) {
         ForestNode node = new ForestNode(this, symbol, state, j, i);
         graph.add(node);
         graphIds.add(node.id);
         return node;
     }
 
-    protected ForestNode createNode(State state, int j, int i) {
+    public ForestNode createNode(State state, int j, int i) {
         ForestNode node = new ForestNode(this, state, j, i);
         graph.add(node);
         graphIds.add(node.id);
         return node;
     }
 
-    protected void root(ForestNode w) {
+    public void root(ForestNode w) {
         if (rootIds.contains(w.id)) {
             return;
         }
@@ -291,7 +313,7 @@ public class ParseForest {
         rootIds.clear();
     }
 
-    protected int prune() {
+    public int prune() {
         options.getLogger().trace(logcategory, "Pruning forest of %d nodes with %d roots", graph.size(), roots.size());
 
         // Step 1. Trim epsilon twigs
@@ -299,20 +321,10 @@ public class ParseForest {
             node.trimEpsilon();
         }
 
-        options.getLogger().trace(logcategory, "Trimmed ε twigs: %d nodes remail", graph.size());
+        options.getLogger().trace(logcategory, "Trimmed ε twigs: %d nodes remain", graph.size());
 
-        ambiguous = roots.size() > 1;
         // Step 2. Prune unreachable nodes
-        for (ForestNode node : roots) {
-            int ambiguity = node.reach(node);
-            if (ambiguity == ForestNode.INFINITELY_AMBIGUOUS) {
-                ambiguous = true;
-                infinitelyAmbiguous = true;
-            }
-            if (ambiguity == ForestNode.AMBIGUOUS) {
-                ambiguous = true;
-            }
-        }
+        computeAmbiguity();
 
         int count = 0;
         ArrayList<ForestNode> prunedGraph = new ArrayList<>();
@@ -334,6 +346,20 @@ public class ParseForest {
         options.getLogger().trace(logcategory, "Graph contained %d unreachable nodes", count);
 
         return count;
+    }
+
+    protected void computeAmbiguity() {
+        ambiguous = roots.size() > 1;
+        for (ForestNode node : roots) {
+            int ambiguity = node.reach(node);
+            if (ambiguity == ForestNode.INFINITELY_AMBIGUOUS) {
+                ambiguous = true;
+                infinitelyAmbiguous = true;
+            }
+            if (ambiguity == ForestNode.AMBIGUOUS) {
+                ambiguous = true;
+            }
+        }
     }
 
     private String id(int code) {

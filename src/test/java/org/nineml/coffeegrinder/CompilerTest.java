@@ -13,6 +13,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import static junit.framework.TestCase.fail;
@@ -62,11 +64,11 @@ public class CompilerTest {
             GrammarCompiler compiler = new GrammarCompiler();
             Grammar grammar = compiler.parse(new File("src/test/resources/hash.cxml"));
             NonterminalSymbol start = grammar.getNonterminal("hashes");
-            EarleyParser parser = grammar.getParser(start);
+            GearleyParser parser = grammar.getParser(start);
 
             String input = "#12.";
 
-            EarleyResult result = parser.parse(input);
+            GearleyResult result = parser.parse(input);
 
             //result.getForest().serialize("graph.xml");
 
@@ -82,7 +84,7 @@ public class CompilerTest {
     public void compileGrammar() {
         String cxml = null;
         try {
-            InputStreamReader reader = new InputStreamReader(new FileInputStream("src/test/resources/hash.cxml"), StandardCharsets.UTF_8);
+            InputStreamReader reader = new InputStreamReader(Files.newInputStream(Paths.get("src/test/resources/hash.cxml")), StandardCharsets.UTF_8);
             StringBuilder sb = new StringBuilder();
             char[] buffer = new char[4096];
             int len = reader.read(buffer);
@@ -99,8 +101,8 @@ public class CompilerTest {
         Grammar grammar = compiler.parse(cxml);
 
         NonterminalSymbol start = grammar.getNonterminal("hashes");
-        EarleyParser parser = grammar.getParser(start);
-        EarleyResult result = parser.parse("#12.");
+        GearleyParser parser = grammar.getParser(start);
+        GearleyResult result = parser.parse("#12.");
 
         Assert.assertTrue(result.succeeded());
 
@@ -133,13 +135,13 @@ public class CompilerTest {
 
         String cxml = compiler.compile(grammar);
 
-        grammar = compiler.parse(cxml);
+        Grammar cgrammar = compiler.parse(cxml);
 
-        EarleyParser parser = grammar.getParser(letters);
-        EarleyResult result = parser.parse("a\0b\0c");
+        GearleyParser parser = cgrammar.getParser(letters);
+        GearleyResult result = parser.parse("a\0b\0c");
 
         Assert.assertTrue(result.succeeded());
 
-        Assertions.assertEquals(cxml, compiler.compile(grammar));
+        Assertions.assertEquals(cxml, compiler.compile(cgrammar));
     }
 }

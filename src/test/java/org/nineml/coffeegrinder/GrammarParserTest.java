@@ -2,9 +2,7 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.nineml.coffeegrinder.parser.EarleyResult;
-import org.nineml.coffeegrinder.parser.Grammar;
-import org.nineml.coffeegrinder.parser.EarleyParser;
+import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.util.GrammarParser;
 import org.nineml.coffeegrinder.util.Iterators;
 
@@ -13,17 +11,17 @@ public class GrammarParserTest {
     public void testParse1() {
         String input = "-_0 => ixml\n" +
                 "^ixml => s, _3, s\n" +
-                "-s => _18?\n" +
+                "-s => _18\n" +
                 "-whitespace => [Zs]\n" +
                 "-whitespace => tab\n" +
                 "-tab => #9\n" +
-                "^comment => \"{\", _20?, \"}\"\n" +
+                "^comment => \"{\", _20, \"}\"\n" +
                 "-cchar => ~[\"{\"; \"}\"]\n" +
-                "^rule => _32_option?, name, s, [\"=\"; \":\"], s, alts, \".\"\n" +
+                "^rule => _32_option, name, s, [\"=\"; \":\"], s, alts, \".\"\n" +
                 "@mark => [\"@\"; \"^\"; \"-\"]\n" +
                 "-factor => \"(\", s, alts, \")\", s\n" +
-                "^repeat0 => factor, \"*\", s, sep?\n" +
-                "^repeat1 => factor, \"+\", s, sep?\n" +
+                "^repeat0 => factor, \"*\", s, sep\n" +
+                "^repeat1 => factor, \"+\", s, sep\n" +
                 "-namefollower => [\"-\"; \".\"; \"·\"; \"‿\"; \"⁀\"; Nd; Mn]\n" +
                 "^string => '\"', dstring, '\"', s\n" +
                 "^string => \"'\", sstring, \"'\", s\n" +
@@ -38,8 +36,8 @@ public class GrammarParserTest {
         GrammarParser gparser = new GrammarParser();
         Grammar grammar = gparser.parseFile("src/test/resources/expression.grammar");
         Assert.assertNotNull(grammar);
-        EarleyParser parser = grammar.getParser(grammar.getNonterminal("Sum"));
-        EarleyResult result = parser.parse(Iterators.characterIterator("1+(2*3-4)"));
+        GearleyParser parser = grammar.getParser(grammar.getNonterminal("Sum"));
+        GearleyResult result = parser.parse(Iterators.characterIterator("1+(2*3-4)"));
         Assert.assertTrue(result.succeeded());
     }
 

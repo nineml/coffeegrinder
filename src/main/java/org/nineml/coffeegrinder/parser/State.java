@@ -1,10 +1,11 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ParseException;
-import org.nineml.coffeegrinder.tokens.TokenEmpty;
+import org.nineml.coffeegrinder.gll.Descriptor;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * States (or Earley items) in the chart.
@@ -12,30 +13,114 @@ import java.util.List;
  * FIXME: this API is in flux.
  */
 public class State {
-    private static int nextStateId = 0;
-    private final int id;
-    private final Rule rule;
-    private final NonterminalSymbol symbol;
-    private final RightHandSide rhs;
-    private final int position;
-    private Integer cachedCode = null;
+    public static final State L0 = new State(0);
 
-    protected State(Rule rule) {
+    private static int nextStateId = 0;
+    public final int label;
+    public final Rule rule;
+    public final NonterminalSymbol symbol;
+    public final int position;
+    public final RightHandSide rhs;
+    private final HashSet<Descriptor> descriptors;
+    private int instructionPointer = -1;
+    private Integer cachedCode = null;
+    private HashSet<Symbol> firstSet = null;
+
+    private State(int num) {
+        symbol = null;
+        rule = null;
+        position = 0;
+        rhs = new RightHandSide(new Symbol[0]);
+        label = num;
+        nextStateId = num+1;
+        descriptors = null;
+    }
+
+    public State(Rule rule) {
         this.rule = rule;
         this.symbol = rule.getSymbol();
         this.rhs = rule.getRhs();
-        this.position = rhs.getNextPosition(0);
-        id = nextStateId;
-        nextStateId++;
+        this.position = 0;
+        label = nextStateId++;
+        descriptors = new HashSet<>();
     }
 
-    private State(State other, int position) {
+    public State(State other, int position) {
         this.rule = other.rule;
         this.symbol = other.symbol;
         this.rhs = other.rhs;
-        this.position = rhs.getNextPosition(position);
-        id = nextStateId;
-        nextStateId++;
+        this.position = position;
+        label = nextStateId++;
+        descriptors = new HashSet<>();
+    }
+
+    public State(Rule rule, int position) {
+        this.rule = rule;
+        this.symbol = rule.symbol;
+        this.rhs = rule.rhs;
+        this.position = position;
+        label = nextStateId++;
+        descriptors = new HashSet<>();
+    }
+
+    /**
+     * Get the next symbol
+     * <p>If the state has more symbols, return the symbol that occurs after the current position.
+     * </p>
+     * @return the next symbol, or null if position is last
+     */
+
+    public Symbol nextSymbol() {
+        if (position >= rhs.length) {
+            return null;
+        }
+        return rhs.get(position);
+    }
+
+    public Symbol prevSymbol() {
+        if (position == 0) {
+            return null;
+        }
+        return rhs.get(position - 1);
+    }
+
+    public void setInstructionPointer(int ip) {
+        if (ip < 0) {
+            throw new IllegalArgumentException("Instruction pointer must be non-negative");
+        }
+        if (instructionPointer >= 0) {
+            throw new IllegalStateException("Cannot move the instruction pointer");
+        }
+        instructionPointer = ip;
+    }
+
+    public int getInstructionPointer() {
+        return instructionPointer;
+    }
+
+    public Descriptor getDescriptor(int k, int i) {
+        return new Descriptor(this, k, i);
+        /*
+        boolean found = true;
+        if (!descriptors.containsKey(k)) {
+            descriptors.put(k, new HashMap<>());
+            found = false;
+        }
+        if (!descriptors.get(k).containsKey(i)) {
+            descriptors.get(k).put(i, new Descriptor(this, k, i));
+            found = false;
+        }
+
+        if (found) {
+            fcount++;
+            System.err.printf("Found descriptor %d, %d: %d/%d%n", k, i, fcount, nfcount);
+        } else {
+            nfcount++;
+        }
+
+        return descriptors.get(k).get(i);
+
+         */
     }
 
     /**
@@ -71,25 +156,12 @@ public class State {
     }
 
     /**
-     * Get the next symbol
-     * <p>If the state is not completed, return the symbol that occurs after the current position.
-     * </p>
-     * @return the next symbol, or null if the state is completed
-     */
-    public Symbol nextSymbol() {
-        if (position < rhs.size()) {
-            return rhs.get(position);
-        }
-        return null;
-    }
-
-    /**
      * Get a new state with the position advanced by one
      * @return a new state with the position advanced
      * @throws ParseException if an attempt is made to advance a completed state
      */
     public State advance() {
-        if (position < rhs.size()) {
+        if (position < rhs.length) {
             return new State(this, position+1);
         } else {
             throw ParseException.internalError("Cannot advance a completed state");
@@ -101,7 +173,28 @@ public class State {
      * @return true if the position indicates that we've seen all of the symbols on the "right hand side"
      */
     public boolean completed() {
-        return position == rhs.size();
+        return position == rhs.length;
+    }
+
+    public Set<Symbol> getFirst(Grammar grammar) {
+        if (firstSet == null) {
+            firstSet = new HashSet<>();
+            int spos = position;
+            while (spos < rhs.length) {
+                Set<Symbol> first = grammar.getFirst(rhs.get(spos));
+                firstSet.addAll(first);
+                if (grammar.isNullable(rhs.get(spos))) {
+                    first.add(TerminalSymbol.EPSILON);
+                } else {
+                    return firstSet;
+                }
+                spos++;
+            }
+            if (spos == 0 && rhs.length == 0) {
+                firstSet.add(TerminalSymbol.EPSILON);
+            }
+        }
+        return firstSet;
     }
 
     @Override
@@ -124,11 +217,15 @@ public class State {
 
     @Override
     public String toString() {
+        if (this == L0) {
+            return "L₀";
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.append(symbol);
         sb.append(" ⇒ ");
         int count = 0;
-        for (Symbol symbol : rhs.getSymbols()) {
+        for (Symbol symbol : rhs.symbols) {
             if (count > 0) {
                 sb.append(" ");
             }

@@ -15,6 +15,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -26,7 +27,7 @@ import java.util.*;
  * can be loaded with the {@link #parse} method.</p>
  */
 public class GrammarCompiler {
-    private static final String formatVersion="0.9.2";
+    private static final String formatVersion="0.9.4";
     private static final char nameEscape = 'ǝ';
     private static final String NS = "http://nineml.org/coffeegrinder/ns/grammar/compiled";
     private static final HashMap<Character,String> entities = new HashMap<>();
@@ -128,7 +129,7 @@ public class GrammarCompiler {
         for (Rule rule : grammar.getRules()) {
             // Before we output the rule, make sure we output any new attribute groups
             atgroup(rule.getSymbol().getAttributes());
-            for (Symbol symbol : rule.getRhs().getSymbols()) {
+            for (Symbol symbol : rule.getRhs().symbols) {
                 atgroup(symbol.getAttributes());
                 if (symbol instanceof TerminalSymbol) {
                     atgroup(((TerminalSymbol) symbol).getToken().getAttributes());
@@ -140,7 +141,7 @@ public class GrammarCompiler {
             sb.append(" ag=\"").append(atgroup(rule.getSymbol().getAttributes())).append("\"");
             sb.append(">");
 
-            for (Symbol symbol : rule.getRhs().getSymbols()) {
+            for (Symbol symbol : rule.getRhs().symbols) {
                 if (symbol instanceof TerminalSymbol) {
                     sb.append("<t");
                     standardAttributes(symbol.getAttributes());
@@ -189,11 +190,11 @@ public class GrammarCompiler {
                         sb.append(xmlString(csvalue.toString()));
                         sb.append("\"/>");
                     } else if (token instanceof TokenCharacter) {
-                        char ch = ((TokenCharacter) token).getCharacter();
+                        String str = ((TokenCharacter) token).getValue();
                         sb.append("<c");
                         standardAttributes(token.getAttributes());
                         sb.append(" ag=\"").append(atgroup(token.getAttributes())).append("\"");
-                        sb.append(" v=\"").append(xmlChar(ch)).append("\"/>");
+                        sb.append(" v=\"").append(xmlChar(str)).append("\"/>");
                     } else if (token instanceof TokenString) {
                         String str = token.getValue();
                         sb.append("<s");
@@ -234,17 +235,26 @@ public class GrammarCompiler {
 
     private String xmlString(String str) {
         if (str.length() == 1) {
-            return xmlChar(str.charAt(0));
+            return xmlChar(str);
         }
         StringBuilder sb = new StringBuilder();
-        for (int pos = 0; pos < str.length(); pos++) {
-            sb.append(xmlChar(str.charAt(pos)));
+        for (int cp : str.codePoints().toArray()) {
+            sb.append(xmlChar(cp));
         }
         return sb.toString();
     }
 
-    private String xmlChar(char ch) {
-        updateDigest(ch);
+    private String xmlChar(int codepoint) {
+        // TODO: optimize this
+        StringBuilder sb = new StringBuilder();
+        sb.appendCodePoint(codepoint);
+        return xmlChar(sb.toString());
+    }
+
+    private String xmlChar(String str) {
+        updateDigest(str);
+
+        char ch = str.charAt(0);
         if (entities.containsKey(ch)) {
             return entities.get(ch);
         }
@@ -253,21 +263,23 @@ public class GrammarCompiler {
             return "&#x5c;";
         }
 
+        int codepoint = str.codePointAt(0);
+
         // Java characters that are also valid XML characters
-        boolean ok = ch == 0x09 /*tab*/ || ch == 0x0a /*lf*/ || ch == 0x0d /*cr*/ ;
-        ok = ok || (ch >= 0x20 && ch <= 0xd7ff);
-        ok = ok || (ch >= 0xe000 && ch <= 0xfffd);
+        boolean ok = codepoint == 0x09 /*tab*/ || codepoint == 0x0a /*lf*/ || codepoint == 0x0d /*cr*/ ;
+        ok = ok || (codepoint >= 0x20 && codepoint <= 0xd7ff);
+        ok = ok || (codepoint >= 0xe000 && codepoint <= 0xfffd);
 
         if (ok) {
-            if (ch < 32 || (ch >= 0x80 && ch <= 0x9f)) {
-                return String.format("&#x%x;", (int) ch);
+            if (codepoint < 32 || (codepoint >= 0x80 && codepoint <= 0x9f)) {
+                return String.format("&#x%x;",codepoint);
             }
             StringBuilder sb = new StringBuilder();
-            sb.appendCodePoint(ch);
+            sb.appendCodePoint(codepoint);
             return sb.toString();
         }
 
-        return String.format("\\U+%04x;", (int) ch);
+        return String.format("\\U+%04x;", codepoint);
     }
 
     private String unxmlString(String xml) {
@@ -320,10 +332,6 @@ public class GrammarCompiler {
     private void standardAttributes(Collection<ParserAttribute> attributes) {
         String value = "";
         for (ParserAttribute attr : attributes) {
-            if (attr.getName().equals(Symbol.OPTIONAL.getName())
-                    && attr.getValue().equals(Symbol.OPTIONAL.getValue())) {
-                value += "?";
-            }
             if (attr.getName().equals(ParserAttribute.PRUNING)) {
                 if (attr.getValue().equals(ParserAttribute.PRUNING_ALLOWED.getValue())) {
                     value += "p";
@@ -428,7 +436,7 @@ public class GrammarCompiler {
         if (compiled == null) {
             throw new NullPointerException("File must not be null");
         }
-        return parse(new FileInputStream(compiled), compiled.toURI().toString());
+        return parse(Files.newInputStream(compiled.toPath()), compiled.toURI().toString());
     }
 
     /**
@@ -643,9 +651,6 @@ public class GrammarCompiler {
                 }
                 for (int pos = 0; pos < a.length(); pos++) {
                     switch (a.charAt(pos)) {
-                        case '?':
-                            rattr.add(Symbol.OPTIONAL);
-                            break;
                         case 'p':
                             rattr.add(ParserAttribute.PRUNING_ALLOWED);
                             break;

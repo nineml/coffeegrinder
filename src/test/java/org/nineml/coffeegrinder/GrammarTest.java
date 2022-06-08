@@ -3,7 +3,6 @@ package org.nineml.coffeegrinder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.nineml.coffeegrinder.exceptions.GrammarException;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.logging.Logger;
 
@@ -35,7 +34,7 @@ public class GrammarTest {
         grammar.addRule(_B, TerminalSymbol.ch('b'), _Y);
         grammar.addRule(_X, TerminalSymbol.ch('x'));
 
-        grammar.close();
+        grammar.close(_S);
 
         HygieneReport report = grammar.checkHygiene(_S);
         Assertions.assertFalse(report.isClean());
@@ -44,8 +43,8 @@ public class GrammarTest {
 
         String input = "ax";
 
-        EarleyParser parser = grammar.getParser(_S);
-        EarleyResult result = parser.parse(input);
+        GearleyParser parser = grammar.getParser(_S);
+        GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
 
         input = "by";
@@ -77,7 +76,7 @@ public class GrammarTest {
         grammar.addRule(_B, TerminalSymbol.ch('b'), _Y);
         grammar.addRule(_X, TerminalSymbol.ch('x'));
 
-        grammar.close();
+        grammar.close(_S);
 
         HygieneReport report = grammar.checkHygiene(_S);
         Assertions.assertFalse(report.isClean());
@@ -87,8 +86,8 @@ public class GrammarTest {
         // This fails because B depends on Y so B is effectively absent
         String input = "bx";
 
-        EarleyParser parser = grammar.getParser(_S);
-        EarleyResult result = parser.parse(input);
+        GearleyParser parser = grammar.getParser(_S);
+        GearleyResult result = parser.parse(input);
         Assert.assertFalse(result.succeeded());
     }
 
@@ -118,7 +117,7 @@ public class GrammarTest {
         grammar.addRule(_B, TerminalSymbol.ch('b'), _X);
         grammar.addRule(_X, TerminalSymbol.ch('x'));
 
-        grammar.close();
+        grammar.close(_S);
 
         HygieneReport report = grammar.checkHygiene(_S);
         Assertions.assertFalse(report.isClean());
@@ -128,8 +127,8 @@ public class GrammarTest {
         // This succeeds even though there's a B rule that uses Y which doesn't exist.
         String input = "bx";
 
-        EarleyParser parser = grammar.getParser(_S);
-        EarleyResult result = parser.parse(input);
+        GearleyParser parser = grammar.getParser(_S);
+        GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
     }
 
@@ -150,7 +149,7 @@ public class GrammarTest {
         grammar.addRule(_S, _A);
         grammar.addRule(_A, TerminalSymbol.ch('a'));
         grammar.addRule(_B, TerminalSymbol.ch('b'));
-        grammar.close();
+        grammar.close(_S);
 
         HygieneReport report = grammar.checkHygiene(_S);
 
@@ -291,7 +290,7 @@ public class GrammarTest {
         HygieneReport report = grammar.checkHygiene(_S);
         Assert.assertEquals(0, logger.warncount);
 
-        grammar.close();
+        grammar.close(_S);
 
         report = grammar.checkHygiene(_S);
         Assert.assertEquals(1, logger.warncount);

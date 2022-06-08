@@ -32,8 +32,20 @@
     <xsl:if test="@type != 'state' and $show-states != 'false'">
       <xsl:sequence select="replace(replace(@state, '\\', '\\\\'), '&quot;', '\\&quot;')"/>
     </xsl:if>
+
+    <xsl:if test="@leftExtent and @rightExtent">
+      <xsl:variable name="left" select="xs:integer(@leftExtent)"/>
+      <xsl:variable name="right" select="xs:integer(@rightExtent)"/>
+      <xsl:if test="$left != $right and $left + 1 != $right">
+        <xsl:sequence select="$left || ' – ' || $right"/>
+      </xsl:if>
+    </xsl:if>
+
     <xsl:if test="$show-hashes = 'true'">
       <xsl:sequence select="@hash/string()"/>
+    </xsl:if>
+    <xsl:if test="@trees ne '1'">
+      <xsl:sequence select="' (' || @trees || ')'"/>
     </xsl:if>
   </xsl:variable>
 

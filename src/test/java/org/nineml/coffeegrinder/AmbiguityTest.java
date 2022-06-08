@@ -8,6 +8,8 @@ import org.nineml.coffeegrinder.util.GrammarCompiler;
 import org.nineml.coffeegrinder.util.Iterators;
 
 import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static junit.framework.TestCase.fail;
 
@@ -16,9 +18,9 @@ public class AmbiguityTest {
     public void testProgram() {
         try {
             GrammarCompiler compiler = new GrammarCompiler();
-            Grammar grammar = compiler.parse(new FileInputStream("src/test/resources/program.cxml"), "program.cxml");
-            EarleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
-            EarleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/program.inp"));
+            Grammar grammar = compiler.parse(Files.newInputStream(Paths.get("src/test/resources/program.cxml")), "program.cxml");
+            GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
+            GearleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/program.inp"));
             Assert.assertTrue(result.succeeded());
             //result.getForest().serialize("program-graph.xml");
             Assert.assertTrue(result.succeeded());
@@ -32,12 +34,11 @@ public class AmbiguityTest {
     public void testCss() {
         try {
             GrammarCompiler compiler = new GrammarCompiler();
-            Grammar grammar = compiler.parse(new FileInputStream("src/test/resources/css.cxml"), "css.cxml");
-            EarleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
-            EarleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/css.inp"));
+            Grammar grammar = compiler.parse(Files.newInputStream(Paths.get("src/test/resources/css.cxml")), "css.cxml");
+            GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
+            GearleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/css.inp"));
             Assert.assertTrue(result.succeeded());
-            //result.getForest().serialize("css-graph.xml");
-            Assert.assertTrue(result.succeeded());
+
             Assert.assertEquals(2, result.getForest().getTotalParses());
         } catch (Exception ex) {
             fail();
@@ -61,8 +62,8 @@ public class AmbiguityTest {
 
         grammar.addRule(_number, TerminalSymbol.ch('b'));
 
-        EarleyParser parser = grammar.getParser(_expr);
-        EarleyResult result = parser.parse(Iterators.characterIterator("xabb"));
+        GearleyParser parser = grammar.getParser(_expr);
+        GearleyResult result = parser.parse(Iterators.characterIterator("xabb"));
         //result.getForest().serialize("ambiguity.xml");
 
         Assert.assertTrue(result.succeeded());
@@ -97,8 +98,8 @@ public class AmbiguityTest {
         grammar.addRule(_number, TerminalSymbol.ch('b'));
         grammar.addRule(_other, TerminalSymbol.ch('b'));
 
-        EarleyParser parser = grammar.getParser(_expr);
-        EarleyResult result = parser.parse(Iterators.characterIterator("abab"));
+        GearleyParser parser = grammar.getParser(_expr);
+        GearleyResult result = parser.parse(Iterators.characterIterator("abab"));
         //result.getForest().serialize("ambiguity2.xml");
 
         Assert.assertTrue(result.succeeded());
@@ -122,8 +123,8 @@ public class AmbiguityTest {
         grammar.addRule(_word, _letter, _word);
         grammar.addRule(_word);
 
-        EarleyParser parser = grammar.getParser(_expr);
-        EarleyResult result = parser.parse(Iterators.characterIterator("word"));
+        GearleyParser parser = grammar.getParser(_expr);
+        GearleyResult result = parser.parse(Iterators.characterIterator("word"));
 
         //result.getForest().serialize("ambiguity3.xml");
 

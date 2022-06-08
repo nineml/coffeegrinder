@@ -12,6 +12,7 @@ import org.nineml.logging.Logger;
  */
 public class ParserOptions {
     private Logger logger;
+    private String parserType = "Earley";
     private boolean returnChart = false;
     private boolean prefixParsing = false;
     private boolean treesWithStates = false;
@@ -25,6 +26,13 @@ public class ParserOptions {
     public ParserOptions() {
         logger = new DefaultLogger();
         logger.readSystemProperties();
+
+        String ptype = System.getProperty("org.nineml.coffeegrinder.parser", "Earley");
+        try {
+            setParserType(ptype);
+        } catch (IllegalArgumentException ex) {
+            logger.error("Grammar", "Invalid parser type in org.nineml.coffeegrinder.parser system property: " + ptype);
+        }
     }
 
     /**
@@ -33,6 +41,42 @@ public class ParserOptions {
      */
     public ParserOptions(Logger logger) {
         this.logger = logger;
+    }
+
+    /**
+     * Create a new set of options from an existing set.
+     * <p>Beware that the logger and monitor are not copied, so the copied options have pointers to the
+     * same logger and monitor instances.</p>
+     * @param copy the options to copy
+     */
+    public ParserOptions(ParserOptions copy) {
+        logger = copy.logger;
+        parserType = copy.parserType;
+        returnChart = copy.returnChart;
+        prefixParsing = copy.prefixParsing;
+        treesWithStates = copy.treesWithStates;
+        monitor = copy.monitor;
+    }
+
+    /**
+     * Return the default parser type.
+     * @return The default parser type, "Earley" or "GLL"
+     */
+    public String getParserType() {
+        return parserType;
+    }
+
+    /**
+     * Set the default parser type.
+     * @param parserType the parser type, "Earley" or "GLL"
+     * @throws IllegalArgumentException if the parser type is not recognized
+     */
+    public void setParserType(String parserType) {
+        if ("Earley".equals(parserType) || "GLL".equals(parserType)) {
+            this.parserType = parserType;
+        } else {
+            throw new IllegalArgumentException("Unrecognized parser type: " + parserType);
+        }
     }
 
     /**
