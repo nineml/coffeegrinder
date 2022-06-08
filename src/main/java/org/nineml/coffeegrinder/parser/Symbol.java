@@ -16,18 +16,7 @@ import java.util.HashMap;
  * for all Symbols.</p>
  */
 public abstract class Symbol {
-    public static final ParserAttribute OPTIONAL = new ParserAttribute("https://nineml.org/CoffeeGrinder/attributes/optionality", "optional");
     private final HashMap<String, ParserAttribute> attributes = new HashMap<>();
-
-    /**
-     * Is this symbol optional?
-     * <p>Optionality of symbols is a convenience for grammar authors. The parser will
-     * detect optional symbols and automatically generate appropriate "null" rules for them.</p>
-     * @return true if this symbol is optional.
-     */
-    public final boolean isOptional() {
-        return hasAttribute(Symbol.OPTIONAL.getName());
-    }
 
     public final boolean isPruneable() {
         return attributes.containsKey(ParserAttribute.PRUNING)
@@ -119,10 +108,6 @@ public abstract class Symbol {
             return;
         }
         for (ParserAttribute attr : attributes) {
-            if (attr.getName().equals(OPTIONAL.getName())
-                && !attr.getValue().equals(OPTIONAL.getValue())) {
-                throw AttributeException.invalidOPTIONAL(attr.getValue());
-            }
             if (attr.getName().equals(ParserAttribute.PRUNING)
                 && (!attr.getValue().equals(ParserAttribute.PRUNING_ALLOWED.getValue())
                     && !attr.getValue().equals(ParserAttribute.PRUNING_FORBIDDEN.getValue()))) {

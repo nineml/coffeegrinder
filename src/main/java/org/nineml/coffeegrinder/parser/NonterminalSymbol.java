@@ -89,9 +89,6 @@ public class NonterminalSymbol extends Symbol {
         if (!grammar.isOpen() && grammar.isNullable(this)) {
             return name + "ⁿ";
         }
-        if (isOptional()) {
-            return name + "?";
-        }
         return name;
     }
 }

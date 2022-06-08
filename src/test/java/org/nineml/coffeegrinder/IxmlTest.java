@@ -18,7 +18,6 @@ public class IxmlTest {
     public void testRuleParse() {
         try {
             ParserOptions options = new ParserOptions();
-            options.getLogger().setDefaultLogLevel(99);
             Grammar grammar = new GrammarCompiler().parse(new File("src/test/resources/ixml.cxml"));
             grammar.setParserOptions(options);
 

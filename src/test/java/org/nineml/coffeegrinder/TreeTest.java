@@ -48,10 +48,10 @@ public class TreeTest {
             Grammar grammar = compiler.parse(new File("src/test/resources/ixml.cxml"));
             GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
 
-            String input = "ixml:'x',empty. empty:.";
+            String input = "S:'x',e. e:.";
             GearleyResult result = parser.parse(Iterators.characterIterator(input));
 
-            //result.getForest().serialize("/tmp/graph.xml");
+            result.getForest().serialize("/tmp/graph.xml");
             //ParseTree tree = result.getForest().parse();
             //tree.serialize("tree.xml");
 
@@ -92,21 +92,22 @@ public class TreeTest {
     @Test
     public void testAmbiguous() {
         Grammar grammar = new Grammar();
-        grammar.getParserOptions().getLogger().setDefaultLogLevel(99);
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");
-        NonterminalSymbol d1 = grammar.getNonterminal("$1", true);
-        NonterminalSymbol d2 = grammar.getNonterminal("$2", true);
-        NonterminalSymbol d3 = grammar.getNonterminal("$3", true);
-        NonterminalSymbol d4 = grammar.getNonterminal("$4", true);
+        NonterminalSymbol d1 = grammar.getNonterminal("$1"); //, true);
+        NonterminalSymbol d2 = grammar.getNonterminal("$2"); //, true);
+        NonterminalSymbol d3 = grammar.getNonterminal("$3"); //, true);
+        NonterminalSymbol d4 = grammar.getNonterminal("$4"); //, true);
 
         grammar.addRule(S, A);
         grammar.addRule(A, d1);
         grammar.addRule(A, d3);
         grammar.addRule(d1, d2);
+        grammar.addRule(d1);
         grammar.addRule(d2, TerminalSymbol.ch('a'), d2);
         grammar.addRule(d3, d4);
+        grammar.addRule(d3);
         grammar.addRule(d4, TerminalSymbol.ch('b'), d4);
 
         GearleyParser parser = grammar.getParser(S);

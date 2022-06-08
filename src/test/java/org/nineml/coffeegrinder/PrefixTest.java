@@ -20,14 +20,14 @@ public class PrefixTest {
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
         NonterminalSymbol _A = grammar.getNonterminal("A");
-        NonterminalSymbol _B = grammar.getNonterminal("B", Symbol.OPTIONAL);
+        NonterminalSymbol _B = grammar.getNonterminal("B");
         TerminalSymbol _a = TerminalSymbol.ch('a');
         TerminalSymbol _b = TerminalSymbol.ch('b');
 
         grammar.addRule(_S, _A, _B);
         grammar.addRule(_A, _a);
         grammar.addRule(_B, _b, _B);
-        grammar.addRule(_B, _b);
+        grammar.addRule(_B);
 
         GearleyParser parser = grammar.getParser(_S);
 

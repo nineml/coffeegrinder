@@ -12,6 +12,7 @@ public class GllResult implements GearleyResult {
     public final boolean success;
     private final int tokenCount;
     private final Token lastToken;
+    private long parseTime = -1;
 
     public GllResult(GllParser parser, ParseForest forest) {
         this.parser = parser;
@@ -56,7 +57,11 @@ public class GllResult implements GearleyResult {
 
     @Override
     public long getParseTime() {
-        return -1;
+        return parseTime;
+    }
+
+    protected void setParseTime(long time) {
+        parseTime = time;
     }
 
     @Override

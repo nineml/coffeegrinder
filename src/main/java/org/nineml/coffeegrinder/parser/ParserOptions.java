@@ -44,6 +44,21 @@ public class ParserOptions {
     }
 
     /**
+     * Create a new set of options from an existing set.
+     * <p>Beware that the logger and monitor are not copied, so the copied options have pointers to the
+     * same logger and monitor instances.</p>
+     * @param copy the options to copy
+     */
+    public ParserOptions(ParserOptions copy) {
+        logger = copy.logger;
+        parserType = copy.parserType;
+        returnChart = copy.returnChart;
+        prefixParsing = copy.prefixParsing;
+        treesWithStates = copy.treesWithStates;
+        monitor = copy.monitor;
+    }
+
+    /**
      * Return the default parser type.
      * @return The default parser type, "Earley" or "GLL"
      */

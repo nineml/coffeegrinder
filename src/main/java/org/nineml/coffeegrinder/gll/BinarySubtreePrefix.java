@@ -50,11 +50,12 @@ public class BinarySubtreePrefix extends BinarySubtreeNode {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("(");
+        sb.append(String.format("(%s, %d, %d, %d)", slot, leftExtent, pivot, rightExtent));
+        sb.append(" ( ");
         for (int pos = 0; pos < slot.position; pos++) {
             sb.append(slot.rhs.get(pos));
         }
-        sb.append(", ").append(leftExtent).append(", ").append(pivot).append(", ").append(rightExtent).append(")");
+        sb.append(", ").append(leftExtent).append(", ").append(pivot).append(", ").append(rightExtent).append(" )");
         return sb.toString();
     }
 }

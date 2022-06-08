@@ -22,7 +22,6 @@ public class Grammar {
     private final ArrayList<Rule> rules;
     private final HashMap<NonterminalSymbol,ArrayList<Rule>> rulesBySymbol;
     private final HashSet<Symbol> nullable;
-    private final HashSet<Symbol> alwaysOptional;
     private NonterminalSymbol seed = null;
     private final HashMap<String,String> metadata = new HashMap<>();
     private ParserOptions options;
@@ -49,8 +48,7 @@ public class Grammar {
         rulesBySymbol = new HashMap<>();
         this.options = options;
         nullable = new HashSet<>();
-        alwaysOptional = new HashSet<>();
-        if (false && "Earley".equals(options.getParserType())) {
+        if ("Earley".equals(options.getParserType())) {
             defaultParserType = ParserType.Earley;
         } else {
             defaultParserType = ParserType.GLL;
@@ -69,7 +67,6 @@ public class Grammar {
         rulesBySymbol = new HashMap<>(current.rulesBySymbol);
         options = current.options;
         nullable = new HashSet<>(current.nullable);
-        alwaysOptional = new HashSet<>(current.alwaysOptional);
         defaultParserType = current.defaultParserType;
         seed = null;
         computedSets = false;
@@ -88,31 +85,15 @@ public class Grammar {
     }
 
     /**
-     * Return the nonterminal symbol identified by name for this grammar.
+     * Return the nonterminal symbol identified by name.
      * <p>Nonterminal symbols are uniquely identified by their name.</p>
-     * <p>Any string can be used as a name. Symbols are required (i.e., not optional) by default.</p>
+     * <p>Any string can be used as a name.</p>
      * @param name The name of this symbol.
      * @return The nonterminal for the name specified.
      * @throws NullPointerException if the name is null.
      */
     public NonterminalSymbol getNonterminal(String name) {
-        return getNonterminal(name, false);
-    }
-
-    /**
-     * Return the nonterminal symbol identified by name.
-     * <p>Nonterminal symbols are uniquely identified by their name.</p>
-     * <p>Any string can be used as a name.</p>
-     * @param name The name of this symbol.
-     * @param optional true if the symbol is optional.
-     * @return The nonterminal for the name specified.
-     * @throws NullPointerException if the name is null.
-     */
-    public NonterminalSymbol getNonterminal(String name, boolean optional) {
         ArrayList<ParserAttribute> attr = new ArrayList<>();
-        if (optional) {
-            attr.add(Symbol.OPTIONAL);
-        }
         return getNonterminal(name, attr);
     }
 
@@ -244,24 +225,12 @@ public class Grammar {
      * @return the parser
      */
     public GearleyParser getParser(NonterminalSymbol seed) {
-        if (this.seed == null) {
-            close(seed);
-        } else {
-            if (!this.seed.equals(seed)) {
-                throw new RuntimeException("Cannot change seed");
-            }
-        }
-        if (defaultParserType == ParserType.Earley) {
-            return new EarleyParser(this);
-        } else {
-            return new GllParser(this);
-        }
+        return getParser(defaultParserType, seed);
     }
 
     public GearleyParser getParser(ParserType parserType, String seed) {
         return getParser(parserType, getNonterminal(seed));
     }
-
 
     /**
      * Get a parser for this grammar.
@@ -281,8 +250,10 @@ public class Grammar {
             }
         }
         if (parserType == ParserType.Earley) {
+            computeEarleyNullable();
             return new EarleyParser(this);
         } else {
+            computeGllNullable();
             return new GllParser(this);
         }
     }
@@ -321,8 +292,55 @@ public class Grammar {
         if (!rulesBySymbol.containsKey(seed)) {
             throw new IllegalArgumentException("Grammar does not contain " + seed);
         }
-        expandOptionalSymbols();
-        this.seed = seed;
+        // Don't use the seed passed in, it may not have the right attributes.
+        // FIXME: this is a bit fragile, isn't it?
+        this.seed = rulesBySymbol.get(seed).get(0).symbol;
+    }
+
+    private void computeEarleyNullable() {
+        // For the Earley parser, the only symbols that are nullable are the ones
+        // that have an epsilon production.
+        nullable.clear();
+        for (Rule rule : rules) {
+            if (rule.rhs.isEmpty()) {
+                nullable.add(rule.symbol);
+            }
+        }
+    }
+
+    private void computeGllNullable() {
+        // For the GLL parser, any symbol that can lead to an epsilon production
+        // is nullable.
+        computeEarleyNullable();
+        HashSet<Symbol> notNullable = new HashSet<>();
+
+        boolean changed = true;
+        while (changed) {
+            changed = false;
+            for (Rule rule : rules) {
+                if (!nullable.contains(rule.symbol) && !notNullable.contains(rule.symbol)) {
+                    if (rule.rhs.isEmpty()) {
+                        nullable.add(rule.symbol);
+                        changed = true;
+                    } else {
+                        boolean canBeNull = true;
+                        for (Symbol symbol : rule.rhs.symbols) {
+                            if (symbol instanceof TerminalSymbol || notNullable.contains(symbol)) {
+                                notNullable.add(rule.symbol);
+                                changed = true;
+                                canBeNull = false;
+                            } else if (!nullable.contains(symbol)) {
+                                canBeNull = false;
+                            }
+                        }
+                        if (canBeNull) {
+                            nullable.add(rule.symbol);
+                            changed = true;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -342,10 +360,7 @@ public class Grammar {
                         Symbol csym = candidate.getRhs().get(pos);
                         if (symbol instanceof NonterminalSymbol) {
                             if (csym instanceof NonterminalSymbol) {
-                                if (!((NonterminalSymbol) symbol).getName().equals(((NonterminalSymbol) csym).getName())
-                                    || symbol.isOptional() != csym.isOptional()) {
-                                    same = false;
-                                }
+                                same = same && ((NonterminalSymbol) symbol).getName().equals(((NonterminalSymbol) csym).getName());
                             } else {
                                 same = false;
                             }
@@ -412,6 +427,7 @@ public class Grammar {
         return metadata;
     }
 
+    /*
     protected void expandOptionalSymbols() {
         // This whole business of allowing symbols to be marked as optional is a bit of a problem.
         // We now have the challenge of working out which ones should be allowed to go to epsilon.
@@ -527,6 +543,8 @@ public class Grammar {
             }
         }
     }
+     */
+
     protected List<NonterminalSymbol> undefinedSymbols() {
         HashSet<NonterminalSymbol> definedNames = new HashSet<>();
         HashSet<NonterminalSymbol> usedNames = new HashSet<>();
@@ -689,7 +707,6 @@ public class Grammar {
 
         firstSets.clear();
         followSets.clear();
-        Set<NonterminalSymbol> canGoToEpsilon = canGoToEpsilon();
 
         for (Rule rule : rules) {
             if (!firstSets.containsKey(rule.symbol)) {
@@ -704,7 +721,7 @@ public class Grammar {
             HashSet<Symbol> first = firstSets.get(rule.symbol);
             for (Symbol symbol : rule.rhs.symbols) {
                 first.add(symbol);
-                if (!canGoToEpsilon.contains(symbol)) {
+                if (!nullable.contains(symbol)) {
                     break;
                 }
             }
@@ -758,9 +775,17 @@ public class Grammar {
             return;
         }
 
+        // In an unhygienic grammar, the symbol might be unknown.
+        if (!firstSets.containsKey((NonterminalSymbol) current)) {
+            return;
+        }
+
         Set<Symbol> first = firstSets.get((NonterminalSymbol) current);
         if (!first.contains(TerminalSymbol.EPSILON)) {
-            followSets.get(symbol).addAll(first);
+            // In an unhygienic grammar, the symbol might be unknown.
+            if (followSets.containsKey(symbol)) {
+                followSets.get(symbol).addAll(first);
+            }
             return;
         }
 
@@ -771,7 +796,10 @@ public class Grammar {
         }
 
         if (pos+1 == rule.rhs.length) {
-            followSets.get(symbol).add(rule.symbol);
+            // In an unhygienic grammar, the symbol might be unknown.
+            if (followSets.containsKey(symbol)) {
+                followSets.get(symbol).add(rule.symbol);
+            }
         } else {
             computeFollow(rule, pos+1, symbol);
         }
@@ -781,11 +809,14 @@ public class Grammar {
         HashSet<Symbol> combined = new HashSet<>();
         if (!seen.contains(symbol)) {
             seen.add(symbol);
-            for (Symbol first : firstSets.get(symbol)) {
-                if (first instanceof TerminalSymbol) {
-                    combined.add(first);
-                } else {
-                    combined.addAll(expandFirstSet((NonterminalSymbol) first, seen));
+            // In an unhygienic grammar, the symbol might be unknown.
+            if (firstSets.containsKey(symbol)) {
+                for (Symbol first : firstSets.get(symbol)) {
+                    if (first instanceof TerminalSymbol) {
+                        combined.add(first);
+                    } else {
+                        combined.addAll(expandFirstSet((NonterminalSymbol) first, seen));
+                    }
                 }
             }
         }
@@ -796,49 +827,17 @@ public class Grammar {
         HashSet<Symbol> combined = new HashSet<>();
         if (!seen.contains(symbol)) {
             seen.add(symbol);
-            for (Symbol follow : followSets.get(symbol)) {
-                if (follow instanceof TerminalSymbol) {
-                    combined.add(follow);
-                } else {
-                    combined.addAll(expandFollowSet((NonterminalSymbol) follow, seen));
-                }
-            }
-        }
-        return combined;
-    }
-
-    private Set<NonterminalSymbol> canGoToEpsilon() {
-        // Whatever nullable meant when we were [expletive] about trying to work
-        // out the optional symbols, it means something different now. :-(
-        HashSet<NonterminalSymbol> notNullable = new HashSet<>();
-        HashSet<NonterminalSymbol> isNullable = new HashSet<>();
-
-        boolean changed = true;
-        while (changed) {
-            changed = false;
-            for (Rule rule : rules) {
-                if (!isNullable.contains(rule.symbol) && !notNullable.contains(rule.symbol)) {
-                    if (rule.rhs.isEmpty()) {
-                        isNullable.add(rule.symbol);
-                        changed = true;
+            // In an unhygienic grammar, the symbol might be unknown.
+            if (followSets.containsKey(symbol)) {
+                for (Symbol follow : followSets.get(symbol)) {
+                    if (follow instanceof TerminalSymbol) {
+                        combined.add(follow);
                     } else {
-                        boolean canBeNull = true;
-                        for (Symbol symbol : rule.rhs.symbols) {
-                            if (symbol instanceof TerminalSymbol || notNullable.contains(symbol)) {
-                                notNullable.add(rule.symbol);
-                                changed = true;
-                                canBeNull = false;
-                            }
-                        }
-                        if (canBeNull) {
-                            isNullable.add(rule.symbol);
-                            changed = true;
-                        }
+                        combined.addAll(expandFollowSet((NonterminalSymbol) follow, seen));
                     }
                 }
             }
         }
-
-        return isNullable;
+        return combined;
     }
 }

@@ -10,8 +10,11 @@ public class BinarySubtree {
     private final HashSet<BinarySubtreeSlot> bsrSlots;
     private ArrayList<BinarySubtreeSlot> roots = null;
     private HashSet<BinarySubtreeNode> bsr = null;
+    private HashMap<Integer, ArrayList<BinarySubtreeNode>> bsrmap = null;
     private final NonterminalSymbol seed;
     private int rightExtent = 0;
+    private boolean ambiguous = false;
+    private boolean infinitelyAmbiguous = false;
 
     protected BinarySubtree(NonterminalSymbol seed) {
         bsrPrefixes = new HashSet<>();
@@ -112,5 +115,153 @@ public class BinarySubtree {
 
         G.prune();
         return G;
+    }
+
+    protected void dump() {
+        if (getRoots().isEmpty()) {
+            return;
+        }
+
+        bsrmap = new HashMap<>();
+        for (BinarySubtreeNode node : bsrSlots) {
+            if (!bsrmap.containsKey(node.leftExtent)) {
+                bsrmap.put(node.leftExtent, new ArrayList<>());
+            }
+            bsrmap.get(node.leftExtent).add(node);
+        }
+
+        for (BinarySubtreeNode node : getRoots()) {
+            zcover(node, new HashSet<>());
+        }
+    }
+
+    private void zcover(BinarySubtreeNode node, HashSet<BinarySubtreeNode> seen) {
+        XTree coverings = zcover(node.slot.rhs.symbols, node.leftExtent, node.rightExtent, seen);
+        System.err.println("coverings");
+    }
+
+    private XTree zcover(Symbol[] symbols, int leftExtent, int rightExtent, HashSet<BinarySubtreeNode> seen) {
+        XTree cover = new XTree(leftExtent, rightExtent);
+        if (symbols.length == 0) {
+            return cover;
+        }
+
+        ArrayList<XTree> prevSet = new ArrayList<>();
+        if (symbols[0] instanceof TerminalSymbol) {
+            XTree next = new XTree((TerminalSymbol) symbols[0], leftExtent);
+            cover.addNext(next);
+            prevSet.add(next);
+        } else {
+            for (BinarySubtreeNode node : bsrmap.get(leftExtent)) {
+                if (symbols[0].equals(node.slot.symbol) && node.rightExtent <= rightExtent) {
+                    XTree next = new XTree(node);
+                    if (seen.contains(node)) {
+                        ambiguous = true;
+                        infinitelyAmbiguous = true;
+                    } else {
+                        seen.add(node);
+                        next.cover = zcover(node.slot.getRhs().symbols, node.leftExtent, node.rightExtent, seen);
+                        if (next.cover != null) {
+                            if (cover.addNext(next)) {
+                                ambiguous = true;
+                            }
+                            prevSet.add(next);
+                        }
+                    }
+                }
+            }
+        }
+
+        ArrayList<XTree> nextSet = new ArrayList<>();
+        for (int pos = 1; pos < symbols.length; pos++) {
+            if (symbols[pos] instanceof TerminalSymbol) {
+                XTree next = new XTree((TerminalSymbol) symbols[pos], prevSet.get(0).rightExtent);
+                nextSet.add(next);
+                for (XTree cp : prevSet) {
+                    if (cp.rightExtent == next.leftExtent) {
+                        if (cover.addNext(next)) {
+                            ambiguous = true;
+                        }
+                    }
+                }
+            } else {
+                for (XTree pnode : prevSet) {
+                    List<BinarySubtreeNode> nodes = bsrmap.getOrDefault(pnode.rightExtent, null);
+                    if (nodes != null) {
+                        for (BinarySubtreeNode node : nodes) {
+                            if (symbols[pos].equals(node.slot.symbol) && node.rightExtent <= rightExtent) {
+                                XTree next = new XTree(node);
+                                if (seen.contains(node)) {
+                                    ambiguous = true;
+                                    infinitelyAmbiguous = true;
+                                } else {
+                                    seen.add(node);
+                                    next.cover = zcover(node.slot.getRhs().symbols, node.leftExtent, node.rightExtent, seen);
+                                    if (next.cover != null) {
+                                        nextSet.add(next);
+                                        for (XTree cp : prevSet) {
+                                            if (cp.rightExtent == next.leftExtent) {
+                                                if (cover.addNext(next)) {
+                                                    ambiguous = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            prevSet.clear();
+            prevSet.addAll(nextSet);
+            nextSet.clear();
+        }
+
+        return cover;
+    }
+
+    private static class XTree {
+        public final BinarySubtreeNode node;
+        public final TerminalSymbol symbol;
+        public final int leftExtent;
+        public final int rightExtent;
+        public ArrayList<XTree> next = null;
+        public XTree cover = null;
+        public XTree(int leftExtent, int rightExtent) {
+            this.node = null;
+            this.symbol = null;
+            this.next = new ArrayList<>();
+            this.leftExtent = leftExtent;
+            this.rightExtent = rightExtent;
+        }
+
+        public XTree(BinarySubtreeNode node) {
+            this.node = node;
+            this.symbol = null;
+            leftExtent = node.leftExtent;
+            rightExtent = node.rightExtent;
+        }
+
+        public XTree(TerminalSymbol symbol, int pos) {
+            this.node = null;
+            this.symbol = symbol;
+            leftExtent = pos;
+            rightExtent = pos+1;
+        }
+
+        public boolean addNext(XTree tree) {
+            if (next == null) {
+                next = new ArrayList<>();
+            }
+            next.add(tree);
+            return next.size() > 1;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s [%d,%d]", symbol == null ? node : symbol, leftExtent, rightExtent);
+        }
     }
 }

@@ -15,6 +15,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -26,7 +27,7 @@ import java.util.*;
  * can be loaded with the {@link #parse} method.</p>
  */
 public class GrammarCompiler {
-    private static final String formatVersion="0.9.3";
+    private static final String formatVersion="0.9.4";
     private static final char nameEscape = 'ǝ';
     private static final String NS = "http://nineml.org/coffeegrinder/ns/grammar/compiled";
     private static final HashMap<Character,String> entities = new HashMap<>();
@@ -331,10 +332,6 @@ public class GrammarCompiler {
     private void standardAttributes(Collection<ParserAttribute> attributes) {
         String value = "";
         for (ParserAttribute attr : attributes) {
-            if (attr.getName().equals(Symbol.OPTIONAL.getName())
-                    && attr.getValue().equals(Symbol.OPTIONAL.getValue())) {
-                value += "?";
-            }
             if (attr.getName().equals(ParserAttribute.PRUNING)) {
                 if (attr.getValue().equals(ParserAttribute.PRUNING_ALLOWED.getValue())) {
                     value += "p";
@@ -439,7 +436,7 @@ public class GrammarCompiler {
         if (compiled == null) {
             throw new NullPointerException("File must not be null");
         }
-        return parse(new FileInputStream(compiled), compiled.toURI().toString());
+        return parse(Files.newInputStream(compiled.toPath()), compiled.toURI().toString());
     }
 
     /**
@@ -654,9 +651,6 @@ public class GrammarCompiler {
                 }
                 for (int pos = 0; pos < a.length(); pos++) {
                     switch (a.charAt(pos)) {
-                        case '?':
-                            rattr.add(Symbol.OPTIONAL);
-                            break;
                         case 'p':
                             rattr.add(ParserAttribute.PRUNING_ALLOWED);
                             break;

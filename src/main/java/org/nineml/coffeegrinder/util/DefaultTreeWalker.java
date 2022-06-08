@@ -4,11 +4,7 @@ import org.nineml.coffeegrinder.exceptions.TreeWalkerException;
 import org.nineml.coffeegrinder.parser.*;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Stack;
+import java.util.*;
 
 import static org.nineml.coffeegrinder.parser.ForestNode.MAX_LONG;
 
@@ -154,6 +150,7 @@ public class DefaultTreeWalker implements TreeWalker {
         builder.endNode(node);
     }
 
+    private HashSet<ForestNode> seen = new HashSet<>();
     public void advance(ForestNode node) {
         if (node.getFamilies().isEmpty()) {
             return;
@@ -168,10 +165,16 @@ public class DefaultTreeWalker implements TreeWalker {
         }
 
         if (family.w != null) {
-            advance(family.w);
+            if (!seen.contains(family.w)) {
+                seen.add(family.w);
+                advance(family.w);
+            }
         }
         if (family.v != null) {
-            advance(family.v);
+            if (!seen.contains(family.v)) {
+                seen.add(family.v);
+                advance(family.v);
+            }
         }
     }
 

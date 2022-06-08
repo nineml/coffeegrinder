@@ -1,6 +1,6 @@
-<grammar xmlns="http://nineml.org/coffeegrinder/ns/grammar/compiled" version="0.9.3">
+<grammar xmlns="http://nineml.org/coffeegrinder/ns/grammar/compiled" version="0.9.4">
 <meta name='coffeepot-version' value='1.9.0'/>
-<meta name='date' value='2022-05-29T15:03:59Z'/>
+<meta name='date' value='2022-06-05T08:33:01Z'/>
 <meta name='uri' value='file:/Volumes/Projects/nineml/grinder/src/test/resources/program.ixml'/>
 <ag xml:id="g1" name="$$" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
 <ag xml:id="g2" mark="^"/>
@@ -8,11 +8,11 @@
 <ag xml:id="g3" name="program" mark="^"/>
 <r n="program" ag="g3"><nt n="block" ag="g2"/></r>
 <ag xml:id="g4" name="block" mark="^"/>
-<ag xml:id="g5" tmark=" "/>
+<ag xml:id="g5" tmark="^"/>
 <ag xml:id="g6"/>
 <ag xml:id="g7" mark="-"/>
 <ag xml:id="g8" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="block" ag="g4"><t ag="g5"><c ag="g6" v="{"/></t><nt n="S" ag="g7"/><nt n="$7" a="p" ag="g8"/><t ag="g5"><c ag="g6" v="}"/></t><nt n="S" ag="g7"/></r>
+<r n="block" ag="g4"><t ag="g5"><c ag="g6" v="{"/></t><nt n="S" ag="g7"/><nt n="$1_statement-star-sep-option" a="p" ag="g8"/><t ag="g5"><c ag="g6" v="}"/></t><nt n="S" ag="g7"/></r>
 <ag xml:id="g9" name="statement" mark="^"/>
 <r n="statement" ag="g9"><nt n="if-statement" ag="g2"/></r>
 <r n="statement" ag="g9"><nt n="while-statement" ag="g2"/></r>
@@ -21,79 +21,77 @@
 <r n="statement" ag="g9"><nt n="block" ag="g2"/></r>
 <r n="statement" ag="g9"></r>
 <ag xml:id="g10" name="if-statement" mark="^"/>
-<ag xml:id="g11" httpsǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.CoffeeGrinderǝ2f.attributesǝ2f.optionality="optional" mark="^"/>
-<r n="if-statement" ag="g10"><t ag="g5"><c ag="g6" v="i"/></t><t ag="g5"><c ag="g6" v="f"/></t><nt n="S" ag="g7"/><nt n="condition" ag="g2"/><t ag="g5"><c ag="g6" v="t"/></t><t ag="g5"><c ag="g6" v="h"/></t><t ag="g5"><c ag="g6" v="e"/></t><t ag="g5"><c ag="g6" v="n"/></t><nt n="S" ag="g7"/><nt n="statement" ag="g2"/><nt n="else-part" a="?" ag="g11"/></r>
-<ag xml:id="g12" name="else-part" mark="^"/>
-<r n="else-part" ag="g12"><t ag="g5"><c ag="g6" v="e"/></t><t ag="g5"><c ag="g6" v="l"/></t><t ag="g5"><c ag="g6" v="s"/></t><t ag="g5"><c ag="g6" v="e"/></t><nt n="S" ag="g7"/><nt n="statement" ag="g2"/></r>
-<ag xml:id="g13" name="while-statement" mark="^"/>
-<r n="while-statement" ag="g13"><t ag="g5"><c ag="g6" v="w"/></t><t ag="g5"><c ag="g6" v="h"/></t><t ag="g5"><c ag="g6" v="i"/></t><t ag="g5"><c ag="g6" v="l"/></t><t ag="g5"><c ag="g6" v="e"/></t><nt n="S" ag="g7"/><nt n="condition" ag="g2"/><t ag="g5"><c ag="g6" v="d"/></t><t ag="g5"><c ag="g6" v="o"/></t><nt n="S" ag="g7"/><nt n="statement" ag="g2"/></r>
-<ag xml:id="g14" name="assignment" mark="^"/>
-<r n="assignment" ag="g14"><nt n="variable" ag="g2"/><t ag="g5"><c ag="g6" v="="/></t><nt n="S" ag="g7"/><nt n="expression" ag="g2"/></r>
-<ag xml:id="g15" name="variable" mark="^"/>
-<r n="variable" ag="g15"><nt n="identifier" ag="g2"/></r>
-<ag xml:id="g16" name="call" mark="^"/>
-<r n="call" ag="g16"><nt n="identifier" ag="g2"/><t ag="g5"><c ag="g6" v="("/></t><nt n="S" ag="g7"/><nt n="$11" a="p" ag="g8"/><t ag="g5"><c ag="g6" v=")"/></t><nt n="S" ag="g7"/></r>
-<ag xml:id="g17" name="parameter" mark="^"/>
-<r n="parameter" ag="g17"><nt n="expression" ag="g7"/></r>
-<ag xml:id="g18" name="identifier" mark="^"/>
-<r n="identifier" ag="g18"><nt n="$1" a="p" ag="g8"/><nt n="S" ag="g7"/></r>
-<ag xml:id="g19" name="expression" mark="^"/>
-<r n="expression" ag="g19"><nt n="identifier" ag="g2"/></r>
-<r n="expression" ag="g19"><nt n="number" ag="g2"/></r>
-<ag xml:id="g20" name="number" mark="^"/>
-<r n="number" ag="g20"><nt n="$4" a="p" ag="g8"/><nt n="S" ag="g7"/></r>
-<ag xml:id="g21" name="letter" mark="-"/>
-<ag xml:id="g22" tmark="^"/>
-<r n="letter" ag="g21"><t ag="g22"><cs ag="g6" inclusion="'a'-'z'"/></t></r>
-<r n="letter" ag="g21"><t ag="g22"><cs ag="g6" inclusion="'A'-'Z'"/></t></r>
-<ag xml:id="g23" name="digit" mark="-"/>
-<r n="digit" ag="g23"><t ag="g22"><cs ag="g6" inclusion="'0'-'9'"/></t></r>
-<ag xml:id="g24" name="condition" mark="^"/>
-<r n="condition" ag="g24"><nt n="identifier" ag="g2"/></r>
-<ag xml:id="g25" name="S" mark="-"/>
-<ag xml:id="g26" httpsǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.CoffeeGrinderǝ2f.attributesǝ2f.optionality="optional" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="S" ag="g25"><nt n="$15" a="?p" ag="g26"/></r>
-<ag xml:id="g27" name="$1" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$1" a="p" ag="g27"><nt n="letter" ag="g7"/><nt n="$2" a="p" ag="g8"/></r>
-<ag xml:id="g28" name="$2" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$2" a="p" ag="g28"><nt n="$3" a="?p" ag="g26"/></r>
-<ag xml:id="g29" name="$3" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$3" a="p" ag="g29"><nt n="letter" ag="g7"/><nt n="$2" a="p" ag="g8"/></r>
-<ag xml:id="g30" name="$4" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$4" a="p" ag="g30"><nt n="digit" ag="g7"/><nt n="$5" a="p" ag="g8"/></r>
-<ag xml:id="g31" name="$5" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$5" a="p" ag="g31"><nt n="$6" a="?p" ag="g26"/></r>
-<ag xml:id="g32" name="$6" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$6" a="p" ag="g32"><nt n="digit" ag="g7"/><nt n="$5" a="p" ag="g8"/></r>
-<ag xml:id="g33" name="$7" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$7" a="p" ag="g33"><nt n="$8" a="?p" ag="g26"/></r>
-<ag xml:id="g34" name="$8" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$8" a="p" ag="g34"><nt n="statement" ag="g2"/><nt n="$9" a="p" ag="g8"/></r>
-<ag xml:id="g35" name="$9" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$9" a="p" ag="g35"><nt n="$10" a="?p" ag="g26"/></r>
-<ag xml:id="g36" name="$10" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$10" a="p" ag="g36"><t ag="g5"><c ag="g6" v=";"/></t><nt n="S" ag="g7"/><nt n="statement" ag="g2"/><nt n="$9" a="p" ag="g8"/></r>
-<ag xml:id="g37" name="$11" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$11" a="p" ag="g37"><nt n="$12" a="?p" ag="g26"/></r>
-<ag xml:id="g38" name="$12" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$12" a="p" ag="g38"><nt n="parameter" ag="g2"/><nt n="$13" a="p" ag="g8"/></r>
-<ag xml:id="g39" name="$13" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$13" a="p" ag="g39"><nt n="$14" a="?p" ag="g26"/></r>
-<ag xml:id="g40" name="$14" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$14" a="p" ag="g40"><t ag="g5"><c ag="g6" v=","/></t><nt n="S" ag="g7"/><nt n="parameter" ag="g2"/><nt n="$13" a="p" ag="g8"/></r>
-<ag xml:id="g41" name="$15" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$15" a="p" ag="g41"><nt n="$16" a="?p" ag="g26"/></r>
-<ag xml:id="g42" name="$16" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
-<r n="$16" a="p" ag="g42"><t ag="g5"><c ag="g6" v=" "/></t><nt n="$16" a="?p" ag="g26"/></r>
-<r n="if-statement" ag="g10"><t ag="g5"><c ag="g6" v="i"/></t><t ag="g5"><c ag="g6" v="f"/></t><nt n="S" ag="g7"/><nt n="condition" ag="g2"/><t ag="g5"><c ag="g6" v="t"/></t><t ag="g5"><c ag="g6" v="h"/></t><t ag="g5"><c ag="g6" v="e"/></t><t ag="g5"><c ag="g6" v="n"/></t><nt n="S" ag="g7"/><nt n="statement" ag="g2"/></r>
-<r n="$2" a="p" ag="g28"></r>
-<r n="$5" a="p" ag="g31"></r>
-<r n="$7" a="p" ag="g33"></r>
-<r n="$9" a="p" ag="g35"></r>
-<r n="$11" a="p" ag="g37"></r>
-<r n="$13" a="p" ag="g39"></r>
-<r n="$15" a="p" ag="g41"></r>
-<r n="$16" a="p" ag="g42"><t ag="g5"><c ag="g6" v=" "/></t></r>
-<check Σ="22dad83413b205d1"/>
+<r n="if-statement" ag="g10"><t ag="g5"><c ag="g6" v="i"/></t><t ag="g5"><c ag="g6" v="f"/></t><nt n="S" ag="g7"/><nt n="condition" ag="g2"/><t ag="g5"><c ag="g6" v="t"/></t><t ag="g5"><c ag="g6" v="h"/></t><t ag="g5"><c ag="g6" v="e"/></t><t ag="g5"><c ag="g6" v="n"/></t><nt n="S" ag="g7"/><nt n="statement" ag="g2"/><nt n="$12_else-part-option" a="p" ag="g8"/></r>
+<ag xml:id="g11" name="else-part" mark="^"/>
+<r n="else-part" ag="g11"><t ag="g5"><c ag="g6" v="e"/></t><t ag="g5"><c ag="g6" v="l"/></t><t ag="g5"><c ag="g6" v="s"/></t><t ag="g5"><c ag="g6" v="e"/></t><nt n="S" ag="g7"/><nt n="statement" ag="g2"/></r>
+<ag xml:id="g12" name="while-statement" mark="^"/>
+<r n="while-statement" ag="g12"><t ag="g5"><c ag="g6" v="w"/></t><t ag="g5"><c ag="g6" v="h"/></t><t ag="g5"><c ag="g6" v="i"/></t><t ag="g5"><c ag="g6" v="l"/></t><t ag="g5"><c ag="g6" v="e"/></t><nt n="S" ag="g7"/><nt n="condition" ag="g2"/><t ag="g5"><c ag="g6" v="d"/></t><t ag="g5"><c ag="g6" v="o"/></t><nt n="S" ag="g7"/><nt n="statement" ag="g2"/></r>
+<ag xml:id="g13" name="assignment" mark="^"/>
+<r n="assignment" ag="g13"><nt n="variable" ag="g2"/><t ag="g5"><c ag="g6" v="="/></t><nt n="S" ag="g7"/><nt n="expression" ag="g2"/></r>
+<ag xml:id="g14" name="variable" mark="^"/>
+<r n="variable" ag="g14"><nt n="identifier" ag="g2"/></r>
+<ag xml:id="g15" name="call" mark="^"/>
+<r n="call" ag="g15"><nt n="identifier" ag="g2"/><t ag="g5"><c ag="g6" v="("/></t><nt n="S" ag="g7"/><nt n="$2_parameter-star-sep-option" a="p" ag="g8"/><t ag="g5"><c ag="g6" v=")"/></t><nt n="S" ag="g7"/></r>
+<ag xml:id="g16" name="parameter" mark="^"/>
+<r n="parameter" ag="g16"><nt n="expression" ag="g7"/></r>
+<ag xml:id="g17" name="identifier" mark="^"/>
+<r n="identifier" ag="g17"><nt n="$5_letter-plus" a="p" ag="g8"/><nt n="S" ag="g7"/></r>
+<ag xml:id="g18" name="expression" mark="^"/>
+<r n="expression" ag="g18"><nt n="identifier" ag="g2"/></r>
+<r n="expression" ag="g18"><nt n="number" ag="g2"/></r>
+<ag xml:id="g19" name="number" mark="^"/>
+<r n="number" ag="g19"><nt n="$6_digit-plus" a="p" ag="g8"/><nt n="S" ag="g7"/></r>
+<ag xml:id="g20" name="letter" mark="-"/>
+<r n="letter" ag="g20"><t ag="g5"><cs ag="g6" inclusion="'a'-'z'"/></t></r>
+<r n="letter" ag="g20"><t ag="g5"><cs ag="g6" inclusion="'A'-'Z'"/></t></r>
+<ag xml:id="g21" name="digit" mark="-"/>
+<r n="digit" ag="g21"><t ag="g5"><cs ag="g6" inclusion="'0'-'9'"/></t></r>
+<ag xml:id="g22" name="condition" mark="^"/>
+<r n="condition" ag="g22"><nt n="identifier" ag="g2"/></r>
+<ag xml:id="g23" name="S" mark="-"/>
+<r n="S" ag="g23"><nt n="$7_L0x20-star" a="p" ag="g8"/></r>
+<ag xml:id="g24" name="$1_statement-star-sep-option" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$1_statement-star-sep-option" a="p" ag="g24"></r>
+<r n="$1_statement-star-sep-option" a="p" ag="g24"><nt n="$3_statement-plus-sep" a="p" ag="g8"/></r>
+<ag xml:id="g25" name="$2_parameter-star-sep-option" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$2_parameter-star-sep-option" a="p" ag="g25"></r>
+<r n="$2_parameter-star-sep-option" a="p" ag="g25"><nt n="$4_parameter-plus-sep" a="p" ag="g8"/></r>
+<ag xml:id="g26" name="$3_statement-plus-sep" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$3_statement-plus-sep" a="p" ag="g26"><nt n="statement" ag="g2"/><nt n="$8_L;-star" a="p" ag="g8"/></r>
+<ag xml:id="g27" name="$4_parameter-plus-sep" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$4_parameter-plus-sep" a="p" ag="g27"><nt n="parameter" ag="g2"/><nt n="$9_L,-star" a="p" ag="g8"/></r>
+<ag xml:id="g28" name="$5_letter-plus" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$5_letter-plus" a="p" ag="g28"><nt n="letter" ag="g7"/><nt n="$10_letter-star" a="p" ag="g8"/></r>
+<ag xml:id="g29" name="$6_digit-plus" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$6_digit-plus" a="p" ag="g29"><nt n="digit" ag="g7"/><nt n="$11_digit-star" a="p" ag="g8"/></r>
+<ag xml:id="g30" name="$7_L0x20-star" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$7_L0x20-star" a="p" ag="g30"><nt n="$13_L0x20-option" a="p" ag="g8"/></r>
+<ag xml:id="g31" name="$8_L;-star" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$8_L;-star" a="p" ag="g31"><nt n="$14_L;-option" a="p" ag="g8"/></r>
+<ag xml:id="g32" name="$9_L,-star" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$9_L,-star" a="p" ag="g32"><nt n="$15_L,-option" a="p" ag="g8"/></r>
+<ag xml:id="g33" name="$10_letter-star" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$10_letter-star" a="p" ag="g33"><nt n="$16_letter-option" a="p" ag="g8"/></r>
+<ag xml:id="g34" name="$11_digit-star" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$11_digit-star" a="p" ag="g34"><nt n="$17_digit-option" a="p" ag="g8"/></r>
+<ag xml:id="g35" name="$12_else-part-option" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$12_else-part-option" a="p" ag="g35"></r>
+<r n="$12_else-part-option" a="p" ag="g35"><nt n="else-part" ag="g2"/></r>
+<ag xml:id="g36" name="$13_L0x20-option" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$13_L0x20-option" a="p" ag="g36"></r>
+<r n="$13_L0x20-option" a="p" ag="g36"><t ag="g5"><c ag="g6" v=" "/></t><nt n="$7_L0x20-star" a="p" ag="g8"/></r>
+<ag xml:id="g37" name="$14_L;-option" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$14_L;-option" a="p" ag="g37"></r>
+<r n="$14_L;-option" a="p" ag="g37"><t ag="g5"><c ag="g6" v=";"/></t><nt n="S" ag="g7"/><nt n="statement" ag="g2"/><nt n="$8_L;-star" a="p" ag="g8"/></r>
+<ag xml:id="g38" name="$15_L,-option" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$15_L,-option" a="p" ag="g38"></r>
+<r n="$15_L,-option" a="p" ag="g38"><t ag="g5"><c ag="g6" v=","/></t><nt n="S" ag="g7"/><nt n="parameter" ag="g2"/><nt n="$9_L,-star" a="p" ag="g8"/></r>
+<ag xml:id="g39" name="$16_letter-option" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$16_letter-option" a="p" ag="g39"></r>
+<r n="$16_letter-option" a="p" ag="g39"><nt n="letter" ag="g7"/><nt n="$10_letter-star" a="p" ag="g8"/></r>
+<ag xml:id="g40" name="$17_digit-option" httpǝ3a.ǝ2f.ǝ2f.ninemlǝ2e.orgǝ2f.coffeegrinderǝ2f.attributesǝ2f.prune="allowed" mark="-"/>
+<r n="$17_digit-option" a="p" ag="g40"></r>
+<r n="$17_digit-option" a="p" ag="g40"><nt n="digit" ag="g7"/><nt n="$11_digit-star" a="p" ag="g8"/></r>
+<check Σ="2b79cd70f6a04b1d"/>
 </grammar>
 

@@ -116,10 +116,6 @@ public abstract class Token {
             return;
         }
         for (ParserAttribute attr : attributes) {
-            if (attr.getName().equals(Symbol.OPTIONAL.getName())
-                    && !attr.getValue().equals(Symbol.OPTIONAL.getValue())) {
-                throw AttributeException.invalidOPTIONAL(attr.getValue());
-            }
             if (attr.getName().equals(ParserAttribute.PRUNING)
                     && (!attr.getValue().equals(ParserAttribute.PRUNING_ALLOWED.getValue())
                     && !attr.getValue().equals(ParserAttribute.PRUNING_FORBIDDEN.getValue()))) {

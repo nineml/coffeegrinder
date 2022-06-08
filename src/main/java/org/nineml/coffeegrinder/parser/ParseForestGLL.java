@@ -1,6 +1,7 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.tokens.Token;
+import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,11 +30,16 @@ public class ParseForestGLL extends ParseForest {
     }
 
     public ForestNodeGLL findOrCreate(State state, Symbol symbol, int leftExtent, int rightExtent) {
-        // We need the symbols in the parse tree to point to the actual tokens in the input.
+        // Make sure the symbol in the parse tree is the actual character from the input.
+        // (And not, for example, the character class from the rule.)
         // The EarleyParser seems to build the states that way, but the GLL parser doesn't.
         // (I wonder if it could be made to?)
+        // Sometimes the symbol in the grammar has attributes (e.g., tmarks in a grammar)
+        // and sometimes the symbol in the input has attributes. Combine them.
         if (symbol instanceof TerminalSymbol && leftExtent + 1 == rightExtent) {
-            symbol = new TerminalSymbol(inputTokens[leftExtent]);
+            ArrayList<ParserAttribute> attr = new ArrayList<>(symbol.getAttributes());
+            attr.addAll(inputTokens[leftExtent].getAttributes());
+            symbol = new TerminalSymbol(inputTokens[leftExtent], attr);
         }
 
         if (!nodes.containsKey(symbol)) {

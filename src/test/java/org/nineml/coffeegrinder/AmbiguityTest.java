@@ -38,8 +38,7 @@ public class AmbiguityTest {
             GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
             GearleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/css.inp"));
             Assert.assertTrue(result.succeeded());
-            //result.getForest().serialize("css-graph.xml");
-            Assert.assertTrue(result.succeeded());
+
             Assert.assertEquals(2, result.getForest().getTotalParses());
         } catch (Exception ex) {
             fail();

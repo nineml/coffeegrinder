@@ -4,6 +4,7 @@ import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.tokens.TokenEOF;
+import org.nineml.coffeegrinder.util.StopWatch;
 import org.nineml.logging.Logger;
 
 import java.util.*;
@@ -103,6 +104,8 @@ public class GllParser implements GearleyParser {
     public GllResult parse(Token[] input) {
         logger = options.getLogger();
 
+        StopWatch timer = new StopWatch();
+
         I = new Token[input.length+1];
         System.arraycopy(input, 0, I,  0, input.length);
         I[input.length] = TokenEOF.EOF;
@@ -143,6 +146,8 @@ public class GllParser implements GearleyParser {
 
         execute();
 
+        timer.stop();
+
         moreInput = bsr.getRightExtent()+1 < I.length;
 
         tokenCount = bsr.getRightExtent();
@@ -151,7 +156,12 @@ public class GllParser implements GearleyParser {
         }
         tokenCount++; // 1-based for the user
 
-        return new GllResult(this, bsr.extractSPPF(grammar, I));
+        // FIXME: still debugging
+        //bsr.dump();
+
+        GllResult result = new GllResult(this, bsr.extractSPPF(grammar, I));
+        result.setParseTime(timer.duration());
+        return result;
     }
 
     public boolean hasMoreInput() {
@@ -207,7 +217,7 @@ public class GllParser implements GearleyParser {
     }
 
     private void compileEpsilon(State slot) {
-        bsrAdd(slot, c_I, c_I, c_I);
+        compileStatements.add(new MBsrAdd(slot, true));
     }
 
     private void compileTerminal(State slot) {
@@ -398,6 +408,15 @@ public class GllParser implements GearleyParser {
             logger.trace(logcategory, "---- bsrAdd(%s, %d, %d, %d)", L, i, k, j);
         }
         bsr.add(L, i, k, j);
+    }
+
+    protected void bsrAddEpsilon(State L, int i) {
+        if (instructionPointer >= 0) {
+            logger.trace(logcategory, "%4d bsrAdd(%s, %d, %d, %d)", instructionPointer, L, i, i, i);
+        } else {
+            logger.trace(logcategory, "---- bsrAdd(%s, %d, %d, %d)", L, i, i, i);
+        }
+        bsr.addEpsilon(L, i);
     }
 
     private CrfNode getCrfNode(State L, int i) {

@@ -11,17 +11,17 @@ public class GrammarParserTest {
     public void testParse1() {
         String input = "-_0 => ixml\n" +
                 "^ixml => s, _3, s\n" +
-                "-s => _18?\n" +
+                "-s => _18\n" +
                 "-whitespace => [Zs]\n" +
                 "-whitespace => tab\n" +
                 "-tab => #9\n" +
-                "^comment => \"{\", _20?, \"}\"\n" +
+                "^comment => \"{\", _20, \"}\"\n" +
                 "-cchar => ~[\"{\"; \"}\"]\n" +
-                "^rule => _32_option?, name, s, [\"=\"; \":\"], s, alts, \".\"\n" +
+                "^rule => _32_option, name, s, [\"=\"; \":\"], s, alts, \".\"\n" +
                 "@mark => [\"@\"; \"^\"; \"-\"]\n" +
                 "-factor => \"(\", s, alts, \")\", s\n" +
-                "^repeat0 => factor, \"*\", s, sep?\n" +
-                "^repeat1 => factor, \"+\", s, sep?\n" +
+                "^repeat0 => factor, \"*\", s, sep\n" +
+                "^repeat1 => factor, \"+\", s, sep\n" +
                 "-namefollower => [\"-\"; \".\"; \"·\"; \"‿\"; \"⁀\"; Nd; Mn]\n" +
                 "^string => '\"', dstring, '\"', s\n" +
                 "^string => \"'\", sstring, \"'\", s\n" +

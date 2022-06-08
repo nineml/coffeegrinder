@@ -18,7 +18,7 @@ import java.util.Iterator;
 public class ParserTest {
     @Test
     public void ifThenElseTest() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        Grammar grammar = new Grammar();
 
         NonterminalSymbol _statement = grammar.getNonterminal("statement");
         NonterminalSymbol _condition = grammar.getNonterminal("condition");
@@ -294,12 +294,12 @@ public class ParserTest {
 
         ArrayList<ParserAttribute> atts = new ArrayList<>();
         atts.add(ParserAttribute.PRUNING_ALLOWED);
-        atts.add(Symbol.OPTIONAL);
 
         NonterminalSymbol _letterOrNumber = grammar.getNonterminal("letterOrNumber", atts);
         NonterminalSymbol _number = grammar.getNonterminal("number");
 
         grammar.addRule(_expr, _letter, _letterOrNumber, _letter);
+        grammar.addRule(_expr, _letter, _letter);
         grammar.addRule(_letter, TerminalSymbol.regex("[a-z]"));
         grammar.addRule(_number, TerminalSymbol.regex("[0-9]"));
         grammar.addRule(_letterOrNumber, _letter);
@@ -333,16 +333,12 @@ public class ParserTest {
 
         // @d6: d, (d, (d, (d, (d, d?)?)?)?)?.
         NonterminalSymbol d_req = grammar.getNonterminal("d");
-        NonterminalSymbol d_opt = grammar.getNonterminal("d", Symbol.OPTIONAL);
-        NonterminalSymbol d56 = grammar.getNonterminal("_d56", Symbol.OPTIONAL);
-        NonterminalSymbol d456 = grammar.getNonterminal("_d456", Symbol.OPTIONAL);
-        NonterminalSymbol d3456 = grammar.getNonterminal("_d3456", Symbol.OPTIONAL);
-        NonterminalSymbol d23456 = grammar.getNonterminal("_d23456", Symbol.OPTIONAL);
-        grammar.addRule(d56, d_req, d_opt);
-        grammar.addRule(d456, d_req, d56);
-        grammar.addRule(d3456, d_req, d456);
-        grammar.addRule(d23456, d_req, d3456);
-        grammar.addRule(d6, d_req, d23456);
+        grammar.addRule(d6, d_req);
+        grammar.addRule(d6, d_req, d_req);
+        grammar.addRule(d6, d_req, d_req, d_req);
+        grammar.addRule(d6, d_req, d_req, d_req, d_req);
+        grammar.addRule(d6, d_req, d_req, d_req, d_req, d_req);
+        grammar.addRule(d6, d_req, d_req, d_req, d_req, d_req, d_req);
 
         // -d: ["0"-"9"].
         grammar.addRule(d_req, new TerminalSymbol(TokenCharacterSet.inclusion(CharacterSet.range('0', '9'))));
@@ -485,7 +481,7 @@ public class ParserTest {
 
     @Test
     public void infiniteLoop() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar(new ParserOptions());
+        Grammar grammar = new Grammar(new ParserOptions());
 
 /*
 S: A .
@@ -523,17 +519,45 @@ M: 'm'; LDOE .
         Assertions.assertTrue(result.getForest().isInfinitelyAmbiguous());
         ParseTree tree = result.getForest().parse();
         Assertions.assertNotNull(tree);
+    }
 
-        //result.getForest().serialize("/tmp/amalx.xml");
+    @Test
+    public void simpleOverlap() {
+        Grammar grammar = new Grammar(new ParserOptions());
 
-        /*
-        GllParser gllParser = new GllParser(grammar);
-        Token[] tokens = new Token[]{ TokenCharacter.get('a') , TokenCharacter.get('m'), TokenCharacter.get('a'), TokenCharacter.get('l'), TokenCharacter.get('x') };
-        GllResult gresult = gllParser.parse(tokens);
-        */
+/*
+S = A, x, B, C.
+A = d, e, f.
+A = d, e, f, g.
+B = g, h.
+B = g.
+C = h, i.
+C = i.
+*/
 
-        //PackedForest forest = gresult.getPackedForest();
-        //EarleyForest xforest = gresult.getForest();
-        //forest.dumpdot(tokens);
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _B = grammar.getNonterminal("B");
+        NonterminalSymbol _C = grammar.getNonterminal("C");
+
+        TerminalSymbol _d = TerminalSymbol.ch('d');
+        TerminalSymbol _e = TerminalSymbol.ch('e');
+        TerminalSymbol _f = TerminalSymbol.ch('f');
+        TerminalSymbol _g = TerminalSymbol.ch('g');
+        TerminalSymbol _h = TerminalSymbol.ch('h');
+        TerminalSymbol _i = TerminalSymbol.ch('i');
+        TerminalSymbol _x = TerminalSymbol.ch('x');
+
+        grammar.addRule(_S, _A, _x, _B, _C);
+        grammar.addRule(_A, _d, _e, _f);
+        grammar.addRule(_A, _d, _e, _f, _g);
+        grammar.addRule(_B, _g, _h);
+        grammar.addRule(_B, _g);
+        grammar.addRule(_C, _h, _i);
+        grammar.addRule(_C, _i);
+
+        GearleyParser parser = grammar.getParser(_S);
+        GearleyResult result = parser.parse("defxghi");
+        Assert.assertTrue(result.succeeded());
     }
 }

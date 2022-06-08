@@ -69,7 +69,7 @@ public class SppfTest {
                 "S => A, T\n" +
                         "S => 'a', T\n" +
                         "A => 'a'\n" +
-                        "A => B?, A\n" +
+                        "A => B, A\n" +
                         "B => 'b'\n" +
                         "T => 'b', 'b', 'b'\n" +
                         "");

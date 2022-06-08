@@ -22,9 +22,9 @@ import java.util.regex.Pattern;
 // There's nothing standard here, or intended to be used elsewhere, it's
 // just a time saver in construtcting test grammars.
 public class GrammarParser {
-    private static Pattern rnt = Pattern.compile("^([-a-zA-Z_\\|][-a-zA-Z_0-9]*)(\\?)?(\\s*,)?(.*)$");
-    private static Pattern rcs = Pattern.compile("^(~?)\\[([^\\]]+)\\](\\?)?(\\s*,)?(.*)$");
-    private static Pattern rhex = Pattern.compile("^#([0-9a-fA-F]+)(\\?)?(\\s*,)?(.*)$");
+    private static Pattern rnt = Pattern.compile("^([-a-zA-Z_\\|][-a-zA-Z_0-9]*)(\\s*,)?(.*)$");
+    private static Pattern rcs = Pattern.compile("^(~?)\\[([^\\]]+)\\](\\s*,)?(.*)$");
+    private static Pattern rhex = Pattern.compile("^#([0-9a-fA-F]+)(\\s*,)?(.*)$");
     private static Pattern rclass = Pattern.compile("^([A-Z][a-z]?)\\s*(.*)$");
 
     private Grammar grammar;
@@ -96,20 +96,16 @@ public class GrammarParser {
                 if (match.group(1).startsWith("_")) {
                     attrs.add(ParserAttribute.PRUNING_ALLOWED);
                 }
-                if (match.group(2) != null) {
-                    attrs.add(Symbol.OPTIONAL);
-                }
-
                 symbol = grammar.getNonterminal(match.group(1), attrs);
                 tokens.add(symbol);
-                line = match.group(4);
+                line = match.group(3);
                 if (line != null) { line = line.trim(); }
                 continue;
             }
 
             match = rcs.matcher(line);
             if (match.matches()) {
-                symbol = parseCharset(match.group(3) != null);
+                symbol = parseCharset();
                 if (line.startsWith("?")) {
                     line = line.substring(1);
                 }
@@ -124,28 +120,15 @@ public class GrammarParser {
             if (match.matches()) {
                 StringBuilder sb = new StringBuilder();
                 sb.appendCodePoint(Integer.parseInt(match.group(1), 16));
-                if (match.group(2) != null) {
-                    symbol = new TerminalSymbol(TokenCharacter.get(sb.toString().charAt(0)), Symbol.OPTIONAL);
-                } else {
-                    symbol = TerminalSymbol.ch(sb.toString().charAt(0));
-                }
+                symbol = TerminalSymbol.ch(sb.toString().charAt(0));
                 tokens.add(symbol);
-                line = match.group(4);
+                line = match.group(3);
                 if (line != null) { line = line.trim(); }
                 continue;
             }
 
             if (line.startsWith("\"") || line.startsWith("'")) {
-                String optional = null;
-                if (line.startsWith("?")) {
-                    optional = line.substring(0, 1);
-                    line = line.substring(1);
-                }
-                if (optional != null) {
-                    symbol = new TerminalSymbol(TokenString.get(parseString()), Symbol.OPTIONAL);
-                } else {
-                    symbol = TerminalSymbol.s(parseString());
-                }
+                symbol = TerminalSymbol.s(parseString());
                 if (line.trim().startsWith(",")) {
                     line = line.trim().substring(1).trim();
                 }
@@ -181,7 +164,7 @@ public class GrammarParser {
         throw new RuntimeException("Failed to parse string: " + origLine);
     }
 
-    private TerminalSymbol parseCharset(boolean optional) {
+    private TerminalSymbol parseCharset() {
         boolean negated = false;
         if (line.startsWith("~")) {
             negated = true;
@@ -207,9 +190,6 @@ public class GrammarParser {
         }
 
         ArrayList<ParserAttribute> attrs = new ArrayList<>();
-        if (optional) {
-            attrs.add(Symbol.OPTIONAL);
-        }
 
         if (negated) {
             return new TerminalSymbol(TokenCharacterSet.exclusion(sets), attrs);
