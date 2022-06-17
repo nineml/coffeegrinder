@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -151,8 +151,8 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.ht
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#GllResult-org.nineml.coffeegrinder.gll.GllParser-org.nineml.coffeegrinder.parser.ParseForest-">GllResult</a></span>(<a href="../../../../org/nineml/coffeegrinder/gll/GllParser.html" title="class in org.nineml.coffeegrinder.gll">GllParser</a>&nbsp;parser,
-         <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html" title="class in org.nineml.coffeegrinder.parser">ParseForest</a>&nbsp;forest)</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#GllResult-org.nineml.coffeegrinder.gll.GllParser-org.nineml.coffeegrinder.gll.BinarySubtree-">GllResult</a></span>(<a href="../../../../org/nineml/coffeegrinder/gll/GllParser.html" title="class in org.nineml.coffeegrinder.gll">GllParser</a>&nbsp;parser,
+         <a href="../../../../org/nineml/coffeegrinder/gll/BinarySubtree.html" title="class in org.nineml.coffeegrinder.gll">BinarySubtree</a>&nbsp;bsr)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -174,34 +174,54 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.ht
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#continueParsing--">continueParsing</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/gll/BinarySubtree.html" title="class in org.nineml.coffeegrinder.gll">BinarySubtree</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#getBinarySubtree--">getBinarySubtree</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html" title="class in org.nineml.coffeegrinder.parser">ParseForest</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#getForest--">getForest</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#getLastToken--">getLastToken</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#getParser--">getParser</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>long</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#getParseTime--">getParseTime</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">TerminalSymbol</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#getPredictedTerminals--">getPredictedTerminals</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#getTokenCount--">getTokenCount</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#getTree--">getTree</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#getTree-org.nineml.coffeegrinder.parser.TreeBuilder-">getTree</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="interface in org.nineml.coffeegrinder.parser">TreeBuilder</a>&nbsp;builder)</code>&nbsp;</td>
+</tr>
+<tr id="i10" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#isAmbiguous--">isAmbiguous</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i11" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#isInfinitelyAmbiguous--">isInfinitelyAmbiguous</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#prefixSucceeded--">prefixSucceeded</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/GllResult.html#succeeded--">succeeded</a></span>()</code>&nbsp;</td>
 </tr>
@@ -244,14 +264,14 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.ht
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="GllResult-org.nineml.coffeegrinder.gll.GllParser-org.nineml.coffeegrinder.parser.ParseForest-">
+<a name="GllResult-org.nineml.coffeegrinder.gll.GllParser-org.nineml.coffeegrinder.gll.BinarySubtree-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>GllResult</h4>
 <pre>public&nbsp;GllResult(<a href="../../../../org/nineml/coffeegrinder/gll/GllParser.html" title="class in org.nineml.coffeegrinder.gll">GllParser</a>&nbsp;parser,
-                 <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html" title="class in org.nineml.coffeegrinder.parser">ParseForest</a>&nbsp;forest)</pre>
+                 <a href="../../../../org/nineml/coffeegrinder/gll/BinarySubtree.html" title="class in org.nineml.coffeegrinder.gll">BinarySubtree</a>&nbsp;bsr)</pre>
 </li>
 </ul>
 </li>
@@ -285,6 +305,67 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.ht
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#getForest--">getForest</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getTree--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTree</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a>&nbsp;getTree()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#getTree--">getTree</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getTree-org.nineml.coffeegrinder.parser.TreeBuilder-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTree</h4>
+<pre>public&nbsp;void&nbsp;getTree(<a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="interface in org.nineml.coffeegrinder.parser">TreeBuilder</a>&nbsp;builder)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#getTree-org.nineml.coffeegrinder.parser.TreeBuilder-">getTree</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getBinarySubtree--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getBinarySubtree</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/gll/BinarySubtree.html" title="class in org.nineml.coffeegrinder.gll">BinarySubtree</a>&nbsp;getBinarySubtree()</pre>
+</li>
+</ul>
+<a name="isAmbiguous--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isAmbiguous</h4>
+<pre>public&nbsp;boolean&nbsp;isAmbiguous()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#isAmbiguous--">isAmbiguous</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="isInfinitelyAmbiguous--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isInfinitelyAmbiguous</h4>
+<pre>public&nbsp;boolean&nbsp;isInfinitelyAmbiguous()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#isInfinitelyAmbiguous--">isInfinitelyAmbiguous</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 </dl>
 </li>
 </ul>

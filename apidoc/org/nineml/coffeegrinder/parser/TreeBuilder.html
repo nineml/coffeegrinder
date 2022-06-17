@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6};
+var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -48,7 +48,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../org/nineml/coffeegrinder/parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../org/nineml/coffeegrinder/parser/TreeWalker.html" title="interface in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../org/nineml/coffeegrinder/parser/XEarleyParser.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?org/nineml/coffeegrinder/parser/TreeBuilder.html" target="_top">Frames</a></li>
@@ -99,12 +99,11 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <dl>
 <dt>All Known Implementing Classes:</dt>
-<dd><a href="../../../../org/nineml/coffeegrinder/util/DefaultTreeBuilder.html" title="class in org.nineml.coffeegrinder.util">DefaultTreeBuilder</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseTreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">ParseTreeBuilder</a></dd>
+<dd><a href="../../../../org/nineml/coffeegrinder/util/NopTreeBuilder.html" title="class in org.nineml.coffeegrinder.util">NopTreeBuilder</a>, <a href="../../../../org/nineml/coffeegrinder/util/ParseTreeBuilder.html" title="class in org.nineml.coffeegrinder.util">ParseTreeBuilder</a>, <a href="../../../../org/nineml/coffeegrinder/util/StdoutTreeBuilder.html" title="class in org.nineml.coffeegrinder.util">StdoutTreeBuilder</a></dd>
 </dl>
 <hr>
 <br>
 <pre>public interface <span class="typeNameLabel">TreeBuilder</span></pre>
-<div class="block">A tree builder builds trees for a tree walker.</div>
 </li>
 </ul>
 </div>
@@ -124,34 +123,47 @@ var activeTableTab = "activeTableTab";
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#endNode-org.nineml.coffeegrinder.parser.ForestNode-">endNode</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;node)</code>
-<div class="block">Complete the node in the tree.</div>
-</td>
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#chooseAlternative-java.util.List-">chooseAlternative</a></span>(java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#endTree--">endTree</a></span>()</code>
-<div class="block">End building a tree.</div>
-</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">endNonterminal</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
+              java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes,
+              int&nbsp;leftExtent,
+              int&nbsp;rightExtent)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#reset--">reset</a></span>()</code>
-<div class="block">Reset the builder.</div>
-</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#endTree--">endTree</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startNode-org.nineml.coffeegrinder.parser.ForestNode-">startNode</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;node)</code>
-<div class="block">Insert the node into the tree.</div>
-</td>
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#isAmbiguous--">isAmbiguous</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#isInfinitelyAmbiguous--">isInfinitelyAmbiguous</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startTree--">startTree</a></span>()</code>
-<div class="block">Start building a tree.</div>
-</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#loop-org.nineml.coffeegrinder.parser.RuleChoice-">loop</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&nbsp;alternative)</code>&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">startNonterminal</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
+                java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes,
+                int&nbsp;leftExtent,
+                int&nbsp;rightExtent)</code>&nbsp;</td>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startTree--">startTree</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#token-org.nineml.coffeegrinder.tokens.Token-java.util.Collection-">token</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
+     java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -168,17 +180,40 @@ var activeTableTab = "activeTableTab";
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="reset--">
+<a name="isAmbiguous--">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>reset</h4>
-<pre>void&nbsp;reset()</pre>
-<div class="block">Reset the builder.
- <p>Calling this method should cause it to revert back to its original state, discarding any
- tree that might already have been built or partially built. This method is called by the
- <a href="../../../../org/nineml/coffeegrinder/parser/TreeWalker.html" title="interface in org.nineml.coffeegrinder.parser"><code>TreeWalker</code></a> between (or before) parses.</p></div>
+<h4>isAmbiguous</h4>
+<pre>boolean&nbsp;isAmbiguous()</pre>
+</li>
+</ul>
+<a name="isInfinitelyAmbiguous--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isInfinitelyAmbiguous</h4>
+<pre>boolean&nbsp;isInfinitelyAmbiguous()</pre>
+</li>
+</ul>
+<a name="chooseAlternative-java.util.List-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>chooseAlternative</h4>
+<pre>int&nbsp;chooseAlternative(java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives)</pre>
+</li>
+</ul>
+<a name="loop-org.nineml.coffeegrinder.parser.RuleChoice-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>loop</h4>
+<pre>void&nbsp;loop(<a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&nbsp;alternative)</pre>
 </li>
 </ul>
 <a name="startTree--">
@@ -188,8 +223,6 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>startTree</h4>
 <pre>void&nbsp;startTree()</pre>
-<div class="block">Start building a tree.
- <p>This method is called once by the <a href="../../../../org/nineml/coffeegrinder/parser/TreeWalker.html" title="interface in org.nineml.coffeegrinder.parser"><code>TreeWalker</code></a> when construction begins.</p></div>
 </li>
 </ul>
 <a name="endTree--">
@@ -199,40 +232,40 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>endTree</h4>
 <pre>void&nbsp;endTree()</pre>
-<div class="block">End building a tree.
- <p>This method is called once by the <a href="../../../../org/nineml/coffeegrinder/parser/TreeWalker.html" title="interface in org.nineml.coffeegrinder.parser"><code>TreeWalker</code></a> when construction finishes.</p></div>
 </li>
 </ul>
-<a name="startNode-org.nineml.coffeegrinder.parser.ForestNode-">
+<a name="startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>startNode</h4>
-<pre>void&nbsp;startNode(<a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;node)</pre>
-<div class="block">Insert the node into the tree.
- <p>Start a new node to the tree. This node should become the "next child" of the currently
- open node.</p></div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>node</code> - the forest node</dd>
-</dl>
+<h4>startNonterminal</h4>
+<pre>void&nbsp;startNonterminal(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
+                      java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes,
+                      int&nbsp;leftExtent,
+                      int&nbsp;rightExtent)</pre>
 </li>
 </ul>
-<a name="endNode-org.nineml.coffeegrinder.parser.ForestNode-">
+<a name="endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>endNonterminal</h4>
+<pre>void&nbsp;endNonterminal(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
+                    java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes,
+                    int&nbsp;leftExtent,
+                    int&nbsp;rightExtent)</pre>
+</li>
+</ul>
+<a name="token-org.nineml.coffeegrinder.tokens.Token-java.util.Collection-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>endNode</h4>
-<pre>void&nbsp;endNode(<a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;node)</pre>
-<div class="block">Complete the node in the tree.
- <p>Indicates that the node is finished. Any subsequent start should become a sibling of this
- node, rather than a child of it.</p></div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>node</code> - the forest node</dd>
-</dl>
+<h4>token</h4>
+<pre>void&nbsp;token(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
+           java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</pre>
 </li>
 </ul>
 </li>
@@ -263,7 +296,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../org/nineml/coffeegrinder/parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../org/nineml/coffeegrinder/parser/TreeWalker.html" title="interface in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../org/nineml/coffeegrinder/parser/XEarleyParser.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?org/nineml/coffeegrinder/parser/TreeBuilder.html" target="_top">Frames</a></li>
