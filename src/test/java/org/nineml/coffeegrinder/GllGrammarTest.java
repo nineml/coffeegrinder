@@ -20,7 +20,7 @@ import static org.junit.Assert.fail;
 public class GllGrammarTest {
     @Test
     public void testBsrExample54() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");
@@ -38,8 +38,6 @@ public class GllGrammarTest {
         grammar.addRule(C, b, C);
         grammar.addRule(C, b);
 
-        grammar.close(S);
-
         GearleyParser parser = grammar.getParser(ParserType.GLL, S);
         GearleyResult result = parser.parse("abaa");
 
@@ -48,7 +46,7 @@ public class GllGrammarTest {
 
     @Test
     public void testGrammar0() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol B = grammar.getNonterminal("B");
@@ -57,7 +55,6 @@ public class GllGrammarTest {
 
         grammar.addRule(S, a, B);
         grammar.addRule(B, b);
-        grammar.close(S);
 
         GearleyParser parser = grammar.getParser(ParserType.GLL, S);
         GearleyResult result = parser.parse("ab");
@@ -65,8 +62,43 @@ public class GllGrammarTest {
     }
 
     @Test
+    public void testGrammar05() {
+        SourceGrammar grammar = new SourceGrammar();
+
+        NonterminalSymbol S = grammar.getNonterminal("S");
+        NonterminalSymbol A = grammar.getNonterminal("A");
+        NonterminalSymbol B = grammar.getNonterminal("B");
+        NonterminalSymbol C = grammar.getNonterminal("C");
+        NonterminalSymbol D = grammar.getNonterminal("D");
+        NonterminalSymbol X = grammar.getNonterminal("X");
+        TerminalSymbol a = new TerminalSymbol(TokenCharacter.get('a'));
+        TerminalSymbol b = new TerminalSymbol(TokenCharacter.get('b'));
+        TerminalSymbol c = new TerminalSymbol(TokenCharacter.get('c'));
+        TerminalSymbol d = new TerminalSymbol(TokenCharacter.get('d'));
+
+        grammar.addRule(S, A, B);
+        grammar.addRule(A, a);
+        grammar.addRule(B, b);
+
+        /*
+        grammar.addRule(S, A, X, d, X);
+        grammar.addRule(A, a);
+        grammar.addRule(B, b);
+        grammar.addRule(C, c);
+        grammar.addRule(D, d);
+        grammar.addRule(X, B, C);
+
+         */
+
+        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyResult result = parser.parse("ab");
+
+        Assert.assertTrue(result.succeeded());
+    }
+
+    @Test
     public void testGrammar1() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         TerminalSymbol a = new TerminalSymbol(TokenCharacter.get('a'));
@@ -74,7 +106,6 @@ public class GllGrammarTest {
 
         grammar.addRule(S, d);
         grammar.addRule(S, S, a);
-        grammar.close(S);
 
         GearleyParser parser = grammar.getParser(ParserType.GLL, S);
         GearleyResult result = parser.parse("da");
@@ -84,7 +115,7 @@ public class GllGrammarTest {
 
     @Test
     public void testGrammar2() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");
@@ -114,8 +145,6 @@ public class GllGrammarTest {
         grammar.addRule(Z, A);
         grammar.addRule(Z, B);
         grammar.addRule(Z, a);
-
-        grammar.close(S);
 
         GearleyParser parser = grammar.getParser(ParserType.GLL, S);
         GearleyResult result = parser.parse("abaa");
@@ -125,7 +154,7 @@ public class GllGrammarTest {
 
     @Test
     public void testGrammar3() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");
@@ -156,8 +185,6 @@ public class GllGrammarTest {
         grammar.addRule(Z, B);
         grammar.addRule(Z, a);
 
-        grammar.close(S);
-
         GearleyParser parser = grammar.getParser(ParserType.GLL, S);
         GearleyResult result = parser.parse("abaa");
 
@@ -166,7 +193,7 @@ public class GllGrammarTest {
 
     @Test
     public void testGrammar4() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");
@@ -184,17 +211,18 @@ public class GllGrammarTest {
         grammar.addRule(B, B, c);
         grammar.addRule(B);
 
-        grammar.close(S);
-
         GearleyParser parser = grammar.getParser(ParserType.GLL, S);
         GearleyResult result = parser.parse("aab");
+
+        grammar.getParserOptions().getLogger().setDefaultLogLevel(99);
+        ParseTree tree = result.getTree();
 
         Assert.assertTrue(result.succeeded());
     }
 
     @Test
     public void testGrammar5() {
-        Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");
@@ -203,23 +231,21 @@ public class GllGrammarTest {
         TerminalSymbol semi = new TerminalSymbol(TokenCharacter.get(';'));
         TerminalSymbol value = new TerminalSymbol(TokenRegex.get("[^;]"));
 
-        grammar.addRule(S, A, semi, B, semi, C);
+        grammar.addRule(S, A, semi, B, C, C);
         grammar.addRule(A, value);
-        grammar.addRule(B, value);
+        grammar.addRule(B, TerminalSymbol.ch('b'));
         grammar.addRule(B);
         grammar.addRule(C, value);
 
-        grammar.close(S);
-
         GearleyParser parser = grammar.getParser(ParserType.GLL, S);
-        GearleyResult result = parser.parse("a;;c");
+        GearleyResult result = parser.parse("a;cc");
 
         Assert.assertTrue(result.succeeded());
     }
 
     @Test
     public void testGrammar6() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");
@@ -238,8 +264,6 @@ public class GllGrammarTest {
         grammar.addRule(C, c, C);
         grammar.addRule(C, c);
 
-        grammar.close(S);
-
         GearleyParser parser = grammar.getParser(ParserType.GLL, S);
         GearleyResult result = parser.parse("ac");
 
@@ -248,7 +272,7 @@ public class GllGrammarTest {
 
     @Test
     public void testGrammar7() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");
@@ -269,8 +293,6 @@ public class GllGrammarTest {
         grammar.addRule(C, c);
         grammar.addRule(C, B);
 
-        grammar.close(S);
-
         GearleyParser parser = grammar.getParser(ParserType.GLL, S);
         GearleyResult result = parser.parse("ac");
 
@@ -278,23 +300,54 @@ public class GllGrammarTest {
     }
 
     @Test
-    public void testAttributes() {
-        Grammar grammar = new Grammar();
+    public void testGrammar8() {
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");
-        NonterminalSymbol B1 = grammar.getNonterminal("B", new ParserAttribute("number", "one"));
-        NonterminalSymbol B2 = grammar.getNonterminal("B", new ParserAttribute("number", "two"));
+        NonterminalSymbol B = grammar.getNonterminal("B");
+        NonterminalSymbol C = grammar.getNonterminal("C");
+        NonterminalSymbol D = grammar.getNonterminal("D");
+        NonterminalSymbol X = grammar.getNonterminal("X");
+        TerminalSymbol a = new TerminalSymbol(TokenCharacter.get('a'));
+        TerminalSymbol b = new TerminalSymbol(TokenCharacter.get('b'));
+        TerminalSymbol c = new TerminalSymbol(TokenCharacter.get('c'));
+        TerminalSymbol d = new TerminalSymbol(TokenCharacter.get('d'));
+        TerminalSymbol x = new TerminalSymbol(TokenCharacter.get('x'));
+
+        grammar.addRule(S, A, X, D);
+        grammar.addRule(A, a, a, a);
+        grammar.addRule(B, b, b);
+        grammar.addRule(C, c);
+        grammar.addRule(D, d, d, d);
+        grammar.addRule(X, x, B, C, x);
+        grammar.addRule(X, x, B, x);
+        grammar.addRule(X, x, C, x);
+
+        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyResult result = parser.parse("aaaxbbcxddd");
+
+        Assert.assertTrue(result.succeeded());
+    }
+
+    @Test
+    public void testAttributes() {
+        SourceGrammar grammar = new SourceGrammar();
+
+        NonterminalSymbol S = grammar.getNonterminal("S");
+        NonterminalSymbol A = grammar.getNonterminal("A");
+        NonterminalSymbol B1 = grammar.getNonterminal("B1", new ParserAttribute("number", "one"));
+        NonterminalSymbol B2 = grammar.getNonterminal("B2", new ParserAttribute("number", "two"));
         TerminalSymbol a = new TerminalSymbol(TokenCharacter.get('a'));
         TerminalSymbol b = new TerminalSymbol(TokenCharacter.get('b'));
 
         grammar.addRule(S, A, B1);
+        grammar.addRule(S, A, B2);
         grammar.addRule(A, a);
+        grammar.addRule(B1, b);
         grammar.addRule(B2, b);
 
-        grammar.close(S);
-
-        GearleyParser parser = grammar.getParser(ParserType.Earley, S);
+        GearleyParser parser = grammar.getParser(S);
         GearleyResult result = parser.parse("ab");
 
         Assert.assertTrue(result.succeeded());
@@ -302,7 +355,7 @@ public class GllGrammarTest {
 
     @Test
     public void testFirstAndFollow() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol ixml = grammar.getNonterminal("ixml");
@@ -320,8 +373,6 @@ public class GllGrammarTest {
         grammar.addRule(more, namefollow, more);
         grammar.addRule(more);
 
-        grammar.close(S);
-
         GearleyParser parser = grammar.getParser(ParserType.GLL, S);
         GearleyResult result = parser.parse("Ab");
 
@@ -330,7 +381,7 @@ public class GllGrammarTest {
 
     @Test
     public void testInsertionNT() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");
@@ -344,23 +395,22 @@ public class GllGrammarTest {
         grammar.addRule(B, b);
         grammar.addRule(I);
 
-        grammar.close(S);
-
         GearleyParser parser = grammar.getParser(ParserType.GLL, S);
         GearleyResult result = parser.parse("ab");
 
         Assert.assertTrue(result.succeeded());
 
-        ParseTree tree = result.getForest().parse();
-        Symbol s_insertion = tree.getChildren().get(0).getChildren().get(1).getSymbol();
+        ParseTree tree = result.getForest().getTree();
 
-        Assert.assertEquals(s_insertion, grammar.getNonterminal("INSERTION"));
-        Assert.assertEquals("text", s_insertion.getAttributeValue("insert", "failed"));
+        ParseTree s_insertion = tree.getChildren().get(1);
+
+        Assert.assertEquals(s_insertion.getSymbol(), grammar.getNonterminal("INSERTION"));
+        Assert.assertEquals("text", s_insertion.getAttribute("insert", "failed"));
     }
 
     @Ignore
     public void testParseUnicode() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
 /*
 S ⇒ UnicodeData
@@ -482,8 +532,6 @@ value ⇒ notSemiStar
         grammar.addRule(uppercase, value);
         grammar.addRule(value);
         grammar.addRule(value, notSemiStar);
-
-        grammar.close(S);
 
         try {
             GearleyParser gllParser = grammar.getParser(ParserType.GLL, S);

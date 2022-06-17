@@ -27,14 +27,14 @@ public class GrammarParserTest {
                 "^string => \"'\", sstring, \"'\", s\n" +
                 "-_15 => [\"0\"-\"9\"; \"a\"-\"f\"; \"A\"-\"F\"], _16\n";
         GrammarParser parser = new GrammarParser();
-        Grammar grammar = parser.parse(input);
+        SourceGrammar grammar = parser.parse(input);
         Assert.assertNotNull(grammar);
     }
 
     @Test
     public void testParseExpression() {
         GrammarParser gparser = new GrammarParser();
-        Grammar grammar = gparser.parseFile("src/test/resources/expression.grammar");
+        SourceGrammar grammar = gparser.parseFile("src/test/resources/expression.grammar");
         Assert.assertNotNull(grammar);
         GearleyParser parser = grammar.getParser(grammar.getNonterminal("Sum"));
         GearleyResult result = parser.parse(Iterators.characterIterator("1+(2*3-4)"));

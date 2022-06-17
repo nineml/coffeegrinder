@@ -11,7 +11,7 @@ import java.util.*;
 
 public class GllParser implements GearleyParser {
     public static final String logcategory = "Parser";
-    public final Grammar grammar;
+    public final CompiledGrammar grammar;
     private final ArrayList<State> grammarSlots;
     private final HashMap<Rule,List<State>> ruleSlots;
     private Token[] I;
@@ -38,7 +38,7 @@ public class GllParser implements GearleyParser {
     protected int tokenCount;
     protected Token lastToken;
 
-    public GllParser(Grammar grammar) {
+    public GllParser(CompiledGrammar grammar) {
         this.grammar = grammar;
         options = grammar.getParserOptions();
         logger = options.getLogger();
@@ -69,7 +69,7 @@ public class GllParser implements GearleyParser {
         return ParserType.GLL;
     }
 
-    public Grammar getGrammar() {
+    public CompiledGrammar getGrammar() {
         return grammar;
     }
 
@@ -82,11 +82,12 @@ public class GllParser implements GearleyParser {
     }
 
     public GllResult parse(String input) {
-        Token[] tokens = new Token[input.length()];
+        I = new Token[input.length()+1];
         for (int pos = 0; pos < input.length(); pos++) {
-            tokens[pos] = TokenCharacter.get(input.charAt(pos));
+            I[pos] = TokenCharacter.get(input.charAt(pos));
         }
-        return parse(tokens);
+        I[input.length()] = TokenEOF.EOF;
+        return parseInput();
     }
 
     public GllResult parse(Iterator<Token> input) {
@@ -94,21 +95,23 @@ public class GllParser implements GearleyParser {
         while (input.hasNext()) {
             list.add(input.next());
         }
-        Token[] tokens = new Token[list.size()];
+        I = new Token[list.size() + 1];
         for (int pos = 0; pos < list.size(); pos++) {
-            tokens[pos] = list.get(pos);
+            I[pos] = list.get(pos);
         }
-        return parse(tokens);
+        I[list.size()] = TokenEOF.EOF;
+        return parseInput();
     }
 
     public GllResult parse(Token[] input) {
-        logger = options.getLogger();
-
-        StopWatch timer = new StopWatch();
-
         I = new Token[input.length+1];
         System.arraycopy(input, 0, I,  0, input.length);
         I[input.length] = TokenEOF.EOF;
+        return parseInput();
+    }
+
+    private GllResult parseInput() {
+        logger = options.getLogger();
 
         U = new HashSet<>();
         R = new Stack<>();
@@ -118,7 +121,7 @@ public class GllParser implements GearleyParser {
 
         crf.put(new ClusterNode(grammar.getSeed(), 0), new ArrayList<>());
 
-        bsr = new BinarySubtree(grammar.getSeed());
+        bsr = new BinarySubtree(grammar.getSeed(), options);
         clusterNodes = new HashMap<>();
         c_U = 0;
         c_I = 0;
@@ -144,8 +147,10 @@ public class GllParser implements GearleyParser {
 
         ntAdd(grammar.getSeed(), 0);
 
-        execute();
+        options.getLogger().info(logcategory, "Parsing %,d tokens with GLL parser.", I.length);
 
+        StopWatch timer = new StopWatch();
+        execute();
         timer.stop();
 
         moreInput = bsr.getRightExtent()+1 < I.length;
@@ -156,10 +161,41 @@ public class GllParser implements GearleyParser {
         }
         tokenCount++; // 1-based for the user
 
-        // FIXME: still debugging
-        //bsr.dump();
+        // The parser did not succeed if it didn't consume all of the input!
+        if (bsr.succeeded(moreInput)) {
+            if (timer.duration() == 0) {
+                options.getLogger().info(logcategory, "Parse succeeded");
+            } else {
+                options.getLogger().info(logcategory, "Parse succeeded, %,d tokens in %s (%s tokens/sec)",
+                        tokenCount, timer.elapsed(), timer.perSecond(tokenCount));
+            }
+        } else {
+            if (timer.duration() == 0) {
+                options.getLogger().info(logcategory, "Parse failed after %,d tokens", tokenCount);
+            } else {
+                options.getLogger().info(logcategory, "Parse failed after %,d tokens in %s (%s tokens/sec)",
+                        tokenCount, timer.elapsed(), timer.perSecond(tokenCount));
+            }
+        }
 
-        GllResult result = new GllResult(this, bsr.extractSPPF(grammar, I));
+        /*
+        System.err.println("Prefixes:");
+        for (int i : bsr.bsrPrefixes.keySet()) {
+            System.err.println(i);
+            for (BinarySubtreePrefix prefix : bsr.bsrPrefixes.get(i)) {
+                System.err.println("\t" + prefix);
+            }
+        }
+        System.err.println("\nSlots:");
+        for (int i : bsr.bsrSlots.keySet()) {
+            System.err.println(i);
+            for (BinarySubtreeSlot slot : bsr.bsrSlots.get(i)) {
+                System.err.println("\t" + slot);
+            }
+        }
+         */
+
+        GllResult result = new GllResult(this, bsr);
         result.setParseTime(timer.duration());
         return result;
     }
@@ -235,8 +271,6 @@ public class GllParser implements GearleyParser {
         nextInstruction = 1;
         done = false;
 
-        logger.trace(logcategory, "execute parser:");
-
         ProgressMonitor monitor = options.getProgressMonitor();
         if (monitor != null) {
             progressSize = monitor.starting(this);
@@ -264,8 +298,6 @@ public class GllParser implements GearleyParser {
         if (monitor != null) {
             monitor.finished(this);
         }
-
-        logger.trace(logcategory, "execution finished");
     }
 
     protected void nextDescriptor() {
@@ -462,6 +494,6 @@ public class GllParser implements GearleyParser {
     }
 
     public boolean succeeded() {
-        return bsr.succeeded();
+        return done && bsr.succeeded(moreInput);
     }
 }

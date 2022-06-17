@@ -1,7 +1,6 @@
 package org.nineml.coffeegrinder.parser;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A report on the hygiene of a grammar.
@@ -12,18 +11,139 @@ import java.util.Set;
 public class HygieneReport {
     public static final String logcategory = "Hygiene";
 
-    private final Grammar grammar;
-    private final HashSet<Rule> unproductiveRules;
-    private final HashSet<NonterminalSymbol> unproductiveSymbols;
-    private final HashSet<NonterminalSymbol> unreachableSymbols;
-    private final HashSet<NonterminalSymbol> undefinedSymbols;
+    private final SourceGrammar grammar;
+    private final CompiledGrammar compiledGrammar;
+    private final HashSet<Rule> unproductiveRules = new HashSet<>();
+    private final HashSet<NonterminalSymbol> unproductiveSymbols = new HashSet<>();
+    private final HashSet<NonterminalSymbol> unreachableSymbols = new HashSet<>();
+    private final HashSet<NonterminalSymbol> undefinedSymbols = new HashSet<>();
+    private ArrayList<Rule> rules = null;
 
-    protected HygieneReport(Grammar grammar) {
+    protected HygieneReport(CompiledGrammar grammar) {
+        this.compiledGrammar = grammar;
+        this.grammar = null;
+        checkGrammar(grammar.getSeed());
+    }
+
+    protected HygieneReport(SourceGrammar grammar, NonterminalSymbol seed) {
+        this.compiledGrammar = null;
         this.grammar = grammar;
-        unproductiveRules = new HashSet<>();
-        unproductiveSymbols = new HashSet<>();
-        unreachableSymbols = new HashSet<>();
-        undefinedSymbols = new HashSet<>();
+        checkGrammar(seed);
+    }
+
+    private void checkGrammar(NonterminalSymbol seed) {
+        if (compiledGrammar != null && rules != null) {
+            return; // no reason to do this twice, it can't change...
+        }
+
+        final Map<NonterminalSymbol,List<Rule>> rulesBySymbol;
+        rules = new ArrayList<>();
+        if (grammar != null) {
+            rules.addAll(grammar.getRules());
+            rulesBySymbol = grammar.getRulesBySymbol();
+        } else {
+            assert compiledGrammar != null;
+            rules.addAll(compiledGrammar.getRules());
+            rulesBySymbol = compiledGrammar.getRulesBySymbol();
+        }
+
+
+        HashSet<NonterminalSymbol> reachable = new HashSet<>();
+        walk(seed, reachable);
+        for (Rule rule : rules) {
+            if (!reachable.contains(rule.getSymbol())) {
+                addUnreachable(rule.getSymbol());
+            }
+        }
+
+        for (NonterminalSymbol nt : undefinedSymbols()) {
+            addUndefined(nt);
+        }
+
+        // What about unproductive non-terminals?
+        HashSet<NonterminalSymbol> productiveNT = new HashSet<>();
+        HashSet<Rule> productiveRule = new HashSet<>();
+        int psize = -1;
+        int rsize = -1;
+        while (psize != productiveNT.size() || rsize != productiveRule.size()) {
+            psize = productiveNT.size();
+            rsize = productiveRule.size();
+
+            for (NonterminalSymbol nt : rulesBySymbol.keySet()) {
+                boolean isProductiveSymbol = false;
+                for (Rule rule : rules) {
+                    if (nt.equals(rule.getSymbol())) {
+                        boolean isProductiveRule = productiveRule.contains(rule);
+                        if (!isProductiveRule) {
+                            isProductiveRule = true;
+                            for (Symbol s : rule.getRhs().symbols) {
+                                if (s instanceof NonterminalSymbol && !productiveNT.contains((NonterminalSymbol) s)) {
+                                    isProductiveRule = false;
+                                    break;
+                                }
+                            }
+                            if (isProductiveRule) {
+                                productiveRule.add(rule);
+                                isProductiveSymbol = true;
+                            }
+                        }
+                    }
+                }
+                if (isProductiveSymbol) {
+                    productiveNT.add(nt);
+                }
+            }
+        }
+
+        for (NonterminalSymbol s : rulesBySymbol.keySet()) {
+            if (!productiveNT.contains(s)) {
+                addUnproductive(s);
+            }
+        }
+        for (Rule rule : rules) {
+            if (!productiveRule.contains(rule)) {
+                addUnproductive(rule);
+            }
+        }
+    }
+
+    private void walk(NonterminalSymbol symbol, HashSet<NonterminalSymbol> reachable) {
+        reachable.add(symbol);
+        for (Rule rule : rules) {
+            if (rule.getSymbol().equals(symbol)) {
+                for (Symbol s : rule.getRhs().symbols) {
+                    if (s instanceof NonterminalSymbol) {
+                        NonterminalSymbol nt = (NonterminalSymbol) s;
+                        if (!reachable.contains(nt)) {
+                            walk(nt, reachable);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    protected List<NonterminalSymbol> undefinedSymbols() {
+        HashSet<NonterminalSymbol> definedNames = new HashSet<>();
+        HashSet<NonterminalSymbol> usedNames = new HashSet<>();
+
+        for (Rule rule : rules) {
+            definedNames.add(rule.getSymbol());
+            for (Symbol s : rule.getRhs().symbols) {
+                if (s instanceof NonterminalSymbol) {
+                    usedNames.add((NonterminalSymbol) s);
+                }
+            }
+        }
+
+        ArrayList<NonterminalSymbol> unused = new ArrayList<>();
+        for (NonterminalSymbol nt : usedNames) {
+            if (!definedNames.contains(nt)) {
+                unused.add(nt);
+            }
+        }
+
+        return unused;
     }
 
     /**
@@ -43,8 +163,8 @@ public class HygieneReport {
      * may have changed since this report was created.</p>
      * @return the grammar.
      */
-    public Grammar getGrammar() {
-        return grammar;
+    public CompiledGrammar getCompiledGrammar() {
+        return compiledGrammar;
     }
 
     /**
@@ -85,8 +205,8 @@ public class HygieneReport {
         }
 
         unreachableSymbols.add(symbol);
-        if (!grammar.isOpen()) {
-            grammar.getParserOptions().getLogger().warn(logcategory, "Unreachable symbol: %s", symbol);
+        if (compiledGrammar != null) {
+            compiledGrammar.getParserOptions().getLogger().warn(logcategory, "Unreachable symbol: %s", symbol);
         }
     }
 
@@ -96,8 +216,8 @@ public class HygieneReport {
         }
 
         undefinedSymbols.add(symbol);
-        if (!grammar.isOpen()) {
-            grammar.getParserOptions().getLogger().warn(logcategory, "Undefined symbol: %s", symbol);
+        if (compiledGrammar != null) {
+            compiledGrammar.getParserOptions().getLogger().warn(logcategory, "Undefined symbol: %s", symbol);
         }
     }
 
@@ -107,8 +227,8 @@ public class HygieneReport {
         }
 
         unproductiveSymbols.add(symbol);
-        if (!grammar.isOpen()) {
-            grammar.getParserOptions().getLogger().warn(logcategory, "Unproductive symbol: %s", symbol);
+        if (compiledGrammar != null) {
+            compiledGrammar.getParserOptions().getLogger().warn(logcategory, "Unproductive symbol: %s", symbol);
         }
     }
 
@@ -118,8 +238,8 @@ public class HygieneReport {
         }
 
         unproductiveRules.add(rule);
-        if (!grammar.isOpen()) {
-            grammar.getParserOptions().getLogger().warn(logcategory, "Unproductive rule: %s", rule);
+        if (compiledGrammar != null) {
+            compiledGrammar.getParserOptions().getLogger().warn(logcategory, "Unproductive rule: %s", rule);
         }
     }
 }

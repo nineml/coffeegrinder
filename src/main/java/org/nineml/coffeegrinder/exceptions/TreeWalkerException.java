@@ -2,7 +2,7 @@ package org.nineml.coffeegrinder.exceptions;
 
 /**
  * Tree walking exceptions.
- * <p>Tree walking exceptions are generally errors in the implementation of the TreeWalker.</p>
+ * <p>Tree walking exceptions are generally errors in the implementation of the tree walker.</p>
  */
 public class TreeWalkerException extends CoffeeGrinderException {
     /**

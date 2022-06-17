@@ -3,7 +3,7 @@
  *
  * <p>In outline:</p>
  * <ul>
- *     <li>Create a {@link org.nineml.coffeegrinder.parser.Grammar Grammar}.</li>
+ *     <li>Create a {@link org.nineml.coffeegrinder.parser.CompiledGrammar Grammar}.</li>
  *     <li>Use the grammar to create {@link org.nineml.coffeegrinder.parser.NonterminalSymbol NonterminalSymbols}.</li>
  *     <li>Use the grammar (or {@link org.nineml.coffeegrinder.parser.Rule Rule} directly) to create rules and add them to the grammar.</li>
  *     <li>Create an {@link org.nineml.coffeegrinder.parser.EarleyParser EarleyParser} from the grammar.</li>

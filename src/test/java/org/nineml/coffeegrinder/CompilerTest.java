@@ -9,7 +9,6 @@ import org.nineml.coffeegrinder.util.GrammarCompiler;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -22,7 +21,7 @@ import static junit.framework.TestCase.fail;
 public class CompilerTest {
     @Test
     public void testAttributes() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         ArrayList<ParserAttribute> attrs = new ArrayList<>();
         attrs.add(new ParserAttribute("name", "start"));
@@ -46,23 +45,24 @@ public class CompilerTest {
 
         GrammarCompiler compiler = new GrammarCompiler();
 
-        String compiled = compiler.compile(grammar);
+        // The parser type doesn't actually matter here
+        String compiled = compiler.compile(grammar.getCompiledGrammar(_S));
 
         grammar = compiler.parse(compiled);
 
         Assert.assertNotNull(grammar);
 
-        String compiledAgain = compiler.compile(grammar);
+        String compiledAgain = compiler.compile(grammar.getCompiledGrammar(_S));
 
         Assert.assertEquals(compiled, compiledAgain);
     }
 
     @Test
-    public void loadCompiledGrammar() {
+    public void loadInputGrammar() {
         // To recreate hash.cxml, see hashGrammar in ParserTest
         try {
             GrammarCompiler compiler = new GrammarCompiler();
-            Grammar grammar = compiler.parse(new File("src/test/resources/hash.cxml"));
+            SourceGrammar grammar = compiler.parse(new File("src/test/resources/hash.cxml"));
             NonterminalSymbol start = grammar.getNonterminal("hashes");
             GearleyParser parser = grammar.getParser(start);
 
@@ -98,7 +98,7 @@ public class CompilerTest {
         }
 
         GrammarCompiler compiler = new GrammarCompiler();
-        Grammar grammar = compiler.parse(cxml);
+        SourceGrammar grammar = compiler.parse(cxml);
 
         NonterminalSymbol start = grammar.getNonterminal("hashes");
         GearleyParser parser = grammar.getParser(start);
@@ -108,7 +108,7 @@ public class CompilerTest {
 
         grammar.setMetadataProperty("Source", "Invisible XML test suite");
         grammar.setMetadataProperty("Date", "2022-01-30");
-        String compiled = compiler.compile(grammar);
+        String compiled = compiler.compile(grammar.getCompiledGrammar(start));
 
         Assert.assertEquals(cxml, compiled);
     }
@@ -116,7 +116,7 @@ public class CompilerTest {
     @Test
     public void compileNulls() {
         GrammarCompiler compiler = new GrammarCompiler();
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         /*
         letters: letter+#0.
@@ -133,15 +133,15 @@ public class CompilerTest {
         grammar.addRule(optmore, new TerminalSymbol(TokenCharacter.get('\0')), letter, optmore);
         grammar.addRule(optmore, new TerminalSymbol(TokenString.get("\1\2\3" + (char) 0x81 + "test")), letter, optmore);
 
-        String cxml = compiler.compile(grammar);
+        String cxml = compiler.compile(grammar.getCompiledGrammar(letters));
 
-        Grammar cgrammar = compiler.parse(cxml);
+        SourceGrammar cgrammar = compiler.parse(cxml);
 
         GearleyParser parser = cgrammar.getParser(letters);
         GearleyResult result = parser.parse("a\0b\0c");
 
         Assert.assertTrue(result.succeeded());
 
-        Assertions.assertEquals(cxml, compiler.compile(cgrammar));
+        Assertions.assertEquals(cxml, compiler.compile(cgrammar.getCompiledGrammar(letters)));
     }
 }

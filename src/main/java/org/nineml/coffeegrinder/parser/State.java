@@ -3,7 +3,6 @@ package org.nineml.coffeegrinder.parser;
 import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.gll.Descriptor;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -176,7 +175,7 @@ public class State {
         return position == rhs.length;
     }
 
-    public Set<Symbol> getFirst(Grammar grammar) {
+    public Set<Symbol> getFirst(CompiledGrammar grammar) {
         if (firstSet == null) {
             firstSet = new HashSet<>();
             int spos = position;
@@ -236,7 +235,10 @@ public class State {
             count += 1;
         }
         if (count == position) {
-            sb.append(" •");
+            if (count > 0) {
+                sb.append(" ");
+            }
+            sb.append("•");
         }
         return sb.toString();
     }

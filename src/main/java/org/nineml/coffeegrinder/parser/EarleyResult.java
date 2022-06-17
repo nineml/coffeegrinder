@@ -2,6 +2,7 @@ package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.tokens.Token;
+import org.nineml.coffeegrinder.util.ParseTreeBuilder;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -77,15 +78,34 @@ public class EarleyResult implements GearleyResult {
         return chart;
     }
 
-    /**
-     * The shared packed parse forest.
-     * <p>For an unsuccessful parse, the forest will be incomplete unless a successful prefix parse
-     * was performed. If prefix parsing is enabled and a prefix is found, the chart returned represents
-     * the parsed prefix..</p>
-     * @return the SPPF.
-     */
+    @Override
     public ParseForest getForest() {
         return graph;
+    }
+
+    @Override
+    public ParseTree getTree() {
+        ParseTreeBuilder builder = new ParseTreeBuilder();
+        getTree(builder);
+        return builder.getParseTree();
+    }
+
+    /**
+     * Get a tree.
+     */
+    @Override
+    public void getTree(TreeBuilder builder) {
+        graph.getTree(builder);
+    }
+
+    @Override
+    public boolean isAmbiguous() {
+        return graph != null && graph.isAmbiguous();
+    }
+
+    @Override
+    public boolean isInfinitelyAmbiguous() {
+        return graph != null && graph.isInfinitelyAmbiguous();
     }
 
     /**
@@ -138,7 +158,7 @@ public class EarleyResult implements GearleyResult {
             options.getLogger().debug(EarleyParser.logcategory, "Attempting to continue parsing after the continuing iterator was exposed");
         }
 
-        EarleyParser newParser = (EarleyParser) parser.getGrammar().getParser(ParserType.Earley, parser.getSeed());
+        EarleyParser newParser = (EarleyParser) parser.getGrammar().getParser();
         return newParser.parse(new PrefixIterator<>(parser.getBufferedTokens(), parser.iterator));
     }
 

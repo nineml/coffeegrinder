@@ -10,13 +10,14 @@ import org.nineml.coffeegrinder.util.Iterators;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
+
+import static org.junit.Assert.fail;
 
 public class AttributesTest {
     @Test
     public void ifThenElseTest() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol _statement = grammar.getNonterminal("statement");
         NonterminalSymbol _condition = grammar.getNonterminal("condition", new ParserAttribute("test", "this"));
@@ -55,31 +56,26 @@ public class AttributesTest {
         GearleyResult result = parser.parse(inputTokens);
         Assert.assertTrue(result.succeeded());
 
-        ParseTree tree = result.getForest().parse();
+        ParseTree tree = result.getForest().getTree();
 
-        Symbol s_if = tree.getChildren().get(0).getChildren().get(0).getChildren().get(0).getNode().getSymbol();
-        Token t_if = ((TerminalSymbol) s_if).getToken();
-        Assert.assertEquals("if", ((TokenString) t_if).getValue());
+        Token t_if = tree.getChildren().get(0).getToken();
+        Assert.assertEquals("if", t_if.getValue());
         Assert.assertEquals("1", Objects.requireNonNull(t_if.getAttribute("line").getValue()));
         Assert.assertEquals("5", Objects.requireNonNull(t_if.getAttribute("column").getValue()));
 
-        ParseTree nt_condition = tree.getChildren().get(0).getChildren().get(0).getChildren().get(1);
-        Assert.assertEquals(grammar.getNonterminal("condition"), nt_condition.getNode().getSymbol());
+        ParseTree nt_condition = tree.getChildren().get(1);
+        Assert.assertEquals(grammar.getNonterminal("condition"), nt_condition.getSymbol());
         Assert.assertEquals("this", Objects.requireNonNull(nt_condition.getSymbol().getAttribute("test")).getValue());
 
-        ParseTree subtree = tree.getChildren().get(0).getChildren().get(0).getChildren().get(1);
-        subtree = subtree.getChildren().get(0).getChildren().get(0);
-
-        Symbol s_paren = subtree.getNode().getState().getRhs().get(0);
-        Token t_paren = ((TerminalSymbol) s_paren).getToken();
-        Assert.assertEquals("(", ((TokenString) t_paren).getValue());
-        Assert.assertEquals("op", Objects.requireNonNull(s_paren.getAttribute("open")).getValue());
+        ParseTree s_paren = nt_condition.getChildren().get(0);
+        Assert.assertEquals("(", s_paren.getToken().getValue());
+        Assert.assertEquals("op", Objects.requireNonNull(s_paren.getAttribute("open", "fail")));
     }
 
     @Test
     public void testChoice() {
         GrammarParser gparser = new GrammarParser();
-        Grammar grammar = gparser.parse(
+        SourceGrammar grammar = gparser.parse(
                 "start => X\n" +
                         "X => A, Y\n" +
                         "A => 'a'\n" +

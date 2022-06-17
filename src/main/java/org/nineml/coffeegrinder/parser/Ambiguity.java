@@ -15,7 +15,6 @@ import java.util.Map;
  */
 public class Ambiguity {
     private final List<ForestNode> roots;
-    private final Map<ForestNode, List<Family>> choices;
     private final boolean ambiguous;
     private final boolean infinitelyAmbiguous;
 
@@ -24,19 +23,12 @@ public class Ambiguity {
         roots.add(root);
         ambiguous = false;
         infinitelyAmbiguous = false;
-        choices = new HashMap<>();
     }
 
-    protected Ambiguity(List<ForestNode> roots, boolean ambiguous, boolean infinitely, Map<ForestNode, NodeChoices> nodechoices) {
+    protected Ambiguity(List<ForestNode> roots, boolean ambiguous, boolean infinitely) {
         this.roots = new ArrayList<>(roots);
         this.ambiguous = ambiguous;
         infinitelyAmbiguous = infinitely;
-        choices = new HashMap<>();
-
-        for (ForestNode node: nodechoices.keySet()) {
-            ArrayList<Family> families = new ArrayList<>(nodechoices.get(node).getFamilies());
-            choices.put(node, families);
-        }
     }
 
     /**
@@ -61,13 +53,5 @@ public class Ambiguity {
      */
     public boolean getInfinitelyAmbiguous() {
         return infinitelyAmbiguous;
-    }
-
-    /**
-     * Return the choices for this node.
-     * @return the choices.
-     */
-    public Map<ForestNode, List<Family>> getChoices() {
-        return choices;
     }
 }

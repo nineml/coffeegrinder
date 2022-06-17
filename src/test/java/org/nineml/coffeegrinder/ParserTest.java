@@ -3,22 +3,20 @@ package org.nineml.coffeegrinder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.nineml.coffeegrinder.gll.GllParser;
-import org.nineml.coffeegrinder.gll.GllResult;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.*;
-import org.nineml.coffeegrinder.util.Iterators;
-import org.nineml.coffeegrinder.util.ParserAttribute;
-import org.nineml.coffeegrinder.util.GrammarParser;
+import org.nineml.coffeegrinder.util.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 
+import static org.junit.Assert.fail;
+
 public class ParserTest {
     @Test
     public void ifThenElseTest() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol _statement = grammar.getNonterminal("statement");
         NonterminalSymbol _condition = grammar.getNonterminal("condition");
@@ -51,7 +49,7 @@ public class ParserTest {
     @Test
     public void testExpression() {
         // https://loup-vaillant.fr/tutorials/earley-parsing/parser
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar(new ParserOptions());
+        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
 
         NonterminalSymbol _Sum = grammar.getNonterminal("Sum");
         NonterminalSymbol _Product = grammar.getNonterminal("Product");
@@ -86,7 +84,7 @@ public class ParserTest {
     @Test
     public void testSimplifiedExpression() {
         // https://loup-vaillant.fr/tutorials/earley-parsing/parser
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar(new ParserOptions());
+        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
 
         NonterminalSymbol _Sum = grammar.getNonterminal("Sum");
         NonterminalSymbol _Product = grammar.getNonterminal("Product");
@@ -124,7 +122,7 @@ public class ParserTest {
 
     @Test
     public void testLetterDigitLetter() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol _letter = grammar.getNonterminal("letter");
         NonterminalSymbol _letterOrNumber = grammar.getNonterminal("letterOrNumber");
@@ -145,7 +143,7 @@ public class ParserTest {
     @Test
     public void testNumber() {
         GrammarParser gparser = new GrammarParser();
-        org.nineml.coffeegrinder.parser.Grammar grammar = gparser.parse(
+        SourceGrammar grammar = gparser.parse(
                 "number => 'b', digit\n" +
                         "digit => '0'\n" +
                         "digit => '1'\n" +
@@ -160,7 +158,7 @@ public class ParserTest {
 
     @Test
     public void testLongNumber() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol _digit = grammar.getNonterminal("digit");
         NonterminalSymbol _number = grammar.getNonterminal("number");
@@ -181,7 +179,7 @@ public class ParserTest {
     @Test
     public void testExample() {
         // https://web.stanford.edu/class/archive/cs/cs143/cs143.1128/lectures/07/Slides07.pdf
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
         NonterminalSymbol _A = grammar.getNonterminal("A");
@@ -208,7 +206,7 @@ public class ParserTest {
 
     @Test
     public void testEEE() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
         NonterminalSymbol _E = grammar.getNonterminal("E");
@@ -223,15 +221,15 @@ public class ParserTest {
         //result.getForest().serialize("/tmp/testEEE.xml");
         Assert.assertTrue(result.succeeded());
 
-        GllParser gllParser = new GllParser(grammar);
+        GearleyParser gllParser = grammar.getParser(ParserType.GLL, _S);
         Token[] tokens = new Token[]{ TokenCharacter.get('1') , TokenCharacter.get('+'), TokenCharacter.get('2') };
 
-        GllResult gresult = gllParser.parse(tokens);
+        GearleyResult gresult = gllParser.parse(tokens);
     }
 
     @Test
     public void testHighlyAmibiguous() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol _X = grammar.getNonterminal("X");
         TerminalSymbol _a = TerminalSymbol.ch('a');
@@ -253,7 +251,7 @@ public class ParserTest {
     @Test
     public void Saabbaa() {
         GrammarParser gparser = new GrammarParser();
-        org.nineml.coffeegrinder.parser.Grammar grammar = gparser.parse(
+        SourceGrammar grammar = gparser.parse(
                 "  S => A, C, 'a', B\n" +
                         "S => A, B, 'a', 'a'\n" +
                         "A => 'a', A\n" +
@@ -273,7 +271,7 @@ public class ParserTest {
     @Test
     public void empty() {
         GrammarParser gparser = new GrammarParser();
-        org.nineml.coffeegrinder.parser.Grammar grammar = gparser.parse(
+        SourceGrammar grammar = gparser.parse(
                 "  S => 'a'\n" +
                         "S => 'b'\n" +
                         "S =>");
@@ -287,7 +285,7 @@ public class ParserTest {
 
     @Test
     public void hash() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol _expr = grammar.getNonterminal("expr");
         NonterminalSymbol _letter = grammar.getNonterminal("letter");
@@ -313,9 +311,9 @@ public class ParserTest {
 
     @Test
     public void hashGrammar() {
-        // See also loadCompiledGrammar in CompilerTest
+        // See also loadInputGrammar in CompilerTest
 
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         // hashes: hash*S, ".".
         NonterminalSymbol hashes = grammar.getNonterminal("hashes");
@@ -354,8 +352,7 @@ public class ParserTest {
         String input = "#12  #1234.";
 
         GearleyResult result = parser.parse(input);
-
-        Assert.assertEquals(1, result.getForest().getTotalParses());
+        Assert.assertFalse(result.isAmbiguous());
         Assert.assertTrue(result.succeeded());
 
         /*
@@ -369,7 +366,7 @@ public class ParserTest {
     @Test
     public void words() {
         GrammarParser gparser = new GrammarParser();
-        org.nineml.coffeegrinder.parser.Grammar grammar = gparser.parse(
+        SourceGrammar grammar = gparser.parse(
                 "Word => consonant, vowel, consonant\n" +
                         "Word => consonant, vowel, vowel, consonant\n" +
                         "Word => consonant, vowel, consonant, vowel\n" +
@@ -386,7 +383,7 @@ public class ParserTest {
 
     @Test
     public void docExample() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");
@@ -404,9 +401,7 @@ public class ParserTest {
         grammar.addRule(X, TerminalSymbol.ch('x'));
         grammar.addRule(Y, TerminalSymbol.ch('y'));
 
-        grammar.close(S);
-
-        HygieneReport report = grammar.checkHygiene(S);
+        HygieneReport report = grammar.getHygieneReport(S);
         if (!report.isClean()) {
             // TODO: deal with undefined, unused, and unproductive items
         }
@@ -417,7 +412,7 @@ public class ParserTest {
 
         if (result.succeeded()) {
             ParseForest forest = result.getForest();
-            ParseTree tree = forest.parse();
+            ParseTree tree = forest.getTree();
 
             // TODO: do something with the tree.
 
@@ -435,7 +430,7 @@ public class ParserTest {
 
     @Test
     public void lettersAndNumbers() {
-        org.nineml.coffeegrinder.parser.Grammar grammar = new org.nineml.coffeegrinder.parser.Grammar(new ParserOptions());
+        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
 
         ParserAttribute greedyLetters = new ParserAttribute("regex", "[^0-9]");
         ParserAttribute greedyNumbers = new ParserAttribute("regex", "[0-9]");
@@ -481,7 +476,7 @@ public class ParserTest {
 
     @Test
     public void infiniteLoop() {
-        Grammar grammar = new Grammar(new ParserOptions());
+        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
 
 /*
 S: A .
@@ -517,13 +512,80 @@ M: 'm'; LDOE .
         GearleyResult result = parser.parse("amalx");
         Assertions.assertTrue(result.getForest().isAmbiguous());
         Assertions.assertTrue(result.getForest().isInfinitelyAmbiguous());
-        ParseTree tree = result.getForest().parse();
+        ParseTree tree = result.getForest().getTree();
         Assertions.assertNotNull(tree);
     }
 
     @Test
+    public void longLoop() {
+        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _Sp = grammar.getNonterminal("Sp");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _B = grammar.getNonterminal("B");
+        NonterminalSymbol _X = grammar.getNonterminal("X");
+        NonterminalSymbol _Y = grammar.getNonterminal("Y");
+        NonterminalSymbol _Z = grammar.getNonterminal("Z");
+
+        TerminalSymbol _a = TerminalSymbol.ch('a');
+
+        grammar.addRule(_S, _Sp);
+        grammar.addRule(_Sp, _A);
+        grammar.addRule(_Sp, _B);
+        grammar.addRule(_A, _X, _Y, _a);
+        grammar.addRule(_B, _Z, _X, _a);
+        grammar.addRule(_X, _Y);
+        grammar.addRule(_X, _Z);
+        grammar.addRule(_X);
+        grammar.addRule(_Y, _X);
+        grammar.addRule(_Y, _Z);
+        grammar.addRule(_Y);
+        grammar.addRule(_Z, _X);
+        grammar.addRule(_Z, _Y);
+        grammar.addRule(_Z);
+
+        try {
+            GearleyParser parser = grammar.getParser(_S);
+            GearleyResult result = parser.parse("a");
+            Assertions.assertTrue(result.getForest().isAmbiguous());
+            Assertions.assertTrue(result.getForest().isInfinitelyAmbiguous());
+            ParseTree tree = result.getTree();
+            Assertions.assertNotNull(tree);
+        } catch (Exception ex) {
+            fail();
+        }
+    }
+
+    @Test
+    public void simpleTest() {
+        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _B = grammar.getNonterminal("B");
+        NonterminalSymbol _C = grammar.getNonterminal("C");
+
+        TerminalSymbol _a = TerminalSymbol.ch('a');
+        TerminalSymbol _b = TerminalSymbol.ch('b');
+        TerminalSymbol _c = TerminalSymbol.ch('c');
+        TerminalSymbol _d = TerminalSymbol.ch('d');
+
+        grammar.addRule(_S, _A, _d);
+        grammar.addRule(_A, _a, _B);
+        grammar.addRule(_A, _a, _C);
+        grammar.addRule(_B, _b);
+        grammar.addRule(_C, _c);
+
+        GearleyParser parser = grammar.getParser(_S);
+        GearleyResult result = parser.parse("abd");
+        Assert.assertTrue(result.succeeded());
+    }
+
+
+    @Test
     public void simpleOverlap() {
-        Grammar grammar = new Grammar(new ParserOptions());
+        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
 
 /*
 S = A, x, B, C.
@@ -560,4 +622,89 @@ C = i.
         GearleyResult result = parser.parse("defxghi");
         Assert.assertTrue(result.succeeded());
     }
+
+    @Test
+    public void records() {
+        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
+
+        NonterminalSymbol file = grammar.getNonterminal("file");
+        NonterminalSymbol rep_record = grammar.getNonterminal("rep_record");
+        NonterminalSymbol record = grammar.getNonterminal("record");
+        NonterminalSymbol opt_record = grammar.getNonterminal("opt_record");
+        NonterminalSymbol name = grammar.getNonterminal("name");
+        NonterminalSymbol namestart = grammar.getNonterminal("namestart");
+        NonterminalSymbol namefollower = grammar.getNonterminal("namefollower");
+        NonterminalSymbol namefollower_star = grammar.getNonterminal("namefollower_star");
+        NonterminalSymbol namefollower_option = grammar.getNonterminal("namefollower_option");
+        TerminalSymbol semi = TerminalSymbol.ch(';');
+        TerminalSymbol nl = TerminalSymbol.ch('\n');
+
+        grammar.addRule(file, rep_record);
+        grammar.addRule(rep_record, record, opt_record);
+        grammar.addRule(opt_record, record, opt_record);
+        grammar.addRule(opt_record);
+        grammar.addRule(record, name, semi, name, nl);
+        grammar.addRule(name, namestart, namefollower_star);
+        grammar.addRule(namestart, TerminalSymbol.regex("[A-Z]"));
+        grammar.addRule(namefollower, namestart);
+        grammar.addRule(namefollower, TerminalSymbol.regex("[a-z]"));
+        grammar.addRule(namefollower_star, namefollower_option);
+        grammar.addRule(namefollower_option);
+        grammar.addRule(namefollower_option, namefollower, namefollower_star);
+
+        GearleyParser parser = grammar.getParser(file);
+
+        String input = "Abc;Def\n" +
+                "Ghi;KLM\n" +
+                "Nop;Qrs\n";
+
+        GearleyResult result = parser.parse(input);
+        Assert.assertTrue(result.succeeded());
+    }
+
+    @Test
+    public void listOfChars() {
+        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
+
+        NonterminalSymbol S = grammar.getNonterminal("S", new ParserAttribute("start", "true"));
+        TerminalSymbol a = new TerminalSymbol(TokenCharacter.get('a'), new ParserAttribute("capital", "A"));
+        TerminalSymbol b = new TerminalSymbol(TokenCharacter.get('b'), new ParserAttribute("capital", "B"));
+        TerminalSymbol c = new TerminalSymbol(TokenCharacter.get('c'), new ParserAttribute("capital", "C"));
+        TerminalSymbol d = new TerminalSymbol(TokenCharacter.get('d'), new ParserAttribute("capital", "D"));
+
+        grammar.addRule(S, a, b, c, d);
+
+        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+
+        String input = "abcd";
+
+        GearleyResult result = parser.parse(input);
+        Assert.assertTrue(result.succeeded());
+    }
+
+    @Test
+    public void trailingEmpty() {
+        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
+
+        NonterminalSymbol S = grammar.getNonterminal("S");
+        NonterminalSymbol B = grammar.getNonterminal("B");
+        NonterminalSymbol C = grammar.getNonterminal("C");
+        TerminalSymbol a = new TerminalSymbol(TokenCharacter.get('a'));
+
+        grammar.addRule(S, a, B, B);
+        grammar.addRule(B, C);
+        grammar.addRule(C);
+
+        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+
+        String input = "a";
+
+        GearleyResult result = parser.parse(input);
+
+        StdoutTreeBuilder builder = new StdoutTreeBuilder();
+        result.getTree(builder);
+
+        Assert.assertTrue(result.succeeded());
+    }
+
 }

@@ -18,4 +18,9 @@ public abstract class BinarySubtreeNode {
         this.rightExtent = right;
         this.pivot = pivot;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s, %d, %d, %d", slot, leftExtent, pivot, rightExtent);
+    }
 }

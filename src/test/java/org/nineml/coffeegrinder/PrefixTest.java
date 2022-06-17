@@ -6,7 +6,6 @@ import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.util.Iterators;
 
-import javax.swing.text.html.parser.Parser;
 import java.util.Iterator;
 
 import static junit.framework.TestCase.fail;
@@ -16,7 +15,7 @@ public class PrefixTest {
     public void testAB() {
         ParserOptions options = new ParserOptions();
         options.setPrefixParsing(true);
-        Grammar grammar = new Grammar(options);
+        SourceGrammar grammar = new SourceGrammar(options);
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
         NonterminalSymbol _A = grammar.getNonterminal("A");
@@ -53,7 +52,7 @@ public class PrefixTest {
     public void testParens() {
         ParserOptions options = new ParserOptions();
         options.setPrefixParsing(true);
-        Grammar grammar = new Grammar(options);
+        SourceGrammar grammar = new SourceGrammar(options);
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
         NonterminalSymbol _B = grammar.getNonterminal("B");
