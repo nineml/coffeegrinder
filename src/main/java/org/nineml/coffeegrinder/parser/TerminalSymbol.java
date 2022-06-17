@@ -5,6 +5,7 @@ import org.nineml.coffeegrinder.tokens.*;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 /**
  * A terminal symbol.
@@ -120,7 +121,7 @@ public class TerminalSymbol extends Symbol {
     /**
      * Test tokens for equality.
      *
-     * <p>Two tokens are equal if they represent the same string.</p>
+     * <p>Two tokens are equal if they represent the same string and have the same attributes.</p>
      *
      * @param obj An object.
      * @return true if <code>obj</code> is equal to this terminal character.
@@ -128,7 +129,26 @@ public class TerminalSymbol extends Symbol {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof TerminalSymbol) {
-            return token.equals(((TerminalSymbol) obj).token);
+            TerminalSymbol other = (TerminalSymbol) obj;
+            if (!token.equals(other.token) || getAttributes().size() != other.getAttributes().size()) {
+                return false;
+            }
+
+            if (getAttributes().isEmpty()) {
+                return true;
+            }
+
+            HashMap<String,String> attrs = new HashMap<>();
+            for (ParserAttribute attr : getAttributes()) {
+                attrs.put(attr.getName(), attr.getValue());
+            }
+            for (ParserAttribute attr : other.getAttributes()) {
+                if (!attrs.containsKey(attr.getName()) || !attr.getValue().equals(attrs.get(attr.getName()))) {
+                    return false;
+                }
+            }
+
+            return true;
         }
         return false;
     }
@@ -139,7 +159,7 @@ public class TerminalSymbol extends Symbol {
      */
     @Override
     public int hashCode() {
-        return 3 * token.hashCode();
+        return 3 * token.hashCode() + 31 * getAttributes().size();
     }
 
     /**

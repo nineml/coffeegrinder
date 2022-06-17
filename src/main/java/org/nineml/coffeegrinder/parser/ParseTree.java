@@ -1,68 +1,92 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ForestException;
+import org.nineml.coffeegrinder.tokens.Token;
+import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * A single parse of the input against the grammar.
  */
 public class ParseTree {
-    private static int nextNodeId = 0;
-    private final ParseForest forest;
-    private final ForestNode node;
-    private final ArrayList<ParseTree> children;
-    private final int id;
-    protected ParseTree parent;
+    private final NonterminalSymbol symbol;
+    private final Token token;
+    public ArrayList<ParseTree> children = null;
+    private ParseTree parent = null;
+    private HashMap<String,String> attributes = null;
 
-    protected ParseTree(ForestNode root) {
-        if (root == null) {
-            throw new NullPointerException("Node must not be null");
+    public ParseTree(NonterminalSymbol symbol, Collection<ParserAttribute> attrs) {
+        this.symbol = symbol;
+        this.token = null;
+        handleAttributes(attrs);
+    }
+
+    public ParseTree(Token token, Collection<ParserAttribute> attrs) {
+        this.symbol = null;
+        this.token = token;
+        handleAttributes(attrs);
+    }
+
+    private void handleAttributes(Collection<ParserAttribute> attrs) {
+        if (!attrs.isEmpty()) {
+            attributes = new HashMap<>();
+            for (ParserAttribute attr : attrs) {
+                if (!attributes.containsKey(attr.getName())) {
+                    attributes.put(attr.getName(), attr.getValue());
+                }
+            }
         }
-        parent = null;
-        node = root;
-        id = nextNodeId++;
-        this.forest = node.graph;
-        children = new ArrayList<>();
     }
 
-    /**
-     * Get the forest this tree is in.
-     * @return the forest
-     */
-    public ParseForest getForest() {
-        return forest;
+    public ParseTree addChild(NonterminalSymbol symbol, Collection<ParserAttribute> attrs) {
+        return addChild(new ParseTree(symbol, attrs));
     }
 
-    /**
-     * Get the {@link ForestNode} associated with this node in the tree.
-     *
-     * @return the node
-     */
-    public ForestNode getNode() {
-        return node;
+    public void addChild(Token token, Collection<ParserAttribute> attrs) {
+        addChild(new ParseTree(token, attrs));
+    }
+
+    private ParseTree addChild(ParseTree child) {
+        if (symbol == null) {
+            throw new IllegalStateException("Cannot add children to a leaf node.");
+        }
+        child.parent = this;
+        if (children == null) {
+            children = new ArrayList<>();
+        }
+        children.add(child);
+        return child;
     }
 
     /**
      * Get the symbol associated with this node in the tree.
-     * <p>See {@link ForestNode#getSymbol}.</p>
      *
      * @return the symbol, or null
      */
     public Symbol getSymbol() {
-        return node.getSymbol();
+        return symbol;
     }
 
     /**
-     * Get the state associated with this node in the tree.
-     * <p>See {@link ForestNode#getState}.</p>
+     * Get the token associated with this node in the tree.
      *
-     * @return the state, or null
+     * @return the token, or null
      */
-    public State getState() {
-        return node.getState();
+    public Token getToken() {
+        return token;
+    }
+
+    public String getAttribute(String name, String defaultValue) {
+        return attributes == null ? defaultValue : attributes.getOrDefault(name, defaultValue);
+    }
+
+    public Map<String,String> getAttributes() {
+        if (attributes == null) {
+            return Collections.emptyMap();
+        }
+        return attributes;
     }
 
     /**
@@ -81,11 +105,6 @@ public class ParseTree {
      */
     public List<ParseTree> getChildren() {
         return children;
-    }
-
-    protected void addChild(ParseTree node) {
-        children.add(node);
-        node.parent = this;
     }
 
     /**
@@ -112,47 +131,23 @@ public class ParseTree {
      * @param stream        the stream on which to write the XML serialization
      */
     public void serialize(PrintStream stream) {
-        String localName = "symbol";
         boolean nonterminal = true;
-        if (getSymbol() != null || forest.options.getTreesWithStates()) {
-            if (getSymbol() != null) {
-                nonterminal = !(getSymbol() instanceof TerminalSymbol);
-                String xml = getSymbol().toString().replaceAll("&", "&amp;");
-                xml = xml.replace("<", "&lt;").replace("\"", "&quot;");
-                stream.printf("<symbol id=\"node%04d\" label=\"%s\" type=\"%s\"",
-                        id, xml, getSymbol() instanceof NonterminalSymbol ? "nonterminal" : "terminal");
-                if (getState() != null) {
-                    xml = getState().toString().replaceAll("\"", "&quot;");
-                    stream.printf(" state=\"%s\"", xml);
-                }
+        if (symbol != null) {
+            nonterminal = !(getSymbol() instanceof TerminalSymbol);
+            String xml = getSymbol().toString().replace("&", "&amp;");
+            xml = xml.replace("<", "&lt;").replace("\"", "&quot;");
+            stream.printf("<symbol label=\"%s\"", xml);
+            if (children == null) {
+                stream.printf("><epsilon/></symbol>%n");
             } else {
-                String xml = getState().toString().replaceAll("&", "&amp;");
-                xml = xml.replace("<", "&lt;").replace("\"", "&quot;");
-                localName = "state";
-                stream.printf("<state id=\"node%04d\" label=\"%s\" type=\"%s\"",
-                        id, xml, getSymbol() instanceof NonterminalSymbol ? "nonterminal" : "terminal");
-            }
-
-            if (children.isEmpty()) {
-                if (nonterminal) {
-                    stream.printf("><epsilon/></%s>\n", localName);
-
-                } else {
-                    stream.println("/>");
+                stream.print(">");
+                for (ParseTree child : children) {
+                    child.serialize(stream);
                 }
-            } else {
-                stream.println(">");
+                stream.printf("</symbol>%n");
             }
-        }
-
-        for (ParseTree node : children) {
-            node.serialize(stream);
-        }
-
-        if (getSymbol() != null || forest.options.getTreesWithStates()) {
-            if (!children.isEmpty()) {
-                stream.printf("</%s>\n", localName);
-            }
+        } else {
+            stream.print("DATA");
         }
     }
 
@@ -178,6 +173,10 @@ public class ParseTree {
 
     @Override
     public String toString() {
-        return node.toString();
+        if (symbol == null) {
+            return token.getValue();
+        } else {
+            return symbol.toString();
+        }
     }
 }

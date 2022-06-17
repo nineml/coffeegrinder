@@ -7,7 +7,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import org.nineml.coffeegrinder.exceptions.ForestException;
 import org.nineml.coffeegrinder.exceptions.GrammarException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -84,7 +83,7 @@ public class GrammarCompiler {
      * @param grammar the grammar to compile
      * @return a "compiled" string format of the grammar
      */
-    public String compile(Grammar grammar) {
+    public String compile(CompiledGrammar grammar) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         compile(grammar, ps);
@@ -101,7 +100,7 @@ public class GrammarCompiler {
      * @param grammar the grammar to compile
      * @param ps the print stream where the compiled grammar is written
      */
-    public void compile(Grammar grammar, PrintStream ps) {
+    public void compile(CompiledGrammar grammar, PrintStream ps) {
         initializeDigest();
         agroups.clear();
         sb = new StringBuilder();
@@ -425,14 +424,14 @@ public class GrammarCompiler {
     }
 
     /**
-     * Parse a compiled grammar to reconstruct a {@link Grammar} object.
+     * Parse a compiled grammar to reconstruct a {@link CompiledGrammar} object.
      * @param compiled A file containing a grammar
      * @return The grammar stored in the compiled file
      * @throws GrammarException if there are errors in the compiled form
      * @throws IOException if the file cannot be read
      * @throws NullPointerException if the file is null
      */
-    public Grammar parse(File compiled) throws IOException {
+    public SourceGrammar parse(File compiled) throws IOException {
         if (compiled == null) {
             throw new NullPointerException("File must not be null");
         }
@@ -440,7 +439,7 @@ public class GrammarCompiler {
     }
 
     /**
-     * Parse a compiled grammar to reconstruct a {@link Grammar} object.
+     * Parse a compiled grammar to reconstruct a {@link CompiledGrammar} object.
      * @param compiled A file containing a grammar
      * @param systemId the systemId of the grammar file
      * @return The grammar stored in the compiled file
@@ -448,7 +447,7 @@ public class GrammarCompiler {
      * @throws IOException if the file cannot be read
      * @throws NullPointerException if the file is null
      */
-    public Grammar parse(InputStream compiled, String systemId) throws IOException {
+    public SourceGrammar parse(InputStream compiled, String systemId) throws IOException {
         if (compiled == null) {
             throw new NullPointerException("File must not be null");
         }
@@ -458,13 +457,13 @@ public class GrammarCompiler {
     }
 
     /**
-     * Parse a compiled grammar to reconstruct a {@link Grammar} object.
+     * Parse a compiled grammar to reconstruct a {@link CompiledGrammar} object.
      * @param input A string containing a compiled grammar
      * @return The grammar stored in the compiled file
      * @throws GrammarException if there are errors in the compiled form
      * @throws NullPointerException if the input is null
      */
-    public Grammar parse(String input) {
+    public SourceGrammar parse(String input) {
         if (input == null) {
             throw new NullPointerException("Input must not be null");
         }
@@ -472,8 +471,8 @@ public class GrammarCompiler {
         return parse(new InputSource(bais));
     }
 
-    private Grammar parse(InputSource source) {
-        Grammar grammar = new Grammar(options);
+    private SourceGrammar parse(InputSource source) {
+        SourceGrammar sourceGrammar = new SourceGrammar(options);
         properties = new HashMap<>();
 
         initializeDigest();
@@ -483,21 +482,21 @@ public class GrammarCompiler {
             factory.setValidating(false);
             factory.setNamespaceAware(true);
             SAXParser parser = factory.newSAXParser();
-            GrammarContentHandler handler = new GrammarContentHandler(grammar);
+            GrammarContentHandler handler = new GrammarContentHandler(sourceGrammar);
             parser.parse(source, handler);
 
             for (String name : properties.keySet()) {
-                grammar.setMetadataProperty(name, properties.get(name));
+                sourceGrammar.setMetadataProperty(name, properties.get(name));
             }
         } catch (IOException|SAXException|ParserConfigurationException ex) {
             throw CompilerException.errorReadingGrammar(ex.getMessage());
         }
 
-        return grammar;
+        return sourceGrammar;
     }
 
     private class GrammarContentHandler extends DefaultHandler {
-        private final Grammar grammar;
+        private final SourceGrammar grammar;
         private final Stack<String> elementStack;
         private final ArrayList<Symbol> symbolList;
         private final HashMap<String,Collection<ParserAttribute>> agroups;
@@ -505,7 +504,7 @@ public class GrammarCompiler {
         private Token token = null;
         private Collection<ParserAttribute> tspa = null;
 
-        public GrammarContentHandler(Grammar grammar) {
+        public GrammarContentHandler(SourceGrammar grammar) {
             this.grammar = grammar;
             elementStack = new Stack<>();
             symbolList = new ArrayList<>();

@@ -11,6 +11,10 @@ public interface GearleyResult {
     long getParseTime();
     GearleyResult continueParsing();
     ParseForest getForest();
+    ParseTree getTree();
+    void getTree(TreeBuilder builder);
+    boolean isAmbiguous();
+    boolean isInfinitelyAmbiguous();
     int getTokenCount();
     Token getLastToken();
     Set<TerminalSymbol> getPredictedTerminals();

@@ -18,8 +18,7 @@ public class IxmlTest {
     public void testRuleParse() {
         try {
             ParserOptions options = new ParserOptions();
-            Grammar grammar = new GrammarCompiler().parse(new File("src/test/resources/ixml.cxml"));
-            grammar.setParserOptions(options);
+            SourceGrammar grammar = new GrammarCompiler(options).parse(new File("src/test/resources/ixml.cxml"));
 
             String input = "date: s?, day, s, month, (s, year)? .";
 
@@ -35,7 +34,7 @@ public class IxmlTest {
     @Test
     public void testDateParse() {
         try {
-            Grammar grammar = new GrammarCompiler().parse(new File("src/test/resources/ixml.cxml"));
+            SourceGrammar grammar = new GrammarCompiler().parse(new File("src/test/resources/ixml.cxml"));
 
             String input = "date: s?, day, s, month, (s, year)? .\n" +
                     "-s: -\" \"+ .\n" +
@@ -61,7 +60,7 @@ public class IxmlTest {
     @Test
     public void testIxmlParse() {
         try {
-            Grammar grammar = new GrammarCompiler().parse(new File("src/test/resources/ixml.cxml"));
+            SourceGrammar grammar = new GrammarCompiler().parse(new File("src/test/resources/ixml.cxml"));
 
             TestProgressMonitor monitor = new TestProgressMonitor();
             grammar.getParserOptions().setProgressMonitor(monitor);

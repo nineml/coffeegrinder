@@ -9,7 +9,7 @@
   </imageobject>
 </mediaobject>
 <title>CoffeeGrinder</title>
-<subtitle>An Earley parser in Java</subtitle>
+<subtitle>Earley and GLL parsers in Java</subtitle>
 <author>
   <personname>Norm Tovey-Walsh</personname>
 </author>
@@ -21,10 +21,13 @@
 <preface>
 <title>Introduction</title>
 
-<para>This package provides an implementation of an
-<link xlink:href="https://en.wikipedia.org/wiki/Earley_parser">Earley parser</link>. The
-Earley parsing algorithm is able to use grammars that are ambiguous. This API
-parses a sequence of tokens and returns a Shared Packed Parser Forest.
+<para>This package provides an implementation of two different parsers:
+an
+<link xlink:href="https://en.wikipedia.org/wiki/Earley_parser">Earley parser</link>
+and a
+<link xlink:href="https://pure.royalholloway.ac.uk/portal/en/publications/gll-parsing(94ca4516-d72c-41ff-b11f-24b14ba15f2d).html">GLL parser</link>.
+Both parsing algorithms are able to use grammars that are ambiguous. These APIs
+parse a sequence of tokens and return a Shared Packed Parser Forest.
 Individual parse trees can be obtained from the forest.</para>
 
 </preface>
@@ -270,10 +273,31 @@ MAKE_NODE(B ::= αx·β, j, i, w, v,V) {
   return y
 }</programlisting>
 </appendix>
+
+<appendix xml:id="gll_parser">
+<title>GLL Parser</title>
+<para>The GLL implementation in <application>CoffeeGrinder</application>
+is based on the work described in
+<citetitle xlink:href="https://pure.royalholloway.ac.uk/portal/en/publications/derivation-representation-using-binary-subtree-sets(d718368b-d4a4-49c8-b023-bdaae5feaece).html">Derivation representation using binary subtree sets</citetitle>
+by <personname>Elizabeth Scott</personname>, <personname>Adrian Johnstone</personname>,
+and <personname>L. Thomas van Binsbergen</personname>.</para>
+</appendix>
+
 <appendix xml:id="changelog">
 <title>Change log</title>
 
 <revhistory>
+<revision>
+  <date>2022-06-17</date>
+  <revremark>Second pre-release with GLL support; substantial refactoring of the internals
+and a new API for getting trees from the parse forest.
+</revremark>
+</revision>
+<revision>
+  <date>2022-06-08</date>
+  <revremark>First pre-release that included GLL parser support. Updated to the
+Invisible XML 1.0 grammar.</revremark>
+</revision>
 <revision>
   <date>2022-04-16</date>
   <revremark>Internal changes to support the 15 April 2022 Invisible XML “insertions” feature, version 1.1.0</revremark>

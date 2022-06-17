@@ -1,15 +1,14 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ForestException;
-import org.nineml.coffeegrinder.util.DefaultTreeWalker;
+import org.nineml.coffeegrinder.tokens.Token;
+import org.nineml.coffeegrinder.util.NopTreeBuilder;
+import org.nineml.coffeegrinder.util.ParseTreeBuilder;
 import org.nineml.coffeegrinder.util.ParserAttribute;
+import org.nineml.coffeegrinder.util.StopWatch;
 
 import java.io.*;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Math.abs;
 
@@ -26,10 +25,10 @@ public class ParseForest {
     protected final HashSet<Integer> graphIds = new HashSet<>();
     protected final HashSet<Integer> rootIds = new HashSet<>();
     protected final ParserOptions options;
-    protected Ambiguity ambiguity = null;
-    protected boolean ambiguous = false;
-    protected boolean infinitelyAmbiguous = false;
-    private TreeWalker treeWalker = null;
+    protected Boolean ambiguous = null;
+    protected Boolean infinitelyAmbiguous = null;
+    protected Long totalParses = null;
+    private Stack<ArrayList<Long>> choices = new Stack<>();
 
     public ParseForest(ParserOptions options) {
         this.options = options;
@@ -42,16 +41,24 @@ public class ParseForest {
      * @return true if the grammar is ambiguous
      */
     public boolean isAmbiguous() {
+        if (ambiguous == null) {
+            ambiguous = roots.size() > 1;
+            NopTreeBuilder builder = new NopTreeBuilder();
+            getTree(builder);
+            ambiguous = ambiguous || builder.isAmbiguous();
+            infinitelyAmbiguous = builder.isInfinitelyAmbiguous();
+        }
         return ambiguous;
     }
 
     /**
      * Is the grammar represented by this graph infinitely ambiguous?
-     * <p>Briefly: if the graph contains a loop. Consider: if a graph contains a nonterminal that can match the
-     * empty string, then a parse that uses that nonterminal 0 times will match the sentence. But it will
-     * also match the sentence if it uses that nonterminal 1, 2, 3...or any arbitrary number of times.</p>
+     * <p>If the answer is "true", then the graph is infinitely ambiguous. If the graph is ambiguous
+     * and the anwer is "false", then all that can be said is the single parse explored to check
+     * ambiguity did not encounter infinite ambiguity. It is not an assertion that no unexplored
+     * part of the graph contains a loop.</p>
      *
-     * @return true if the parse forest is infinitely ambiguous
+     * @return true if the parse forest is known to be infinitely ambiguous
      */
     public boolean isInfinitelyAmbiguous() {
         return infinitelyAmbiguous;
@@ -85,35 +92,11 @@ public class ParseForest {
     }
 
     public long getTotalParses() {
-        if (treeWalker == null) {
-            treeWalker = new DefaultTreeWalker(this, new ParseTreeBuilder());
+        if (totalParses == null) {
+            NopTreeBuilder builder = new NopTreeBuilder();
+            getTree(builder);
         }
-
-        if (treeWalker.getExactTotalParses().compareTo(ForestNode.MAX_LONG) < 0) {
-            return Long.parseLong(treeWalker.getExactTotalParses().toString());
-        } else {
-            return Long.MAX_VALUE;
-        }
-    }
-
-    public BigInteger getExactTotalParses() {
-        if (treeWalker == null) {
-            treeWalker = new DefaultTreeWalker(this, new ParseTreeBuilder());
-        }
-        return treeWalker.getExactTotalParses();
-    }
-
-    public Ambiguity getAmbiguity() {
-        if (ambiguity == null) {
-            if (!ambiguous) {
-                ambiguity = new Ambiguity(getRoots().get(0));
-            } else {
-                DefaultTreeWalker walker = new DefaultTreeWalker(this, new ParseTreeBuilder());
-                walker.next();
-                ambiguity = new Ambiguity(getRoots(), ambiguous, infinitelyAmbiguous, walker.getAmbiguityMap());
-            }
-        }
-        return ambiguity;
+        return totalParses;
     }
 
     /**
@@ -125,24 +108,199 @@ public class ParseForest {
         return options;
     }
 
-    public ParseTree parse() {
-        if (treeWalker == null) {
-            treeWalker = new DefaultTreeWalker(this, new ParseTreeBuilder());
-            treeWalker.next();
-            return ((ParseTreeBuilder) treeWalker.getTreeBuilder()).getTree();
-        }
-
-        if (treeWalker.hasNext()) {
-            treeWalker.next();
-            return ((ParseTreeBuilder) treeWalker.getTreeBuilder()).getTree();
-        }
-
-        treeWalker = null;
-        return null;
+    public ParseTree getTree() {
+        ParseTreeBuilder parseTreeBuilder = new ParseTreeBuilder();
+        getTree(parseTreeBuilder);
+        return parseTreeBuilder.getParseTree();
     }
 
-    public void resetParses() {
-        treeWalker = null;
+    public void getTree(TreeBuilder builder) {
+        if (roots.isEmpty()) {
+            return;
+        }
+
+        ForestNode root = roots.get(0);
+        if (roots.size() > 1) {
+            ArrayList<RuleChoice> choices = new ArrayList<>(roots);
+            int idx = builder.chooseAlternative(choices);
+            if (idx < 0 || idx >= roots.size()) {
+                throw new IllegalStateException("Invalid alternative selected");
+            }
+            root = roots.get(idx);
+        }
+
+        builder.startTree();
+        choices = new Stack<>();
+        choices.push(new ArrayList<>());
+        constructTree(builder, root, null, new HashSet<>());
+        builder.endTree();
+        long count = choices.pop().get(0);
+        if (count <= 0) {
+            totalParses = Long.MAX_VALUE;
+        } else {
+            if (totalParses == null || count > totalParses) {
+                totalParses = count;
+            }
+        }
+        choices = null;
+
+        ambiguous = builder.isAmbiguous();
+        infinitelyAmbiguous = builder.isInfinitelyAmbiguous();
+    }
+
+    private void constructTree(TreeBuilder builder, ForestNode tree, Symbol xsymbol, HashSet<Family> selected) {
+        ForestNode child0 = null;
+        Symbol child0Symbol = null;
+        ForestNode child1 = null;
+        Symbol child1Symbol = null;
+
+        assert tree != null;
+        State state = tree.getState();
+
+        int index = 0;
+        final ArrayList<Family> families;
+        switch (tree.families.size()) {
+            case 0:
+                families = tree.families;
+                break;
+            case 1:
+                if (selected.contains(tree.families.get(0))) {
+                    families = new ArrayList<>();
+                } else {
+                    families = tree.families;
+                }
+                break;
+            default:
+                families = new ArrayList<>();
+                for (Family family : tree.families) {
+                    // Don't rule out epsilon transitions; they all compare the same so testing
+                    // selected doesn't help. But they don't have descendants, so they can't loop.
+                    if ((family.v==null && family.w==null) || !selected.contains(family)) {
+                        families.add(family);
+                    }
+                }
+                if (families.size() > 1) {
+                    ArrayList<RuleChoice> choices = new ArrayList<>();
+                    for (Family family : families) {
+                        // Can family.w ever be non-null and what does it mean if it is?
+                        choices.add(family.v);
+                    }
+                    index = builder.chooseAlternative(choices);
+                    if (index < 0 || index >= choices.size()) {
+                        throw new IllegalStateException("Invalid alternative selected");
+                    }
+                }
+        }
+
+        int choiceCount = families.size();
+        if (!families.isEmpty()) {
+            Family family = families.get(index);
+            selected.add(family);
+            if (family.w == null) {
+                child0 = family.v;
+            } else {
+                child0 = family.w;
+                child1 = family.v;
+            }
+        }
+
+        if (child1 != null) {
+            int pos = getSymbol(child1.getSymbol(), state, state.getPosition());
+            if (pos >= 0) {
+                child1Symbol = state.getRhs().get(pos);
+            } else {
+                pos = state.getPosition();
+            }
+
+            pos = getSymbol(child0.getSymbol(), state, pos); // don't "pass" the second symbol
+            if (pos >= 0) {
+                child0Symbol = state.getRhs().get(pos);
+            }
+        } else {
+            if (child0 != null) {
+                int pos = getSymbol(child0.getSymbol(), state, state.getPosition());
+                if (pos >= 0) {
+                    child0Symbol = state.getRhs().get(pos);
+                }
+            }
+        }
+
+        Symbol symbol = tree.getSymbol();
+        if (symbol == null) {
+            assert child0 != null;
+            constructTree(builder, child0, child0Symbol, selected);
+            if (child1 != null) {
+                constructTree(builder, child1, child1Symbol, selected);
+            }
+            return;
+        }
+
+        final List<ParserAttribute> atts;
+        if (symbol.getAttributes().isEmpty() && (xsymbol == null || xsymbol.getAttributes().isEmpty())) {
+            atts = Collections.emptyList();
+        } else {
+            ArrayList<ParserAttribute> xatts = new ArrayList<>();
+            if (xsymbol != null) {
+                xatts.addAll(xsymbol.getAttributes());
+            }
+            xatts.addAll(symbol.getAttributes());
+            atts = xatts;
+        }
+
+        if (symbol instanceof TerminalSymbol) {
+            Token token = ((TerminalSymbol) symbol).getToken();
+            builder.token(token, atts);
+        } else {
+            choices.push(new ArrayList<>());
+            builder.startNonterminal((NonterminalSymbol) symbol, atts, tree.leftExtent, tree.rightExtent);
+            if (child0 != null) {
+                constructTree(builder, child0, child0Symbol, selected);
+            }
+            if (child1 != null) {
+                constructTree(builder, child1, child1Symbol, selected);
+            }
+            builder.endNonterminal((NonterminalSymbol) symbol, atts, tree.leftExtent, tree.rightExtent);
+
+            //System.err.printf("%s(%d) ", symbol, choiceCount);
+
+            long partial = 1;
+            for (long count : choices.peek()) {
+                //System.err.printf("%d ", count);
+                partial = partial * count;
+            }
+            choices.pop();
+            if (choiceCount == 0) {
+                choices.peek().add(1L);
+                //System.err.printf(" : %d%n", 1);
+            } else {
+                choices.peek().add(choiceCount + partial - 1);
+                //System.err.printf(" : %d%n", choiceCount+partial-1);
+            }
+        }
+    }
+
+    private int getSymbol(Symbol seek, State state, int maxPos) {
+        // Because some nonterminals can go to epsilon, we can't always find them
+        // by position. If there's only one symbol, then we want the last one before
+        // the position. But if there are two, then the *second* symbol has to come
+        // after the first!
+        int found = -1;
+        if (seek instanceof TerminalSymbol) {
+            Token token = ((TerminalSymbol) seek).getToken();
+            for (int pos = 0; pos < maxPos; pos++) {
+                if (state.getRhs().get(pos).matches(token)) {
+                    found = pos;
+                }
+            }
+        } else {
+            for (int pos = 0; pos < maxPos; pos++) {
+                if (state.getRhs().get(pos).equals(seek)) {
+                    found = pos;
+                }
+            }
+        }
+
+        return found;
     }
 
     /**
@@ -273,28 +431,28 @@ public class ParseForest {
         }
     }
 
-    public ForestNode createNode(Symbol symbol, int j, int i) {
+    protected ForestNode createNode(Symbol symbol, int j, int i) {
         ForestNode node = new ForestNode(this, symbol, j, i);
         graph.add(node);
         graphIds.add(node.id);
         return node;
     }
 
-    public ForestNode createNode(Symbol symbol, State state, int j, int i) {
+    protected ForestNode createNode(Symbol symbol, State state, int j, int i) {
         ForestNode node = new ForestNode(this, symbol, state, j, i);
         graph.add(node);
         graphIds.add(node.id);
         return node;
     }
 
-    public ForestNode createNode(State state, int j, int i) {
+    protected ForestNode createNode(State state, int j, int i) {
         ForestNode node = new ForestNode(this, state, j, i);
         graph.add(node);
         graphIds.add(node.id);
         return node;
     }
 
-    public void root(ForestNode w) {
+    protected void root(ForestNode w) {
         if (rootIds.contains(w.id)) {
             return;
         }
@@ -313,15 +471,16 @@ public class ParseForest {
         rootIds.clear();
     }
 
-    public int prune() {
-        options.getLogger().trace(logcategory, "Pruning forest of %d nodes with %d roots", graph.size(), roots.size());
+    protected int prune() {
+        StopWatch timer = new StopWatch();
+        options.getLogger().debug(logcategory, "Pruning forest of %d nodes with %d roots", graph.size(), roots.size());
 
         // Step 1. Trim epsilon twigs
         for (ForestNode node : roots) {
             node.trimEpsilon();
         }
 
-        options.getLogger().trace(logcategory, "Trimmed ε twigs: %d nodes remain", graph.size());
+        options.getLogger().debug(logcategory, "Trimmed ε twigs: %d nodes remain", graph.size());
 
         // Step 2. Prune unreachable nodes
         computeAmbiguity();
@@ -343,7 +502,8 @@ public class ParseForest {
         graphIds.clear();
         graphIds.addAll(prunedMap);
 
-        options.getLogger().trace(logcategory, "Graph contained %d unreachable nodes", count);
+        timer.stop();
+        options.getLogger().debug(logcategory, "Graph contained %d unreachable nodes, pruned in %dms", count, timer.duration());
 
         return count;
     }

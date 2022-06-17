@@ -6,8 +6,8 @@ import org.junit.Test;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.util.GrammarCompiler;
 import org.nineml.coffeegrinder.util.Iterators;
+import org.nineml.coffeegrinder.util.StdoutTreeBuilder;
 
-import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -18,7 +18,7 @@ public class AmbiguityTest {
     public void testProgram() {
         try {
             GrammarCompiler compiler = new GrammarCompiler();
-            Grammar grammar = compiler.parse(Files.newInputStream(Paths.get("src/test/resources/program.cxml")), "program.cxml");
+            SourceGrammar grammar = compiler.parse(Files.newInputStream(Paths.get("src/test/resources/program.cxml")), "program.cxml");
             GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
             GearleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/program.inp"));
             Assert.assertTrue(result.succeeded());
@@ -34,7 +34,7 @@ public class AmbiguityTest {
     public void testCss() {
         try {
             GrammarCompiler compiler = new GrammarCompiler();
-            Grammar grammar = compiler.parse(Files.newInputStream(Paths.get("src/test/resources/css.cxml")), "css.cxml");
+            SourceGrammar grammar = compiler.parse(Files.newInputStream(Paths.get("src/test/resources/css.cxml")), "css.cxml");
             GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
             GearleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/css.inp"));
             Assert.assertTrue(result.succeeded());
@@ -47,7 +47,7 @@ public class AmbiguityTest {
 
     @Test
     public void testAmbiguity() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol _letter = grammar.getNonterminal("letter");
         NonterminalSymbol _letterOrNumber = grammar.getNonterminal("letterOrNumber");
@@ -69,17 +69,14 @@ public class AmbiguityTest {
         Assert.assertTrue(result.succeeded());
         Assert.assertEquals(2, result.getForest().getTotalParses());
 
-        Assert.assertNotNull(result.getForest().parse());
-        Assert.assertNotNull(result.getForest().parse());
-        Assert.assertNull(result.getForest().parse());
-        Assert.assertNotNull(result.getForest().parse());
-        Assert.assertNotNull(result.getForest().parse());
-        Assert.assertNull(result.getForest().parse());
+        ParseTree tree = result.getForest().getTree();
+
+        Assert.assertNotNull(tree);
     }
 
     @Test
     public void testAmbiguity2() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol _letter = grammar.getNonterminal("letter");
         NonterminalSymbol _letterOrNumber = grammar.getNonterminal("letterOrNumber");
@@ -104,6 +101,10 @@ public class AmbiguityTest {
 
         Assert.assertTrue(result.succeeded());
         Assert.assertEquals(9, result.getForest().getTotalParses());
+
+        StdoutTreeBuilder builder = new StdoutTreeBuilder();
+        result.getForest().getTree(builder);
+        //Assert.assertNotNull(result.getForest().parse());
     }
 
     // I'm unconvinced that this grammar has more than one parse. It's infinitely
@@ -111,7 +112,7 @@ public class AmbiguityTest {
     // was faulty.
     @Ignore
     public void testAmbiguity3() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol _word = grammar.getNonterminal("word");
         NonterminalSymbol _letter = grammar.getNonterminal("letter");

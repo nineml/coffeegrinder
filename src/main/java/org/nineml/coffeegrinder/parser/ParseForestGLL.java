@@ -9,15 +9,16 @@ import java.util.HashSet;
 
 public class ParseForestGLL extends ParseForest {
     private final HashSet<ForestNodeGLL> extendedLeaves;
+    private final ArrayList<ForestNodeGLL> candidateLeaves;
     private final HashMap<Symbol, PrefixTrie> intermediate;
     private final HashMap<Symbol, PrefixTrie> slotPrefixes;
     private final HashMap<Symbol, HashMap<Integer, HashMap<Integer, ArrayList<ForestNodeGLL>>>> nodes;
     private final HashMap<PrefixTrie, HashMap<Integer, HashMap<Integer, ArrayList<ForestNodeGLL>>>> slots;
-    private final Grammar grammar;
+    private final CompiledGrammar grammar;
     private final int rightExtent;
     private final Token[] inputTokens;
 
-    public ParseForestGLL(ParserOptions options, Grammar grammar, int rightExtent, Token[] inputTokens) {
+    public ParseForestGLL(ParserOptions options, CompiledGrammar grammar, int rightExtent, Token[] inputTokens) {
         super(options);
         this.grammar = grammar;
         this.rightExtent = rightExtent;
@@ -27,6 +28,7 @@ public class ParseForestGLL extends ParseForest {
         nodes = new HashMap<>();
         slots = new HashMap<>();
         extendedLeaves = new HashSet<>();
+        candidateLeaves = new ArrayList<>();
     }
 
     public ForestNodeGLL findOrCreate(State state, Symbol symbol, int leftExtent, int rightExtent) {
@@ -50,6 +52,9 @@ public class ParseForestGLL extends ParseForest {
         }
         if (!nodes.get(symbol).get(leftExtent).containsKey(rightExtent)) {
             ForestNodeGLL node = new ForestNodeGLL(this, symbol, state, leftExtent, rightExtent);
+            if (!(symbol instanceof TerminalSymbol) && !extendedLeaves.contains(node)) {
+                candidateLeaves.add(node);
+            }
             graph.add(node);
             graphIds.add(node.id);
             ArrayList<ForestNodeGLL> list = new ArrayList<>();
@@ -71,6 +76,9 @@ public class ParseForestGLL extends ParseForest {
         }
         if (!slots.get(trie).get(leftExtent).containsKey(rightExtent)) {
             ForestNodeGLL node = new ForestNodeGLL(this, slot, leftExtent, rightExtent);
+            if (!extendedLeaves.contains(node)) {
+                candidateLeaves.add(node);
+            }
             graph.add(node);
             graphIds.add(node.id);
             ArrayList<ForestNodeGLL> list = new ArrayList<>();
@@ -83,16 +91,13 @@ public class ParseForestGLL extends ParseForest {
     }
 
     public ForestNodeGLL extendableLeaf() {
-        for (ForestNode gnode : graph) {
-            ForestNodeGLL node = (ForestNodeGLL) gnode;
-            if (!extendedLeaves.contains(node)) {
-                if (node.symbol == null || node.symbol instanceof NonterminalSymbol) {
-                    extendedLeaves.add(node);
-                    return node;
-                }
-            }
+        if (candidateLeaves.isEmpty()) {
+            return null;
         }
-        return null;
+
+        ForestNodeGLL leaf = candidateLeaves.remove(0);
+        extendedLeaves.add(leaf);
+        return leaf;
     }
 
     protected ForestNodeGLL create(State slot, int pivot) {

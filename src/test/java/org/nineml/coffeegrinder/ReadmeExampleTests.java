@@ -6,6 +6,7 @@ import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.CharacterSet;
 import org.nineml.coffeegrinder.tokens.TokenCharacterSet;
 import org.nineml.coffeegrinder.util.GrammarParser;
+import org.nineml.coffeegrinder.util.NopTreeBuilder;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class ReadmeExampleTests {
                 "letter => [\"a\"-\"z\"; \"A\"-\"Z\"]\n" +
                 "digit => [\"0\"-\"9\"; \"a\"-\"f\"; \"A\"-\"F\"]";
         GrammarParser grammarParser = new GrammarParser();
-        Grammar grammar = grammarParser.parse(input);
+        SourceGrammar grammar = grammarParser.parse(input);
         Assert.assertNotNull(grammar);
 
         GearleyParser parser = grammar.getParser("id");
@@ -32,8 +33,8 @@ public class ReadmeExampleTests {
         //result.getForest().parse().serialize("id07f-tree.xml");
     }
 
-    private Grammar idGrammar() {
-        Grammar grammar = new Grammar();
+    private SourceGrammar idGrammar() {
+        SourceGrammar grammar = new SourceGrammar();
         NonterminalSymbol id = grammar.getNonterminal("id");
         NonterminalSymbol word = grammar.getNonterminal("word");
         NonterminalSymbol hex = grammar.getNonterminal("hex");
@@ -57,34 +58,24 @@ public class ReadmeExampleTests {
 
     @Test
     public void idTestApi() {
-        Grammar grammar = idGrammar();
+        SourceGrammar grammar = idGrammar();
 
         GearleyParser parser = grammar.getParser("id");
         GearleyResult result = parser.parse("07f");
         Assert.assertTrue(result.succeeded());
 
-        ParseTree tree = result.getForest().parse();
+        result.getTree(new NopTreeBuilder());
     }
 
     @Test
     public void idTestFab() {
-        Grammar grammar = idGrammar();
+        SourceGrammar grammar = idGrammar();
 
         GearleyParser parser = grammar.getParser("id");
         GearleyResult result = parser.parse("fab");
         Assert.assertTrue(result.succeeded());
 
-        //result.getForest().serialize("idfab-graph.xml");
-
-        ParseTree tree = result.getForest().parse();
-
-        //System.out.println(result.getForest().getTotalParses());
-
-        //tree.serialize("idfab-tree-1.xml");
-
-        tree = result.getForest().parse();
-
-        //tree.serialize("idfab-tree-2.xml");
+        result.getTree(new NopTreeBuilder());
     }
 
     @Test
@@ -100,7 +91,7 @@ public class ReadmeExampleTests {
                 "letter => [\"a\"-\"z\"; \"A\"-\"Z\"]\n" +
                 "digit => [\"0\"-\"9\"; \"a\"-\"f\"; \"A\"-\"F\"]";
         GrammarParser grammarParser = new GrammarParser();
-        Grammar grammar = grammarParser.parse(input);
+        SourceGrammar grammar = grammarParser.parse(input);
         Assert.assertNotNull(grammar);
 
         GearleyParser parser = grammar.getParser("id");
@@ -113,7 +104,7 @@ public class ReadmeExampleTests {
 
     @Test
     public void idTestRepeatApi() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
         NonterminalSymbol id = grammar.getNonterminal("id");
         NonterminalSymbol word = grammar.getNonterminal("word");
         NonterminalSymbol hex = grammar.getNonterminal("hex");
@@ -152,7 +143,7 @@ public class ReadmeExampleTests {
 
     @Test
     public void idTestRepeatOptionalApi() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
         NonterminalSymbol id = grammar.getNonterminal("id");
         NonterminalSymbol word = grammar.getNonterminal("word");
         NonterminalSymbol hex = grammar.getNonterminal("hex");
@@ -189,7 +180,7 @@ public class ReadmeExampleTests {
 
     @Test
     public void idTestRepeatPrunableApi() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
         NonterminalSymbol id = grammar.getNonterminal("id");
         NonterminalSymbol word = grammar.getNonterminal("word");
         NonterminalSymbol hex = grammar.getNonterminal("hex");

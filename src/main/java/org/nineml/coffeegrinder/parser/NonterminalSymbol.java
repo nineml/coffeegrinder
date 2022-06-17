@@ -8,7 +8,7 @@ import java.util.Collection;
 /**
  * A nonterminal symbol in the grammar.
  * <p>Every nonterminal must be defined by a {@link Rule Rule} in the
- * {@link Grammar Grammar}.</p>
+ * {@link CompiledGrammar Grammar}.</p>
  */
 public class NonterminalSymbol extends Symbol {
     private final String name;
@@ -86,7 +86,7 @@ public class NonterminalSymbol extends Symbol {
      */
     @Override
     public String toString() {
-        if (!grammar.isOpen() && grammar.isNullable(this)) {
+        if (grammar.isNullable(this)) {
             return name + "ⁿ";
         }
         return name;

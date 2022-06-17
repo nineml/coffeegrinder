@@ -22,7 +22,7 @@ public class EarleyParser implements GearleyParser {
 
     private final EarleyChart chart = new EarleyChart();
     private final ForestNodeSet V;
-    private final Grammar grammar;
+    private final CompiledGrammar grammar;
     private final ParseForest graph;
     private final NonterminalSymbol S;
     private final HashMap<NonterminalSymbol, List<Rule>> Rho;
@@ -34,10 +34,7 @@ public class EarleyParser implements GearleyParser {
     protected int progressSize = 0;
     protected int progressCount = 0;
 
-    protected EarleyParser(Grammar grammar) {
-        if (grammar.isOpen()) {
-            throw new IllegalArgumentException("Cannot create a parser for an open grammar");
-        }
+    protected EarleyParser(CompiledGrammar grammar) {
         this.grammar = grammar;
         options = grammar.getParserOptions();
 
@@ -120,7 +117,7 @@ public class EarleyParser implements GearleyParser {
      * Get the grammar used by this parser.
      * @return the grammar
      */
-    public Grammar getGrammar() {
+    public CompiledGrammar getGrammar() {
         return grammar;
     }
 
@@ -195,6 +192,8 @@ public class EarleyParser implements GearleyParser {
         boolean lastToken = false;
         int checkpoint = -1;
         int i = 0;
+
+        options.getLogger().info(logcategory, "Parsing with Earley parser.");
 
         StopWatch timer = new StopWatch();
 
@@ -463,12 +462,12 @@ public class EarleyParser implements GearleyParser {
             if (tokenCount == 0 || timer.duration() == 0) {
                 options.getLogger().info(logcategory, "Parse succeeded");
             } else {
-                options.getLogger().info(logcategory, "Parse succeeded, %d tokens in %s (%s tokens/sec)",
+                options.getLogger().info(logcategory, "Parse succeeded, %,d tokens in %s (%s tokens/sec)",
                         tokenCount, timer.elapsed(), timer.perSecond(tokenCount));
             }
 
             int count = graph.prune();
-            options.getLogger().debug(logcategory, "Pruned %d nodes from graph; %d remain", count, graph.graph.size());
+            options.getLogger().debug(logcategory, "Pruned %,d nodes from graph; %d remain", count, graph.graph.size());
 
             if (options.getReturnChart()) {
                 result = new EarleyResult(this, chart, graph, success, tokenCount, lastInputToken);
@@ -478,15 +477,15 @@ public class EarleyParser implements GearleyParser {
             }
         } else {
             if (timer.duration() == 0) {
-                options.getLogger().info(logcategory, "Parse failed after %d tokens", tokenCount);
+                options.getLogger().info(logcategory, "Parse failed after %,d tokens", tokenCount);
             } else {
-                options.getLogger().info(logcategory, "Parse failed after %d tokens in %s (%s tokens/sec)",
+                options.getLogger().info(logcategory, "Parse failed after %,d tokens in %s (%s tokens/sec)",
                         tokenCount, timer.elapsed(), timer.perSecond(tokenCount));
             }
             if (options.getPrefixParsing() && checkpoint >= 0) {
                 graph.rollback(checkpoint);
                 int count = graph.prune();
-                options.getLogger().debug(logcategory, "Pruned %d nodes from prefix graph", count);
+                options.getLogger().debug(logcategory, "Pruned %,d nodes from prefix graph", count);
             }
             result = new EarleyResult(this, chart, graph, success, tokenCount, lastInputToken);
             result.addPredicted(V.openPredictions());

@@ -19,6 +19,12 @@ public class EarleyItem {
         this.w = w;
     }
 
+    protected EarleyItem(State state, int j) {
+        this.state = state;
+        this.j = j;
+        this.w = null;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof EarleyItem) {
@@ -46,6 +52,9 @@ public class EarleyItem {
 
     @Override
     public String toString() {
+        if (w == null) {
+            return state + " / " + j;
+        }
         return state + " / " + j + " / " + w;
     }
 }

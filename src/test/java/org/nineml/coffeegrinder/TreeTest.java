@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.util.GrammarCompiler;
 import org.nineml.coffeegrinder.util.Iterators;
-import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.io.File;
 
@@ -14,7 +13,7 @@ import static junit.framework.TestCase.fail;
 public class TreeTest {
     @Test
     public void testEmpty() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         // S: a, b, c. a:. b:. c:.
 
@@ -45,13 +44,13 @@ public class TreeTest {
     public void test1() {
         try {
             GrammarCompiler compiler = new GrammarCompiler();
-            Grammar grammar = compiler.parse(new File("src/test/resources/ixml.cxml"));
+            SourceGrammar grammar = compiler.parse(new File("src/test/resources/ixml.cxml"));
             GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
 
             String input = "S:'x',e. e:.";
             GearleyResult result = parser.parse(Iterators.characterIterator(input));
 
-            result.getForest().serialize("/tmp/graph.xml");
+            //result.getForest().serialize("/tmp/graph.xml");
             //ParseTree tree = result.getForest().parse();
             //tree.serialize("tree.xml");
 
@@ -69,21 +68,12 @@ public class TreeTest {
             // for a node that had nothing but loops. Since loops are ignored, it attempted to
             // setup a choice when there were not choices.
             GrammarCompiler compiler = new GrammarCompiler();
-            Grammar grammar = compiler.parse(new File("src/test/resources/property-file.cxml"));
+            SourceGrammar grammar = compiler.parse(new File("src/test/resources/property-file.cxml"));
 
             GearleyParser parser = grammar.getParser("$$");
             GearleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/short-example.properties"));
 
-            //result.getForest().serialize("/tmp/walker1.xml");
-
-            Ambiguity ambiguity = result.getForest().getAmbiguity();
-
-            Assert.assertTrue(ambiguity.getAmbiguous());
-
-            ParseTree tree1 = result.getForest().parse();
-            ParseTree tree2 = result.getForest().parse();
-
-            Assert.assertNotNull(tree1);
+            Assert.assertTrue(result.isAmbiguous());
         } catch (Exception ex) {
             fail();
         }
@@ -91,7 +81,7 @@ public class TreeTest {
 
     @Test
     public void testAmbiguous() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");

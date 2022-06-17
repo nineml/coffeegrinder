@@ -12,7 +12,7 @@ public class GrammarTest {
 
     @Test
     public void undefinedUnusedNonterminal() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         /*
         S: A ; B
@@ -34,9 +34,7 @@ public class GrammarTest {
         grammar.addRule(_B, TerminalSymbol.ch('b'), _Y);
         grammar.addRule(_X, TerminalSymbol.ch('x'));
 
-        grammar.close(_S);
-
-        HygieneReport report = grammar.checkHygiene(_S);
+        HygieneReport report = grammar.getHygieneReport(_S);
         Assertions.assertFalse(report.isClean());
         Assertions.assertEquals(1, report.getUndefinedSymbols().size());
         Assertions.assertTrue(report.getUndefinedSymbols().contains(_Y));
@@ -54,7 +52,7 @@ public class GrammarTest {
 
     @Test
     public void undefinedReferencedRequiredNonterminal() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         /*
         S: A ; B
@@ -76,9 +74,7 @@ public class GrammarTest {
         grammar.addRule(_B, TerminalSymbol.ch('b'), _Y);
         grammar.addRule(_X, TerminalSymbol.ch('x'));
 
-        grammar.close(_S);
-
-        HygieneReport report = grammar.checkHygiene(_S);
+        HygieneReport report = grammar.getHygieneReport(_S);
         Assertions.assertFalse(report.isClean());
         Assertions.assertEquals(1, report.getUndefinedSymbols().size());
         Assertions.assertTrue(report.getUndefinedSymbols().contains(_Y));
@@ -93,7 +89,7 @@ public class GrammarTest {
 
     @Test
     public void undefinedReferencedUnnecessaryNonterminal() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         /*
         S: A ; B
@@ -117,9 +113,7 @@ public class GrammarTest {
         grammar.addRule(_B, TerminalSymbol.ch('b'), _X);
         grammar.addRule(_X, TerminalSymbol.ch('x'));
 
-        grammar.close(_S);
-
-        HygieneReport report = grammar.checkHygiene(_S);
+        HygieneReport report = grammar.getHygieneReport(_S);
         Assertions.assertFalse(report.isClean());
         Assertions.assertEquals(1, report.getUndefinedSymbols().size());
         Assertions.assertTrue(report.getUndefinedSymbols().contains(_Y));
@@ -134,7 +128,7 @@ public class GrammarTest {
 
     @Test
     public void unusedNonterminal() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         /*
         S: A
@@ -149,9 +143,8 @@ public class GrammarTest {
         grammar.addRule(_S, _A);
         grammar.addRule(_A, TerminalSymbol.ch('a'));
         grammar.addRule(_B, TerminalSymbol.ch('b'));
-        grammar.close(_S);
 
-        HygieneReport report = grammar.checkHygiene(_S);
+        HygieneReport report = grammar.getHygieneReport(_S);
 
         Assert.assertFalse(report.isClean());
         Assert.assertEquals(0, report.getUnproductiveRules().size());
@@ -174,7 +167,7 @@ public class GrammarTest {
          Y → a∣X
          */
 
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
         NonterminalSymbol _S = grammar.getNonterminal("S");
         NonterminalSymbol _C = grammar.getNonterminal("C");
         NonterminalSymbol _D = grammar.getNonterminal("D");
@@ -208,7 +201,7 @@ public class GrammarTest {
         grammar.addRule(_Y, _a);
         grammar.addRule(_Y, _X);
 
-        HygieneReport report = grammar.checkHygiene(_S);
+        HygieneReport report = grammar.getHygieneReport(_S);
 
         Assert.assertFalse(report.isClean());
         Assert.assertEquals(8, report.getUnproductiveRules().size());
@@ -232,7 +225,7 @@ public class GrammarTest {
          F → f D
          */
 
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
         NonterminalSymbol _S = grammar.getNonterminal("S");
         NonterminalSymbol _A = grammar.getNonterminal("A");
         NonterminalSymbol _B = grammar.getNonterminal("B");
@@ -256,7 +249,7 @@ public class GrammarTest {
         grammar.addRule(_E, _e);
         grammar.addRule(_F, _f, _D);
 
-        HygieneReport report = grammar.checkHygiene(_S);
+        HygieneReport report = grammar.getHygieneReport(_S);
 
         Assert.assertFalse(report.isClean());
         Assert.assertEquals(3, report.getUnproductiveRules().size());
@@ -268,7 +261,7 @@ public class GrammarTest {
 
     @Test
     public void checkMessages() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         /*
         S: A
@@ -287,12 +280,11 @@ public class GrammarTest {
         TestLogger logger = new TestLogger();
         grammar.getParserOptions().setLogger(logger);
 
-        HygieneReport report = grammar.checkHygiene(_S);
+        HygieneReport report = grammar.getHygieneReport(_S);
         Assert.assertEquals(0, logger.warncount);
 
-        grammar.close(_S);
-
-        report = grammar.checkHygiene(_S);
+        CompiledGrammar cgrammar = grammar.getCompiledGrammar(_S);
+        report = cgrammar.getHygieneReport();
         Assert.assertEquals(1, logger.warncount);
 
         Assert.assertFalse(report.isClean());

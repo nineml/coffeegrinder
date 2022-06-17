@@ -3,7 +3,7 @@ package org.nineml.coffeegrinder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.nineml.coffeegrinder.parser.GearleyResult;
-import org.nineml.coffeegrinder.parser.Grammar;
+import org.nineml.coffeegrinder.parser.SourceGrammar;
 import org.nineml.coffeegrinder.parser.GearleyParser;
 import org.nineml.coffeegrinder.util.GrammarParser;
 
@@ -15,7 +15,7 @@ public class SppfTest {
     @Test
     public void Sabcd() {
         GrammarParser gparser = new GrammarParser();
-        Grammar grammar = gparser.parse(
+        SourceGrammar grammar = gparser.parse(
                 "S => A, B, C, D\n" +
                 "A => 'a'\n" +
                 "B => 'b'\n" +
@@ -32,7 +32,7 @@ public class SppfTest {
     @Test
     public void SabcdOptional() {
         GrammarParser gparser = new GrammarParser();
-        Grammar grammar = gparser.parse(
+        SourceGrammar grammar = gparser.parse(
                 "S => A, B, C, D\n" +
                         "S => \n" +
                         "A => 'a'\n" +
@@ -50,7 +50,7 @@ public class SppfTest {
     @Test
     public void bbb() {
         GrammarParser gparser = new GrammarParser();
-        Grammar grammar = gparser.parse(
+        SourceGrammar grammar = gparser.parse(
                 "S => S, S\n" +
                         "S => 'b'");
         // grammar.getParseListener().setMessageLevel(ParseListener.DEBUG);
@@ -65,7 +65,7 @@ public class SppfTest {
     @Test
     public void Sabbb() {
         GrammarParser gparser = new GrammarParser();
-        Grammar grammar = gparser.parse(
+        SourceGrammar grammar = gparser.parse(
                 "S => A, T\n" +
                         "S => 'a', T\n" +
                         "A => 'a'\n" +
@@ -85,7 +85,7 @@ public class SppfTest {
     @Test
     public void sum() {
         GrammarParser gparser = new GrammarParser();
-        Grammar grammar = gparser.parseFile("src/test/resources/expression.grammar");
+        SourceGrammar grammar = gparser.parseFile("src/test/resources/expression.grammar");
         // grammar.getParseListener().setMessageLevel(ParseListener.DEBUG);
 
         String input = "1+(2*3-4)";

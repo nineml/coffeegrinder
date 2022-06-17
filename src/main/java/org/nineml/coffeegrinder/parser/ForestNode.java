@@ -14,7 +14,7 @@ import java.util.Stack;
  * <p>When walking the graph, for example to extract parses, these nodes represent what's
  * available in the graph.</p>
  */
-public class ForestNode {
+public class ForestNode implements RuleChoice {
     public static final String logcategory = "ForestNode";
 
     public static final int UNAMBIGUOUS = 0;
@@ -315,6 +315,24 @@ public class ForestNode {
         }
 
         return false;
+    }
+
+    @Override
+    public int getLeftExtent() {
+        return leftExtent;
+    }
+
+    @Override
+    public int getRightExtent() {
+        return rightExtent;
+    }
+
+    public Symbol[] getRightHandSide() {
+        if (state != null) {
+            return state.rhs.symbols;
+        } else {
+            return null;
+        }
     }
 
     @Override

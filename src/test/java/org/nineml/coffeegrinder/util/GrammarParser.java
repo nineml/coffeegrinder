@@ -1,13 +1,11 @@
 package org.nineml.coffeegrinder.util;
 
-import org.nineml.coffeegrinder.parser.Grammar;
+import org.nineml.coffeegrinder.parser.SourceGrammar;
 import org.nineml.coffeegrinder.parser.NonterminalSymbol;
 import org.nineml.coffeegrinder.parser.Symbol;
 import org.nineml.coffeegrinder.parser.TerminalSymbol;
 import org.nineml.coffeegrinder.tokens.CharacterSet;
-import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.tokens.TokenCharacterSet;
-import org.nineml.coffeegrinder.tokens.TokenString;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -27,11 +25,11 @@ public class GrammarParser {
     private static Pattern rhex = Pattern.compile("^#([0-9a-fA-F]+)(\\s*,)?(.*)$");
     private static Pattern rclass = Pattern.compile("^([A-Z][a-z]?)\\s*(.*)$");
 
-    private Grammar grammar;
+    private SourceGrammar grammar;
     private String line;
 
-    public Grammar parse(String input) {
-        grammar = new Grammar();
+    public SourceGrammar parse(String input) {
+        grammar = new SourceGrammar();
 
         // Break it into lines
         for (String line : input.split("\\n+")) {
@@ -67,7 +65,7 @@ public class GrammarParser {
         return grammar;
     }
 
-    public Grammar parseFile(String filename) {
+    public SourceGrammar parseFile(String filename) {
         try {
             StringBuilder sb = new StringBuilder();
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));

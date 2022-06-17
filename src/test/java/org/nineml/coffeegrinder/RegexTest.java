@@ -9,7 +9,7 @@ public class RegexTest {
     @Ignore
     // This doesn't work, but I'm not sure any of the regex stuff makes any sense
     public void regexDigits() {
-        Grammar grammar = new Grammar();
+        SourceGrammar grammar = new SourceGrammar();
 
         /*
         S: A, D, A
@@ -26,8 +26,6 @@ public class RegexTest {
         grammar.addRule(_D, TerminalSymbol.regex("[0-9]+"));
         //grammar.addRule(_D, TerminalSymbol.regex("[0-9]+"), _D);
         //grammar.addRule(_D);
-
-        grammar.close(_S);
 
         String input = "a0123a";
 
