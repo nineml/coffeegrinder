@@ -9,47 +9,13 @@ import org.nineml.coffeegrinder.tokens.Token;
 import java.util.Collection;
 import java.util.List;
 
-public class ParseTreeBuilder implements TreeBuilder {
-    private boolean ambiguous = false;
-    private boolean infinitelyAmbiguous = false;
+public class ParseTreeBuilder extends TreeBuilder {
     ParseTree root;
     ParseTree branch;
     ParseTree leaf;
 
-    @Override
-    public boolean isAmbiguous() {
-        return ambiguous;
-    }
-
-    @Override
-    public boolean isInfinitelyAmbiguous() {
-        ambiguous = true;
-        return infinitelyAmbiguous;
-    }
-
     public ParseTree getParseTree() {
         return root;
-    }
-
-    @Override
-    public int chooseAlternative(List<RuleChoice> alternatives) {
-        ambiguous = true;
-        return 0;
-    }
-
-    @Override
-    public void loop(RuleChoice alternative) {
-        infinitelyAmbiguous = true;
-    }
-
-    @Override
-    public void startTree() {
-        // nop
-    }
-
-    @Override
-    public void endTree() {
-        // nop
     }
 
     @Override

@@ -9,45 +9,10 @@ import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import java.util.Collection;
 import java.util.List;
 
-public class StdoutTreeBuilder implements TreeBuilder {
-    private boolean ambiguous = false;
-    private boolean infinitelyAmbiguous = false;
+public class StdoutTreeBuilder extends TreeBuilder {
     private static final String tab = "  ";
     private String indent = "";
     private StringBuilder sb = null;
-
-    @Override
-    public boolean isAmbiguous() {
-        return ambiguous;
-    }
-
-    @Override
-    public boolean isInfinitelyAmbiguous() {
-        ambiguous = true;
-        return infinitelyAmbiguous;
-    }
-
-    @Override
-    public int chooseAlternative(List<RuleChoice> alternatives) {
-        ambiguous = true;
-        return 0;
-    }
-
-    @Override
-    public void loop(RuleChoice alternative) {
-        ambiguous = true;
-        infinitelyAmbiguous = true;
-    }
-
-    @Override
-    public void startTree() {
-        // nop
-    }
-
-    @Override
-    public void endTree() {
-        // nop
-    }
 
     @Override
     public void startNonterminal(NonterminalSymbol symbol, Collection<ParserAttribute> attributes, int leftExtent, int rightExtent) {
