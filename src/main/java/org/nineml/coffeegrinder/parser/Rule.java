@@ -101,7 +101,7 @@ public class Rule {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(symbol);
-        sb.append(" ⇒ ");
+        sb.append(" ::= ");
         int count = 0;
         for (Symbol symbol : rhs.symbols) {
             if (count > 0) {
