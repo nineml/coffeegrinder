@@ -162,6 +162,7 @@ public class BinarySubtree {
     }
 
 
+    /*
     // N.B. This does not work. I need to extract just the gamma-core BSRs.
     private void getTree(TreeBuilder builder, Token[] tokens) {
         if (getRoots().isEmpty()) {
@@ -173,7 +174,7 @@ public class BinarySubtree {
         BinarySubtreeSlot root = alternatives.get(0);
         if (alternatives.size() > 1) {
             ArrayList<RuleChoice> choices = new ArrayList<>(alternatives);
-            int pos = builder.chooseAlternative(choices);
+            int pos = builder.startAlternative(choices);
             if (pos < 0 || pos >= alternatives.size()) {
                 throw new IllegalStateException("Invalid alternative selected");
             }
@@ -181,6 +182,11 @@ public class BinarySubtree {
         }
 
         walker.buildTree(builder, root);
+
+        if (alternatives.size() > 1) {
+
+        }
+
     }
 
     private class TreeWalker {
@@ -313,7 +319,7 @@ public class BinarySubtree {
 
                 int index = 0;
                 if (found.size() > 1) {
-                    index = builder.chooseAlternative(found);
+                    index = builder.startAlternative(found);
                     if (index < 0 || index >= found.size()) {
                         throw new IllegalStateException("Invalid alternative selected");
                     }
@@ -333,12 +339,10 @@ public class BinarySubtree {
                 for (BinarySubtreePrefix prefix : bsr.bsrPrefixes.get(left)) {
                     if (!seen.contains(prefix) && prefix.rightExtent == right && prefixMatches(node, prefix)) {
                         if (found == null || prefix.pivot > found.pivot) {
-                        /*
                         if (found != null) {
                             System.err.println("*P* " + found);
                             System.err.println("*** " + prefix);
                         }
-                         */
                             found = prefix;
                         }
                     }
@@ -370,5 +374,7 @@ public class BinarySubtree {
             return true;
         }
     }
+
+     */
 
 }

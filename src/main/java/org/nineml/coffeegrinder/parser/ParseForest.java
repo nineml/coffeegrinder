@@ -119,21 +119,30 @@ public class ParseForest {
             return;
         }
 
-        ForestNode root = roots.get(0);
+        builder.startTree();
+
+        ArrayList<RuleChoice> rootChoice = new ArrayList<>(roots);
+        final ForestNode root;
         if (roots.size() > 1) {
-            ArrayList<RuleChoice> choices = new ArrayList<>(roots);
-            int idx = builder.chooseAlternative(choices);
+            int idx = builder.startAlternative(rootChoice);
             if (idx < 0 || idx >= roots.size()) {
                 throw new IllegalStateException("Invalid alternative selected");
             }
             root = roots.get(idx);
+        } else {
+            root = roots.get(0);
         }
 
-        builder.startTree();
         choices = new Stack<>();
         choices.push(new ArrayList<>());
         constructTree(builder, root, null, new HashSet<>());
+
+        if (roots.size() > 1) {
+            builder.endAlternative(root);
+        }
+
         builder.endTree();
+
         long count = choices.pop().get(0);
         if (count <= 0) {
             totalParses = Long.MAX_VALUE;
@@ -158,6 +167,8 @@ public class ParseForest {
         State state = tree.getState();
 
         int index = 0;
+        boolean alternatives = false;
+        ForestNode selectedAlternative = null;
         final ArrayList<Family> families;
         switch (tree.families.size()) {
             case 0:
@@ -185,10 +196,12 @@ public class ParseForest {
                         // Can family.w ever be non-null and what does it mean if it is?
                         choices.add(family.v);
                     }
-                    index = builder.chooseAlternative(choices);
+                    index = builder.startAlternative(choices);
                     if (index < 0 || index >= choices.size()) {
                         throw new IllegalStateException("Invalid alternative selected");
                     }
+                    selectedAlternative = families.get(index).v;
+                    alternatives = true;
                 }
         }
 
@@ -232,6 +245,9 @@ public class ParseForest {
             if (child1 != null) {
                 constructTree(builder, child1, child1Symbol, selected);
             }
+            if (alternatives) {
+                builder.endAlternative(selectedAlternative);
+            }
             return;
         }
 
@@ -261,7 +277,9 @@ public class ParseForest {
             }
             builder.endNonterminal((NonterminalSymbol) symbol, atts, tree.leftExtent, tree.rightExtent);
 
-            //System.err.printf("%s(%d) ", symbol, choiceCount);
+            if (alternatives) {
+                builder.endAlternative(selectedAlternative);
+            }
 
             long partial = 1;
             for (long count : choices.peek()) {
