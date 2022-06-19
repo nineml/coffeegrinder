@@ -138,17 +138,4 @@ public abstract class TreeBuilder {
         }
 
     }
-
-    private static class StackFrame {
-        public final Symbol symbol;
-        public final Collection<ParserAttribute> attributes;
-        public final int leftExtent;
-        public final int rightExtent;
-        public StackFrame(Symbol symbol, Collection<ParserAttribute> attributes, int left, int right) {
-            this.symbol = symbol;
-            this.attributes = attributes;
-            this.leftExtent = left;
-            this.rightExtent = right;
-        }
-    }
 }
