@@ -2,6 +2,8 @@ package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.tokens.Token;
+import org.nineml.coffeegrinder.tokens.TokenCharacter;
+import org.nineml.coffeegrinder.tokens.TokenEOF;
 import org.nineml.coffeegrinder.tokens.TokenString;
 import org.nineml.coffeegrinder.util.Iterators;
 import org.nineml.coffeegrinder.util.StopWatch;
@@ -26,17 +28,24 @@ public class EarleyParser implements GearleyParser {
     private final ParseForest graph;
     private final NonterminalSymbol S;
     private final HashMap<NonterminalSymbol, List<Rule>> Rho;
-    private final ArrayList<Token> tokenBuffer = new ArrayList<>();
+    protected Token[] input = null;
+    protected int startPos = 0;
+    protected int inputPos = 0;
+    protected int lineNumber = 1;
+    protected int columnNumber = 1;
+
+    protected boolean restartable = false;
+    protected int restartPos = 0;
     private boolean success = false;
+    private boolean moreInput = false;
     protected final ParserOptions options;
-    protected Iterator<Token> iterator;
     protected ProgressMonitor monitor = null;
     protected int progressSize = 0;
     protected int progressCount = 0;
 
-    protected EarleyParser(CompiledGrammar grammar) {
+    protected EarleyParser(CompiledGrammar grammar, ParserOptions options) {
         this.grammar = grammar;
-        options = grammar.getParserOptions();
+        this.options = options;
 
         List<Rule> usefulRules = usefulSubset(grammar.getRules());
 
@@ -138,11 +147,24 @@ public class EarleyParser implements GearleyParser {
      * @return a parse result
      */
     public EarleyResult parse(String input) {
-        return parse(Iterators.characterIterator(input));
+        int[] codepoints = input.codePoints().toArray();
+        this.input = new Token[codepoints.length];
+        for (int pos = 0; pos < codepoints.length; pos++) {
+            this.input[pos] = TokenCharacter.get(codepoints[pos]);
+        }
+        return parseInput();
     }
 
+    /**
+     * Parse an array of tokens against the grammar.
+     *
+     * @param input the input array
+     * @return a parse result
+     */
     public EarleyResult parse(Token[] input) {
-        return parse(Arrays.asList(input).iterator());
+        this.input = new Token[input.length];
+        System.arraycopy(input, 0, this.input,  0, input.length);
+        return parseInput();
     }
 
     /**
@@ -152,11 +174,29 @@ public class EarleyParser implements GearleyParser {
      * @return a parse result
      */
     public EarleyResult parse(Iterator<Token> input) {
-        iterator = input;
+        ArrayList<Token> list = new ArrayList<>();
+        while (input.hasNext()) {
+            list.add(input.next());
+        }
+        this.input = new Token[list.size()];
+        for (int pos = 0; pos < list.size(); pos++) {
+            this.input[pos] = list.get(pos);
+        }
+        return parseInput();
+
+    }
+
+    private EarleyResult parseInput() {
+        return parseInput(0);
+    }
+
+    private EarleyResult parseInput(int startPos) {
+        inputPos = startPos;
+        restartable = false;
 
         monitor = options.getProgressMonitor();
         if (monitor != null) {
-            progressSize = monitor.starting(this);
+            progressSize = monitor.starting(this, input.length - inputPos);
             progressCount = progressSize;
         }
 
@@ -167,9 +207,9 @@ public class EarleyParser implements GearleyParser {
 
         boolean emptyInput = true;
         Token currentToken = null;
-        if (input.hasNext()) {
+        if (inputPos < input.length) {
             emptyInput = false;
-            currentToken = input.next();
+            currentToken = input[inputPos];
         }
         for (Rule rule : Rho.get(S)) {
             final Symbol alpha = rule.getRhs().getFirst();
@@ -186,7 +226,6 @@ public class EarleyParser implements GearleyParser {
         }
 
         Token nextToken = currentToken;
-        boolean buffering = false;
         boolean consumedInput = true;
         boolean done = false;
         boolean lastToken = false;
@@ -328,10 +367,10 @@ public class EarleyParser implements GearleyParser {
                         if (item.w != null) {
                             localRoots.add(item.w);
                         }
-                        buffering = true;
                         checkpoint = graph.size();
                         if (consumedInput) {
-                            tokenBuffer.clear();
+                            restartPos = inputPos+1;
+                            restartable = true;
                         }
                     }
                 }
@@ -352,11 +391,18 @@ public class EarleyParser implements GearleyParser {
                     StringBuilder sb = new StringBuilder();
                     sb.append(currentToken.getValue());
                     Pattern patn = Pattern.compile(greedy);
-                    while (input.hasNext()) {
-                        nextToken = input.next();
+                    while (inputPos < input.length) {
+                        nextToken = input[inputPos++];
                         String s = nextToken.getValue();
                         if (patn.matcher(s).matches()) {
                             sb.append(s);
+                            if (nextToken instanceof TokenCharacter) {
+                                columnNumber++;
+                                if (((TokenCharacter) nextToken).getCodepoint() == '\n') {
+                                    columnNumber = 1;
+                                    lineNumber++;
+                                }
+                            }
                         } else {
                             peek = nextToken;
                             break;
@@ -370,10 +416,14 @@ public class EarleyParser implements GearleyParser {
             }
 
             done = lastToken;
-            if (peek != null || input.hasNext()) {
-                nextToken = peek == null ? input.next() : peek;
-                if (buffering) {
-                    tokenBuffer.add(nextToken);
+            if (peek != null || inputPos+1 < input.length) {
+                nextToken = peek == null ? input[++inputPos] : peek;
+                if (nextToken instanceof TokenCharacter) {
+                    columnNumber++;
+                    if (((TokenCharacter) nextToken).getCodepoint() == '\n') {
+                        columnNumber = 1;
+                        lineNumber++;
+                    }
                 }
             } else {
                 nextToken = null;
@@ -404,17 +454,6 @@ public class EarleyParser implements GearleyParser {
 
         timer.stop();
 
-        // If we didn't consume the last token, buffer it
-        if (!consumedInput && tokenBuffer.isEmpty()) {
-            tokenBuffer.add(lastInputToken);
-        }
-
-        // If we weren't buffering, but we didn't reach the end of the input,
-        // make sure the next token is available.
-        if (!buffering && !lastToken) {
-            tokenBuffer.add(nextToken);
-        }
-
         if (monitor != null) {
             if (progressSize > 0) {
                 monitor.progress(this, tokenCount);
@@ -423,9 +462,11 @@ public class EarleyParser implements GearleyParser {
         }
 
         // If there are still tokens left, we bailed early. (No pun intended.)
-        if (input.hasNext() || !tokenBuffer.isEmpty()) {
+        success = inputPos == input.length || (inputPos+1 == input.length && consumedInput && lastToken);
+        moreInput = !success;
+
+        if (success) {
             success = false;
-        } else {
             localRoots.clear();
             int index = chart.size() - 1;
             while (index > 0 && chart.get(index).isEmpty()) {
@@ -466,8 +507,7 @@ public class EarleyParser implements GearleyParser {
                         tokenCount, timer.elapsed(), timer.perSecond(tokenCount));
             }
 
-            int count = graph.prune();
-            options.getLogger().debug(logcategory, "Pruned %,d nodes from graph; %d remain", count, graph.graph.size());
+            graph.prune();
 
             if (options.getReturnChart()) {
                 result = new EarleyResult(this, chart, graph, success, tokenCount, lastInputToken);
@@ -484,8 +524,7 @@ public class EarleyParser implements GearleyParser {
             }
             if (options.getPrefixParsing() && checkpoint >= 0) {
                 graph.rollback(checkpoint);
-                int count = graph.prune();
-                options.getLogger().debug(logcategory, "Pruned %,d nodes from prefix graph", count);
+                graph.prune();
             }
             result = new EarleyResult(this, chart, graph, success, tokenCount, lastInputToken);
             result.addPredicted(V.openPredictions());
@@ -496,6 +535,11 @@ public class EarleyParser implements GearleyParser {
         return result;
     }
 
+    protected EarleyResult continueParsing(EarleyParser parser) {
+        parser.input = input;
+        return parser.parseInput(restartPos);
+    }
+
     /**
      * Is there more input?
      * <p>If the parse succeeded, the answer will always be false. But a failed parse
@@ -504,7 +548,19 @@ public class EarleyParser implements GearleyParser {
      * @return true if parsing failed before the entire input was consumed
      */
     public boolean hasMoreInput() {
-        return !tokenBuffer.isEmpty() || iterator.hasNext();
+        return moreInput;
+    }
+
+    public int getLineNumber() {
+        return lineNumber;
+    }
+
+    public int getColumnNumber() {
+        return columnNumber;
+    }
+
+    public int getOffset() {
+        return startPos + inputPos;
     }
 
     private ForestNode make_node(State B, int j, int i, ForestNode w, ForestNode v) {
@@ -533,10 +589,6 @@ public class EarleyParser implements GearleyParser {
         }
 
         return y;
-    }
-
-    protected List<Token> getBufferedTokens() {
-        return tokenBuffer;
     }
 
     private static final class Hitem {

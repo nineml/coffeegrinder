@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.util.GrammarCompiler;
 import org.nineml.coffeegrinder.util.Iterators;
+import org.nineml.coffeegrinder.util.NopTreeBuilder;
 import org.nineml.coffeegrinder.util.StdoutTreeBuilder;
 
 import java.nio.file.Files;
@@ -14,12 +15,14 @@ import java.nio.file.Paths;
 import static junit.framework.TestCase.fail;
 
 public class AmbiguityTest {
+    private final ParserOptions options = new ParserOptions();
+
     @Test
     public void testProgram() {
         try {
             GrammarCompiler compiler = new GrammarCompiler();
             SourceGrammar grammar = compiler.parse(Files.newInputStream(Paths.get("src/test/resources/program.cxml")), "program.cxml");
-            GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
+            GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("$$"));
             GearleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/program.inp"));
             Assert.assertTrue(result.succeeded());
             //result.getForest().serialize("program-graph.xml");
@@ -35,11 +38,11 @@ public class AmbiguityTest {
         try {
             GrammarCompiler compiler = new GrammarCompiler();
             SourceGrammar grammar = compiler.parse(Files.newInputStream(Paths.get("src/test/resources/css.cxml")), "css.cxml");
-            GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
+            GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("$$"));
             GearleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/css.inp"));
             Assert.assertTrue(result.succeeded());
 
-            Assert.assertEquals(2, result.getForest().getTotalParses());
+            Assert.assertTrue(result.isAmbiguous());
         } catch (Exception ex) {
             fail();
         }
@@ -62,7 +65,7 @@ public class AmbiguityTest {
 
         grammar.addRule(_number, TerminalSymbol.ch('b'));
 
-        GearleyParser parser = grammar.getParser(_expr);
+        GearleyParser parser = grammar.getParser(options, _expr);
         GearleyResult result = parser.parse(Iterators.characterIterator("xabb"));
         //result.getForest().serialize("ambiguity.xml");
 
@@ -95,16 +98,15 @@ public class AmbiguityTest {
         grammar.addRule(_number, TerminalSymbol.ch('b'));
         grammar.addRule(_other, TerminalSymbol.ch('b'));
 
-        GearleyParser parser = grammar.getParser(_expr);
+        GearleyParser parser = grammar.getParser(options, _expr);
         GearleyResult result = parser.parse(Iterators.characterIterator("abab"));
         //result.getForest().serialize("ambiguity2.xml");
 
         Assert.assertTrue(result.succeeded());
-        Assert.assertEquals(9, result.getForest().getTotalParses());
+        Assert.assertEquals(3, result.getForest().getTotalParses());
 
-        StdoutTreeBuilder builder = new StdoutTreeBuilder();
-        result.getForest().getTree(builder);
-        //Assert.assertNotNull(result.getForest().parse());
+        ParseTree tree = result.getForest().getTree();
+        Assert.assertNotNull(tree);
     }
 
     // I'm unconvinced that this grammar has more than one parse. It's infinitely
@@ -124,7 +126,7 @@ public class AmbiguityTest {
         grammar.addRule(_word, _letter, _word);
         grammar.addRule(_word);
 
-        GearleyParser parser = grammar.getParser(_expr);
+        GearleyParser parser = grammar.getParser(options, _expr);
         GearleyResult result = parser.parse(Iterators.characterIterator("word"));
 
         //result.getForest().serialize("ambiguity3.xml");

@@ -12,4 +12,7 @@ public interface GearleyParser {
     GearleyResult parse(Iterator<Token> input);
     GearleyResult parse(String input);
     boolean hasMoreInput();
+    int getOffset();
+    int getLineNumber();
+    int getColumnNumber();
 }

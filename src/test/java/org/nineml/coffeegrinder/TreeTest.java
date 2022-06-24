@@ -5,12 +5,15 @@ import org.junit.Test;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.util.GrammarCompiler;
 import org.nineml.coffeegrinder.util.Iterators;
+import org.nineml.coffeegrinder.util.NopTreeBuilder;
 
 import java.io.File;
 
 import static junit.framework.TestCase.fail;
 
 public class TreeTest {
+    private final ParserOptions options = new ParserOptions();
+
     @Test
     public void testEmpty() {
         SourceGrammar grammar = new SourceGrammar();
@@ -30,7 +33,7 @@ public class TreeTest {
         grammar.addRule(b);
         grammar.addRule(c);
 
-        GearleyParser parser = grammar.getParser(S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse(Iterators.characterIterator(""));
 
         //result.getForest().serialize("/tmp/graph.xml");
@@ -45,12 +48,13 @@ public class TreeTest {
         try {
             GrammarCompiler compiler = new GrammarCompiler();
             SourceGrammar grammar = compiler.parse(new File("src/test/resources/ixml.cxml"));
-            GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
+            GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("$$"));
 
             String input = "S:'x',e. e:.";
             GearleyResult result = parser.parse(Iterators.characterIterator(input));
 
-            //result.getForest().serialize("/tmp/graph.xml");
+
+            result.getForest().serialize("/tmp/graph.xml");
             //ParseTree tree = result.getForest().parse();
             //tree.serialize("tree.xml");
 
@@ -70,7 +74,7 @@ public class TreeTest {
             GrammarCompiler compiler = new GrammarCompiler();
             SourceGrammar grammar = compiler.parse(new File("src/test/resources/property-file.cxml"));
 
-            GearleyParser parser = grammar.getParser("$$");
+            GearleyParser parser = grammar.getParser(options, "$$");
             GearleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/short-example.properties"));
 
             Assert.assertTrue(result.isAmbiguous());
@@ -100,13 +104,13 @@ public class TreeTest {
         grammar.addRule(d3);
         grammar.addRule(d4, TerminalSymbol.ch('b'), d4);
 
-        GearleyParser parser = grammar.getParser(S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse(Iterators.characterIterator(""));
-
-        result.getForest().serialize("/tmp/graph.xml");
-        //result.getForest().parse().serialize("tree.xml");
-
         Assert.assertTrue(result.succeeded());
+
+        TreeBuilder builder = new NopTreeBuilder();
+        result.getForest().getTree(builder);
+
         Assert.assertEquals(2, result.getForest().getTotalParses());
     }
 

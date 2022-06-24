@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReadmeExampleTests {
+    private final ParserOptions options = new ParserOptions();
+
     @Test
     public void idTestGrammar() {
         String input = "id => word\n" +
@@ -25,7 +27,7 @@ public class ReadmeExampleTests {
         SourceGrammar grammar = grammarParser.parse(input);
         Assert.assertNotNull(grammar);
 
-        GearleyParser parser = grammar.getParser("id");
+        GearleyParser parser = grammar.getParser(options, "id");
         GearleyResult result = parser.parse("07f");
         Assert.assertTrue(result.succeeded());
 
@@ -60,7 +62,7 @@ public class ReadmeExampleTests {
     public void idTestApi() {
         SourceGrammar grammar = idGrammar();
 
-        GearleyParser parser = grammar.getParser("id");
+        GearleyParser parser = grammar.getParser(options, "id");
         GearleyResult result = parser.parse("07f");
         Assert.assertTrue(result.succeeded());
 
@@ -71,7 +73,7 @@ public class ReadmeExampleTests {
     public void idTestFab() {
         SourceGrammar grammar = idGrammar();
 
-        GearleyParser parser = grammar.getParser("id");
+        GearleyParser parser = grammar.getParser(options, "id");
         GearleyResult result = parser.parse("fab");
         Assert.assertTrue(result.succeeded());
 
@@ -94,7 +96,7 @@ public class ReadmeExampleTests {
         SourceGrammar grammar = grammarParser.parse(input);
         Assert.assertNotNull(grammar);
 
-        GearleyParser parser = grammar.getParser("id");
+        GearleyParser parser = grammar.getParser(options, "id");
         GearleyResult result = parser.parse("12345");
         Assert.assertTrue(result.succeeded());
 
@@ -133,7 +135,7 @@ public class ReadmeExampleTests {
 
         Assert.assertNotNull(grammar);
 
-        GearleyParser parser = grammar.getParser("id");
+        GearleyParser parser = grammar.getParser(options, "id");
         GearleyResult result = parser.parse("12345");
         Assert.assertTrue(result.succeeded());
 
@@ -170,7 +172,7 @@ public class ReadmeExampleTests {
 
         Assert.assertNotNull(grammar);
 
-        GearleyParser parser = grammar.getParser("id");
+        GearleyParser parser = grammar.getParser(options, "id");
         GearleyResult result = parser.parse("12345");
         Assert.assertTrue(result.succeeded());
 
@@ -211,7 +213,7 @@ public class ReadmeExampleTests {
 
         Assert.assertNotNull(grammar);
 
-        GearleyParser parser = grammar.getParser("id");
+        GearleyParser parser = grammar.getParser(options, id);
         GearleyResult result = parser.parse("12345");
         Assert.assertTrue(result.succeeded());
 

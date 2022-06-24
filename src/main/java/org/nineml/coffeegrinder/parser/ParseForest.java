@@ -29,6 +29,7 @@ public class ParseForest {
     protected Boolean infinitelyAmbiguous = null;
     protected Long totalParses = null;
     private Stack<ArrayList<Long>> choices = new Stack<>();
+    private Stack<PendingAction> pendingActions = null;
 
     public ParseForest(ParserOptions options) {
         this.options = options;
@@ -135,7 +136,7 @@ public class ParseForest {
 
         choices = new Stack<>();
         choices.push(new ArrayList<>());
-        constructTree(builder, root, null, new HashSet<>());
+        constructTree(builder, root);
 
         if (roots.size() > 1) {
             builder.endAlternative(root);
@@ -143,7 +144,12 @@ public class ParseForest {
 
         builder.endTree();
 
-        long count = choices.pop().get(0);
+        long count = -1;
+        for (long choice : choices.pop()) {
+            if (choice > count) {
+                count = choice;
+            }
+        }
         if (count <= 0) {
             totalParses = Long.MAX_VALUE;
         } else {
@@ -157,7 +163,34 @@ public class ParseForest {
         infinitelyAmbiguous = builder.isInfinitelyAmbiguous();
     }
 
+    public void constructTree(TreeBuilder builder, ForestNode root) {
+        pendingActions = new Stack<>();
+        pendingActions.push(new PendingTree(root, null));
+        HashSet<Family> seen = new HashSet<>();
+        while (!pendingActions.isEmpty()) {
+            PendingAction top = pendingActions.pop();
+            if (top instanceof PendingTree) {
+                PendingTree tree = (PendingTree) top;
+                constructTree(builder, tree.tree, tree.xsymbol, seen);
+            } else if (top instanceof PendingStart) {
+                PendingStart start = (PendingStart) top;
+                builder.startNonterminal(start.symbol, start.attributes, start.leftExtent, start.rightExtent);
+            } else if (top instanceof PendingEnd) {
+                PendingEnd end = (PendingEnd) top;
+                builder.endNonterminal(end.symbol, end.attributes, end.leftExtent, end.rightExtent);
+            } else if (top instanceof PendingEndAlternatives) {
+                builder.endAlternative(((PendingEndAlternatives) top).selectedAlternative);
+            } else {
+                throw new IllegalStateException("Unexpected pending action: " + top);
+            }
+        }
+    }
+
+    //private int depth = 0;
     private void constructTree(TreeBuilder builder, ForestNode tree, Symbol xsymbol, HashSet<Family> selected) {
+        //System.err.printf("IN  %4d %s%n", depth, tree);
+        //depth++;
+
         ForestNode child0 = null;
         Symbol child0Symbol = null;
         ForestNode child1 = null;
@@ -186,8 +219,14 @@ public class ParseForest {
                 for (Family family : tree.families) {
                     // Don't rule out epsilon transitions; they all compare the same so testing
                     // selected doesn't help. But they don't have descendants, so they can't loop.
-                    if ((family.v==null && family.w==null) || !selected.contains(family)) {
+                    if ((family.v==null && family.w==null)) {
                         families.add(family);
+                    } else {
+                         if (selected.contains(family)) {
+                             builder.loop(family.v);
+                         } else {
+                             families.add(family);
+                         }
                     }
                 }
                 if (families.size() > 1) {
@@ -241,13 +280,17 @@ public class ParseForest {
         Symbol symbol = tree.getSymbol();
         if (symbol == null) {
             assert child0 != null;
-            constructTree(builder, child0, child0Symbol, selected);
-            if (child1 != null) {
-                constructTree(builder, child1, child1Symbol, selected);
-            }
+
             if (alternatives) {
-                builder.endAlternative(selectedAlternative);
+                pendingActions.push(new PendingEndAlternatives(selectedAlternative));
             }
+
+            if (child1 != null) {
+                pendingActions.push(new PendingTree(child1, child1Symbol));
+            }
+
+            pendingActions.push(new PendingTree(child0, child0Symbol));
+
             return;
         }
 
@@ -263,22 +306,40 @@ public class ParseForest {
             atts = xatts;
         }
 
+        boolean prunable = false;
+        // Always output the root node because we need its attributes
+        if (!pendingActions.isEmpty() && !options.getExposePrunableNonterminals()) {
+            for (ParserAttribute attr : atts) {
+                if (ParserAttribute.PRUNING.equals(attr.getName())) {
+                    prunable = ParserAttribute.PRUNING_ALLOWED.getValue().equals(attr.getValue());
+                }
+            }
+        }
+
         if (symbol instanceof TerminalSymbol) {
             Token token = ((TerminalSymbol) symbol).getToken();
             builder.token(token, atts);
         } else {
             choices.push(new ArrayList<>());
-            builder.startNonterminal((NonterminalSymbol) symbol, atts, tree.leftExtent, tree.rightExtent);
-            if (child0 != null) {
-                constructTree(builder, child0, child0Symbol, selected);
-            }
-            if (child1 != null) {
-                constructTree(builder, child1, child1Symbol, selected);
-            }
-            builder.endNonterminal((NonterminalSymbol) symbol, atts, tree.leftExtent, tree.rightExtent);
 
             if (alternatives) {
-                builder.endAlternative(selectedAlternative);
+                pendingActions.push(new PendingEndAlternatives(selectedAlternative));
+            }
+
+            if (!prunable) {
+                pendingActions.push(new PendingEnd((NonterminalSymbol) symbol, atts, tree.leftExtent, tree.rightExtent));
+            }
+
+            if (child1 != null) {
+                pendingActions.push(new PendingTree(child1, child1Symbol));
+            }
+
+            if (child0 != null) {
+                pendingActions.push(new PendingTree(child0, child0Symbol));
+            }
+
+            if (!prunable) {
+                pendingActions.push(new PendingStart((NonterminalSymbol) symbol, atts, tree.leftExtent, tree.rightExtent));
             }
 
             long partial = 1;
@@ -295,6 +356,9 @@ public class ParseForest {
                 //System.err.printf(" : %d%n", choiceCount+partial-1);
             }
         }
+
+        //depth--;
+        //System.err.printf("OUT %4d %s%n", depth, tree);
     }
 
     private int getSymbol(Symbol seek, State state, int maxPos) {
@@ -393,7 +457,9 @@ public class ParseForest {
                 }
             }
             stream.printf(" leftExtent='%d' rightExtent='%d'", node.leftExtent, node.rightExtent);
-            stream.printf(" trees='%d'", node.exactParsesBelow);
+            if (!node.families.isEmpty()) {
+                stream.printf(" trees='%d'", node.families.size());
+            }
 
             if (node.families.isEmpty()) {
                 if ("".equals(attrs.toString())) {
@@ -489,19 +555,22 @@ public class ParseForest {
         rootIds.clear();
     }
 
-    protected int prune() {
+    protected void prune() {
         StopWatch timer = new StopWatch();
-        options.getLogger().debug(logcategory, "Pruning forest of %d nodes with %d roots", graph.size(), roots.size());
 
+        /*
+        options.getLogger().debug(logcategory, "Pruning forest of %,d nodes with %,d roots", graph.size(), roots.size());
         // Step 1. Trim epsilon twigs
         for (ForestNode node : roots) {
             node.trimEpsilon();
         }
+        options.getLogger().debug(logcategory, "Trimmed ε twigs: %,d nodes remain", graph.size());
+         */
 
-        options.getLogger().debug(logcategory, "Trimmed ε twigs: %d nodes remain", graph.size());
-
-        // Step 2. Prune unreachable nodes
-        computeAmbiguity();
+        // Step 2. Find all the reachable nodes
+        for (ForestNode root : roots) {
+            root.reach();
+        }
 
         int count = 0;
         ArrayList<ForestNode> prunedGraph = new ArrayList<>();
@@ -521,23 +590,7 @@ public class ParseForest {
         graphIds.addAll(prunedMap);
 
         timer.stop();
-        options.getLogger().debug(logcategory, "Graph contained %d unreachable nodes, pruned in %dms", count, timer.duration());
-
-        return count;
-    }
-
-    protected void computeAmbiguity() {
-        ambiguous = roots.size() > 1;
-        for (ForestNode node : roots) {
-            int ambiguity = node.reach(node);
-            if (ambiguity == ForestNode.INFINITELY_AMBIGUOUS) {
-                ambiguous = true;
-                infinitelyAmbiguous = true;
-            }
-            if (ambiguity == ForestNode.AMBIGUOUS) {
-                ambiguous = true;
-            }
-        }
+        options.getLogger().debug(logcategory, "Pruned %,d unreachable nodes from graph in %,dms; %,d remain", count, timer.duration(), graph.size());
     }
 
     private String id(int code) {
@@ -559,4 +612,50 @@ public class ParseForest {
             rootIds.remove(node.id);
         }
     }
+
+    private abstract static class PendingAction {
+    }
+
+    private static class PendingStart extends PendingAction {
+        public final NonterminalSymbol symbol;
+        public final List<ParserAttribute> attributes;
+        public final int leftExtent;
+        public final int rightExtent;
+        public PendingStart(NonterminalSymbol symbol, List<ParserAttribute> attributes, int leftExtent, int rightExtent) {
+            this.symbol = symbol;
+            this.attributes = attributes;
+            this.leftExtent = leftExtent;
+            this.rightExtent = rightExtent;
+        }
+    }
+
+    private static class PendingEnd extends PendingAction {
+        public final NonterminalSymbol symbol;
+        public final List<ParserAttribute> attributes;
+        public final int leftExtent;
+        public final int rightExtent;
+        public PendingEnd(NonterminalSymbol symbol, List<ParserAttribute> attributes, int leftExtent, int rightExtent) {
+            this.symbol = symbol;
+            this.attributes = attributes;
+            this.leftExtent = leftExtent;
+            this.rightExtent = rightExtent;
+        }
+    }
+
+    private static class PendingTree extends PendingAction {
+        public final ForestNode tree;
+        public final Symbol xsymbol;
+        public PendingTree(ForestNode tree, Symbol xsymbol) {
+            this.tree = tree;
+            this.xsymbol = xsymbol;
+        }
+    }
+
+    private static class PendingEndAlternatives extends PendingAction {
+        public final ForestNode selectedAlternative;
+        public PendingEndAlternatives(ForestNode selectedAlternative) {
+            this.selectedAlternative = selectedAlternative;
+        }
+    }
+
 }

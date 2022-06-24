@@ -17,5 +17,8 @@ public interface GearleyResult {
     boolean isInfinitelyAmbiguous();
     int getTokenCount();
     Token getLastToken();
+    int getOffset();
+    int getLineNumber();
+    int getColumnNumber();
     Set<TerminalSymbol> getPredictedTerminals();
 }

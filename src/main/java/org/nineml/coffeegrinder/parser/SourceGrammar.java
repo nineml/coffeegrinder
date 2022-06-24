@@ -159,25 +159,8 @@ public class SourceGrammar extends Grammar {
         return false;
     }
 
-    public GearleyParser getParser(String seed) {
-        return getParser(getNonterminal(seed));
-    }
-
-    /**
-     * Get a parser for this grammar.
-     *
-     * <p>Returns a parser that will parse an input against the rules that define this grammar.
-     * The parser type returned is the grammar's default parser type.</p>
-     *
-     * @param seed The {@link NonterminalSymbol} that your input is expected to match.
-     * @return the parser
-     */
-    public GearleyParser getParser(NonterminalSymbol seed) {
-        return getParser(defaultParserType, seed);
-    }
-
-    public GearleyParser getParser(ParserType parserType, String seed) {
-        return getParser(parserType, getNonterminal(seed));
+    public GearleyParser getParser(ParserOptions options, String seed) {
+        return getParser(options, getNonterminal(seed));
     }
 
     public CompiledGrammar getCompiledGrammar(NonterminalSymbol seed) {
@@ -193,16 +176,25 @@ public class SourceGrammar extends Grammar {
      *
      * <p>Returns a parser that will parse an input against the rules that define this grammar.</p>
      *
-     * @param parserType the type of parser
+     * @param options the options for this parser.
      * @param seed The {@link NonterminalSymbol} that your input is expected to match.
      * @return the parser
      */
-    public GearleyParser getParser(ParserType parserType, NonterminalSymbol seed) {
+    public GearleyParser getParser(ParserOptions options, NonterminalSymbol seed) {
+        final ParserType parserType;
+        if ("Earley".equals(options.getParserType())) {
+            parserType = ParserType.Earley;
+        } else if ("GLL".equals(options.getParserType())) {
+            parserType = ParserType.GLL;
+        } else {
+            throw new IllegalStateException("Unexpected parser type: " + options.getParserType());
+        }
+
         CompiledGrammar compiled = getCompiledGrammar(parserType, seed);
         if (parserType == ParserType.Earley) {
-            return new EarleyParser(compiled);
+            return new EarleyParser(compiled, options);
         } else {
-            return new GllParser(compiled);
+            return new GllParser(compiled, options);
         }
     }
 

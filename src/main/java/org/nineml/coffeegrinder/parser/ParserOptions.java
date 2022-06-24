@@ -1,6 +1,5 @@
 package org.nineml.coffeegrinder.parser;
 
-import org.nineml.coffeegrinder.util.DefaultParseListener;
 import org.nineml.logging.DefaultLogger;
 import org.nineml.logging.Logger;
 
@@ -15,7 +14,7 @@ public class ParserOptions {
     private String parserType = "Earley";
     private boolean returnChart = false;
     private boolean prefixParsing = false;
-    private boolean treesWithStates = false;
+    private boolean exposePrunableNonterminals = false;
     private ProgressMonitor monitor = null;
 
     /**
@@ -54,7 +53,7 @@ public class ParserOptions {
         parserType = copy.parserType;
         returnChart = copy.returnChart;
         prefixParsing = copy.prefixParsing;
-        treesWithStates = copy.treesWithStates;
+        exposePrunableNonterminals = copy.exposePrunableNonterminals;
         monitor = copy.monitor;
     }
 
@@ -116,22 +115,23 @@ public class ParserOptions {
     }
 
     /**
-     * Return intermediate "state" nodes in parse trees?
-     * <p>If true, intermediate nodes in the forest that represent states (as distinct from
-     * nodes that actually represent a symbol) will be returned.</p>
+     * Return prunable nonterminals in parse trees?
+     * <p>If true, prunable nonterminals will be returned. Depending on how your grammar is
+     * defined, this may lead to much larger memory allocation when extracting trees from
+     * the forest.</p>
      *
-     * @return true if trees with states should be constructed.
+     * @return true if prunable nonterminals will be in parse trees.
      */
-    public boolean getTreesWithStates() {
-        return treesWithStates;
+    public boolean getExposePrunableNonterminals() {
+        return exposePrunableNonterminals;
     }
 
     /**
-     * Set the {@link #getTreesWithStates()} property.
-     * @param treesWithStates trees with states?
+     * Set the {@link #getExposePrunableNonterminals()} property.
+     * @param exposePrunable expose prunable nonterminals?
      */
-    public void setTreesWithStates(boolean treesWithStates) {
-        this.treesWithStates = treesWithStates;
+    public void setExposePrunableNonterminals(boolean exposePrunable) {
+        this.exposePrunableNonterminals = exposePrunable;
     }
 
     /**

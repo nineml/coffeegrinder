@@ -160,7 +160,7 @@ public class ParseForestGLL extends ParseForest {
     }
 
     @Override
-    public int prune() {
+    public void prune() {
         // Step 0. Unlink the pointers to a single epsilon terminal and remove it.
         ForestNode epsilon = null;
         for (ForestNode fnode : graph) {
@@ -183,7 +183,7 @@ public class ParseForestGLL extends ParseForest {
             graph.remove(epsilon);
         }
 
-        return super.prune();
+        super.prune();
     }
 
     private static class PrefixTrie {

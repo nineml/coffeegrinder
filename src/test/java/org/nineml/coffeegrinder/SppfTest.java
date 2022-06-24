@@ -3,6 +3,7 @@ package org.nineml.coffeegrinder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.nineml.coffeegrinder.parser.GearleyResult;
+import org.nineml.coffeegrinder.parser.ParserOptions;
 import org.nineml.coffeegrinder.parser.SourceGrammar;
 import org.nineml.coffeegrinder.parser.GearleyParser;
 import org.nineml.coffeegrinder.util.GrammarParser;
@@ -12,6 +13,8 @@ import org.nineml.coffeegrinder.util.GrammarParser;
 // There's a bug in my computation of the SPPF forest, so the results are bogus when grammars are ambiguous.
 
 public class SppfTest {
+    private final ParserOptions options = new ParserOptions();
+
     @Test
     public void Sabcd() {
         GrammarParser gparser = new GrammarParser();
@@ -24,7 +27,7 @@ public class SppfTest {
         // grammar.getParseListener().setMessageLevel(ParseListener.DEBUG);
 
         String input = "abcd";
-        GearleyParser parser = grammar.getParser(grammar.getNonterminal("S"));
+        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("S"));
         GearleyResult result = parser.parse("abcd");
         Assert.assertTrue(result.succeeded());
     }
@@ -42,7 +45,7 @@ public class SppfTest {
         // grammar.getParseListener().setMessageLevel(ParseListener.DEBUG);
 
         String input = "abcd";
-        GearleyParser parser = grammar.getParser(grammar.getNonterminal("S"));
+        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("S"));
         GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
     }
@@ -57,7 +60,7 @@ public class SppfTest {
 
         String input = "bbb";
 
-        GearleyParser parser = grammar.getParser(grammar.getNonterminal("S"));
+        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("S"));
         GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
     }
@@ -77,7 +80,7 @@ public class SppfTest {
 
         String input = "abbb";
 
-        GearleyParser parser = grammar.getParser(grammar.getNonterminal("S"));
+        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("S"));
         GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
     }
@@ -90,7 +93,7 @@ public class SppfTest {
 
         String input = "1+(2*3-4)";
 
-        GearleyParser parser = grammar.getParser(grammar.getNonterminal("Sum"));
+        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("Sum"));
         GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
     }

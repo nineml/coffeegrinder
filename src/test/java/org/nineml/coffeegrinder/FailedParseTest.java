@@ -13,9 +13,11 @@ import java.io.File;
 import static org.junit.Assert.fail;
 
 public class FailedParseTest {
+    private final ParserOptions options = new ParserOptions();
+
     @Test
     public void testFailEEE() {
-        SourceGrammar grammar = new SourceGrammar();
+        SourceGrammar grammar = new SourceGrammar(options);
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
         NonterminalSymbol _E = grammar.getNonterminal("E");
@@ -25,7 +27,7 @@ public class FailedParseTest {
         grammar.addRule(_E, _E, _plus, _E);
         grammar.addRule(_E, new TerminalSymbol(TokenRegex.get("[0-9]")));
 
-        GearleyParser parser = grammar.getParser(_S);
+        GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse(Iterators.characterIterator("1+2-3"));
         Assert.assertFalse(result.succeeded());
         Assert.assertEquals(4, result.getTokenCount());
@@ -38,7 +40,7 @@ public class FailedParseTest {
             GrammarCompiler compiler = new GrammarCompiler();
             SourceGrammar grammar = compiler.parse(new File("src/test/resources/month.cxml"));
             NonterminalSymbol start = grammar.getNonterminal("$$");
-            GearleyParser parser = grammar.getParser(start);
+            GearleyParser parser = grammar.getParser(options, start);
             GearleyResult result = parser.parse("March");
             Assertions.assertTrue(result.succeeded());
 
@@ -57,7 +59,7 @@ public class FailedParseTest {
             GrammarCompiler compiler = new GrammarCompiler();
             SourceGrammar grammar = compiler.parse(new File("src/test/resources/month.cxml"));
             NonterminalSymbol start = grammar.getNonterminal("$$");
-            GearleyParser parser = grammar.getParser(start);
+            GearleyParser parser = grammar.getParser(options, start);
             GearleyResult result = parser.parse("Max");
             Assertions.assertFalse(result.succeeded());
 
@@ -79,7 +81,7 @@ public class FailedParseTest {
             GrammarCompiler compiler = new GrammarCompiler();
             SourceGrammar grammar = compiler.parse(new File("src/test/resources/month.cxml"));
             NonterminalSymbol start = grammar.getNonterminal("$$");
-            GearleyParser parser = grammar.getParser(start);
+            GearleyParser parser = grammar.getParser(options, start);
             GearleyResult result = parser.parse("Marsh");
             Assertions.assertFalse(result.succeeded());
             if (result instanceof EarleyResult) {

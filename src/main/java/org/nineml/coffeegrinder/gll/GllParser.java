@@ -11,6 +11,7 @@ import java.util.*;
 
 public class GllParser implements GearleyParser {
     public static final String logcategory = "Parser";
+    public static final String gllexecution = "GLLExecution";
     public final CompiledGrammar grammar;
     private final ArrayList<State> grammarSlots;
     private final HashMap<Rule,List<State>> ruleSlots;
@@ -34,13 +35,15 @@ public class GllParser implements GearleyParser {
     private int progressSize = 0;
     private int progressCount = 0;
     private int highwater = 0;
+    private int lineNumber = 1;
+    private int columnNumber = 1;
 
     protected int tokenCount;
     protected Token lastToken;
 
-    public GllParser(CompiledGrammar grammar) {
+    public GllParser(CompiledGrammar grammar, ParserOptions options) {
         this.grammar = grammar;
-        options = grammar.getParserOptions();
+        this.options = options;
         logger = options.getLogger();
         grammarSlots = new ArrayList<>();
         ruleSlots = new HashMap<>();
@@ -82,9 +85,10 @@ public class GllParser implements GearleyParser {
     }
 
     public GllResult parse(String input) {
-        I = new Token[input.length()+1];
-        for (int pos = 0; pos < input.length(); pos++) {
-            I[pos] = TokenCharacter.get(input.charAt(pos));
+        int[] codepoints = input.codePoints().toArray();
+        I = new Token[codepoints.length+1];
+        for (int pos = 0; pos < codepoints.length; pos++) {
+            I[pos] = TokenCharacter.get(codepoints[pos]);
         }
         I[input.length()] = TokenEOF.EOF;
         return parseInput();
@@ -204,6 +208,18 @@ public class GllParser implements GearleyParser {
         return moreInput;
     }
 
+    public int getOffset() {
+        return highwater;
+    }
+
+    public int getLineNumber() {
+        return lineNumber;
+    }
+
+    public int getColumnNumber() {
+        return columnNumber;
+    }
+
     private void compile() {
         compileStatements.add(new MLabel(State.L0));
         compileStatements.add(new MNextDescriptor());
@@ -273,19 +289,27 @@ public class GllParser implements GearleyParser {
 
         ProgressMonitor monitor = options.getProgressMonitor();
         if (monitor != null) {
-            progressSize = monitor.starting(this);
+            progressSize = monitor.starting(this, I.length);
             progressCount = progressSize;
         }
 
         while (!done) {
-            if (monitor != null) {
-                if (bsr.getRightExtent() > highwater) {
-                    progressCount -= (bsr.getRightExtent() - highwater);
-                    highwater = bsr.getRightExtent();
-                    if (progressCount <= 0) {
-                        monitor.progress(this, highwater);
-                        progressCount = progressSize;
+            if (bsr.getRightExtent() > highwater) {
+                for (int pos = highwater; pos < bsr.getRightExtent(); pos++) {
+                    columnNumber++;
+                    if (I[pos] instanceof TokenCharacter && ((TokenCharacter) I[pos]).getCodepoint() == '\n') {
+                        lineNumber++;
+                        columnNumber = 1;
                     }
+                }
+                highwater = bsr.getRightExtent();
+            }
+
+            if (monitor != null) {
+                progressCount--;
+                if (progressCount <= 0) {
+                    monitor.workingSet(this, R.size());
+                    progressCount = progressSize;
                 }
             }
 
@@ -303,25 +327,25 @@ public class GllParser implements GearleyParser {
     protected void nextDescriptor() {
         done = R.isEmpty();
         if (done) {
-            logger.trace(logcategory, "%4d exit", instructionPointer);
+            logger.trace(gllexecution, "%4d exit", instructionPointer);
         } else {
             Descriptor desc = R.pop();
             c_U = desc.k;
             c_I = desc.j;
             nextInstruction = desc.slot.getInstructionPointer();
             // The nextDescriptor statement is always at position 1 in the program
-            logger.trace(logcategory, "%4d c_U = %d; c_I = %d; goto %d", 1, c_U, c_I, nextInstruction);
+            logger.trace(gllexecution, "%4d c_U = %d; c_I = %d; goto %d", 1, c_U, c_I, nextInstruction);
         }
     }
 
     protected void jump(State label) {
         nextInstruction = label.getInstructionPointer();
-        logger.trace(logcategory, "%4d goto %d", instructionPointer, nextInstruction);
+        logger.trace(gllexecution, "%4d goto %d", instructionPointer, nextInstruction);
     }
 
     protected void incrementC_I() {
         c_I++;
-        logger.trace(logcategory, "%4d c_I = %d", instructionPointer, c_I);
+        logger.trace(gllexecution, "%4d c_I = %d", instructionPointer, c_I);
     }
 
     protected void follow(NonterminalSymbol symbol) {
@@ -334,10 +358,10 @@ public class GllParser implements GearleyParser {
             }
         }
         if (inFollow) {
-            logger.trace(logcategory, "%4d if (%s ∈ follow(%s)) then rtn(%s, %d, %d)", instructionPointer, token, symbol, symbol, c_U, c_I);
+            logger.trace(gllexecution, "%4d if (%s ∈ follow(%s)) then rtn(%s, %d, %d)", instructionPointer, token, symbol, symbol, c_U, c_I);
             rtn(symbol, c_U, c_I);
         } else {
-            logger.trace(logcategory, "%4d if (%s ∉ follow(%s)) then nop", instructionPointer, token, symbol);
+            logger.trace(gllexecution, "%4d if (%s ∉ follow(%s)) then nop", instructionPointer, token, symbol);
         }
     }
 
@@ -355,7 +379,7 @@ public class GllParser implements GearleyParser {
         String expr = "";
 
         // Don't go to all the trouble of constructing the string if we aren't going to output it
-        if (logger.getLogLevel(logcategory) >= Logger.TRACE) {
+        if (logger.getLogLevel(gllexecution) >= Logger.TRACE) {
             StringBuilder sb = new StringBuilder();
             sb.append("testSelect(").append(I[c_I]).append(", ").append(slot.symbol).append(", ");
             int pos = slot.position;
@@ -370,9 +394,9 @@ public class GllParser implements GearleyParser {
         }
 
         if (testSelect(I[c_I], slot.symbol, slot)) {
-            logger.trace(logcategory,"%4d if (%s) then nop", instructionPointer, expr);
+            logger.trace(gllexecution,"%4d if (%s) then nop", instructionPointer, expr);
         } else {
-            logger.trace(logcategory, "%4d if (!%s) then goto %d", instructionPointer, expr, State.L0.getInstructionPointer());
+            logger.trace(gllexecution, "%4d if (!%s) then goto %d", instructionPointer, expr, State.L0.getInstructionPointer());
             jump(State.L0);
         }
     }
@@ -418,7 +442,6 @@ public class GllParser implements GearleyParser {
 
     protected void rtn(NonterminalSymbol X, int k, int j) {
         PoppedNode pn = new PoppedNode(X, k, j);
-        //PoppedNode pn = getPoppedNode(X, k, j);
         if (!P.contains(pn)) {
             P.add(pn);
             ClusterNode Xk = getClusterNode(X, k);
@@ -435,18 +458,18 @@ public class GllParser implements GearleyParser {
 
     protected void bsrAdd(State L, int i, int k, int j) {
         if (instructionPointer >= 0) {
-            logger.trace(logcategory, "%4d bsrAdd(%s, %d, %d, %d)", instructionPointer, L, i, k, j);
+            logger.trace(gllexecution, "%4d bsrAdd(%s, %d, %d, %d)", instructionPointer, L, i, k, j);
         } else {
-            logger.trace(logcategory, "---- bsrAdd(%s, %d, %d, %d)", L, i, k, j);
+            logger.trace(gllexecution, "---- bsrAdd(%s, %d, %d, %d)", L, i, k, j);
         }
         bsr.add(L, i, k, j);
     }
 
     protected void bsrAddEpsilon(State L, int i) {
         if (instructionPointer >= 0) {
-            logger.trace(logcategory, "%4d bsrAdd(%s, %d, %d, %d)", instructionPointer, L, i, i, i);
+            logger.trace(gllexecution, "%4d bsrAdd(%s, %d, %d, %d)", instructionPointer, L, i, i, i);
         } else {
-            logger.trace(logcategory, "---- bsrAdd(%s, %d, %d, %d)", L, i, i, i);
+            logger.trace(gllexecution, "---- bsrAdd(%s, %d, %d, %d)", L, i, i, i);
         }
         bsr.addEpsilon(L, i);
     }
@@ -462,7 +485,7 @@ public class GllParser implements GearleyParser {
     }
 
     protected void call(State L, int i, int j) {
-        logger.trace(logcategory, "%4d call(%s, %d, %d)", instructionPointer, L, i, j);
+        logger.trace(gllexecution, "%4d call(%s, %d, %d)", instructionPointer, L, i, j);
         CrfNode u = getCrfNode(L, i);
         NonterminalSymbol X = (NonterminalSymbol) L.prevSymbol();
         ClusterNode ndV = getClusterNode(X, j);

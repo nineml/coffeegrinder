@@ -4,12 +4,14 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.nineml.coffeegrinder.exceptions.GrammarException;
 import org.nineml.coffeegrinder.exceptions.ParseException;
+import org.nineml.coffeegrinder.parser.ParserOptions;
 import org.nineml.coffeegrinder.parser.SourceGrammar;
 import org.nineml.coffeegrinder.util.GrammarParser;
 
 import static junit.framework.TestCase.fail;
 
 public class ErrorTest {
+    private final ParserOptions options = new ParserOptions();
 
     @Test
     public void missingSymbol() {
@@ -19,7 +21,7 @@ public class ErrorTest {
                         "A => 'a'");
 
         try {
-            grammar.getParser(grammar.getNonterminal("S"));
+            grammar.getParser(options, grammar.getNonterminal("S"));
         } catch (ParseException ex) {
             Assert.assertEquals("P001", ex.getCode());
         }

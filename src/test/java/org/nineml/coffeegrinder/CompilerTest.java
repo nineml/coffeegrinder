@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import static junit.framework.TestCase.fail;
 
 public class CompilerTest {
+    private final ParserOptions options = new ParserOptions();
+
     @Test
     public void testAttributes() {
         SourceGrammar grammar = new SourceGrammar();
@@ -64,7 +66,7 @@ public class CompilerTest {
             GrammarCompiler compiler = new GrammarCompiler();
             SourceGrammar grammar = compiler.parse(new File("src/test/resources/hash.cxml"));
             NonterminalSymbol start = grammar.getNonterminal("hashes");
-            GearleyParser parser = grammar.getParser(start);
+            GearleyParser parser = grammar.getParser(options, start);
 
             String input = "#12.";
 
@@ -101,7 +103,7 @@ public class CompilerTest {
         SourceGrammar grammar = compiler.parse(cxml);
 
         NonterminalSymbol start = grammar.getNonterminal("hashes");
-        GearleyParser parser = grammar.getParser(start);
+        GearleyParser parser = grammar.getParser(options, start);
         GearleyResult result = parser.parse("#12.");
 
         Assert.assertTrue(result.succeeded());
@@ -137,7 +139,7 @@ public class CompilerTest {
 
         SourceGrammar cgrammar = compiler.parse(cxml);
 
-        GearleyParser parser = cgrammar.getParser(letters);
+        GearleyParser parser = cgrammar.getParser(options, letters);
         GearleyResult result = parser.parse("a\0b\0c");
 
         Assert.assertTrue(result.succeeded());

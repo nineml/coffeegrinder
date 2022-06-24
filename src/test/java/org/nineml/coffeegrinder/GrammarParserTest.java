@@ -7,6 +7,8 @@ import org.nineml.coffeegrinder.util.GrammarParser;
 import org.nineml.coffeegrinder.util.Iterators;
 
 public class GrammarParserTest {
+    private final ParserOptions options = new ParserOptions();
+
     @Test
     public void testParse1() {
         String input = "-_0 => ixml\n" +
@@ -36,7 +38,7 @@ public class GrammarParserTest {
         GrammarParser gparser = new GrammarParser();
         SourceGrammar grammar = gparser.parseFile("src/test/resources/expression.grammar");
         Assert.assertNotNull(grammar);
-        GearleyParser parser = grammar.getParser(grammar.getNonterminal("Sum"));
+        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("Sum"));
         GearleyResult result = parser.parse(Iterators.characterIterator("1+(2*3-4)"));
         Assert.assertTrue(result.succeeded());
     }

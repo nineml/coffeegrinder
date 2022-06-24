@@ -20,9 +20,11 @@ public class EarleyResult implements GearleyResult {
     private final boolean success;
     private final int tokenCount;
     private final Token lastToken;
+    private final int offset;
+    private final int lineNumber;
+    private final int columnNumber;
     private final ParserOptions options;
     private final HashSet<TerminalSymbol> predicted = new HashSet<>();
-    private boolean continuingIteratorReturned = false;
     private long parseTime = -1;
 
     protected EarleyResult(EarleyParser parser, EarleyChart chart, ParseForest graph, boolean success, int tokenCount, Token lastToken) {
@@ -33,6 +35,9 @@ public class EarleyResult implements GearleyResult {
         this.tokenCount = tokenCount;
         this.lastToken = lastToken;
         this.options = parser.options;
+        this.offset = parser.getOffset();
+        this.lineNumber = parser.getLineNumber();
+        this.columnNumber = parser.getColumnNumber();
     }
 
     protected EarleyResult(EarleyParser parser, ParseForest graph, boolean success, int tokenCount, Token lastToken) {
@@ -43,6 +48,9 @@ public class EarleyResult implements GearleyResult {
         this.tokenCount = tokenCount;
         this.lastToken = lastToken;
         this.options = parser.options;
+        this.offset = parser.getOffset();
+        this.lineNumber = parser.getLineNumber();
+        this.columnNumber = parser.getColumnNumber();
     }
 
     /**
@@ -142,6 +150,16 @@ public class EarleyResult implements GearleyResult {
         return false;
     }
 
+    public Token[] getSuffix() {
+        if (!prefixSucceeded()) {
+            return null;
+        }
+
+        Token[] tokens = new Token[parser.input.length - parser.restartPos];
+        System.arraycopy(parser.input, parser.restartPos, tokens, 0, tokens.length);
+        return tokens;
+    }
+
     /**
      * Continue parsing from the last successfully matched prefix.
      * <p>If prefix parsing is enabled, and a prefix was identified, this method will attempt to continue
@@ -154,34 +172,14 @@ public class EarleyResult implements GearleyResult {
             throw ParseException.attemptToContinueInvalidParse();
         }
 
-        if (continuingIteratorReturned) {
-            options.getLogger().debug(EarleyParser.logcategory, "Attempting to continue parsing after the continuing iterator was exposed");
-        }
-
-        EarleyParser newParser = (EarleyParser) parser.getGrammar().getParser();
-        return newParser.parse(new PrefixIterator<>(parser.getBufferedTokens(), parser.iterator));
-    }
-
-    /**
-     * Get an iterator for the rest of the tokens after a matched prefix.
-     * <p>If prefix parsing is enabled, and a prefix was identified, this method will return an
-     * iterator that begins with the first token after the prefix finished.</p>
-     * <p>Note: if you read from this iterator, any future attempt to {@link #continueParsing}
-     * will deliver unpredictable results.</p>
-     * @return the iterator
-     */
-    public Iterator<Token> getContinuingIterator() {
-        continuingIteratorReturned = true;
-        return new PrefixIterator<>(parser.getBufferedTokens(), parser.iterator);
+        EarleyParser newParser = (EarleyParser) parser.getGrammar().getParser(options);
+        return parser.continueParsing(newParser);
     }
 
     /**
      * How many tokens were parsed?
-     * <p>In the case of an unsuccessful parse, the input iterator <em>will</em> have
-     * been advanced beyond this token. You can get a new iterator that will begin in the
-     * right place from {@link #getContinuingIterator}. Note, however, that if you read
-     * from that iterator and then attempt to continue parsing, it will give unpredicatable results.</p>
-     * @return the number of the last (successfully) parsed token.
+     * <p>In the case of an unsuccessful parse, restarting may occur before this position.</p>
+     * @return the number of tokens parsed.
      */
     public int getTokenCount() {
         return tokenCount;
@@ -189,14 +187,23 @@ public class EarleyResult implements GearleyResult {
 
     /**
      * What was the last token parsed?
-     * <p>In the case of an unsuccessful parse, the input iterator <em>will</em> have
-     * been advanced beyond this token. You can get a new iterator that will begin in the
-     * right place from {@link #getContinuingIterator}. Note, however, that if you read
-     * from that iterator and then attempt to continue parsing, it will give unpredicatable results.</p>
+     * <p>In the case of an unsuccessful parse, restarting may reparse this token.</p>
      * @return the last (successfully) parsed token.
      */
     public Token getLastToken() {
         return lastToken;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public int getLineNumber() {
+        return lineNumber;
+    }
+
+    public int getColumnNumber() {
+        return columnNumber;
     }
 
     protected void addPredicted(Set<TerminalSymbol> symbols) {

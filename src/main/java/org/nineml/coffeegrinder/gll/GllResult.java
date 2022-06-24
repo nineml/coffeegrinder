@@ -16,6 +16,9 @@ public class GllResult implements GearleyResult {
     public final boolean success;
     private final int tokenCount;
     private final Token lastToken;
+    private final int offset;
+    private final int lineNumber;
+    private final int columnNumber;
     private long parseTime = -1;
     private boolean ambiguous = false;
     private boolean infinitelyAmbiguous = false;
@@ -26,6 +29,9 @@ public class GllResult implements GearleyResult {
         this.graph = bsr.extractSPPF(parser.getGrammar(), parser.getTokens());
         tokenCount = parser.tokenCount;
         lastToken = parser.lastToken;
+        offset = parser.getOffset();
+        lineNumber = parser.getLineNumber();
+        columnNumber = parser.getColumnNumber();
         success = parser.succeeded();
 
         if (success) {
@@ -95,6 +101,18 @@ public class GllResult implements GearleyResult {
     @Override
     public Token getLastToken() {
         return lastToken;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public int getLineNumber() {
+        return lineNumber;
+    }
+
+    public int getColumnNumber() {
+        return columnNumber;
     }
 
     public Set<TerminalSymbol> getPredictedTerminals() {
