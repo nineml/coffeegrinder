@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -135,8 +135,14 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#frequency">frequency</a></span></code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#earleyFrequency">earleyFrequency</a></span></code>
 <div class="block">The default update interval (number of tokens).</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#gllFrequency">gllFrequency</a></span></code>
+<div class="block">The default update interval (number of states).</div>
 </td>
 </tr>
 </table>
@@ -155,12 +161,7 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.
 </tr>
 <tr class="altColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#DefaultProgressMonitor--">DefaultProgressMonitor</a></span>()</code>
-<div class="block">Create a monitor with the default update interval.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#DefaultProgressMonitor-int-">DefaultProgressMonitor</a></span>(int&nbsp;size)</code>
-<div class="block">Create a monitor with a specific update interval.</div>
+<div class="block">Create a progress monitor.</div>
 </td>
 </tr>
 </table>
@@ -186,15 +187,23 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#progress-org.nineml.coffeegrinder.parser.GearleyParser-long-">progress</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
-        long&nbsp;tokens)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#progress-org.nineml.coffeegrinder.parser.GearleyParser-int-">progress</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
+        int&nbsp;tokens)</code>
 <div class="block">Report progress.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#starting-org.nineml.coffeegrinder.parser.GearleyParser-">starting</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#starting-org.nineml.coffeegrinder.parser.GearleyParser-int-">starting</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
+        int&nbsp;tokens)</code>
 <div class="block">Start the monitor.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#workingSet-org.nineml.coffeegrinder.parser.GearleyParser-int-">workingSet</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
+          int&nbsp;size)</code>
+<div class="block">Report progress.</div>
 </td>
 </tr>
 </table>
@@ -219,14 +228,24 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.
 <!--   -->
 </a>
 <h3>Field Detail</h3>
-<a name="frequency">
+<a name="earleyFrequency">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>earleyFrequency</h4>
+<pre>public static&nbsp;int earleyFrequency</pre>
+<div class="block">The default update interval (number of tokens).</div>
+</li>
+</ul>
+<a name="gllFrequency">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>frequency</h4>
-<pre>public static&nbsp;int frequency</pre>
-<div class="block">The default update interval (number of tokens).</div>
+<h4>gllFrequency</h4>
+<pre>public static&nbsp;int gllFrequency</pre>
+<div class="block">The default update interval (number of states).</div>
 </li>
 </ul>
 </li>
@@ -240,25 +259,11 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.
 <a name="DefaultProgressMonitor--">
 <!--   -->
 </a>
-<ul class="blockList">
-<li class="blockList">
-<h4>DefaultProgressMonitor</h4>
-<pre>public&nbsp;DefaultProgressMonitor()</pre>
-<div class="block">Create a monitor with the default update interval.</div>
-</li>
-</ul>
-<a name="DefaultProgressMonitor-int-">
-<!--   -->
-</a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>DefaultProgressMonitor</h4>
-<pre>public&nbsp;DefaultProgressMonitor(int&nbsp;size)</pre>
-<div class="block">Create a monitor with a specific update interval.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>size</code> - the update frequency</dd>
-</dl>
+<pre>public&nbsp;DefaultProgressMonitor()</pre>
+<div class="block">Create a progress monitor.</div>
 </li>
 </ul>
 </li>
@@ -269,40 +274,61 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="starting-org.nineml.coffeegrinder.parser.GearleyParser-">
+<a name="starting-org.nineml.coffeegrinder.parser.GearleyParser-int-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>starting</h4>
-<pre>public&nbsp;int&nbsp;starting(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser)</pre>
+<pre>public&nbsp;int&nbsp;starting(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
+                    int&nbsp;tokens)</pre>
 <div class="block">Start the monitor.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#starting-org.nineml.coffeegrinder.parser.GearleyParser-">starting</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></dd>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#starting-org.nineml.coffeegrinder.parser.GearleyParser-int-">starting</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>parser</code> - the parser</dd>
+<dd><code>tokens</code> - the total size of the input</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the update interval.</dd>
 </dl>
 </li>
 </ul>
-<a name="progress-org.nineml.coffeegrinder.parser.GearleyParser-long-">
+<a name="progress-org.nineml.coffeegrinder.parser.GearleyParser-int-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>progress</h4>
 <pre>public&nbsp;void&nbsp;progress(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
-                     long&nbsp;tokens)</pre>
+                     int&nbsp;tokens)</pre>
 <div class="block">Report progress.
  <p>This implementation just prints a simple message to <code>System.out</code>.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#progress-org.nineml.coffeegrinder.parser.GearleyParser-long-">progress</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></dd>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#progress-org.nineml.coffeegrinder.parser.GearleyParser-int-">progress</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>parser</code> - the parser</dd>
 <dd><code>tokens</code> - the number of tokens processed so far.</dd>
+</dl>
+</li>
+</ul>
+<a name="workingSet-org.nineml.coffeegrinder.parser.GearleyParser-int-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>workingSet</h4>
+<pre>public&nbsp;void&nbsp;workingSet(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
+                       int&nbsp;size)</pre>
+<div class="block">Report progress.
+ <p>This implementation just prints a simple message to <code>System.out</code>.</p></div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#workingSet-org.nineml.coffeegrinder.parser.GearleyParser-int-">workingSet</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>parser</code> - the parser</dd>
+<dd><code>size</code> - the number of items that remain in the working set.</dd>
 </dl>
 </li>
 </ul>

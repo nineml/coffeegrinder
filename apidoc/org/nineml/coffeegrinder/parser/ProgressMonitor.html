@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6,"i2":6};
+var methods = {"i0":6,"i1":6,"i2":6,"i3":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -134,15 +134,23 @@ var activeTableTab = "activeTableTab";
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#progress-org.nineml.coffeegrinder.parser.GearleyParser-long-">progress</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
-        long&nbsp;tokens)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#progress-org.nineml.coffeegrinder.parser.GearleyParser-int-">progress</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
+        int&nbsp;tokens)</code>
 <div class="block">Indicates progress in the parse.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#starting-org.nineml.coffeegrinder.parser.GearleyParser-">starting</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#starting-org.nineml.coffeegrinder.parser.GearleyParser-int-">starting</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
+        int&nbsp;tokens)</code>
 <div class="block">Indicates that the parse is about to begin.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#workingSet-org.nineml.coffeegrinder.parser.GearleyParser-int-">workingSet</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
+          int&nbsp;size)</code>
+<div class="block">Indicates progress in the parse.</div>
 </td>
 </tr>
 </table>
@@ -160,13 +168,14 @@ var activeTableTab = "activeTableTab";
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="starting-org.nineml.coffeegrinder.parser.GearleyParser-">
+<a name="starting-org.nineml.coffeegrinder.parser.GearleyParser-int-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>starting</h4>
-<pre>int&nbsp;starting(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser)</pre>
+<pre>int&nbsp;starting(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
+             int&nbsp;tokens)</pre>
 <div class="block">Indicates that the parse is about to begin.
  <p>The value returned is a measure of the update frequency. The <code>progress</code>
  method will be called every time that many tokens has been processed. A value of
@@ -175,24 +184,41 @@ var activeTableTab = "activeTableTab";
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>parser</code> - the parser</dd>
+<dd><code>tokens</code> - the total size of the input</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the update frequency</dd>
 </dl>
 </li>
 </ul>
-<a name="progress-org.nineml.coffeegrinder.parser.GearleyParser-long-">
+<a name="progress-org.nineml.coffeegrinder.parser.GearleyParser-int-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>progress</h4>
 <pre>void&nbsp;progress(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
-              long&nbsp;tokens)</pre>
+              int&nbsp;tokens)</pre>
 <div class="block">Indicates progress in the parse.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>parser</code> - the parser</dd>
 <dd><code>tokens</code> - the number of tokens processed so far.</dd>
+</dl>
+</li>
+</ul>
+<a name="workingSet-org.nineml.coffeegrinder.parser.GearleyParser-int-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>workingSet</h4>
+<pre>void&nbsp;workingSet(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
+                int&nbsp;size)</pre>
+<div class="block">Indicates progress in the parse.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>parser</code> - the parser</dd>
+<dd><code>size</code> - the number of items left to process.</dd>
 </dl>
 </li>
 </ul>

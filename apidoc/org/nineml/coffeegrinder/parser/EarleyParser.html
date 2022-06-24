@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -159,44 +159,58 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.ht
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#getColumnNumber--">getColumnNumber</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser">CompiledGrammar</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#getGrammar--">getGrammar</a></span>()</code>
 <div class="block">Get the grammar used by this parser.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#getLineNumber--">getLineNumber</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#getOffset--">getOffset</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ParserType.html" title="enum in org.nineml.coffeegrinder.parser">ParserType</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#getParserType--">getParserType</a></span>()</code>
 <div class="block">Return the parser type.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#getSeed--">getSeed</a></span>()</code>
 <div class="block">Get the <a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser"><code>NonterminalSymbol</code></a> seed value used by this parser.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#hasMoreInput--">hasMoreInput</a></span>()</code>
 <div class="block">Is there more input?</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html" title="class in org.nineml.coffeegrinder.parser">EarleyResult</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#parse-java.util.Iterator-">parse</a></span>(java.util.Iterator&lt;<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&gt;&nbsp;input)</code>
 <div class="block">Parse a sequence of tokens against the grammar.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html" title="class in org.nineml.coffeegrinder.parser">EarleyResult</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#parse-java.lang.String-">parse</a></span>(java.lang.String&nbsp;input)</code>
 <div class="block">Parse an input string against the grammar.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html" title="class in org.nineml.coffeegrinder.parser">EarleyResult</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#parse-org.nineml.coffeegrinder.tokens.Token:A-">parse</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]&nbsp;input)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html#parse-org.nineml.coffeegrinder.tokens.Token:A-">parse</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]&nbsp;input)</code>
+<div class="block">Parse an array of tokens against the grammar.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -316,9 +330,14 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.ht
 <li class="blockList">
 <h4>parse</h4>
 <pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html" title="class in org.nineml.coffeegrinder.parser">EarleyResult</a>&nbsp;parse(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]&nbsp;input)</pre>
+<div class="block">Parse an array of tokens against the grammar.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html#parse-org.nineml.coffeegrinder.tokens.Token:A-">parse</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>input</code> - the input array</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a parse result</dd>
 </dl>
 </li>
 </ul>
@@ -343,7 +362,7 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.ht
 <a name="hasMoreInput--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>hasMoreInput</h4>
 <pre>public&nbsp;boolean&nbsp;hasMoreInput()</pre>
@@ -356,6 +375,45 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.ht
 <dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html#hasMoreInput--">hasMoreInput</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if parsing failed before the entire input was consumed</dd>
+</dl>
+</li>
+</ul>
+<a name="getLineNumber--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLineNumber</h4>
+<pre>public&nbsp;int&nbsp;getLineNumber()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html#getLineNumber--">getLineNumber</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getColumnNumber--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getColumnNumber</h4>
+<pre>public&nbsp;int&nbsp;getColumnNumber()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html#getColumnNumber--">getColumnNumber</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getOffset--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getOffset</h4>
+<pre>public&nbsp;int&nbsp;getOffset()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html#getOffset--">getOffset</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></dd>
 </dl>
 </li>
 </ul>

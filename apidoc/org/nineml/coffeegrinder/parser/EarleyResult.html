@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -146,10 +146,8 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.ht
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>java.util.Iterator&lt;<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getContinuingIterator--">getContinuingIterator</a></span>()</code>
-<div class="block">Get an iterator for the rest of the tokens after a matched prefix.</div>
-</td>
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getColumnNumber--">getColumnNumber</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html" title="class in org.nineml.coffeegrinder.parser">ParseForest</a></code></td>
@@ -162,52 +160,64 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.ht
 </td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getLineNumber--">getLineNumber</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getOffset--">getOffset</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/EarleyParser.html" title="class in org.nineml.coffeegrinder.parser">EarleyParser</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getParser--">getParser</a></span>()</code>
 <div class="block">Get the parser for this result.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>long</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getParseTime--">getParseTime</a></span>()</code>
 <div class="block">How long did the parse take?</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">TerminalSymbol</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getPredictedTerminals--">getPredictedTerminals</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i10" class="altColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getSuffix--">getSuffix</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getTokenCount--">getTokenCount</a></span>()</code>
 <div class="block">How many tokens were parsed?</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getTree--">getTree</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getTree-org.nineml.coffeegrinder.parser.TreeBuilder-">getTree</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a>&nbsp;builder)</code>
 <div class="block">Get a tree.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#isAmbiguous--">isAmbiguous</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#isInfinitelyAmbiguous--">isInfinitelyAmbiguous</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#prefixSucceeded--">prefixSucceeded</a></span>()</code>
 <div class="block">Did the parse match the beginning of the input?</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#succeeded--">succeeded</a></span>()</code>
 <div class="block">Did the parse succeed?</div>
@@ -389,6 +399,15 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.ht
 </dl>
 </li>
 </ul>
+<a name="getSuffix--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getSuffix</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]&nbsp;getSuffix()</pre>
+</li>
+</ul>
 <a name="continueParsing--">
 <!--   -->
 </a>
@@ -409,24 +428,6 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.ht
 </dl>
 </li>
 </ul>
-<a name="getContinuingIterator--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getContinuingIterator</h4>
-<pre>public&nbsp;java.util.Iterator&lt;<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&gt;&nbsp;getContinuingIterator()</pre>
-<div class="block">Get an iterator for the rest of the tokens after a matched prefix.
- <p>If prefix parsing is enabled, and a prefix was identified, this method will return an
- iterator that begins with the first token after the prefix finished.</p>
- <p>Note: if you read from this iterator, any future attempt to <a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#continueParsing--"><code>continueParsing()</code></a>
- will deliver unpredictable results.</p></div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the iterator</dd>
-</dl>
-</li>
-</ul>
 <a name="getTokenCount--">
 <!--   -->
 </a>
@@ -435,15 +436,12 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.ht
 <h4>getTokenCount</h4>
 <pre>public&nbsp;int&nbsp;getTokenCount()</pre>
 <div class="block">How many tokens were parsed?
- <p>In the case of an unsuccessful parse, the input iterator <em>will</em> have
- been advanced beyond this token. You can get a new iterator that will begin in the
- right place from <a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getContinuingIterator--"><code>getContinuingIterator()</code></a>. Note, however, that if you read
- from that iterator and then attempt to continue parsing, it will give unpredicatable results.</p></div>
+ <p>In the case of an unsuccessful parse, restarting may occur before this position.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#getTokenCount--">getTokenCount</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the number of the last (successfully) parsed token.</dd>
+<dd>the number of tokens parsed.</dd>
 </dl>
 </li>
 </ul>
@@ -455,15 +453,51 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.ht
 <h4>getLastToken</h4>
 <pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;getLastToken()</pre>
 <div class="block">What was the last token parsed?
- <p>In the case of an unsuccessful parse, the input iterator <em>will</em> have
- been advanced beyond this token. You can get a new iterator that will begin in the
- right place from <a href="../../../../org/nineml/coffeegrinder/parser/EarleyResult.html#getContinuingIterator--"><code>getContinuingIterator()</code></a>. Note, however, that if you read
- from that iterator and then attempt to continue parsing, it will give unpredicatable results.</p></div>
+ <p>In the case of an unsuccessful parse, restarting may reparse this token.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#getLastToken--">getLastToken</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the last (successfully) parsed token.</dd>
+</dl>
+</li>
+</ul>
+<a name="getOffset--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getOffset</h4>
+<pre>public&nbsp;int&nbsp;getOffset()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#getOffset--">getOffset</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getLineNumber--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLineNumber</h4>
+<pre>public&nbsp;int&nbsp;getLineNumber()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#getLineNumber--">getLineNumber</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getColumnNumber--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getColumnNumber</h4>
+<pre>public&nbsp;int&nbsp;getColumnNumber()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html#getColumnNumber--">getColumnNumber</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 </dl>
 </li>
 </ul>

@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -243,39 +243,29 @@ extends <a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html" title
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html#getParser-org.nineml.coffeegrinder.parser.NonterminalSymbol-">getParser</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html#getParser-org.nineml.coffeegrinder.parser.ParserOptions-org.nineml.coffeegrinder.parser.NonterminalSymbol-">getParser</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a>&nbsp;options,
+         <a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</code>
 <div class="block">Get a parser for this grammar.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html#getParser-org.nineml.coffeegrinder.parser.ParserType-org.nineml.coffeegrinder.parser.NonterminalSymbol-">getParser</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ParserType.html" title="enum in org.nineml.coffeegrinder.parser">ParserType</a>&nbsp;parserType,
-         <a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</code>
-<div class="block">Get a parser for this grammar.</div>
-</td>
-</tr>
-<tr id="i12" class="altColor">
-<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html#getParser-org.nineml.coffeegrinder.parser.ParserType-java.lang.String-">getParser</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ParserType.html" title="enum in org.nineml.coffeegrinder.parser">ParserType</a>&nbsp;parserType,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html#getParser-org.nineml.coffeegrinder.parser.ParserOptions-java.lang.String-">getParser</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a>&nbsp;options,
          java.lang.String&nbsp;seed)</code>&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
-<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html#getParser-java.lang.String-">getParser</a></span>(java.lang.String&nbsp;seed)</code>&nbsp;</td>
-</tr>
-<tr id="i14" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html#getParserOptions--">getParserOptions</a></span>()</code>
 <div class="block">Gets the parser options.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html#isNullable-org.nineml.coffeegrinder.parser.Symbol-">isNullable</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>&nbsp;symbol)</code>
 <div class="block">Is the symbol nullable?</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html#setMetadataProperty-java.lang.String-java.lang.String-">setMetadataProperty</a></span>(java.lang.String&nbsp;name,
                    java.lang.String&nbsp;value)</code>
@@ -527,41 +517,13 @@ extends <a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html" title
 </dl>
 </li>
 </ul>
-<a name="getParser-java.lang.String-">
+<a name="getParser-org.nineml.coffeegrinder.parser.ParserOptions-java.lang.String-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getParser</h4>
-<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;getParser(java.lang.String&nbsp;seed)</pre>
-</li>
-</ul>
-<a name="getParser-org.nineml.coffeegrinder.parser.NonterminalSymbol-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getParser</h4>
-<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;getParser(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</pre>
-<div class="block">Get a parser for this grammar.
-
- <p>Returns a parser that will parse an input against the rules that define this grammar.
- The parser type returned is the grammar's default parser type.</p></div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>seed</code> - The <a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser"><code>NonterminalSymbol</code></a> that your input is expected to match.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the parser</dd>
-</dl>
-</li>
-</ul>
-<a name="getParser-org.nineml.coffeegrinder.parser.ParserType-java.lang.String-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getParser</h4>
-<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;getParser(<a href="../../../../org/nineml/coffeegrinder/parser/ParserType.html" title="enum in org.nineml.coffeegrinder.parser">ParserType</a>&nbsp;parserType,
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;getParser(<a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a>&nbsp;options,
                                java.lang.String&nbsp;seed)</pre>
 </li>
 </ul>
@@ -584,20 +546,20 @@ extends <a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html" title
                                           <a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</pre>
 </li>
 </ul>
-<a name="getParser-org.nineml.coffeegrinder.parser.ParserType-org.nineml.coffeegrinder.parser.NonterminalSymbol-">
+<a name="getParser-org.nineml.coffeegrinder.parser.ParserOptions-org.nineml.coffeegrinder.parser.NonterminalSymbol-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getParser</h4>
-<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;getParser(<a href="../../../../org/nineml/coffeegrinder/parser/ParserType.html" title="enum in org.nineml.coffeegrinder.parser">ParserType</a>&nbsp;parserType,
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;getParser(<a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a>&nbsp;options,
                                <a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</pre>
 <div class="block">Get a parser for this grammar.
 
  <p>Returns a parser that will parse an input against the rules that define this grammar.</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>parserType</code> - the type of parser</dd>
+<dd><code>options</code> - the options for this parser.</dd>
 <dd><code>seed</code> - The <a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser"><code>NonterminalSymbol</code></a> that your input is expected to match.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the parser</dd>
