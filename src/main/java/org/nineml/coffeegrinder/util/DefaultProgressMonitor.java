@@ -2,6 +2,7 @@ package org.nineml.coffeegrinder.util;
 
 import org.nineml.coffeegrinder.parser.EarleyParser;
 import org.nineml.coffeegrinder.parser.GearleyParser;
+import org.nineml.coffeegrinder.parser.ParserType;
 import org.nineml.coffeegrinder.parser.ProgressMonitor;
 
 /**
@@ -9,24 +10,15 @@ import org.nineml.coffeegrinder.parser.ProgressMonitor;
  */
 public class DefaultProgressMonitor implements ProgressMonitor {
     /** The default update interval (number of tokens). */
-    public static int frequency = 100;
+    public static int earleyFrequency = 100;
 
-    private final int size;
+    /** The default update interval (number of states). */
+    public static int gllFrequency = 10000;
 
     /**
-     * Create a monitor with the default update interval.
-     *
+     * Create a progress monitor.
      */
     public DefaultProgressMonitor() {
-        this(frequency);
-    }
-
-    /**
-     * Create a monitor with a specific update interval.
-     * @param size the update frequency
-     */
-    public DefaultProgressMonitor(int size) {
-        this.size = size;
     }
 
     /**
@@ -35,8 +27,11 @@ public class DefaultProgressMonitor implements ProgressMonitor {
      * @return the update interval.
      */
     @Override
-    public int starting(GearleyParser parser) {
-        return size;
+    public int starting(GearleyParser parser, int tokens) {
+        if (parser.getParserType() == ParserType.GLL) {
+            return gllFrequency;
+        }
+        return earleyFrequency;
     }
 
     /**
@@ -46,8 +41,19 @@ public class DefaultProgressMonitor implements ProgressMonitor {
      * @param tokens the number of tokens processed so far.
      */
     @Override
-    public void progress(GearleyParser parser, long tokens) {
-        System.out.printf("Processed %d tokens.%n", tokens);
+    public void progress(GearleyParser parser, int tokens) {
+        System.out.printf("Processed %,d tokens.%n", tokens);
+    }
+
+    /**
+     * Report progress.
+     * <p>This implementation just prints a simple message to <code>System.out</code>.</p>
+     * @param parser the parser
+     * @param size the number of items that remain in the working set.
+     */
+    @Override
+    public void workingSet(GearleyParser parser, int size) {
+        System.out.printf("Remaining %,d items.%n", size);
     }
 
     /**

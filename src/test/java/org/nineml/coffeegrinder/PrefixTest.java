@@ -11,6 +11,8 @@ import java.util.Iterator;
 import static junit.framework.TestCase.fail;
 
 public class PrefixTest {
+    private final ParserOptions options = new ParserOptions();
+
     @Test
     public void testAB() {
         ParserOptions options = new ParserOptions();
@@ -28,7 +30,7 @@ public class PrefixTest {
         grammar.addRule(_B, _b, _B);
         grammar.addRule(_B);
 
-        GearleyParser parser = grammar.getParser(_S);
+        GearleyParser parser = grammar.getParser(options, _S);
 
         if (parser.getParserType() != ParserType.Earley) {
             System.err.println("Prefix parsing is only supported by the Earley parser");
@@ -65,7 +67,7 @@ public class PrefixTest {
         grammar.addRule(_B, _b);
         grammar.addRule(_B, _B);
 
-        GearleyParser parser = grammar.getParser(_S);
+        GearleyParser parser = grammar.getParser(options, _S);
 
         if (parser.getParserType() != ParserType.Earley) {
             System.err.println("Prefix parsing is only supported by the Earley parser");

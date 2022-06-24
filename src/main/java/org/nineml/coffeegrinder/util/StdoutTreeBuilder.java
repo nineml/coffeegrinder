@@ -9,10 +9,16 @@ import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import java.util.Collection;
 import java.util.List;
 
-public class StdoutTreeBuilder extends TreeBuilder {
+public class StdoutTreeBuilder extends PriorityTreeBuilder {
     private static final String tab = "  ";
     private String indent = "";
     private StringBuilder sb = null;
+
+    @Override
+    public void loop(RuleChoice alternative) {
+        ambiguous = true;
+        infinitelyAmbiguous = true;
+    }
 
     @Override
     public void startNonterminal(NonterminalSymbol symbol, Collection<ParserAttribute> attributes, int leftExtent, int rightExtent) {

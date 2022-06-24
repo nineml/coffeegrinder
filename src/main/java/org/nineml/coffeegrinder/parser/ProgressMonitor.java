@@ -14,16 +14,24 @@ public interface ProgressMonitor {
      * zero (or a negative value) will disable the <code>progress</code> callbacks, but
      * <code>finished</code> will still be called.</p>
      * @param parser the parser
+     * @param tokens the total size of the input
      * @return the update frequency
      */
-    int starting(GearleyParser parser);
+    int starting(GearleyParser parser, int tokens);
 
     /**
      * Indicates progress in the parse.
      * @param parser the parser
      * @param tokens the number of tokens processed so far.
      */
-    void progress(GearleyParser parser, long tokens);
+    void progress(GearleyParser parser, int tokens);
+
+    /**
+     * Indicates progress in the parse.
+     * @param parser the parser
+     * @param size the number of items left to process.
+     */
+    void workingSet(GearleyParser parser, int size);
 
     /**
      * Indicates that the parse has finished.

@@ -5,6 +5,7 @@ import org.junit.Ignore;
 import org.nineml.coffeegrinder.parser.*;
 
 public class RegexTest {
+    private final ParserOptions options = new ParserOptions();
 
     @Ignore
     // This doesn't work, but I'm not sure any of the regex stuff makes any sense
@@ -29,7 +30,7 @@ public class RegexTest {
 
         String input = "a0123a";
 
-        GearleyParser parser = grammar.getParser(_S);
+        GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
     }

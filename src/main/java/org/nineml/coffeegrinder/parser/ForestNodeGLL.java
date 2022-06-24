@@ -52,6 +52,14 @@ public class ForestNodeGLL extends ForestNode {
         } else {
             fam = new Family(node);
         }
+
+        // Don't add a duplicate...
+        for (Family cfam : families) {
+            if (cfam.v == fam.v && cfam.w == fam.w) {
+                return;
+            }
+        }
+
         families.add(fam);
     }
 

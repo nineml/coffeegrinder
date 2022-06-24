@@ -15,6 +15,8 @@ import java.util.Objects;
 import static org.junit.Assert.fail;
 
 public class AttributesTest {
+    private final ParserOptions options = new ParserOptions();
+
     @Test
     public void ifThenElseTest() {
         SourceGrammar grammar = new SourceGrammar();
@@ -34,7 +36,7 @@ public class AttributesTest {
         grammar.addRule(_statement, _if, _condition, _then, _statement, _else, _statement);
         grammar.addRule(_statement, _variable, _eq, _variable);
         grammar.addRule(_condition, _op, _variable, _eqeq, _variable, _cp);
-        GearleyParser parser = grammar.getParser(_statement);
+        GearleyParser parser = grammar.getParser(options, _statement);
 
         ArrayList<ParserAttribute> attrs = new ArrayList<>();
         attrs.add(new ParserAttribute("line", "1"));
@@ -86,7 +88,7 @@ public class AttributesTest {
                         "Y => 'c'\n");
         // grammar.getParseListener().setMessageLevel(ParseListener.DEBUG);
 
-        GearleyParser parser = grammar.getParser(grammar.getNonterminal("start"));
+        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("start"));
         GearleyResult result = parser.parse(Iterators.characterIterator("ab"));
         Assert.assertTrue(result.succeeded());
     }

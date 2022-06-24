@@ -1,6 +1,7 @@
 package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.nineml.coffeegrinder.parser.*;
@@ -18,6 +19,13 @@ import java.util.Calendar;
 import static org.junit.Assert.fail;
 
 public class GllGrammarTest {
+    private final ParserOptions options = new ParserOptions();
+    
+    @Before
+    public void before() {
+        options.setParserType("GLL");
+    }
+
     @Test
     public void testBsrExample54() {
         SourceGrammar grammar = new SourceGrammar();
@@ -38,7 +46,7 @@ public class GllGrammarTest {
         grammar.addRule(C, b, C);
         grammar.addRule(C, b);
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("abaa");
 
         Assert.assertTrue(result.succeeded());
@@ -56,7 +64,7 @@ public class GllGrammarTest {
         grammar.addRule(S, a, B);
         grammar.addRule(B, b);
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("ab");
         Assert.assertTrue(result.succeeded());
     }
@@ -90,7 +98,7 @@ public class GllGrammarTest {
 
          */
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("ab");
 
         Assert.assertTrue(result.succeeded());
@@ -107,7 +115,7 @@ public class GllGrammarTest {
         grammar.addRule(S, d);
         grammar.addRule(S, S, a);
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("da");
 
         Assert.assertTrue(result.succeeded());
@@ -146,7 +154,7 @@ public class GllGrammarTest {
         grammar.addRule(Z, B);
         grammar.addRule(Z, a);
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("abaa");
 
         Assert.assertTrue(result.succeeded());
@@ -185,7 +193,7 @@ public class GllGrammarTest {
         grammar.addRule(Z, B);
         grammar.addRule(Z, a);
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("abaa");
 
         Assert.assertTrue(result.succeeded());
@@ -211,7 +219,7 @@ public class GllGrammarTest {
         grammar.addRule(B, B, c);
         grammar.addRule(B);
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("aab");
 
         grammar.getParserOptions().getLogger().setDefaultLogLevel(99);
@@ -237,7 +245,7 @@ public class GllGrammarTest {
         grammar.addRule(B);
         grammar.addRule(C, value);
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("a;cc");
 
         Assert.assertTrue(result.succeeded());
@@ -264,7 +272,7 @@ public class GllGrammarTest {
         grammar.addRule(C, c, C);
         grammar.addRule(C, c);
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("ac");
 
         Assert.assertTrue(result.succeeded());
@@ -293,7 +301,7 @@ public class GllGrammarTest {
         grammar.addRule(C, c);
         grammar.addRule(C, B);
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("ac");
 
         Assert.assertTrue(result.succeeded());
@@ -324,7 +332,7 @@ public class GllGrammarTest {
         grammar.addRule(X, x, B, x);
         grammar.addRule(X, x, C, x);
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("aaaxbbcxddd");
 
         Assert.assertTrue(result.succeeded());
@@ -347,7 +355,7 @@ public class GllGrammarTest {
         grammar.addRule(B1, b);
         grammar.addRule(B2, b);
 
-        GearleyParser parser = grammar.getParser(S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("ab");
 
         Assert.assertTrue(result.succeeded());
@@ -373,7 +381,7 @@ public class GllGrammarTest {
         grammar.addRule(more, namefollow, more);
         grammar.addRule(more);
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("Ab");
 
         Assert.assertTrue(result.succeeded());
@@ -395,7 +403,7 @@ public class GllGrammarTest {
         grammar.addRule(B, b);
         grammar.addRule(I);
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("ab");
 
         Assert.assertTrue(result.succeeded());
@@ -534,7 +542,7 @@ value ⇒ notSemiStar
         grammar.addRule(value, notSemiStar);
 
         try {
-            GearleyParser gllParser = grammar.getParser(ParserType.GLL, S);
+            GearleyParser gllParser = grammar.getParser(options, S);
 
             int lineCount = 0;
 

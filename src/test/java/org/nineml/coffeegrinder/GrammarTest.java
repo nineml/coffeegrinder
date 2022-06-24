@@ -9,10 +9,11 @@ import org.nineml.logging.Logger;
 import static org.junit.Assert.fail;
 
 public class GrammarTest {
+    private final ParserOptions options = new ParserOptions();
 
     @Test
     public void undefinedUnusedNonterminal() {
-        SourceGrammar grammar = new SourceGrammar();
+        SourceGrammar grammar = new SourceGrammar(options);
 
         /*
         S: A ; B
@@ -41,7 +42,7 @@ public class GrammarTest {
 
         String input = "ax";
 
-        GearleyParser parser = grammar.getParser(_S);
+        GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
 
@@ -82,7 +83,7 @@ public class GrammarTest {
         // This fails because B depends on Y so B is effectively absent
         String input = "bx";
 
-        GearleyParser parser = grammar.getParser(_S);
+        GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse(input);
         Assert.assertFalse(result.succeeded());
     }
@@ -121,7 +122,7 @@ public class GrammarTest {
         // This succeeds even though there's a B rule that uses Y which doesn't exist.
         String input = "bx";
 
-        GearleyParser parser = grammar.getParser(_S);
+        GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
     }

@@ -14,9 +14,11 @@ import java.util.Iterator;
 import static org.junit.Assert.fail;
 
 public class ParserTest {
+    private final ParserOptions options = new ParserOptions();
+
     @Test
     public void ifThenElseTest() {
-        SourceGrammar grammar = new SourceGrammar();
+        SourceGrammar grammar = new SourceGrammar(options);
 
         NonterminalSymbol _statement = grammar.getNonterminal("statement");
         NonterminalSymbol _condition = grammar.getNonterminal("condition");
@@ -33,7 +35,7 @@ public class ParserTest {
         grammar.addRule(_statement, _if, _condition, _then, _statement, _else, _statement);
         grammar.addRule(_statement, _variable, _eq, _variable);
         grammar.addRule(_condition, _op, _variable, _eqeq, _variable, _cp);
-        GearleyParser parser = grammar.getParser(_statement);
+        GearleyParser parser = grammar.getParser(options, _statement);
 
         // N.B. this is the sequence of tokens, not characters.
         Iterator<Token> input = Iterators.stringIterator(
@@ -49,7 +51,7 @@ public class ParserTest {
     @Test
     public void testExpression() {
         // https://loup-vaillant.fr/tutorials/earley-parsing/parser
-        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
+        SourceGrammar grammar = new SourceGrammar(options);
 
         NonterminalSymbol _Sum = grammar.getNonterminal("Sum");
         NonterminalSymbol _Product = grammar.getNonterminal("Product");
@@ -70,13 +72,19 @@ public class ParserTest {
 
         String input = "1+(2*3-4)";
 
-        GearleyParser parser = grammar.getParser(ParserType.Earley, _Sum);
+        ParserOptions earleyOptions = new ParserOptions(options);
+        earleyOptions.setParserType("Earley");
+
+        GearleyParser parser = grammar.getParser(earleyOptions, _Sum);
         GearleyResult result = parser.parse(input);
         Assert.assertTrue(result.succeeded());
 
         //result.getForest().serialize("/tmp/earley.xml");
 
-        GearleyParser gparser = grammar.getParser(ParserType.GLL, _Sum);
+        ParserOptions gllOptions = new ParserOptions(options);
+        gllOptions.setParserType("GLL");
+
+        GearleyParser gparser = grammar.getParser(gllOptions, _Sum);
         GearleyResult gresult = parser.parse(input);
         Assert.assertTrue(gresult.succeeded());
     }
@@ -107,14 +115,20 @@ public class ParserTest {
 
         String input = "1+(1*1+1)";
 
-        GearleyParser parser = grammar.getParser(ParserType.Earley, _Sum);
+        ParserOptions earleyOptions = new ParserOptions(options);
+        earleyOptions.setParserType("Earley");
+
+        GearleyParser parser = grammar.getParser(earleyOptions, _Sum);
         GearleyResult result = parser.parse(input);
 
         //result.getForest().serialize("/tmp/earley.xml");
 
         Assert.assertTrue(result.succeeded());
 
-        GearleyParser gparser = grammar.getParser(ParserType.GLL, _Sum);
+        ParserOptions gllOptions = new ParserOptions(options);
+        gllOptions.setParserType("GLL");
+
+        GearleyParser gparser = grammar.getParser(gllOptions, _Sum);
         GearleyResult gresult = parser.parse(input);
 
         Assert.assertTrue(gresult.succeeded());
@@ -122,7 +136,7 @@ public class ParserTest {
 
     @Test
     public void testLetterDigitLetter() {
-        SourceGrammar grammar = new SourceGrammar();
+        SourceGrammar grammar = new SourceGrammar(options);
 
         NonterminalSymbol _letter = grammar.getNonterminal("letter");
         NonterminalSymbol _letterOrNumber = grammar.getNonterminal("letterOrNumber");
@@ -135,7 +149,7 @@ public class ParserTest {
         grammar.addRule(_letterOrNumber, _letter);
         grammar.addRule(_letterOrNumber, _number);
 
-        GearleyParser parser = grammar.getParser(_expr);
+        GearleyParser parser = grammar.getParser(options, _expr);
         GearleyResult result = parser.parse(Iterators.characterIterator("aab"));
         Assert.assertTrue(result.succeeded());
     }
@@ -151,14 +165,14 @@ public class ParserTest {
                         "digit => digit");
         // grammar.getParseListener().setMessageLevel(ParseListener.DEBUG);
 
-        GearleyParser parser = grammar.getParser(grammar.getNonterminal("number"));
+        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("number"));
         GearleyResult result = parser.parse(Iterators.characterIterator("b101"));
         Assert.assertTrue(result.succeeded());
     }
 
     @Test
     public void testLongNumber() {
-        SourceGrammar grammar = new SourceGrammar();
+        SourceGrammar grammar = new SourceGrammar(options);
 
         NonterminalSymbol _digit = grammar.getNonterminal("digit");
         NonterminalSymbol _number = grammar.getNonterminal("number");
@@ -171,7 +185,7 @@ public class ParserTest {
         grammar.addRule(_digit, _digit, _digit);
         grammar.addRule(_digit);
 
-        GearleyParser parser = grammar.getParser(_number);
+        GearleyParser parser = grammar.getParser(options, _number);
         GearleyResult result = parser.parse(Iterators.characterIterator("123123123"));
         Assert.assertTrue(result.succeeded());
     }
@@ -179,7 +193,7 @@ public class ParserTest {
     @Test
     public void testExample() {
         // https://web.stanford.edu/class/archive/cs/cs143/cs143.1128/lectures/07/Slides07.pdf
-        SourceGrammar grammar = new SourceGrammar();
+        SourceGrammar grammar = new SourceGrammar(options);
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
         NonterminalSymbol _A = grammar.getNonterminal("A");
@@ -198,7 +212,7 @@ public class ParserTest {
         grammar.addRule(_B, _a);
         grammar.addRule(_C, _a);
 
-        GearleyParser parser = grammar.getParser(_S);
+        GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse(Iterators.characterIterator("aad"));
 
         Assert.assertTrue(result.succeeded());
@@ -206,7 +220,7 @@ public class ParserTest {
 
     @Test
     public void testEEE() {
-        SourceGrammar grammar = new SourceGrammar();
+        SourceGrammar grammar = new SourceGrammar(options);
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
         NonterminalSymbol _E = grammar.getNonterminal("E");
@@ -216,12 +230,15 @@ public class ParserTest {
         grammar.addRule(_E, _E, _plus, _E);
         grammar.addRule(_E, TerminalSymbol.regex("[0-9]"));
 
-        GearleyParser parser = grammar.getParser(_S);
+        GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse(Iterators.characterIterator("1+2"));
         //result.getForest().serialize("/tmp/testEEE.xml");
         Assert.assertTrue(result.succeeded());
 
-        GearleyParser gllParser = grammar.getParser(ParserType.GLL, _S);
+        ParserOptions gllOptions = new ParserOptions(options);
+        gllOptions.setParserType("GLL");
+
+        GearleyParser gllParser = grammar.getParser(gllOptions, _S);
         Token[] tokens = new Token[]{ TokenCharacter.get('1') , TokenCharacter.get('+'), TokenCharacter.get('2') };
 
         GearleyResult gresult = gllParser.parse(tokens);
@@ -237,13 +254,19 @@ public class ParserTest {
         grammar.addRule(_X, _X, _X);
         grammar.addRule(_X, _a);
 
-        GearleyParser parser = grammar.getParser(ParserType.Earley, _X);
+        ParserOptions earleyOptions = new ParserOptions(options);
+        earleyOptions.setParserType("Earley");
+
+        GearleyParser parser = grammar.getParser(earleyOptions, _X);
         GearleyResult result = parser.parse(Iterators.characterIterator("aaaaa"));
         Assert.assertTrue(result.succeeded());
 
+        ParserOptions gllOptions = new ParserOptions(options);
+        gllOptions.setParserType("GLL");
+
         //result.getForest().serialize("/tmp/ambig.xml");
 
-        parser = grammar.getParser(ParserType.GLL, _X);
+        parser = grammar.getParser(gllOptions, _X);
         result = parser.parse("aaaa");
         Assert.assertTrue(result.succeeded());
     }
@@ -263,7 +286,7 @@ public class ParserTest {
 
         String input = "abaa";
 
-        GearleyParser parser = grammar.getParser(grammar.getNonterminal("S"));
+        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("S"));
         GearleyResult result = parser.parse(Iterators.characterIterator(input));
         Assert.assertTrue(result.succeeded());
     }
@@ -278,7 +301,7 @@ public class ParserTest {
 
         String input = "";
 
-        GearleyParser parser = grammar.getParser(grammar.getNonterminal("S"));
+        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("S"));
         GearleyResult result = parser.parse(Iterators.characterIterator(input));
         Assert.assertTrue(result.succeeded());
     }
@@ -303,7 +326,7 @@ public class ParserTest {
         grammar.addRule(_letterOrNumber, _letter);
         grammar.addRule(_letterOrNumber, _number);
 
-        GearleyParser parser = grammar.getParser(_expr);
+        GearleyParser parser = grammar.getParser(options, _expr);
         GearleyResult result = parser.parse(Iterators.characterIterator("xx"));
 
         Assert.assertTrue(result.succeeded());
@@ -313,7 +336,7 @@ public class ParserTest {
     public void hashGrammar() {
         // See also loadInputGrammar in CompilerTest
 
-        SourceGrammar grammar = new SourceGrammar();
+        SourceGrammar grammar = new SourceGrammar(options);
 
         // hashes: hash*S, ".".
         NonterminalSymbol hashes = grammar.getNonterminal("hashes");
@@ -348,7 +371,7 @@ public class ParserTest {
         grammar.addRule(_s, space, _s);
         grammar.addRule(_s);
 
-        GearleyParser parser = grammar.getParser(hashes);
+        GearleyParser parser = grammar.getParser(options, hashes);
         String input = "#12  #1234.";
 
         GearleyResult result = parser.parse(input);
@@ -376,7 +399,7 @@ public class ParserTest {
 
         String input = "why";
 
-        GearleyParser parser = grammar.getParser(grammar.getNonterminal("Word"));
+        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("Word"));
         GearleyResult result = parser.parse(Iterators.characterIterator(input));
         Assert.assertTrue(result.succeeded());
     }
@@ -406,7 +429,7 @@ public class ParserTest {
             // TODO: deal with undefined, unused, and unproductive items
         }
 
-        GearleyParser parser = grammar.getParser(S);
+        GearleyParser parser = grammar.getParser(options, S);
 
         GearleyResult result = parser.parse("bx");
 
@@ -463,7 +486,7 @@ public class ParserTest {
             String input = sb.toString();
 
             long start = Calendar.getInstance().getTimeInMillis();
-            GearleyParser parser = grammar.getParser(_String);
+            GearleyParser parser = grammar.getParser(options, _String);
             GearleyResult result = parser.parse(input);
             long dur = Calendar.getInstance().getTimeInMillis() - start;
 
@@ -490,7 +513,7 @@ M: 'm'; LDOE .
         NonterminalSymbol _A = grammar.getNonterminal("A");
         NonterminalSymbol _B = grammar.getNonterminal("B");
         NonterminalSymbol _LDOE = grammar.getNonterminal("LDOE");
-        NonterminalSymbol _M = grammar.getNonterminal("M");
+        NonterminalSymbol _M = grammar.getNonterminal("M", new ParserAttribute("priority", "5"));
 
         TerminalSymbol _a = TerminalSymbol.ch('a');
         TerminalSymbol _b = TerminalSymbol.ch('b');
@@ -508,10 +531,14 @@ M: 'm'; LDOE .
         grammar.addRule(_M, _m);
         grammar.addRule(_M, _LDOE);
 
-        GearleyParser parser = grammar.getParser(_S);
+        GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse("amalx");
-        Assertions.assertTrue(result.getForest().isAmbiguous());
-        Assertions.assertTrue(result.getForest().isInfinitelyAmbiguous());
+
+        TreeBuilder builder = new NopPriorityTreeBuilder();
+        result.getForest().getTree(builder);
+        Assertions.assertTrue(builder.isAmbiguous());
+        Assertions.assertTrue(builder.isInfinitelyAmbiguous());
+
         ParseTree tree = result.getForest().getTree();
         Assertions.assertNotNull(tree);
     }
@@ -526,7 +553,7 @@ M: 'm'; LDOE .
         NonterminalSymbol _B = grammar.getNonterminal("B");
         NonterminalSymbol _X = grammar.getNonterminal("X");
         NonterminalSymbol _Y = grammar.getNonterminal("Y");
-        NonterminalSymbol _Z = grammar.getNonterminal("Z");
+        NonterminalSymbol _Z = grammar.getNonterminal("Z", new ParserAttribute("priority", "5"));
 
         TerminalSymbol _a = TerminalSymbol.ch('a');
 
@@ -546,10 +573,12 @@ M: 'm'; LDOE .
         grammar.addRule(_Z);
 
         try {
-            GearleyParser parser = grammar.getParser(_S);
+            GearleyParser parser = grammar.getParser(options, _S);
             GearleyResult result = parser.parse("a");
-            Assertions.assertTrue(result.getForest().isAmbiguous());
-            Assertions.assertTrue(result.getForest().isInfinitelyAmbiguous());
+            TreeBuilder builder = new NopPriorityTreeBuilder();
+            result.getForest().getTree(builder);
+            Assertions.assertTrue(builder.isAmbiguous());
+            Assertions.assertTrue(builder.isInfinitelyAmbiguous());
             ParseTree tree = result.getTree();
             Assertions.assertNotNull(tree);
         } catch (Exception ex) {
@@ -577,7 +606,7 @@ M: 'm'; LDOE .
         grammar.addRule(_B, _b);
         grammar.addRule(_C, _c);
 
-        GearleyParser parser = grammar.getParser(_S);
+        GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse("abd");
         Assert.assertTrue(result.succeeded());
     }
@@ -618,7 +647,7 @@ C = i.
         grammar.addRule(_C, _h, _i);
         grammar.addRule(_C, _i);
 
-        GearleyParser parser = grammar.getParser(_S);
+        GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse("defxghi");
         Assert.assertTrue(result.succeeded());
     }
@@ -652,7 +681,7 @@ C = i.
         grammar.addRule(namefollower_option);
         grammar.addRule(namefollower_option, namefollower, namefollower_star);
 
-        GearleyParser parser = grammar.getParser(file);
+        GearleyParser parser = grammar.getParser(options, file);
 
         String input = "Abc;Def\n" +
                 "Ghi;KLM\n" +
@@ -674,7 +703,10 @@ C = i.
 
         grammar.addRule(S, a, b, c, d);
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        ParserOptions gllOptions = new ParserOptions(options);
+        gllOptions.setParserType("GLL");
+
+        GearleyParser parser = grammar.getParser(gllOptions, S);
 
         String input = "abcd";
 
@@ -695,16 +727,45 @@ C = i.
         grammar.addRule(B, C);
         grammar.addRule(C);
 
-        GearleyParser parser = grammar.getParser(ParserType.GLL, S);
+        ParserOptions gllOptions = new ParserOptions(options);
+        gllOptions.setParserType("GLL");
+
+        GearleyParser parser = grammar.getParser(gllOptions, S);
 
         String input = "a";
 
         GearleyResult result = parser.parse(input);
 
-        StdoutTreeBuilder builder = new StdoutTreeBuilder();
-        result.getTree(builder);
+        //StdoutTreeBuilder builder = new StdoutTreeBuilder();
+        //result.getTree(builder);
 
         Assert.assertTrue(result.succeeded());
+    }
+
+    @Test
+    public void noInput() {
+        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
+
+        NonterminalSymbol S = grammar.getNonterminal("S");
+        NonterminalSymbol B = grammar.getNonterminal("B");
+        NonterminalSymbol C = grammar.getNonterminal("C");
+        TerminalSymbol a = new TerminalSymbol(TokenCharacter.get('a'));
+
+        grammar.addRule(S, a, B, B);
+        grammar.addRule(B, C);
+        grammar.addRule(C);
+
+        ParserOptions gllOptions = new ParserOptions(options);
+        GearleyParser parser = grammar.getParser(gllOptions, S);
+
+        String input = "";
+
+        GearleyResult result = parser.parse(input);
+
+        //StdoutTreeBuilder builder = new StdoutTreeBuilder();
+        //result.getTree(builder);
+
+        Assert.assertFalse(result.succeeded());
     }
 
 }

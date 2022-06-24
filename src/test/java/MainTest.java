@@ -1,9 +1,6 @@
 import org.nineml.coffeegrinder.gll.GllParser;
 import org.nineml.coffeegrinder.gll.GllResult;
-import org.nineml.coffeegrinder.parser.SourceGrammar;
-import org.nineml.coffeegrinder.parser.NonterminalSymbol;
-import org.nineml.coffeegrinder.parser.ParserType;
-import org.nineml.coffeegrinder.parser.TerminalSymbol;
+import org.nineml.coffeegrinder.parser.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,7 +11,9 @@ import static org.junit.Assert.fail;
 
 public class MainTest {
     public static void main(String[] args) {
-        SourceGrammar grammar = new SourceGrammar();
+        ParserOptions options = new ParserOptions();
+        options.setParserType("GLL");
+        SourceGrammar grammar = new SourceGrammar(options);
 
 /*
 S ⇒ UnicodeData
@@ -136,7 +135,7 @@ value ⇒ notSemiStar
         grammar.addRule(value, notSemiStar);
 
         try {
-            GllParser gllParser = (GllParser) grammar.getParser(ParserType.GLL, S);
+            GllParser gllParser = (GllParser) grammar.getParser(options, S);
 
             int lineCount = 0;
 

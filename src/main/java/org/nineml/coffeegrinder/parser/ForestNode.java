@@ -45,8 +45,6 @@ public class ForestNode implements RuleChoice {
     protected boolean reachable = false;
     protected boolean edgesChecked = false;
     protected Integer nodeHash = null;
-    protected long parsesBelow = 0;
-    protected BigInteger exactParsesBelow = BigInteger.ZERO;
 
     protected ForestNode(ParseForest graph, Symbol symbol, int leftExtent, int rightExtent) {
         this.graph = graph;
@@ -106,18 +104,6 @@ public class ForestNode implements RuleChoice {
         return loops;
     }
 
-    public long getParsesBelow() {
-        if (exactParsesBelow.compareTo(MAX_LONG) < 0) {
-            return Long.parseLong(exactParsesBelow.toString());
-        } else {
-            return Long.MAX_VALUE;
-        }
-    }
-
-    public BigInteger getExactParsesBelow() {
-        return exactParsesBelow;
-    }
-
     public void addFamily(ForestNode v) {
         for (Family family : families) {
             if (family.w == null) {
@@ -141,29 +127,17 @@ public class ForestNode implements RuleChoice {
         families.add(new Family(w, v));
     }
 
-    protected int reach(ForestNode root) {
-        NodeVisitor visitor = new NodeVisitor();
-        reach(root, new Stack<>(), visitor);
-        if (visitor.infinitelyAmbiguous) {
-            return INFINITELY_AMBIGUOUS;
-        }
-        if (visitor.ambiguous) {
-            return AMBIGUOUS;
-        }
-        return UNAMBIGUOUS;
+    protected void reach() {
+        reach(new Stack<>());
     }
 
-    protected void reach(ForestNode root, Stack<ForestNode> seen, NodeVisitor visitor) {
+    protected void reach(Stack<ForestNode> seen) {
         if (seen.contains(this)) {
-            visitor.ambiguous = true;
-            visitor.infinitelyAmbiguous = true;
             return;
         }
         seen.push(this);
 
         if (!reachable) {
-            visitor.ambiguous = visitor.ambiguous || families.size() > 1;
-
             for (Family family : families) {
                 if (family.v != null && family.w != null) {
                     // If the left and right sides cover overlapping regions, then there must be
@@ -173,16 +147,15 @@ public class ForestNode implements RuleChoice {
                         // If one side is an epsilon transition, that doesn't count as overlap
                     } else {
                         if ((family.v.leftExtent == family.w.leftExtent || family.v.rightExtent == family.w.rightExtent)) {
-                            visitor.ambiguous = true;
                             graph.options.getLogger().debug(logcategory, "Ambiguity detected; overlap: %d,%d :: %d,%d", family.v.leftExtent, family.v.rightExtent, family.w.leftExtent, family.w.rightExtent);
                         }
                     }
                 }
                 if (family.v != null) {
-                    family.v.reach(root, seen, visitor);
+                    family.v.reach(seen);
                 }
                 if (family.w != null) {
-                    family.w.reach(root, seen, visitor);
+                    family.w.reach(seen);
                 }
             }
         }
@@ -200,8 +173,6 @@ public class ForestNode implements RuleChoice {
 
         if (families.isEmpty()) {
             nodeHash = getSymbol().hashCode();
-            parsesBelow = 1;
-            exactParsesBelow = BigInteger.ONE;
             return false;
         }
 
@@ -275,31 +246,6 @@ public class ForestNode implements RuleChoice {
         families.clear();
         families.addAll(newFamilies);
 
-        exactParsesBelow = BigInteger.ZERO;
-        for (Family family : families) {
-            BigInteger left = BigInteger.ONE;
-            BigInteger right = BigInteger.ONE;
-            // Avoid loops; we have no useful way to represent infinite ambiguity
-            if (!loops.contains(family)) {
-                if (family.w != null) {
-                    left = family.w.exactParsesBelow;
-                }
-                if (family.v != null) {
-                    right = family.v.exactParsesBelow;
-                }
-                exactParsesBelow = exactParsesBelow.add(left.multiply(right));
-            }
-        }
-        if (BigInteger.ZERO.equals(exactParsesBelow)) {
-            exactParsesBelow = BigInteger.ONE;
-        }
-
-        if (exactParsesBelow.compareTo(MAX_LONG) < 0) {
-            parsesBelow = Long.parseLong(exactParsesBelow.toString());
-        } else {
-            parsesBelow = Long.MAX_VALUE;
-        }
-
         if (getSymbol() == null) {
             return false;
         }
@@ -367,10 +313,5 @@ public class ForestNode implements RuleChoice {
         } else {
             return symbol + ", " + leftExtent + ", " + rightExtent;
         }
-    }
-
-    private static final class NodeVisitor {
-        public boolean ambiguous = false;
-        public boolean infinitelyAmbiguous = false;
     }
 }

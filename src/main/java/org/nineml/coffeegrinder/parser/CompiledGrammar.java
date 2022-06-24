@@ -22,13 +22,6 @@ public class CompiledGrammar extends Grammar {
     private final HashMap<NonterminalSymbol, HashSet<Symbol>> followSets = new HashMap<>();
     private boolean computedSets = false;
 
-    /*
-    protected CompiledGrammar(InputGrammar grammar, NonterminalSymbol seed) {
-        this(grammar, ParserType.Earley, seed);
-    }
-
-     */
-
     protected CompiledGrammar(SourceGrammar grammar, ParserType parserType, NonterminalSymbol seed) {
         this.parserType = parserType;
         this.seed = seed;
@@ -62,13 +55,14 @@ public class CompiledGrammar extends Grammar {
      * Get a parser for this grammar.
      *
      * <p>Returns a parser that will parse an input against the rules that define this grammar.</p>
+     * @param options the parser options.
      * @return the parser
      */
-    public GearleyParser getParser() {
+    public GearleyParser getParser(ParserOptions options) {
         if (parserType == ParserType.Earley) {
-            return new EarleyParser(this);
+            return new EarleyParser(this, options);
         } else {
-            return new GllParser(this);
+            return new GllParser(this, options);
         }
     }
 

@@ -14,15 +14,19 @@ import java.util.Calendar;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class IxmlTest {
+    private final ParserOptions options = new ParserOptions();
+
     @Test
     public void testRuleParse() {
         try {
-            ParserOptions options = new ParserOptions();
             SourceGrammar grammar = new GrammarCompiler(options).parse(new File("src/test/resources/ixml.cxml"));
 
             String input = "date: s?, day, s, month, (s, year)? .";
 
-            GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
+            options.setParserType("GLL");
+            options.setProgressMonitor(new DefaultProgressMonitor());
+
+            GearleyParser parser = grammar.getParser(options, "$$");
             GearleyResult result = parser.parse(Iterators.characterIterator(input));
 
             Assert.assertTrue(result.succeeded());
@@ -34,7 +38,7 @@ public class IxmlTest {
     @Test
     public void testDateParse() {
         try {
-            SourceGrammar grammar = new GrammarCompiler().parse(new File("src/test/resources/ixml.cxml"));
+            SourceGrammar grammar = new GrammarCompiler(options).parse(new File("src/test/resources/ixml.cxml"));
 
             String input = "date: s?, day, s, month, (s, year)? .\n" +
                     "-s: -\" \"+ .\n" +
@@ -45,7 +49,7 @@ public class IxmlTest {
                     "       \"September\"; \"October\"; \"November\"; \"December\".\n" +
                     "year: ((digit, digit); -\"'\")?, digit, digit .";
 
-            GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
+            GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("$$"));
             GearleyResult result = parser.parse(Iterators.characterIterator(input));
 
             //result.getForest().serialize("graph.xml");
@@ -60,7 +64,7 @@ public class IxmlTest {
     @Test
     public void testIxmlParse() {
         try {
-            SourceGrammar grammar = new GrammarCompiler().parse(new File("src/test/resources/ixml.cxml"));
+            SourceGrammar grammar = new GrammarCompiler(options).parse(new File("src/test/resources/ixml.cxml"));
 
             TestProgressMonitor monitor = new TestProgressMonitor();
             grammar.getParserOptions().setProgressMonitor(monitor);
@@ -77,7 +81,7 @@ public class IxmlTest {
             long start = Calendar.getInstance().getTimeInMillis();
 
             String input = sb.toString();
-            GearleyParser parser = grammar.getParser(grammar.getNonterminal("$$"));
+            GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("$$"));
             GearleyResult result = parser.parse(Iterators.characterIterator(input));
 
             long end = Calendar.getInstance().getTimeInMillis();
@@ -108,14 +112,14 @@ public class IxmlTest {
         public boolean finished = false;
 
         @Override
-        public int starting(GearleyParser parser) {
-            int size = super.starting(parser);
+        public int starting(GearleyParser parser, int tokens) {
+            int size = super.starting(parser, tokens);
             started = true;
             return size;
         }
 
         @Override
-        public void progress(GearleyParser parser, long count) {
+        public void progress(GearleyParser parser, int count) {
             super.progress(parser, count);
             ran = true;
         }
