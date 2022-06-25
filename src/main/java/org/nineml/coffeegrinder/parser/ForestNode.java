@@ -2,11 +2,7 @@ package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * A node in the SPPF.
@@ -16,12 +12,6 @@ import java.util.Stack;
  */
 public class ForestNode implements RuleChoice {
     public static final String logcategory = "ForestNode";
-
-    public static final int UNAMBIGUOUS = 0;
-    public static final int AMBIGUOUS = 1;
-    public static final int INFINITELY_AMBIGUOUS = 2;
-
-    public static final BigInteger MAX_LONG = new BigInteger("" + Long.MAX_VALUE);
 
     private static int nextNodeId = 0;
 
@@ -43,7 +33,6 @@ public class ForestNode implements RuleChoice {
     protected final ArrayList<Family> families = new ArrayList<>();
     protected final ArrayList<Family> loops = new ArrayList<>();
     protected boolean reachable = false;
-    protected boolean edgesChecked = false;
     protected Integer nodeHash = null;
 
     protected ForestNode(ParseForest graph, Symbol symbol, int leftExtent, int rightExtent) {
@@ -128,16 +117,25 @@ public class ForestNode implements RuleChoice {
     }
 
     protected void reach() {
-        reach(new Stack<>());
+        // Don't try to use the stack for this...
+        ArrayList<ForestNode> pending = new ArrayList<>();
+        HashSet<ForestNode> seen = new HashSet<>();
+        pending.add(this);
+        while (!pending.isEmpty()) {
+            ForestNode check = pending.remove(0);
+            check.reach(pending, seen);
+        }
     }
 
-    protected void reach(Stack<ForestNode> seen) {
+    protected void reach(ArrayList<ForestNode> pending, HashSet<ForestNode> seen) {
         if (seen.contains(this)) {
             return;
         }
-        seen.push(this);
+        seen.add(this);
 
         if (!reachable) {
+            reachable = true;
+
             for (Family family : families) {
                 if (family.v != null && family.w != null) {
                     // If the left and right sides cover overlapping regions, then there must be
@@ -152,16 +150,15 @@ public class ForestNode implements RuleChoice {
                     }
                 }
                 if (family.v != null) {
-                    family.v.reach(seen);
+                    pending.add(family.v);
+                    //family.v.reach(seen);
                 }
                 if (family.w != null) {
-                    family.w.reach(seen);
+                    pending.add(family.w);
+                    //family.w.reach(seen);
                 }
             }
         }
-
-        reachable = true;
-        seen.pop();
     }
 
     // Remove discardable nodes that lead only to ε
@@ -250,7 +247,7 @@ public class ForestNode implements RuleChoice {
             return false;
         }
 
-        ParserAttribute pclass = getSymbol().getAttribute(ParserAttribute.PRUNING);
+        ParserAttribute pclass = getSymbol().getAttribute(ParserAttribute.PRUNING_NAME);
         if (pclass == null || pclass.getValue().equals(ParserAttribute.PRUNING_FORBIDDEN.getValue())) {
             return false;
         }
