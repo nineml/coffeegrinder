@@ -20,8 +20,6 @@ public class GllResult implements GearleyResult {
     private final int lineNumber;
     private final int columnNumber;
     private long parseTime = -1;
-    private boolean ambiguous = false;
-    private boolean infinitelyAmbiguous = false;
 
     public GllResult(GllParser parser, BinarySubtree bsr) {
         this.parser = parser;
@@ -33,27 +31,6 @@ public class GllResult implements GearleyResult {
         lineNumber = parser.getLineNumber();
         columnNumber = parser.getColumnNumber();
         success = parser.succeeded();
-
-        if (success) {
-            HashMap<Symbol, HashSet<Integer>> seen = new HashMap<>();
-            for (int idx : bsr.bsrSlots.keySet()) {
-                for (BinarySubtreeSlot node : bsr.bsrSlots.get(idx)) {
-                    assert node.slot.symbol != null;
-                    if (seen.containsKey(node.slot.symbol) && seen.get(node.slot.symbol).contains(node.rightExtent)) {
-                        ambiguous = true;
-                        break;
-                    }
-                    if (!seen.containsKey(node.slot.symbol)) {
-                        seen.put(node.slot.symbol, new HashSet<>());
-                    }
-                    seen.get(node.slot.symbol).add(node.rightExtent);
-                }
-                seen.clear();
-                if (ambiguous) {
-                    break;
-                }
-            }
-        }
     }
 
     @Override
@@ -76,7 +53,6 @@ public class GllResult implements GearleyResult {
     @Override
     public void getTree(TreeBuilder builder) {
         graph.getTree(builder);
-        infinitelyAmbiguous = builder.isInfinitelyAmbiguous();
     }
 
     public BinarySubtree getBinarySubtree() {
@@ -85,12 +61,12 @@ public class GllResult implements GearleyResult {
 
     @Override
     public boolean isAmbiguous() {
-        return ambiguous;
+        return graph != null && graph.isAmbiguous();
     }
 
     @Override
     public boolean isInfinitelyAmbiguous() {
-        return infinitelyAmbiguous;
+        return graph != null && graph.isInfinitelyAmbiguous();
     }
 
     @Override
