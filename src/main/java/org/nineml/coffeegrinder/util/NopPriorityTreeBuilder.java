@@ -7,19 +7,20 @@ import org.nineml.coffeegrinder.tokens.Token;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class NopPriorityTreeBuilder extends PriorityTreeBuilder {
     @Override
-    public void startNonterminal(NonterminalSymbol symbol, Collection<ParserAttribute> attributes, int leftExtent, int rightExtent) {
+    public void startNonterminal(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
         // nop
     }
 
     @Override
-    public void endNonterminal(NonterminalSymbol symbol, Collection<ParserAttribute> attributes, int leftExtent, int rightExtent) {
+    public void endNonterminal(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
         // nop
     }
 
-    public void token(Token token, Collection<ParserAttribute> attributes) {
+    public void token(Token token, Map<String,String> attributes) {
         // nop
     }
 }

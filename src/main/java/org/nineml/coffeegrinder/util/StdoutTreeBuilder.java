@@ -8,6 +8,7 @@ import org.nineml.coffeegrinder.tokens.TokenCharacter;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class StdoutTreeBuilder extends PriorityTreeBuilder {
     private static final String tab = "  ";
@@ -21,7 +22,7 @@ public class StdoutTreeBuilder extends PriorityTreeBuilder {
     }
 
     @Override
-    public void startNonterminal(NonterminalSymbol symbol, Collection<ParserAttribute> attributes, int leftExtent, int rightExtent) {
+    public void startNonterminal(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
         if (sb != null) {
             System.out.printf("%s%s%n", indent, sb);
             sb = null;
@@ -31,7 +32,7 @@ public class StdoutTreeBuilder extends PriorityTreeBuilder {
     }
 
     @Override
-    public void endNonterminal(NonterminalSymbol symbol, Collection<ParserAttribute> attributes, int leftExtent, int rightExtent) {
+    public void endNonterminal(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
         if (sb != null) {
             System.out.printf("%s%s%n", indent, sb);
             sb = null;
@@ -41,7 +42,7 @@ public class StdoutTreeBuilder extends PriorityTreeBuilder {
     }
 
     @Override
-    public void token(Token token, Collection<ParserAttribute> attributes) {
+    public void token(Token token, Map<String,String> attributes) {
         if (sb == null) {
             sb = new StringBuilder();
         }

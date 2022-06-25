@@ -8,6 +8,7 @@ import org.nineml.coffeegrinder.tokens.Token;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class ParseTreeBuilder extends TreeBuilder {
     ParseTree root;
@@ -19,7 +20,7 @@ public class ParseTreeBuilder extends TreeBuilder {
     }
 
     @Override
-    public void startNonterminal(NonterminalSymbol symbol, Collection<ParserAttribute> attributes, int leftExtent, int rightExtent) {
+    public void startNonterminal(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
         leaf = null;
         if (root == null) {
             root = new ParseTree(symbol, attributes);
@@ -30,7 +31,7 @@ public class ParseTreeBuilder extends TreeBuilder {
     }
 
     @Override
-    public void endNonterminal(NonterminalSymbol symbol, Collection<ParserAttribute> attributes, int leftExtent, int rightExtent) {
+    public void endNonterminal(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
         leaf = null;
         if (branch != root) {
             branch = branch.getParent();
@@ -38,7 +39,7 @@ public class ParseTreeBuilder extends TreeBuilder {
     }
 
     @Override
-    public void token(Token token, Collection<ParserAttribute> attributes) {
+    public void token(Token token, Map<String,String> attributes) {
         branch.addChild(token, attributes);
     }
 }

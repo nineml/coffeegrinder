@@ -294,26 +294,21 @@ public class ParseForest {
             return;
         }
 
-        final List<ParserAttribute> atts;
+        final Map<String,String> atts;
         if (symbol.getAttributes().isEmpty() && (xsymbol == null || xsymbol.getAttributes().isEmpty())) {
-            atts = Collections.emptyList();
+            atts = Collections.emptyMap();
         } else {
-            ArrayList<ParserAttribute> xatts = new ArrayList<>();
+            HashMap<String,String> xatts = new HashMap<>(symbol.getAttributesMap());
             if (xsymbol != null) {
-                xatts.addAll(xsymbol.getAttributes());
+                xatts.putAll(xsymbol.getAttributesMap());
             }
-            xatts.addAll(symbol.getAttributes());
             atts = xatts;
         }
 
         boolean prunable = false;
         // Always output the root node because we need its attributes
         if (!pendingActions.isEmpty() && !options.getExposePrunableNonterminals()) {
-            for (ParserAttribute attr : atts) {
-                if (ParserAttribute.PRUNING_NAME.equals(attr.getName())) {
-                    prunable = ParserAttribute.PRUNING_ALLOWED.getValue().equals(attr.getValue());
-                }
-            }
+            prunable = ParserAttribute.ALLOWED_TO_PRUNE.equals(atts.getOrDefault(ParserAttribute.PRUNING_NAME, ParserAttribute.NOT_ALLOWED_TO_PRUNE));
         }
 
         if (symbol instanceof TerminalSymbol) {
@@ -618,10 +613,10 @@ public class ParseForest {
 
     private static class PendingStart extends PendingAction {
         public final NonterminalSymbol symbol;
-        public final List<ParserAttribute> attributes;
+        public final Map<String,String> attributes;
         public final int leftExtent;
         public final int rightExtent;
-        public PendingStart(NonterminalSymbol symbol, List<ParserAttribute> attributes, int leftExtent, int rightExtent) {
+        public PendingStart(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
             this.symbol = symbol;
             this.attributes = attributes;
             this.leftExtent = leftExtent;
@@ -631,10 +626,10 @@ public class ParseForest {
 
     private static class PendingEnd extends PendingAction {
         public final NonterminalSymbol symbol;
-        public final List<ParserAttribute> attributes;
+        public final Map<String,String> attributes;
         public final int leftExtent;
         public final int rightExtent;
-        public PendingEnd(NonterminalSymbol symbol, List<ParserAttribute> attributes, int leftExtent, int rightExtent) {
+        public PendingEnd(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
             this.symbol = symbol;
             this.attributes = attributes;
             this.leftExtent = leftExtent;

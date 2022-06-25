@@ -3,19 +3,21 @@ package org.nineml.coffeegrinder.util;
 import org.nineml.coffeegrinder.exceptions.AttributeException;
 import org.nineml.coffeegrinder.exceptions.GrammarException;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public abstract class Decoratable {
-    private final HashMap<String, ParserAttribute> attributes;
+    // On the one hand, maintaining two maps is a waste of space.
+    // On the other hand, it means we can quickly return either the original
+    // attributes or a map of the attributes without allocating new objects
+    // on the heap. There are usually relatively few attributes, so I'm gambling
+    // that two maps is better...
+    private HashMap<String, ParserAttribute> attributes = null;
+    private HashMap<String, String> attrmap = null;
 
     /**
      * A decoratable item with no attributes.
      */
     public Decoratable() {
-        this.attributes = new HashMap<>();
     }
 
     /**
@@ -26,7 +28,6 @@ public abstract class Decoratable {
      * @throws AttributeException if an attribute has an invalid value
      */
     public Decoratable(Collection<ParserAttribute> attributes) {
-        this.attributes = new HashMap<>();
         addAttributes(attributes);
     }
 
@@ -36,7 +37,7 @@ public abstract class Decoratable {
      * @return true if the attribute is associated with this token.
      */
     public final boolean hasAttribute(String name) {
-        return attributes.containsKey(name);
+        return attributes != null && attributes.containsKey(name);
     }
 
     /**
@@ -45,7 +46,10 @@ public abstract class Decoratable {
      * @return the associated attribute, or null if there is no attribute with that name.
      */
     public final ParserAttribute getAttribute(String name) {
-        return attributes.getOrDefault(name, null);
+        if (attributes != null) {
+            return attributes.getOrDefault(name, null);
+        }
+        return null;
     }
 
     /**
@@ -55,7 +59,7 @@ public abstract class Decoratable {
      * @return the associated attribute value, or the default if there is no attribute with that name.
      */
     public final String getAttributeValue(String name, String defaultValue) {
-        if (attributes.containsKey(name)) {
+        if (attributes != null && attributes.containsKey(name)) {
             return attributes.get(name).getValue();
         }
         return defaultValue;
@@ -67,6 +71,9 @@ public abstract class Decoratable {
      * @return the attributes.
      */
     public final Collection<ParserAttribute> getAttributes() {
+        if (attributes == null) {
+            return Collections.emptyList();
+        }
         return attributes.values();
     }
 
@@ -76,14 +83,10 @@ public abstract class Decoratable {
      * @return the associated attribute, or null if there is no attribute with that name.
      */
     public final Map<String,String> getAttributesMap() {
-        if (attributes.isEmpty()) {
+        if (attrmap == null) {
             return Collections.emptyMap();
         }
-        HashMap<String,String> amap = new HashMap<>();
-        for (ParserAttribute attr : attributes.values()) {
-            amap.put(attr.getName(), attr.getValue());
-        }
-        return amap;
+        return attrmap;
     }
 
     /**
@@ -104,15 +107,21 @@ public abstract class Decoratable {
     /**
      * Add the specified attributes to the attributes collection.
      * <p>Once added, an attribute cannot be removed, nor can its value be changed.</p>
-     * @param attributes the attributes
+     * @param attrcoll the attributes
      * @throws AttributeException if you attempt to change the value of an attribute
      * @throws AttributeException if you pass an illegal attribute
      */
-    public final void addAttributes(Collection<ParserAttribute> attributes) {
-        if (attributes == null) {
+    public final void addAttributes(Collection<ParserAttribute> attrcoll) {
+        if (attrcoll == null) {
             return;
         }
-        for (ParserAttribute attr : attributes) {
+
+        if (attributes == null) {
+            attributes = new HashMap<>();
+            attrmap = new HashMap<>();
+        }
+
+        for (ParserAttribute attr : attrcoll) {
             if (attr.getName().equals(ParserAttribute.PRUNING_NAME)
                     && !ParserAttribute.ALLOWED_TO_PRUNE.equals(attr.getValue())
                     && !ParserAttribute.NOT_ALLOWED_TO_PRUNE.equals(attr.getValue())) {
@@ -124,6 +133,7 @@ public abstract class Decoratable {
                 }
             } else {
                 this.attributes.put(attr.getName(), attr);
+                this.attrmap.put(attr.getName(), attr.getValue());
             }
         }
     }
