@@ -8,6 +8,10 @@ package org.nineml.coffeegrinder.util;
  * <p>It's worth observing that the terminals created from the input stream don't get metadata.</p>
  */
 public class ParserAttribute {
+    public static final String LINE_NUMBER_NAME = "https://nineml.org/attr/line";
+    public static final String COLUMN_NUMBER_NAME = "https://nineml.org/attr/column";
+    public static final String OFFSET_NAME = "https://nineml.org/attr/offset";
+
     public static final String PRUNING_NAME = "https://nineml.org/attr/prune";
     public static final String ALLOWED_TO_PRUNE = "allowed";
     public static final String NOT_ALLOWED_TO_PRUNE = "forbidden";
