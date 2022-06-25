@@ -17,34 +17,27 @@ public class ParseTree {
     private ParseTree parent = null;
     private HashMap<String,String> attributes = null;
 
-    public ParseTree(NonterminalSymbol symbol, Collection<ParserAttribute> attrs) {
+    public ParseTree(NonterminalSymbol symbol, Map<String,String> attrs) {
         this.symbol = symbol;
         this.token = null;
-        handleAttributes(attrs);
-    }
-
-    public ParseTree(Token token, Collection<ParserAttribute> attrs) {
-        this.symbol = null;
-        this.token = token;
-        handleAttributes(attrs);
-    }
-
-    private void handleAttributes(Collection<ParserAttribute> attrs) {
         if (!attrs.isEmpty()) {
-            attributes = new HashMap<>();
-            for (ParserAttribute attr : attrs) {
-                if (!attributes.containsKey(attr.getName())) {
-                    attributes.put(attr.getName(), attr.getValue());
-                }
-            }
+            this.attributes = new HashMap<>(attrs);
         }
     }
 
-    public ParseTree addChild(NonterminalSymbol symbol, Collection<ParserAttribute> attrs) {
+    public ParseTree(Token token, Map<String,String> attrs) {
+        this.symbol = null;
+        this.token = token;
+        if (!attrs.isEmpty()) {
+            this.attributes = new HashMap<>(attrs);
+        }
+    }
+
+    public ParseTree addChild(NonterminalSymbol symbol, Map<String,String> attrs) {
         return addChild(new ParseTree(symbol, attrs));
     }
 
-    public void addChild(Token token, Collection<ParserAttribute> attrs) {
+    public void addChild(Token token, Map<String,String> attrs) {
         addChild(new ParseTree(token, attrs));
     }
 

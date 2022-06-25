@@ -5,6 +5,7 @@ import org.nineml.coffeegrinder.tokens.*;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -22,6 +23,7 @@ public class TerminalSymbol extends Symbol {
      * @throws NullPointerException if the token is null
      */
     public TerminalSymbol(Token token) {
+        super();
         if (token == null) {
             throw new NullPointerException("Token must not be null");
         }
@@ -36,11 +38,7 @@ public class TerminalSymbol extends Symbol {
      * @throws GrammarException if the attribute attempts to make the symbol optional
      */
     public TerminalSymbol(Token token, ParserAttribute attribute) {
-        if (token == null) {
-            throw new NullPointerException("Token must not be null");
-        }
-        this.token = token;
-        addAttribute(attribute);
+        this(token, Collections.singletonList(attribute));
     }
 
     /**
@@ -51,11 +49,12 @@ public class TerminalSymbol extends Symbol {
      * @throws GrammarException if the attributes attempt to make the symbol optional
      */
     public TerminalSymbol(Token token, Collection<ParserAttribute> attributes) {
+        super(attributes);
+
         if (token == null) {
             throw new NullPointerException("Token must not be null");
         }
         this.token = token;
-        addAttributes(attributes);
     }
 
     /**

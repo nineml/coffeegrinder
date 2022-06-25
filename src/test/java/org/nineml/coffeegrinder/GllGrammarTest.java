@@ -339,6 +339,31 @@ public class GllGrammarTest {
     }
 
     @Test
+    public void testGrammar9() {
+        SourceGrammar grammar = new SourceGrammar();
+
+        NonterminalSymbol S = grammar.getNonterminal("S");
+        NonterminalSymbol block = grammar.getNonterminal("block");
+        NonterminalSymbol rule = grammar.getNonterminal("rule");
+        NonterminalSymbol opt_rule = grammar.getNonterminal("opt_rule");
+        NonterminalSymbol opt = grammar.getNonterminal("opt");
+        TerminalSymbol ob = new TerminalSymbol(TokenCharacter.get('{'));
+        TerminalSymbol cb = new TerminalSymbol(TokenCharacter.get('}'));
+        TerminalSymbol x = new TerminalSymbol(TokenCharacter.get('x'));
+
+        grammar.addRule(S, block);
+        grammar.addRule(block, ob, opt_rule, cb);
+        grammar.addRule(rule, x);
+        grammar.addRule(opt_rule, rule);
+        grammar.addRule(opt_rule, opt);
+        grammar.addRule(opt);
+
+        GearleyParser parser = grammar.getParser(options, S);
+        GearleyResult result = parser.parse("{}");
+        Assert.assertTrue(result.succeeded());
+    }
+
+    @Test
     public void testAttributes() {
         SourceGrammar grammar = new SourceGrammar();
 

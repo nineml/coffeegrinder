@@ -15,12 +15,14 @@ public class NonterminalSymbol extends Symbol {
     private final Grammar grammar;
 
     protected NonterminalSymbol(Grammar grammar, String name, Collection<ParserAttribute> attributes) {
+        super(attributes);
+
         if (name == null) {
             throw new NullPointerException("Nonterminal symbol cannot be null");
         }
+
         this.grammar = grammar;
         this.name = name;
-        addAttributes(attributes);
     }
 
     /**

@@ -2,30 +2,22 @@ package org.nineml.coffeegrinder.util;
 
 import org.nineml.coffeegrinder.parser.NonterminalSymbol;
 import org.nineml.coffeegrinder.parser.TreeBuilder;
-import org.nineml.coffeegrinder.parser.RuleChoice;
 import org.nineml.coffeegrinder.tokens.Token;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.Map;
 
 public class NopTreeBuilder extends TreeBuilder {
     @Override
-    public int startAlternative(List<RuleChoice> alternatives) {
-        ambiguous = true;
-        return 0;
-    }
-
-    @Override
-    public void startNonterminal(NonterminalSymbol symbol, Collection<ParserAttribute> attributes, int leftExtent, int rightExtent) {
+    public void startNonterminal(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
         // nop
     }
 
     @Override
-    public void endNonterminal(NonterminalSymbol symbol, Collection<ParserAttribute> attributes, int leftExtent, int rightExtent) {
+    public void endNonterminal(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
         // nop
     }
 
-    public void token(Token token, Collection<ParserAttribute> attributes) {
+    public void token(Token token, Map<String,String> attributes) {
         // nop
     }
 }

@@ -26,7 +26,7 @@ import java.util.*;
  * can be loaded with the {@link #parse} method.</p>
  */
 public class GrammarCompiler {
-    private static final String formatVersion="0.9.4";
+    private static final String formatVersion="0.9.5";
     private static final char nameEscape = 'ǝ';
     private static final String NS = "http://nineml.org/coffeegrinder/ns/grammar/compiled";
     private static final HashMap<Character,String> entities = new HashMap<>();
@@ -331,7 +331,7 @@ public class GrammarCompiler {
     private void standardAttributes(Collection<ParserAttribute> attributes) {
         String value = "";
         for (ParserAttribute attr : attributes) {
-            if (attr.getName().equals(ParserAttribute.PRUNING)) {
+            if (attr.getName().equals(ParserAttribute.PRUNING_NAME)) {
                 if (attr.getValue().equals(ParserAttribute.PRUNING_ALLOWED.getValue())) {
                     value += "p";
                 } else {

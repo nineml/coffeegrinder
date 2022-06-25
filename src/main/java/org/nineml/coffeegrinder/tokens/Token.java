@@ -2,7 +2,7 @@ package org.nineml.coffeegrinder.tokens;
 
 import org.nineml.coffeegrinder.exceptions.AttributeException;
 import org.nineml.coffeegrinder.exceptions.GrammarException;
-import org.nineml.coffeegrinder.parser.Symbol;
+import org.nineml.coffeegrinder.util.Decoratable;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.Collection;
@@ -19,17 +19,16 @@ import java.util.HashMap;
  * This is not the same as equality becuase, for example, the same regular expression token might
  * match many different input strings.</p>
  */
-public abstract class Token {
-    private final HashMap<String, ParserAttribute> attributes = new HashMap<>();
-
+public abstract class Token extends Decoratable {
     /**
      * A token with attributes.
      *
      * @param attributes the attributes
      * @throws GrammarException if the attribute names are not unique
+     * @throws AttributeException if an attribute has an invalid value
      */
     public Token(Collection<ParserAttribute> attributes) {
-        addAttributes(attributes);
+        super(attributes);
     }
 
     /**
@@ -45,89 +44,4 @@ public abstract class Token {
      * @return the token string
      */
     public abstract String getValue();
-
-    /**
-     * Check if a specific attribute is specified.
-     * @param name the name of the attribute.
-     * @return true if the attribute is associated with this token.
-     */
-    public final boolean hasAttribute(String name) {
-        return attributes.containsKey(name);
-    }
-
-    /**
-     * Get a specific token attribute.
-     * @param name the name of the attribute.
-     * @return the associated attribute, or null if there is no attribute with that name.
-     */
-    public final ParserAttribute getAttribute(String name) {
-        if (attributes.containsKey(name)) {
-            return attributes.get(name);
-        }
-        return null;
-    }
-
-    /**
-     * Get a specific token attribute value.
-     * @param name the name of the attribute.
-     * @param defaultValue the default value.
-     * @return the associated attribute value, or the default if there is no attribute with that name.
-     */
-    public final String getAttributeValue(String name, String defaultValue) {
-        if (attributes.containsKey(name)) {
-            return attributes.get(name).getValue();
-        }
-        return defaultValue;
-    }
-
-    /**
-     * Get all the token's attributes.
-     *
-     * @return the associated attribute, or null if there is no attribute with that name.
-     */
-    public final Collection<ParserAttribute> getAttributes() {
-        return attributes.values();
-    }
-
-    /**
-     * Add the specified attribute to the attributes collection.
-     * <p>Once added, an attribute cannot be removed, nor can its value be changed.</p>
-     * @param attribute the attribute
-     * @throws AttributeException if you attempt to change the value of an attribute
-     * @throws AttributeException if you pass an illegal attribute
-     * @throws NullPointerException if the attribute is null
-     */
-    public final void addAttribute(ParserAttribute attribute) {
-        if (attribute == null) {
-            throw new NullPointerException("Attribute must not be null");
-        }
-        addAttributes(Collections.singletonList(attribute));
-    }
-
-    /**
-     * Add the specified attributes to the attributes collection.
-     * <p>Once added, an attribute cannot be removed, nor can its value be changed.</p>
-     * @param attributes the attributes
-     * @throws AttributeException if you attempt to change the value of an attribute
-     * @throws AttributeException if you pass an illegal attribute
-     */
-    public final void addAttributes(Collection<ParserAttribute> attributes) {
-        if (attributes == null) {
-            return;
-        }
-        for (ParserAttribute attr : attributes) {
-            if (attr.getName().equals(ParserAttribute.PRUNING)
-                    && (!attr.getValue().equals(ParserAttribute.PRUNING_ALLOWED.getValue())
-                    && !attr.getValue().equals(ParserAttribute.PRUNING_FORBIDDEN.getValue()))) {
-                throw AttributeException.invalidPRUNING(attr.getValue());
-            }
-            if (this.attributes.containsKey(attr.getName())) {
-                if (!this.attributes.get(attr.getName()).getValue().equals(attr.getValue())) {
-                    throw AttributeException.immutable(attr.getName(), attr.getValue());
-                }
-            } else {
-                this.attributes.put(attr.getName(), attr);
-            }
-        }
-    }
 }

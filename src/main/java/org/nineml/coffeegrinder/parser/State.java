@@ -179,15 +179,23 @@ public class State {
         if (firstSet == null) {
             firstSet = new HashSet<>();
             int spos = position;
-            while (spos < rhs.length) {
+            boolean keepGoing = spos < rhs.length;
+            while (keepGoing) {
                 Set<Symbol> first = grammar.getFirst(rhs.get(spos));
                 firstSet.addAll(first);
+
+                keepGoing = firstSet.contains(TerminalSymbol.EPSILON);
                 if (grammar.isNullable(rhs.get(spos))) {
                     first.add(TerminalSymbol.EPSILON);
-                } else {
+                    keepGoing = true;
+                }
+
+                if (!keepGoing) {
                     return firstSet;
                 }
+
                 spos++;
+                keepGoing = spos < rhs.length;
             }
             if (spos == 0 && rhs.length == 0) {
                 firstSet.add(TerminalSymbol.EPSILON);

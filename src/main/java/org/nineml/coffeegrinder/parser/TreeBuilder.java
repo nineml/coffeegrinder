@@ -1,9 +1,11 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.tokens.Token;
-import org.nineml.coffeegrinder.util.ParserAttribute;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class TreeBuilder {
     protected final Split root = new Split();
@@ -86,11 +88,11 @@ public abstract class TreeBuilder {
         }
     }
 
-    abstract public void startNonterminal(NonterminalSymbol symbol, Collection<ParserAttribute> attributes, int leftExtent, int rightExtent);
+    abstract public void startNonterminal(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent);
 
-    abstract public void endNonterminal(NonterminalSymbol symbol, Collection<ParserAttribute> attributes, int leftExtent, int rightExtent);
+    abstract public void endNonterminal(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent);
 
-    abstract public void token(Token token, Collection<ParserAttribute> attributes);
+    abstract public void token(Token token, Map<String,String> attributes);
 
     private class Split {
         private final Split parent;
