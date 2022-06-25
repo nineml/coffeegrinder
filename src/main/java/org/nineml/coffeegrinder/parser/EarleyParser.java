@@ -6,6 +6,7 @@ import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.tokens.TokenEOF;
 import org.nineml.coffeegrinder.tokens.TokenString;
 import org.nineml.coffeegrinder.util.Iterators;
+import org.nineml.coffeegrinder.util.ParserAttribute;
 import org.nineml.coffeegrinder.util.StopWatch;
 
 import java.util.*;
@@ -29,14 +30,13 @@ public class EarleyParser implements GearleyParser {
     private final NonterminalSymbol S;
     private final HashMap<NonterminalSymbol, List<Rule>> Rho;
     protected Token[] input = null;
-    protected int startPos = 0;
     protected int inputPos = 0;
-    protected int lineNumber = 1;
-    protected int columnNumber = 1;
+    protected int offset = -1;
+    protected int lineNumber = -1;
+    protected int columnNumber = -1;
 
     protected boolean restartable = false;
     protected int restartPos = 0;
-    private boolean success = false;
     private boolean moreInput = false;
     protected final ParserOptions options;
     protected ProgressMonitor monitor = null;
@@ -157,13 +157,12 @@ public class EarleyParser implements GearleyParser {
 
     /**
      * Parse an array of tokens against the grammar.
-     *
+     * <p>You <b>must not</b> change the input array.</p>
      * @param input the input array
      * @return a parse result
      */
     public EarleyResult parse(Token[] input) {
-        this.input = new Token[input.length];
-        System.arraycopy(input, 0, this.input,  0, input.length);
+        this.input = input;
         return parseInput();
     }
 
@@ -242,6 +241,8 @@ public class EarleyParser implements GearleyParser {
         String greedy = null;
         while (!done) {
             currentToken = nextToken;
+
+            //System.err.printf("%4d %s%n", inputPos, currentToken);
 
             // Whether we consumed the input or not matters during the process
             // and also at the end. If there are no more tokens, make sure that
@@ -396,13 +397,6 @@ public class EarleyParser implements GearleyParser {
                         String s = nextToken.getValue();
                         if (patn.matcher(s).matches()) {
                             sb.append(s);
-                            if (nextToken instanceof TokenCharacter) {
-                                columnNumber++;
-                                if (((TokenCharacter) nextToken).getCodepoint() == '\n') {
-                                    columnNumber = 1;
-                                    lineNumber++;
-                                }
-                            }
                         } else {
                             peek = nextToken;
                             break;
@@ -418,13 +412,6 @@ public class EarleyParser implements GearleyParser {
             done = lastToken;
             if (peek != null || inputPos+1 < input.length) {
                 nextToken = peek == null ? input[++inputPos] : peek;
-                if (nextToken instanceof TokenCharacter) {
-                    columnNumber++;
-                    if (((TokenCharacter) nextToken).getCodepoint() == '\n') {
-                        columnNumber = 1;
-                        lineNumber++;
-                    }
-                }
             } else {
                 nextToken = null;
                 lastToken = true;
@@ -462,7 +449,7 @@ public class EarleyParser implements GearleyParser {
         }
 
         // If there are still tokens left, we bailed early. (No pun intended.)
-        success = inputPos == input.length || (inputPos+1 == input.length && consumedInput && lastToken);
+        boolean success = inputPos == input.length || (inputPos + 1 == input.length && consumedInput && lastToken);
         moreInput = !success;
 
         if (success) {
@@ -552,15 +539,48 @@ public class EarleyParser implements GearleyParser {
     }
 
     public int getLineNumber() {
+        computeOffsets();
         return lineNumber;
     }
 
     public int getColumnNumber() {
+        computeOffsets();
         return columnNumber;
     }
 
     public int getOffset() {
-        return startPos + inputPos;
+        computeOffsets();
+        return offset;
+    }
+
+    private void computeOffsets() {
+        if (offset >= 0) {
+            return;
+        }
+
+        offset = 0;
+        lineNumber = 1;
+        columnNumber = 1;
+
+        for (int pos = 0; pos < inputPos; pos++) {
+            offset++;
+            columnNumber++;
+            if (input[pos] instanceof TokenCharacter) {
+                if (((TokenCharacter) input[pos]).getCodepoint() == '\n') {
+                    lineNumber++;
+                    columnNumber = 1;
+                }
+            }
+            if (input[pos].hasAttribute(ParserAttribute.LINE_NUMBER_NAME)) {
+                lineNumber = Integer.parseInt(input[pos].getAttributeValue(ParserAttribute.LINE_NUMBER_NAME, "error"));
+            }
+            if (input[pos].hasAttribute(ParserAttribute.COLUMN_NUMBER_NAME)) {
+                columnNumber = Integer.parseInt(input[pos].getAttributeValue(ParserAttribute.COLUMN_NUMBER_NAME, "error"));
+            }
+            if (input[pos].hasAttribute(ParserAttribute.OFFSET_NAME)) {
+                offset = Integer.parseInt(input[pos].getAttributeValue(ParserAttribute.OFFSET_NAME, "error"));
+            }
+        }
     }
 
     private ForestNode make_node(State B, int j, int i, ForestNode w, ForestNode v) {
