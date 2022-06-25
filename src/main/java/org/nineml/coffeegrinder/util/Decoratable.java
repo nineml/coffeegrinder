@@ -2,11 +2,11 @@ package org.nineml.coffeegrinder.util;
 
 import org.nineml.coffeegrinder.exceptions.AttributeException;
 import org.nineml.coffeegrinder.exceptions.GrammarException;
-import org.nineml.coffeegrinder.tokens.Token;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Decoratable {
     private final HashMap<String, ParserAttribute> attributes;
@@ -64,10 +64,26 @@ public abstract class Decoratable {
     /**
      * Get all the token's attributes.
      *
-     * @return the associated attribute, or null if there is no attribute with that name.
+     * @return the attributes.
      */
     public final Collection<ParserAttribute> getAttributes() {
         return attributes.values();
+    }
+
+    /**
+     * Get all the token's attributes as a map.
+     *
+     * @return the associated attribute, or null if there is no attribute with that name.
+     */
+    public final Map<String,String> getAttributesMap() {
+        if (attributes.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        HashMap<String,String> amap = new HashMap<>();
+        for (ParserAttribute attr : attributes.values()) {
+            amap.put(attr.getName(), attr.getValue());
+        }
+        return amap;
     }
 
     /**
