@@ -20,6 +20,8 @@ import static java.lang.Math.abs;
 public class ParseForest {
     public static final String logcategory = "Forest";
 
+    private enum PendingType { START, END, TREE, END_ALTERNATIVES };
+
     protected final ArrayList<ForestNode> graph = new ArrayList<>();
     protected final ArrayList<ForestNode> roots = new ArrayList<>();
     protected final HashSet<Integer> graphIds = new HashSet<>();
@@ -169,19 +171,25 @@ public class ParseForest {
         HashSet<Family> seen = new HashSet<>();
         while (!pendingActions.isEmpty()) {
             PendingAction top = pendingActions.pop();
-            if (top instanceof PendingTree) {
-                PendingTree tree = (PendingTree) top;
-                constructTree(builder, tree.tree, tree.xsymbol, seen);
-            } else if (top instanceof PendingStart) {
-                PendingStart start = (PendingStart) top;
-                builder.startNonterminal(start.symbol, start.attributes, start.leftExtent, start.rightExtent);
-            } else if (top instanceof PendingEnd) {
-                PendingEnd end = (PendingEnd) top;
-                builder.endNonterminal(end.symbol, end.attributes, end.leftExtent, end.rightExtent);
-            } else if (top instanceof PendingEndAlternatives) {
-                builder.endAlternative(((PendingEndAlternatives) top).selectedAlternative);
-            } else {
-                throw new IllegalStateException("Unexpected pending action: " + top);
+            switch (top.action) {
+                case START:
+                    PendingStart start = (PendingStart) top;
+                    builder.startNonterminal(start.symbol, start.attributes, start.leftExtent, start.rightExtent);
+                    break;
+                case END:
+                    PendingEnd end = (PendingEnd) top;
+                    builder.endNonterminal(end.symbol, end.attributes, end.leftExtent, end.rightExtent);
+                    break;
+                case TREE:
+                    PendingTree tree = (PendingTree) top;
+                    constructTree(builder, tree.tree, tree.xsymbol, seen);
+                    break;
+                case END_ALTERNATIVES:
+                    builder.endAlternative(((PendingEndAlternatives) top).selectedAlternative);
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected pending action: " + top.action);
+
             }
         }
     }
@@ -199,22 +207,30 @@ public class ParseForest {
         assert tree != null;
         State state = tree.getState();
 
+        if (tree.families.size() > 1 && tree.edgeCounts == null) {
+            tree.edgeCounts = new HashMap<>();
+            for (Family family : tree.families) {
+                tree.edgeCounts.put(family, 0);
+            }
+        }
+
         int index = 0;
         boolean alternatives = false;
+        int lowest = Integer.MAX_VALUE;
         ForestNode selectedAlternative = null;
         final ArrayList<Family> families;
         switch (tree.families.size()) {
             case 0:
+            case 1:
                 families = tree.families;
                 break;
-            case 1:
-                if (selected.contains(tree.families.get(0))) {
-                    families = new ArrayList<>();
-                } else {
-                    families = tree.families;
-                }
-                break;
             default:
+                for (Integer count : tree.edgeCounts.values()) {
+                    if (count < lowest) {
+                        lowest = count;
+                    }
+                }
+
                 families = new ArrayList<>();
                 for (Family family : tree.families) {
                     // Don't rule out epsilon transitions; they all compare the same so testing
@@ -222,13 +238,15 @@ public class ParseForest {
                     if ((family.v==null && family.w==null)) {
                         families.add(family);
                     } else {
-                         if (selected.contains(family)) {
-                             builder.loop(family.v);
-                         } else {
-                             families.add(family);
-                         }
+                        if (selected.contains(family)) {
+                            builder.loop(family.v);
+                        }
+                        if (tree.edgeCounts.get(family) == lowest) {
+                            families.add(family);
+                        }
                     }
                 }
+
                 if (families.size() > 1) {
                     ArrayList<RuleChoice> choices = new ArrayList<>();
                     for (Family family : families) {
@@ -247,6 +265,10 @@ public class ParseForest {
         int choiceCount = families.size();
         if (!families.isEmpty()) {
             Family family = families.get(index);
+            // Don't advance an epsilon edge, leave it as an escape hatch.
+            if (tree.edgeCounts != null && (family.v != null || family.w != null)) {
+                tree.edgeCounts.put(family, lowest+1);
+            }
             selected.add(family);
             if (family.w == null) {
                 child0 = family.v;
@@ -609,6 +631,10 @@ public class ParseForest {
     }
 
     private abstract static class PendingAction {
+        private final PendingType action;
+        public PendingAction(PendingType action) {
+            this.action = action;
+        }
     }
 
     private static class PendingStart extends PendingAction {
@@ -617,6 +643,7 @@ public class ParseForest {
         public final int leftExtent;
         public final int rightExtent;
         public PendingStart(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
+            super(PendingType.START);
             this.symbol = symbol;
             this.attributes = attributes;
             this.leftExtent = leftExtent;
@@ -630,6 +657,7 @@ public class ParseForest {
         public final int leftExtent;
         public final int rightExtent;
         public PendingEnd(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
+            super(PendingType.END);
             this.symbol = symbol;
             this.attributes = attributes;
             this.leftExtent = leftExtent;
@@ -641,6 +669,7 @@ public class ParseForest {
         public final ForestNode tree;
         public final Symbol xsymbol;
         public PendingTree(ForestNode tree, Symbol xsymbol) {
+            super(PendingType.TREE);
             this.tree = tree;
             this.xsymbol = xsymbol;
         }
@@ -649,6 +678,7 @@ public class ParseForest {
     private static class PendingEndAlternatives extends PendingAction {
         public final ForestNode selectedAlternative;
         public PendingEndAlternatives(ForestNode selectedAlternative) {
+            super(PendingType.END_ALTERNATIVES);
             this.selectedAlternative = selectedAlternative;
         }
     }
