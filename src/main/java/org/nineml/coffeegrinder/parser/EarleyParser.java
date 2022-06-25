@@ -232,7 +232,7 @@ public class EarleyParser implements GearleyParser {
         int checkpoint = -1;
         int i = 0;
 
-        options.getLogger().info(logcategory, "Parsing with Earley parser.");
+        options.getLogger().info(logcategory, "Parsing %,d tokens with Earley parser.", input.length - startPos);
 
         StopWatch timer = new StopWatch();
 
