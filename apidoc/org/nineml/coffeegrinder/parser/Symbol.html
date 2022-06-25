@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":6,"i8":6};
+var methods = {"i0":10,"i1":6,"i2":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -98,7 +98,12 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
+<li><a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html" title="class in org.nineml.coffeegrinder.util">org.nineml.coffeegrinder.util.Decoratable</a></li>
+<li>
+<ul class="inheritance">
 <li>org.nineml.coffeegrinder.parser.Symbol</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -112,7 +117,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre>public abstract class <span class="typeNameLabel">Symbol</span>
-extends java.lang.Object</pre>
+extends <a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html" title="class in org.nineml.coffeegrinder.util">Decoratable</a></pre>
 <div class="block">A grammar symbol.
 
  <p>Symbols match either tokens in the input (for <a href="../../../../org/nineml/coffeegrinder/parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser"><code>TerminalSymbol</code></a> symbols) or other symbols
@@ -136,7 +141,14 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html#Symbol--">Symbol</a></span>()</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html#Symbol--">Symbol</a></span>()</code>
+<div class="block">Create a symbol with no attributes.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html#Symbol-java.util.Collection-">Symbol</a></span>(java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code>
+<div class="block">Create a symbol with an initial set of attributes.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -154,59 +166,29 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html#addAttribute-org.nineml.coffeegrinder.util.ParserAttribute-">addAttribute</a></span>(<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&nbsp;attribute)</code>
-<div class="block">Add the specified attribute to the attributes collection.</div>
-</td>
-</tr>
-<tr id="i1" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html#addAttributes-java.util.Collection-">addAttributes</a></span>(java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code>
-<div class="block">Add the specified attributes to the attributes collection.</div>
-</td>
-</tr>
-<tr id="i2" class="altColor">
-<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html#getAttribute-java.lang.String-">getAttribute</a></span>(java.lang.String&nbsp;name)</code>
-<div class="block">Get a specific symbol attribute.</div>
-</td>
-</tr>
-<tr id="i3" class="rowColor">
-<td class="colFirst"><code>java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html#getAttributes--">getAttributes</a></span>()</code>
-<div class="block">Get all of the attributes for this symbol.</div>
-</td>
-</tr>
-<tr id="i4" class="altColor">
-<td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html#getAttributeValue-java.lang.String-java.lang.String-">getAttributeValue</a></span>(java.lang.String&nbsp;name,
-                 java.lang.String&nbsp;defaultValue)</code>
-<div class="block">Get the value of a specific symbol attribute.</div>
-</td>
-</tr>
-<tr id="i5" class="rowColor">
-<td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html#hasAttribute-java.lang.String-">hasAttribute</a></span>(java.lang.String&nbsp;name)</code>
-<div class="block">Check if a specific attribute is specified.</div>
-</td>
-</tr>
-<tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html#isPruneable--">isPruneable</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>abstract boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html#matches-org.nineml.coffeegrinder.parser.Symbol-">matches</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>&nbsp;input)</code>
 <div class="block">Does this symbol match the specified symbol?</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>abstract boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html#matches-org.nineml.coffeegrinder.tokens.Token-">matches</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;input)</code>
 <div class="block">Does this symbol match the specified token?</div>
 </td>
 </tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a name="methods.inherited.from.class.org.nineml.coffeegrinder.util.Decoratable">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;org.nineml.coffeegrinder.util.<a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html" title="class in org.nineml.coffeegrinder.util">Decoratable</a></h3>
+<code><a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html#addAttribute-org.nineml.coffeegrinder.util.ParserAttribute-">addAttribute</a>, <a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html#addAttributes-java.util.Collection-">addAttributes</a>, <a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html#getAttribute-java.lang.String-">getAttribute</a>, <a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html#getAttributes--">getAttributes</a>, <a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html#getAttributesMap--">getAttributesMap</a>, <a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html#getAttributeValue-java.lang.String-java.lang.String-">getAttributeValue</a>, <a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html#hasAttribute-java.lang.String-">hasAttribute</a></code></li>
+</ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
 <!--   -->
@@ -231,10 +213,28 @@ extends java.lang.Object</pre>
 <a name="Symbol--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>Symbol</h4>
 <pre>public&nbsp;Symbol()</pre>
+<div class="block">Create a symbol with no attributes.</div>
+</li>
+</ul>
+<a name="Symbol-java.util.Collection-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>Symbol</h4>
+<pre>public&nbsp;Symbol(java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</pre>
+<div class="block">Create a symbol with an initial set of attributes.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>attributes</code> - the attributes</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a></code> - if the attribute names are not unique</dd>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></code> - if an attribute has an invalid value</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -275,7 +275,7 @@ extends java.lang.Object</pre>
 <a name="matches-org.nineml.coffeegrinder.parser.Symbol-">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>matches</h4>
 <pre>public abstract&nbsp;boolean&nbsp;matches(<a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>&nbsp;input)</pre>
@@ -285,107 +285,6 @@ extends java.lang.Object</pre>
 <dd><code>input</code> - The symbol.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if it is the same symbol as this symbol.</dd>
-</dl>
-</li>
-</ul>
-<a name="hasAttribute-java.lang.String-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>hasAttribute</h4>
-<pre>public final&nbsp;boolean&nbsp;hasAttribute(java.lang.String&nbsp;name)</pre>
-<div class="block">Check if a specific attribute is specified.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>name</code> - the name of the attribute.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>true if the attribute is associated with this symbol.</dd>
-</dl>
-</li>
-</ul>
-<a name="getAttribute-java.lang.String-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getAttribute</h4>
-<pre>public final&nbsp;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&nbsp;getAttribute(java.lang.String&nbsp;name)</pre>
-<div class="block">Get a specific symbol attribute.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>name</code> - the name of the attribute.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the associated symbol, or null if there is no symbol with that name.</dd>
-</dl>
-</li>
-</ul>
-<a name="getAttributeValue-java.lang.String-java.lang.String-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getAttributeValue</h4>
-<pre>public final&nbsp;java.lang.String&nbsp;getAttributeValue(java.lang.String&nbsp;name,
-                                                java.lang.String&nbsp;defaultValue)</pre>
-<div class="block">Get the value of a specific symbol attribute.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>name</code> - the name of the attribute.</dd>
-<dd><code>defaultValue</code> - the default value</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the associated value, or the default value if there is no symbol with that name.</dd>
-</dl>
-</li>
-</ul>
-<a name="getAttributes--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getAttributes</h4>
-<pre>public final&nbsp;java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;getAttributes()</pre>
-<div class="block">Get all of the attributes for this symbol.</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the symbol attributes</dd>
-</dl>
-</li>
-</ul>
-<a name="addAttribute-org.nineml.coffeegrinder.util.ParserAttribute-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>addAttribute</h4>
-<pre>public final&nbsp;void&nbsp;addAttribute(<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&nbsp;attribute)</pre>
-<div class="block">Add the specified attribute to the attributes collection.
- <p>Once added, an attribute cannot be removed, nor can its value be changed.</p></div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>attribute</code> - the attribute</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></code> - if you attempt to change the value of an attribute</dd>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></code> - if you pass an illegal attribute</dd>
-<dd><code>java.lang.NullPointerException</code> - if the attribute is null</dd>
-</dl>
-</li>
-</ul>
-<a name="addAttributes-java.util.Collection-">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>addAttributes</h4>
-<pre>public final&nbsp;void&nbsp;addAttributes(java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</pre>
-<div class="block">Add the specified attributes to the attributes collection.
- <p>Once added, an attribute cannot be removed, nor can its value be changed.</p></div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>attributes</code> - the attributes</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></code> - if you attempt to change the value of an attribute</dd>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></code> - if you pass an illegal attribute</dd>
 </dl>
 </li>
 </ul>

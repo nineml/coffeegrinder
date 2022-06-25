@@ -17,8 +17,8 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":6,"i6":10,"i7":6};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
+var methods = {"i0":6,"i1":6};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -98,7 +98,12 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
+<li><a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html" title="class in org.nineml.coffeegrinder.util">org.nineml.coffeegrinder.util.Decoratable</a></li>
+<li>
+<ul class="inheritance">
 <li>org.nineml.coffeegrinder.tokens.Token</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -112,7 +117,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre>public abstract class <span class="typeNameLabel">Token</span>
-extends java.lang.Object</pre>
+extends <a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html" title="class in org.nineml.coffeegrinder.util">Decoratable</a></pre>
 <div class="block">An input token.
 
  <p>This is an abstraction for input tokens. It allows the parser to be used, for example, for both
@@ -153,61 +158,31 @@ extends java.lang.Object</pre>
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#addAttribute-org.nineml.coffeegrinder.util.ParserAttribute-">addAttribute</a></span>(<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&nbsp;attribute)</code>
-<div class="block">Add the specified attribute to the attributes collection.</div>
-</td>
-</tr>
-<tr id="i1" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#addAttributes-java.util.Collection-">addAttributes</a></span>(java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code>
-<div class="block">Add the specified attributes to the attributes collection.</div>
-</td>
-</tr>
-<tr id="i2" class="altColor">
-<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#getAttribute-java.lang.String-">getAttribute</a></span>(java.lang.String&nbsp;name)</code>
-<div class="block">Get a specific token attribute.</div>
-</td>
-</tr>
-<tr id="i3" class="rowColor">
-<td class="colFirst"><code>java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#getAttributes--">getAttributes</a></span>()</code>
-<div class="block">Get all the token's attributes.</div>
-</td>
-</tr>
-<tr id="i4" class="altColor">
-<td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#getAttributeValue-java.lang.String-java.lang.String-">getAttributeValue</a></span>(java.lang.String&nbsp;name,
-                 java.lang.String&nbsp;defaultValue)</code>
-<div class="block">Get a specific token attribute value.</div>
-</td>
-</tr>
-<tr id="i5" class="rowColor">
 <td class="colFirst"><code>abstract java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#getValue--">getValue</a></span>()</code>
 <div class="block">What is this token?</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#hasAttribute-java.lang.String-">hasAttribute</a></span>(java.lang.String&nbsp;name)</code>
-<div class="block">Check if a specific attribute is specified.</div>
-</td>
-</tr>
-<tr id="i7" class="rowColor">
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>abstract boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/tokens/Token.html#matches-org.nineml.coffeegrinder.tokens.Token-">matches</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;input)</code>
 <div class="block">Does this token match the input?</div>
 </td>
 </tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a name="methods.inherited.from.class.org.nineml.coffeegrinder.util.Decoratable">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;org.nineml.coffeegrinder.util.<a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html" title="class in org.nineml.coffeegrinder.util">Decoratable</a></h3>
+<code><a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html#addAttribute-org.nineml.coffeegrinder.util.ParserAttribute-">addAttribute</a>, <a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html#addAttributes-java.util.Collection-">addAttributes</a>, <a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html#getAttribute-java.lang.String-">getAttribute</a>, <a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html#getAttributes--">getAttributes</a>, <a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html#getAttributesMap--">getAttributesMap</a>, <a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html#getAttributeValue-java.lang.String-java.lang.String-">getAttributeValue</a>, <a href="../../../../org/nineml/coffeegrinder/util/Decoratable.html#hasAttribute-java.lang.String-">hasAttribute</a></code></li>
+</ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
 <!--   -->
@@ -242,6 +217,7 @@ extends java.lang.Object</pre>
 <dd><code>attributes</code> - the attributes</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../../../org/nineml/coffeegrinder/exceptions/GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a></code> - if the attribute names are not unique</dd>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></code> - if an attribute has an invalid value</dd>
 </dl>
 </li>
 </ul>
@@ -272,7 +248,7 @@ extends java.lang.Object</pre>
 <a name="getValue--">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>getValue</h4>
 <pre>public abstract&nbsp;java.lang.String&nbsp;getValue()</pre>
@@ -280,107 +256,6 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the token string</dd>
-</dl>
-</li>
-</ul>
-<a name="hasAttribute-java.lang.String-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>hasAttribute</h4>
-<pre>public final&nbsp;boolean&nbsp;hasAttribute(java.lang.String&nbsp;name)</pre>
-<div class="block">Check if a specific attribute is specified.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>name</code> - the name of the attribute.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>true if the attribute is associated with this token.</dd>
-</dl>
-</li>
-</ul>
-<a name="getAttribute-java.lang.String-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getAttribute</h4>
-<pre>public final&nbsp;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&nbsp;getAttribute(java.lang.String&nbsp;name)</pre>
-<div class="block">Get a specific token attribute.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>name</code> - the name of the attribute.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the associated attribute, or null if there is no attribute with that name.</dd>
-</dl>
-</li>
-</ul>
-<a name="getAttributeValue-java.lang.String-java.lang.String-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getAttributeValue</h4>
-<pre>public final&nbsp;java.lang.String&nbsp;getAttributeValue(java.lang.String&nbsp;name,
-                                                java.lang.String&nbsp;defaultValue)</pre>
-<div class="block">Get a specific token attribute value.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>name</code> - the name of the attribute.</dd>
-<dd><code>defaultValue</code> - the default value.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the associated attribute value, or the default if there is no attribute with that name.</dd>
-</dl>
-</li>
-</ul>
-<a name="getAttributes--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getAttributes</h4>
-<pre>public final&nbsp;java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;getAttributes()</pre>
-<div class="block">Get all the token's attributes.</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the associated attribute, or null if there is no attribute with that name.</dd>
-</dl>
-</li>
-</ul>
-<a name="addAttribute-org.nineml.coffeegrinder.util.ParserAttribute-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>addAttribute</h4>
-<pre>public final&nbsp;void&nbsp;addAttribute(<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&nbsp;attribute)</pre>
-<div class="block">Add the specified attribute to the attributes collection.
- <p>Once added, an attribute cannot be removed, nor can its value be changed.</p></div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>attribute</code> - the attribute</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></code> - if you attempt to change the value of an attribute</dd>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></code> - if you pass an illegal attribute</dd>
-<dd><code>java.lang.NullPointerException</code> - if the attribute is null</dd>
-</dl>
-</li>
-</ul>
-<a name="addAttributes-java.util.Collection-">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>addAttributes</h4>
-<pre>public final&nbsp;void&nbsp;addAttributes(java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</pre>
-<div class="block">Add the specified attributes to the attributes collection.
- <p>Once added, an attribute cannot be removed, nor can its value be changed.</p></div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>attributes</code> - the attributes</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></code> - if you attempt to change the value of an attribute</dd>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></code> - if you pass an illegal attribute</dd>
 </dl>
 </li>
 </ul>

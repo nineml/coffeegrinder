@@ -151,8 +151,8 @@ extends <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" t
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/ParseTreeBuilder.html#endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">endNonterminal</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
-              java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/ParseTreeBuilder.html#endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">endNonterminal</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
+              java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes,
               int&nbsp;leftExtent,
               int&nbsp;rightExtent)</code>&nbsp;</td>
 </tr>
@@ -162,15 +162,15 @@ extends <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" t
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/ParseTreeBuilder.html#startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">startNonterminal</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
-                java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/ParseTreeBuilder.html#startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">startNonterminal</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
+                java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes,
                 int&nbsp;leftExtent,
                 int&nbsp;rightExtent)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/ParseTreeBuilder.html#token-org.nineml.coffeegrinder.tokens.Token-java.util.Collection-">token</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
-     java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/ParseTreeBuilder.html#token-org.nineml.coffeegrinder.tokens.Token-java.util.Map-">token</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
+     java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -227,49 +227,49 @@ extends <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" t
 <pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a>&nbsp;getParseTree()</pre>
 </li>
 </ul>
-<a name="startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">
+<a name="startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>startNonterminal</h4>
 <pre>public&nbsp;void&nbsp;startNonterminal(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
-                             java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes,
+                             java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes,
                              int&nbsp;leftExtent,
                              int&nbsp;rightExtent)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">startNonterminal</a></code>&nbsp;in class&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></code></dd>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">startNonterminal</a></code>&nbsp;in class&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></code></dd>
 </dl>
 </li>
 </ul>
-<a name="endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">
+<a name="endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>endNonterminal</h4>
 <pre>public&nbsp;void&nbsp;endNonterminal(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
-                           java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes,
+                           java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes,
                            int&nbsp;leftExtent,
                            int&nbsp;rightExtent)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">endNonterminal</a></code>&nbsp;in class&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></code></dd>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">endNonterminal</a></code>&nbsp;in class&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></code></dd>
 </dl>
 </li>
 </ul>
-<a name="token-org.nineml.coffeegrinder.tokens.Token-java.util.Collection-">
+<a name="token-org.nineml.coffeegrinder.tokens.Token-java.util.Map-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>token</h4>
 <pre>public&nbsp;void&nbsp;token(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
-                  java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</pre>
+                  java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#token-org.nineml.coffeegrinder.tokens.Token-java.util.Collection-">token</a></code>&nbsp;in class&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></code></dd>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#token-org.nineml.coffeegrinder.tokens.Token-java.util.Map-">token</a></code>&nbsp;in class&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></code></dd>
 </dl>
 </li>
 </ul>

@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
+var methods = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -156,26 +156,22 @@ extends <a href="../../../../org/nineml/coffeegrinder/util/PriorityTreeBuilder.h
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/StdoutTreeBuilder.html#endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">endNonterminal</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
-              java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/StdoutTreeBuilder.html#endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">endNonterminal</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
+              java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes,
               int&nbsp;leftExtent,
               int&nbsp;rightExtent)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/StdoutTreeBuilder.html#loop-org.nineml.coffeegrinder.parser.RuleChoice-">loop</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&nbsp;alternative)</code>&nbsp;</td>
-</tr>
-<tr id="i2" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/StdoutTreeBuilder.html#startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">startNonterminal</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
-                java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/StdoutTreeBuilder.html#startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">startNonterminal</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
+                java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes,
                 int&nbsp;leftExtent,
                 int&nbsp;rightExtent)</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/StdoutTreeBuilder.html#token-org.nineml.coffeegrinder.tokens.Token-java.util.Collection-">token</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
-     java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/StdoutTreeBuilder.html#token-org.nineml.coffeegrinder.tokens.Token-java.util.Map-">token</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
+     java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -190,7 +186,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/util/PriorityTreeBuilder.h
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;org.nineml.coffeegrinder.parser.<a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></h3>
-<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#chooseFromAll-java.util.List-java.util.List-">chooseFromAll</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#endAlternative-org.nineml.coffeegrinder.parser.RuleChoice-">endAlternative</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#endTree--">endTree</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#isAmbiguous--">isAmbiguous</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#isInfinitelyAmbiguous--">isInfinitelyAmbiguous</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#moreTrees--">moreTrees</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#reset--">reset</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startAlternative-java.util.List-">startAlternative</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startTree--">startTree</a></code></li>
+<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#chooseFromAll-java.util.List-java.util.List-">chooseFromAll</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#endAlternative-org.nineml.coffeegrinder.parser.RuleChoice-">endAlternative</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#endTree--">endTree</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#isAmbiguous--">isAmbiguous</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#isInfinitelyAmbiguous--">isInfinitelyAmbiguous</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#loop-org.nineml.coffeegrinder.parser.RuleChoice-">loop</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#moreTrees--">moreTrees</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#reset--">reset</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startAlternative-java.util.List-">startAlternative</a>, <a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startTree--">startTree</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -230,62 +226,49 @@ extends <a href="../../../../org/nineml/coffeegrinder/util/PriorityTreeBuilder.h
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="loop-org.nineml.coffeegrinder.parser.RuleChoice-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>loop</h4>
-<pre>public&nbsp;void&nbsp;loop(<a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&nbsp;alternative)</pre>
-<dl>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#loop-org.nineml.coffeegrinder.parser.RuleChoice-">loop</a></code>&nbsp;in class&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></code></dd>
-</dl>
-</li>
-</ul>
-<a name="startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">
+<a name="startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>startNonterminal</h4>
 <pre>public&nbsp;void&nbsp;startNonterminal(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
-                             java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes,
+                             java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes,
                              int&nbsp;leftExtent,
                              int&nbsp;rightExtent)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">startNonterminal</a></code>&nbsp;in class&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></code></dd>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">startNonterminal</a></code>&nbsp;in class&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></code></dd>
 </dl>
 </li>
 </ul>
-<a name="endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">
+<a name="endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>endNonterminal</h4>
 <pre>public&nbsp;void&nbsp;endNonterminal(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
-                           java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes,
+                           java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes,
                            int&nbsp;leftExtent,
                            int&nbsp;rightExtent)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Collection-int-int-">endNonterminal</a></code>&nbsp;in class&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></code></dd>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">endNonterminal</a></code>&nbsp;in class&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></code></dd>
 </dl>
 </li>
 </ul>
-<a name="token-org.nineml.coffeegrinder.tokens.Token-java.util.Collection-">
+<a name="token-org.nineml.coffeegrinder.tokens.Token-java.util.Map-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>token</h4>
 <pre>public&nbsp;void&nbsp;token(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
-                  java.util.Collection&lt;<a href="../../../../org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</pre>
+                  java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#token-org.nineml.coffeegrinder.tokens.Token-java.util.Collection-">token</a></code>&nbsp;in class&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></code></dd>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#token-org.nineml.coffeegrinder.tokens.Token-java.util.Map-">token</a></code>&nbsp;in class&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></code></dd>
 </dl>
 </li>
 </ul>
