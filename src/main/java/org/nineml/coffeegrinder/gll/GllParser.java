@@ -4,6 +4,7 @@ import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.tokens.TokenEOF;
+import org.nineml.coffeegrinder.util.ParserAttribute;
 import org.nineml.coffeegrinder.util.StopWatch;
 import org.nineml.logging.Logger;
 
@@ -35,8 +36,9 @@ public class GllParser implements GearleyParser {
     private int progressSize = 0;
     private int progressCount = 0;
     private int highwater = 0;
-    private int lineNumber = 1;
-    private int columnNumber = 1;
+    int offset = -1;
+    private int lineNumber = -1;
+    private int columnNumber = -1;
 
     protected int tokenCount;
     protected Token lastToken;
@@ -209,15 +211,48 @@ public class GllParser implements GearleyParser {
     }
 
     public int getOffset() {
-        return highwater;
+        computeOffsets();
+        return offset;
     }
 
     public int getLineNumber() {
+        computeOffsets();
         return lineNumber;
     }
 
     public int getColumnNumber() {
+        computeOffsets();
         return columnNumber;
+    }
+
+    private void computeOffsets() {
+        if (offset >= 0) {
+            return;
+        }
+
+        offset = 0;
+        lineNumber = 1;
+        columnNumber = 1;
+
+        for (int pos = 0; pos < highwater; pos++) {
+            offset++;
+            columnNumber++;
+            if (I[pos] instanceof TokenCharacter) {
+                if (((TokenCharacter) I[pos]).getCodepoint() == '\n') {
+                    lineNumber++;
+                    columnNumber = 1;
+                }
+            }
+            if (I[pos].hasAttribute(ParserAttribute.LINE_NUMBER_NAME)) {
+                lineNumber = Integer.parseInt(I[pos].getAttributeValue(ParserAttribute.LINE_NUMBER_NAME, "error"));
+            }
+            if (I[pos].hasAttribute(ParserAttribute.COLUMN_NUMBER_NAME)) {
+                columnNumber = Integer.parseInt(I[pos].getAttributeValue(ParserAttribute.COLUMN_NUMBER_NAME, "error"));
+            }
+            if (I[pos].hasAttribute(ParserAttribute.OFFSET_NAME)) {
+                offset = Integer.parseInt(I[pos].getAttributeValue(ParserAttribute.OFFSET_NAME, "error"));
+            }
+        }
     }
 
     private void compile() {
@@ -295,13 +330,6 @@ public class GllParser implements GearleyParser {
 
         while (!done) {
             if (bsr.getRightExtent() > highwater) {
-                for (int pos = highwater; pos < bsr.getRightExtent(); pos++) {
-                    columnNumber++;
-                    if (I[pos] instanceof TokenCharacter && ((TokenCharacter) I[pos]).getCodepoint() == '\n') {
-                        lineNumber++;
-                        columnNumber = 1;
-                    }
-                }
                 highwater = bsr.getRightExtent();
             }
 
