@@ -16,12 +16,6 @@ public class StdoutTreeBuilder extends PriorityTreeBuilder {
     private StringBuilder sb = null;
 
     @Override
-    public void loop(RuleChoice alternative) {
-        ambiguous = true;
-        infinitelyAmbiguous = true;
-    }
-
-    @Override
     public void startNonterminal(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
         if (sb != null) {
             System.out.printf("%s%s%n", indent, sb);

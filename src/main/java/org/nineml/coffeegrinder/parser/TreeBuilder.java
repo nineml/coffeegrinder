@@ -1,9 +1,11 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.tokens.Token;
-import org.nineml.coffeegrinder.util.ParserAttribute;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class TreeBuilder {
     protected final Split root = new Split();
