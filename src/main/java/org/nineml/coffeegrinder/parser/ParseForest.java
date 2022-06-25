@@ -310,7 +310,7 @@ public class ParseForest {
         // Always output the root node because we need its attributes
         if (!pendingActions.isEmpty() && !options.getExposePrunableNonterminals()) {
             for (ParserAttribute attr : atts) {
-                if (ParserAttribute.PRUNING.equals(attr.getName())) {
+                if (ParserAttribute.PRUNING_NAME.equals(attr.getName())) {
                     prunable = ParserAttribute.PRUNING_ALLOWED.getValue().equals(attr.getValue());
                 }
             }

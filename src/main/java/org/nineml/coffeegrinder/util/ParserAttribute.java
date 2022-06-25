@@ -8,9 +8,11 @@ package org.nineml.coffeegrinder.util;
  * <p>It's worth observing that the terminals created from the input stream don't get metadata.</p>
  */
 public class ParserAttribute {
-    public static final String PRUNING = "http://nineml.org/coffeegrinder/attributes/prune";
-    public static final ParserAttribute PRUNING_ALLOWED = new ParserAttribute(PRUNING, "allowed");
-    public static final ParserAttribute PRUNING_FORBIDDEN = new ParserAttribute(PRUNING, "forbidden");
+    public static final String PRUNING_NAME = "https://nineml.org/attr/prune";
+    public static final String ALLOWED_TO_PRUNE = "allowed";
+    public static final String NOT_ALLOWED_TO_PRUNE = "forbidden";
+    public static final ParserAttribute PRUNING_ALLOWED = new ParserAttribute(PRUNING_NAME, ALLOWED_TO_PRUNE);
+    public static final ParserAttribute PRUNING_FORBIDDEN = new ParserAttribute(PRUNING_NAME, NOT_ALLOWED_TO_PRUNE);
     private final String name;
     private final String value;
 
