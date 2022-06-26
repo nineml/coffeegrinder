@@ -58,14 +58,14 @@ public class DefaultProgressMonitor implements ProgressMonitor {
      * @param size the number of items that remain in the working set.
      */
     @Override
-    public void workingSet(GearleyParser parser, int size) {
+    public void workingSet(GearleyParser parser, int size, int highwater) {
         long now = Calendar.getInstance().getTimeInMillis();
         // Don't print messages more than once a second...
         if (now - lastUpdateTime < (minimumTimeInterval * 1000)) {
             return;
         }
         lastUpdateTime = now;
-        System.out.printf("%,d items remain.%n", size);
+        System.out.printf("%,d items remain (seen %d tokens).%n", size, highwater);
     }
 
     /**

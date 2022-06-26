@@ -20,7 +20,7 @@ public class GllParser implements GearleyParser {
     protected int c_U;
     protected int c_I;
     private HashSet<Descriptor> U;
-    private Stack<Descriptor> R;
+    private ArrayList<Descriptor> R;
     private HashSet<PoppedNode> P;
     private HashMap<ClusterNode, ArrayList<CrfNode>> crf;
     private HashMap<State, HashMap<Integer, CrfNode>> crfNodes;
@@ -120,7 +120,7 @@ public class GllParser implements GearleyParser {
         logger = options.getLogger();
 
         U = new HashSet<>();
-        R = new Stack<>();
+        R = new ArrayList<>();
         P = new HashSet<>();
         crf = new HashMap<>();
         crfNodes = new HashMap<>();
@@ -336,7 +336,7 @@ public class GllParser implements GearleyParser {
             if (monitor != null) {
                 progressCount--;
                 if (progressCount <= 0) {
-                    monitor.workingSet(this, R.size());
+                    monitor.workingSet(this, R.size(), highwater);
                     progressCount = progressSize;
                 }
             }
@@ -357,7 +357,7 @@ public class GllParser implements GearleyParser {
         if (done) {
             logger.trace(gllexecution, "%4d exit", instructionPointer);
         } else {
-            Descriptor desc = R.pop();
+            Descriptor desc = R.remove(0);
             c_U = desc.k;
             c_I = desc.j;
             nextInstruction = desc.slot.getInstructionPointer();
@@ -453,7 +453,7 @@ public class GllParser implements GearleyParser {
         Descriptor desc = slot.getDescriptor(k, i);
         if (!U.contains(desc)) {
             U.add(desc);
-            R.push(desc);
+            R.add(desc);
         }
     }
 
