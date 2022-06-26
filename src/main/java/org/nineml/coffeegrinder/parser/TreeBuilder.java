@@ -9,9 +9,14 @@ import java.util.Map;
 
 public abstract class TreeBuilder {
     protected final Split root = new Split();
+    protected final HashMap<ForestNode,HashMap<Family,Integer>> nodeEdgeCounts = new HashMap<>();
     private Split current = null;
     protected boolean ambiguous = false;
     protected boolean infinitelyAmbiguous = false;
+
+    protected int parseCount = 0;
+    protected int revealedParses = 0;
+    protected int currentParses = 0;
 
     public boolean isAmbiguous() {
         return ambiguous;
@@ -26,8 +31,34 @@ public abstract class TreeBuilder {
         infinitelyAmbiguous = true;
     }
 
-    public boolean moreTrees() {
-        return current == null || root.size > 0;
+    public boolean moreParses() {
+        return parseCount == 0 || parseCount < revealedParses;
+    }
+
+    public int getRevealedParses() {
+        return revealedParses;
+    }
+
+    public int getParseCount() {
+        return parseCount;
+    }
+
+    public HashMap<Family,Integer> getEdgeCounts(ForestNode node) {
+        final HashMap<Family,Integer> edgeCounts;
+        if (nodeEdgeCounts.containsKey(node)) {
+            edgeCounts = nodeEdgeCounts.get(node);
+            if (edgeCounts.size() != node.families.size()) {
+                throw new IllegalStateException("Edge counts have changed on " + node
+                        + " (" + edgeCounts.size() + " != " + node.families.size() + ")");
+            }
+        } else {
+            edgeCounts = new HashMap<>();
+            for (Family family : node.families) {
+                edgeCounts.put(family, 0);
+            }
+            nodeEdgeCounts.put(node, edgeCounts);
+        }
+        return edgeCounts;
     }
 
     public int chooseFromRemaining(List<RuleChoice> alternatives) {
@@ -53,6 +84,8 @@ public abstract class TreeBuilder {
     }
 
     public int startAlternative(List<RuleChoice> alternatives) {
+        currentParses += alternatives.size();
+
         ambiguous = true;
         int selected = current.choose(alternatives);
         current = current.paths.get(selected);
@@ -65,17 +98,33 @@ public abstract class TreeBuilder {
 
     public void reset() {
         root.reset();
+        parseCount = 0;
+        revealedParses = 0;
+        currentParses = 0;
         current = null;
+
     }
 
     public void startTree() {
-        if (!moreTrees()) {
-            root.reset();
+        if (parseCount > 0 && parseCount >= revealedParses) {
+            reset();
         }
+
+        parseCount++;
+        if (revealedParses == 0) {
+            // There's *always* at least one.
+            revealedParses = 1;
+        }
+
+        currentParses = 0;
+        root.reset();
         current = root;
     }
 
     public void endTree() {
+        if (currentParses > revealedParses) {
+            revealedParses = currentParses;
+        }
         Split parent = current.parent;
         while (parent != null) {
             parent.pathCount.put(current.selection, current.size);

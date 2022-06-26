@@ -440,8 +440,7 @@ public class ParserTest {
             // TODO: do something with the tree.
 
             if (forest.isAmbiguous()) {
-                long totalParses = forest.getTotalParses();
-                // TODO: deal with multiple parses
+                // TODO: what about it?
             }
         } else {
             // TODO: deal with failure

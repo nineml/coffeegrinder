@@ -29,8 +29,6 @@ public class ParseForest {
     protected final ParserOptions options;
     protected Boolean ambiguous = null;
     protected Boolean infinitelyAmbiguous = null;
-    protected Long totalParses = null;
-    private Stack<ArrayList<Long>> choices = new Stack<>();
     private Stack<PendingAction> pendingActions = null;
 
     public ParseForest(ParserOptions options) {
@@ -94,14 +92,6 @@ public class ParseForest {
         return roots;
     }
 
-    public long getTotalParses() {
-        if (totalParses == null) {
-            NopTreeBuilder builder = new NopTreeBuilder();
-            getTree(builder);
-        }
-        return totalParses;
-    }
-
     /**
      * Get the options for this forest.
      *
@@ -136,8 +126,6 @@ public class ParseForest {
             root = roots.get(0);
         }
 
-        choices = new Stack<>();
-        choices.push(new ArrayList<>());
         constructTree(builder, root);
 
         if (roots.size() > 1) {
@@ -145,21 +133,6 @@ public class ParseForest {
         }
 
         builder.endTree();
-
-        long count = -1;
-        for (long choice : choices.pop()) {
-            if (choice > count) {
-                count = choice;
-            }
-        }
-        if (count <= 0) {
-            totalParses = Long.MAX_VALUE;
-        } else {
-            if (totalParses == null || count > totalParses) {
-                totalParses = count;
-            }
-        }
-        choices = null;
 
         ambiguous = builder.isAmbiguous();
         infinitelyAmbiguous = builder.isInfinitelyAmbiguous();
@@ -207,25 +180,21 @@ public class ParseForest {
         assert tree != null;
         State state = tree.getState();
 
-        if (tree.families.size() > 1 && tree.edgeCounts == null) {
-            tree.edgeCounts = new HashMap<>();
-            for (Family family : tree.families) {
-                tree.edgeCounts.put(family, 0);
-            }
-        }
-
         int index = 0;
         boolean alternatives = false;
         int lowest = Integer.MAX_VALUE;
         ForestNode selectedAlternative = null;
         final ArrayList<Family> families;
+        final HashMap<Family,Integer> edgeCounts;
         switch (tree.families.size()) {
             case 0:
             case 1:
+                edgeCounts = null;
                 families = tree.families;
                 break;
             default:
-                for (Integer count : tree.edgeCounts.values()) {
+                edgeCounts = builder.getEdgeCounts(tree);
+                for (Integer count : edgeCounts.values()) {
                     if (count < lowest) {
                         lowest = count;
                     }
@@ -241,7 +210,7 @@ public class ParseForest {
                         if (selected.contains(family)) {
                             builder.loop(family.v);
                         }
-                        if (tree.edgeCounts.get(family) == lowest) {
+                        if (edgeCounts.get(family) == lowest) {
                             families.add(family);
                         }
                     }
@@ -266,8 +235,8 @@ public class ParseForest {
         if (!families.isEmpty()) {
             Family family = families.get(index);
             // Don't advance an epsilon edge, leave it as an escape hatch.
-            if (tree.edgeCounts != null && (family.v != null || family.w != null)) {
-                tree.edgeCounts.put(family, lowest+1);
+            if (edgeCounts != null && (family.v != null || family.w != null)) {
+                edgeCounts.put(family, lowest+1);
             }
             selected.add(family);
             if (family.w == null) {
@@ -337,8 +306,6 @@ public class ParseForest {
             Token token = ((TerminalSymbol) symbol).getToken();
             builder.token(token, atts);
         } else {
-            choices.push(new ArrayList<>());
-
             if (alternatives) {
                 pendingActions.push(new PendingEndAlternatives(selectedAlternative));
             }
@@ -357,20 +324,6 @@ public class ParseForest {
 
             if (!prunable) {
                 pendingActions.push(new PendingStart((NonterminalSymbol) symbol, atts, tree.leftExtent, tree.rightExtent));
-            }
-
-            long partial = 1;
-            for (long count : choices.peek()) {
-                //System.err.printf("%d ", count);
-                partial = partial * count;
-            }
-            choices.pop();
-            if (choiceCount == 0) {
-                choices.peek().add(1L);
-                //System.err.printf(" : %d%n", 1);
-            } else {
-                choices.peek().add(choiceCount + partial - 1);
-                //System.err.printf(" : %d%n", choiceCount+partial-1);
             }
         }
 
