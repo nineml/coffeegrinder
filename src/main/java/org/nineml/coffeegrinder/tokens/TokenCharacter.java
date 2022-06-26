@@ -1,5 +1,6 @@
 package org.nineml.coffeegrinder.tokens;
 
+import org.nineml.coffeegrinder.util.CodepointToString;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.Collection;
@@ -10,7 +11,6 @@ import java.util.HashMap;
  * A single character {@link Token}.
  */
 public class TokenCharacter extends Token {
-    private static HashMap<Integer,String> charmap = null;
     private final String chstr; // String because non-BMP characters are longer than one Java char
     private final int codepoint;
 
@@ -20,12 +20,6 @@ public class TokenCharacter extends Token {
         StringBuilder sb = new StringBuilder();
         sb.appendCodePoint(codepoint);
         chstr = sb.toString();
-        if (charmap == null) {
-            charmap = new HashMap<>();
-            charmap.put("\n".codePointAt(0), "\\n");
-            charmap.put("\r".codePointAt(0), "\\r");
-            charmap.put("\t".codePointAt(0), "\\t");
-        }
     }
 
     /**
@@ -136,9 +130,6 @@ public class TokenCharacter extends Token {
      */
     @Override
     public String toString() {
-        if (charmap.containsKey(codepoint)) {
-            return "'" + charmap.get(codepoint) + "'";
-        }
-        return "'" + chstr + "'";
+        return CodepointToString.of(codepoint);
     }
 }

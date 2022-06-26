@@ -1,6 +1,7 @@
 package org.nineml.coffeegrinder.tokens;
 
 import org.nineml.coffeegrinder.exceptions.GrammarException;
+import org.nineml.coffeegrinder.util.CodepointToString;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -104,7 +105,8 @@ public class CharacterSet {
         } else {
             this.charClass = charclass.toString() + subclass;
         }
-        String patn = "\\" + "p{" + charClass + "}";
+        // Weird format to avoid the IDE telling me off for the weird character class in a literal.
+        String patn = String.format("\\p%s%s%s", "{", charClass, "}");
         try {
             this.pattern = Pattern.compile(patn);
         } catch (PatternSyntaxException ex) {
@@ -217,36 +219,14 @@ public class CharacterSet {
         if (pattern != null) {
             sb.append(charClass);
         } else if (codepoints != null) {
-            sb.append("\"");
-            sb.append(literal.replaceAll("\"", "\"\""));
-            sb.append("\"");
+            sb.append("'");
+            sb.append(literal.replaceAll("'", "''"));
+            sb.append("'");
         } else {
-            if (Character.isBmpCodePoint(first)) {
-                sb.append("\"");
-                sb.append((char) first);
-                sb.append("\"");
-            } else if (Character.isValidCodePoint(first)) {
-                sb.append("\"");
-                sb.append(Character.highSurrogate(first));
-                sb.append(Character.lowSurrogate(first));
-                sb.append("\"");
-            } else {
-                sb.append("???");
-            }
+            sb.append(CodepointToString.of(first));
             if (first != last) {
                 sb.append("-");
-                if (Character.isBmpCodePoint(last)) {
-                    sb.append("\"");
-                    sb.append((char) last);
-                    sb.append("\"");
-                } else if (Character.isValidCodePoint(last)) {
-                    sb.append("\"");
-                    sb.append(Character.highSurrogate(last));
-                    sb.append(Character.lowSurrogate(last));
-                    sb.append("\"");
-                } else {
-                    sb.append("???");
-                }
+                sb.append(CodepointToString.of(last));
             }
         }
         return sb.toString();
