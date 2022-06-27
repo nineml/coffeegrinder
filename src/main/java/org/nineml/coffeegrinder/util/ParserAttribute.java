@@ -12,6 +12,8 @@ public class ParserAttribute {
     public static final String COLUMN_NUMBER_NAME = "https://nineml.org/attr/column";
     public static final String OFFSET_NAME = "https://nineml.org/attr/offset";
 
+    public static final String TOKEN_NAME = "https://nineml.org/attr/token";
+
     public static final String PRUNING_NAME = "https://nineml.org/attr/prune";
     public static final String ALLOWED_TO_PRUNE = "allowed";
     public static final String NOT_ALLOWED_TO_PRUNE = "forbidden";

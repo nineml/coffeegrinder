@@ -1,11 +1,14 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.tokens.Token;
+import org.nineml.coffeegrinder.tokens.TokenRegex;
+import org.nineml.coffeegrinder.tokens.TokenString;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class ParseForestGLL extends ParseForest {
     private final HashSet<ForestNodeGLL> extendedLeaves;
@@ -17,12 +20,14 @@ public class ParseForestGLL extends ParseForest {
     private final CompiledGrammar grammar;
     private final int rightExtent;
     private final Token[] inputTokens;
+    private final Map<Integer,String> regexMatches;
 
-    public ParseForestGLL(ParserOptions options, CompiledGrammar grammar, int rightExtent, Token[] inputTokens) {
+    public ParseForestGLL(ParserOptions options, CompiledGrammar grammar, int rightExtent, Token[] inputTokens, Map<Integer,String> regexMatches) {
         super(options);
         this.grammar = grammar;
         this.rightExtent = rightExtent;
         this.inputTokens = inputTokens;
+        this.regexMatches = regexMatches;
         intermediate = new HashMap<>();
         slotPrefixes = new HashMap<>();
         nodes = new HashMap<>();
@@ -38,10 +43,17 @@ public class ParseForestGLL extends ParseForest {
         // (I wonder if it could be made to?)
         // Sometimes the symbol in the grammar has attributes (e.g., tmarks in a grammar)
         // and sometimes the symbol in the input has attributes. Combine them.
-        if (symbol instanceof TerminalSymbol && leftExtent + 1 == rightExtent) {
-            ArrayList<ParserAttribute> attr = new ArrayList<>(symbol.getAttributes());
-            attr.addAll(inputTokens[leftExtent].getAttributes());
-            symbol = new TerminalSymbol(inputTokens[leftExtent], attr);
+        // Also deal with regex matches
+        if (symbol instanceof TerminalSymbol) {
+            if (((TerminalSymbol) symbol).getToken() instanceof TokenRegex) {
+                ArrayList<ParserAttribute> attr = new ArrayList<>(symbol.getAttributes());
+                attr.addAll(inputTokens[leftExtent].getAttributes());
+                symbol = new TerminalSymbol(TokenString.get(regexMatches.get(leftExtent)), attr);
+            } else if (leftExtent + 1 == rightExtent) {
+                ArrayList<ParserAttribute> attr = new ArrayList<>(symbol.getAttributes());
+                attr.addAll(inputTokens[leftExtent].getAttributes());
+                symbol = new TerminalSymbol(inputTokens[leftExtent], attr);
+            }
         }
 
         if (!nodes.containsKey(symbol)) {

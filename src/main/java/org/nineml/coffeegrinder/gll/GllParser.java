@@ -4,6 +4,7 @@ import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.tokens.TokenEOF;
+import org.nineml.coffeegrinder.tokens.TokenRegex;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 import org.nineml.coffeegrinder.util.StopWatch;
 import org.nineml.logging.Logger;
@@ -490,7 +491,34 @@ public class GllParser implements GearleyParser {
         } else {
             logger.trace(gllexecution, "---- bsrAdd(%s, %d, %d, %d)", L, i, k, j);
         }
-        bsr.add(L, i, k, j);
+
+        int rightExtent = j;
+        if (L.rhs.symbols[L.position-1] instanceof TerminalSymbol) {
+            TerminalSymbol sym = (TerminalSymbol) L.rhs.symbols[L.position-1];
+            if (sym.getToken() instanceof TokenRegex) {
+                TokenRegex token = (TokenRegex) sym.getToken();
+                int pos = c_I;
+                StringBuilder sb = new StringBuilder();
+                sb.appendCodePoint(((TokenCharacter) I[pos]).getCodepoint());
+                String consumed = sb.toString();
+                boolean done = pos >= I.length || !token.matches(sb.toString());
+                while (!done) {
+                    consumed = sb.toString();
+                    pos++;
+                    if (I[pos] instanceof TokenCharacter) {
+                        sb.appendCodePoint(((TokenCharacter) I[pos]).getCodepoint());
+                        done = pos >= I.length || !token.matches(sb.toString());
+                    } else {
+                        done = true;
+                    }
+                }
+                c_I += (consumed.length() - 1);
+                rightExtent += (consumed.length() - 1);
+                bsr.regexMatches.put(i, consumed);
+            }
+        }
+
+        bsr.add(L, i, k, rightExtent);
     }
 
     protected void bsrAddEpsilon(State L, int i) {

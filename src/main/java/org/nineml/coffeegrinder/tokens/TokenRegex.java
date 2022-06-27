@@ -80,6 +80,10 @@ public class TokenRegex extends Token {
         return false;
     }
 
+    public final boolean matches(String input) {
+        return regex.matcher(input).matches();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof TokenRegex) {
