@@ -205,8 +205,9 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#workingSet-org.nineml.coffeegrinder.parser.GearleyParser-int-">workingSet</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
-          int&nbsp;size)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/DefaultProgressMonitor.html#workingSet-org.nineml.coffeegrinder.parser.GearleyParser-int-int-">workingSet</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
+          int&nbsp;size,
+          int&nbsp;highwater)</code>
 <div class="block">Report progress.</div>
 </td>
 </tr>
@@ -326,22 +327,24 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.
 </dl>
 </li>
 </ul>
-<a name="workingSet-org.nineml.coffeegrinder.parser.GearleyParser-int-">
+<a name="workingSet-org.nineml.coffeegrinder.parser.GearleyParser-int-int-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>workingSet</h4>
 <pre>public&nbsp;void&nbsp;workingSet(<a href="../../../../org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser,
-                       int&nbsp;size)</pre>
+                       int&nbsp;size,
+                       int&nbsp;highwater)</pre>
 <div class="block">Report progress.
  <p>This implementation just prints a simple message to <code>System.out</code>.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#workingSet-org.nineml.coffeegrinder.parser.GearleyParser-int-">workingSet</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></dd>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html#workingSet-org.nineml.coffeegrinder.parser.GearleyParser-int-int-">workingSet</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>parser</code> - the parser</dd>
 <dd><code>size</code> - the number of items that remain in the working set.</dd>
+<dd><code>highwater</code> - the last token seen.</dd>
 </dl>
 </li>
 </ul>

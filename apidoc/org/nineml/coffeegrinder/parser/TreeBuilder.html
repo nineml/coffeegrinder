@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":6,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":6,"i12":10,"i13":6};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":6,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":6,"i15":10,"i16":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -173,41 +173,53 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#endTree--">endTree</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#isAmbiguous--">isAmbiguous</a></span>()</code>&nbsp;</td>
+<td class="colFirst"><code>java.util.HashMap&lt;<a href="../../../../org/nineml/coffeegrinder/parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>,java.lang.Integer&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#getEdgeCounts-org.nineml.coffeegrinder.parser.ForestNode-">getEdgeCounts</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;node)</code>&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#isInfinitelyAmbiguous--">isInfinitelyAmbiguous</a></span>()</code>&nbsp;</td>
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#getParseCount--">getParseCount</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#loop-org.nineml.coffeegrinder.parser.RuleChoice-">loop</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&nbsp;alternative)</code>&nbsp;</td>
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#getRevealedParses--">getRevealedParses</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#moreTrees--">moreTrees</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#isAmbiguous--">isAmbiguous</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#isInfinitelyAmbiguous--">isInfinitelyAmbiguous</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i10" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#loop-org.nineml.coffeegrinder.parser.RuleChoice-">loop</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&nbsp;alternative)</code>&nbsp;</td>
+</tr>
+<tr id="i11" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#moreParses--">moreParses</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#reset--">reset</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startAlternative-java.util.List-">startAlternative</a></span>(java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives)</code>&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>abstract void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">startNonterminal</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
                 java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes,
                 int&nbsp;leftExtent,
                 int&nbsp;rightExtent)</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#startTree--">startTree</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>abstract void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/TreeBuilder.html#token-org.nineml.coffeegrinder.tokens.Token-java.util.Map-">token</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
      java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes)</code>&nbsp;</td>
@@ -278,13 +290,40 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;void&nbsp;loop(<a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&nbsp;alternative)</pre>
 </li>
 </ul>
-<a name="moreTrees--">
+<a name="moreParses--">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>moreTrees</h4>
-<pre>public&nbsp;boolean&nbsp;moreTrees()</pre>
+<h4>moreParses</h4>
+<pre>public&nbsp;boolean&nbsp;moreParses()</pre>
+</li>
+</ul>
+<a name="getRevealedParses--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRevealedParses</h4>
+<pre>public&nbsp;int&nbsp;getRevealedParses()</pre>
+</li>
+</ul>
+<a name="getParseCount--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getParseCount</h4>
+<pre>public&nbsp;int&nbsp;getParseCount()</pre>
+</li>
+</ul>
+<a name="getEdgeCounts-org.nineml.coffeegrinder.parser.ForestNode-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getEdgeCounts</h4>
+<pre>public&nbsp;java.util.HashMap&lt;<a href="../../../../org/nineml/coffeegrinder/parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>,java.lang.Integer&gt;&nbsp;getEdgeCounts(<a href="../../../../org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;node)</pre>
 </li>
 </ul>
 <a name="chooseFromRemaining-java.util.List-">

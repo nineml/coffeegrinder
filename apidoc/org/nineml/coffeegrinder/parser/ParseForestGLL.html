@@ -147,10 +147,11 @@ extends <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html" t
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParseForestGLL.html#ParseForestGLL-org.nineml.coffeegrinder.parser.ParserOptions-org.nineml.coffeegrinder.parser.CompiledGrammar-int-org.nineml.coffeegrinder.tokens.Token:A-">ParseForestGLL</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a>&nbsp;options,
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/ParseForestGLL.html#ParseForestGLL-org.nineml.coffeegrinder.parser.ParserOptions-org.nineml.coffeegrinder.parser.CompiledGrammar-int-org.nineml.coffeegrinder.tokens.Token:A-java.util.Map-">ParseForestGLL</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a>&nbsp;options,
               <a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser">CompiledGrammar</a>&nbsp;grammar,
               int&nbsp;rightExtent,
-              <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]&nbsp;inputTokens)</code>&nbsp;</td>
+              <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]&nbsp;inputTokens,
+              java.util.Map&lt;java.lang.Integer,java.lang.String&gt;&nbsp;regexMatches)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -195,7 +196,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html" t
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;org.nineml.coffeegrinder.parser.<a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html" title="class in org.nineml.coffeegrinder.parser">ParseForest</a></h3>
-<code><a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#constructTree-org.nineml.coffeegrinder.parser.TreeBuilder-org.nineml.coffeegrinder.parser.ForestNode-">constructTree</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#getNodes--">getNodes</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#getOptions--">getOptions</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#getRoots--">getRoots</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#getTotalParses--">getTotalParses</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#getTree--">getTree</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#getTree-org.nineml.coffeegrinder.parser.TreeBuilder-">getTree</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#isAmbiguous--">isAmbiguous</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#isInfinitelyAmbiguous--">isInfinitelyAmbiguous</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#serialize--">serialize</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#serialize-java.io.PrintStream-">serialize</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#serialize-java.lang.String-">serialize</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#size--">size</a></code></li>
+<code><a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#constructTree-org.nineml.coffeegrinder.parser.TreeBuilder-org.nineml.coffeegrinder.parser.ForestNode-">constructTree</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#getNodes--">getNodes</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#getOptions--">getOptions</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#getRoots--">getRoots</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#getTree--">getTree</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#getTree-org.nineml.coffeegrinder.parser.TreeBuilder-">getTree</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#isAmbiguous--">isAmbiguous</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#isInfinitelyAmbiguous--">isInfinitelyAmbiguous</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#serialize--">serialize</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#serialize-java.io.PrintStream-">serialize</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#serialize-java.lang.String-">serialize</a>, <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html#size--">size</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -218,7 +219,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html" t
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="ParseForestGLL-org.nineml.coffeegrinder.parser.ParserOptions-org.nineml.coffeegrinder.parser.CompiledGrammar-int-org.nineml.coffeegrinder.tokens.Token:A-">
+<a name="ParseForestGLL-org.nineml.coffeegrinder.parser.ParserOptions-org.nineml.coffeegrinder.parser.CompiledGrammar-int-org.nineml.coffeegrinder.tokens.Token:A-java.util.Map-">
 <!--   -->
 </a>
 <ul class="blockListLast">
@@ -227,7 +228,8 @@ extends <a href="../../../../org/nineml/coffeegrinder/parser/ParseForest.html" t
 <pre>public&nbsp;ParseForestGLL(<a href="../../../../org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a>&nbsp;options,
                       <a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser">CompiledGrammar</a>&nbsp;grammar,
                       int&nbsp;rightExtent,
-                      <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]&nbsp;inputTokens)</pre>
+                      <a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]&nbsp;inputTokens,
+                      java.util.Map&lt;java.lang.Integer,java.lang.String&gt;&nbsp;regexMatches)</pre>
 </li>
 </ul>
 </li>
