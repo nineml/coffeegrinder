@@ -31,7 +31,6 @@ public class ForestNode implements RuleChoice {
      */
     public final int id;
     protected final ArrayList<Family> families = new ArrayList<>();
-    protected HashMap<Family, Integer> edgeCounts = null;
     protected final ArrayList<Family> loops = new ArrayList<>();
     protected boolean reachable = false;
     protected Integer nodeHash = null;

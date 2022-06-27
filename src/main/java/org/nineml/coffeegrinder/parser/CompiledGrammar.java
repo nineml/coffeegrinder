@@ -1,6 +1,9 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.gll.GllParser;
+import org.nineml.coffeegrinder.tokens.TokenRegex;
+import org.nineml.coffeegrinder.util.ParserAttribute;
+import org.nineml.coffeegrinder.util.RegexCompiler;
 
 import java.util.*;
 
@@ -25,7 +28,20 @@ public class CompiledGrammar extends Grammar {
     protected CompiledGrammar(SourceGrammar grammar, ParserType parserType, NonterminalSymbol seed) {
         this.parserType = parserType;
         this.seed = seed;
+
         this.rules.addAll(grammar.getRules());
+        /*
+        for (Rule rule : grammar.getRules()) {
+            if (rule.getSymbol().hasAttribute(ParserAttribute.TOKEN_NAME)) {
+                String regex = compileRegex(rule.getSymbol(), grammar.getRules());
+                //this.rules.add(new Rule(rule.symbol, new TerminalSymbol(TokenRegex.get(regex))));
+                this.rules.add(rule);
+            } else {
+                this.rules.add(rule);
+            }
+        }
+         */
+
         this.metadata.putAll(grammar.getMetadataProperies());
         for (Rule rule : rules) {
             if (!rulesBySymbol.containsKey(rule.symbol)) {
@@ -308,6 +324,11 @@ public class CompiledGrammar extends Grammar {
                 }
             }
         }
+    }
+
+    private String compileRegex(NonterminalSymbol start, List<Rule> sourceRules) {
+        RegexCompiler compiler = new RegexCompiler(sourceRules);
+        return compiler.compile(start);
     }
 
 }

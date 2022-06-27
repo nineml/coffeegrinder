@@ -40,7 +40,11 @@ public class TreeTest {
         //result.getForest().parse().serialize("tree.xml");
 
         Assert.assertTrue(result.succeeded());
-        Assert.assertEquals(2, result.getForest().getTotalParses());
+
+        TreeBuilder builder = new NopTreeBuilder();
+        result.getTree(builder);
+
+        Assert.assertEquals(2, builder.getRevealedParses());
     }
 
     @Test
@@ -59,7 +63,10 @@ public class TreeTest {
             //tree.serialize("tree.xml");
 
             Assert.assertTrue(result.succeeded());
-            Assert.assertEquals(1, result.getForest().getTotalParses());
+
+            TreeBuilder builder = new NopTreeBuilder();
+            result.getTree(builder);
+            Assert.assertEquals(1, builder.getRevealedParses());
         } catch (Exception ex) {
             fail();
         }
@@ -111,7 +118,7 @@ public class TreeTest {
         TreeBuilder builder = new NopTreeBuilder();
         result.getForest().getTree(builder);
 
-        Assert.assertEquals(2, result.getForest().getTotalParses());
+        Assert.assertEquals(2, builder.getRevealedParses());
     }
 
 

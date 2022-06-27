@@ -3,6 +3,8 @@ package org.nineml.coffeegrinder.parser;
 import java.util.*;
 
 public abstract class Grammar {
+    public static final String logcategory = "Grammar";
+
     protected final ArrayList<Rule> rules = new ArrayList<>();
     protected final HashMap<NonterminalSymbol, List<Rule>> rulesBySymbol = new HashMap<>();
     protected final HashMap<String,String> metadata = new HashMap<>();

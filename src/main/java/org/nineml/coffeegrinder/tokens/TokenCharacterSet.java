@@ -221,7 +221,7 @@ public class TokenCharacterSet extends Token {
         boolean first = true;
         for (CharacterSet range : ranges) {
             if (!first) {
-                sb.append(";");
+                sb.append("; ");
             }
             first = false;
             sb.append(range);

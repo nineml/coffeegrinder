@@ -30,8 +30,9 @@ public interface ProgressMonitor {
      * Indicates progress in the parse.
      * @param parser the parser
      * @param size the number of items left to process.
+     * @param highwater the last token seen.
      */
-    void workingSet(GearleyParser parser, int size);
+    void workingSet(GearleyParser parser, int size, int highwater);
 
     /**
      * Indicates that the parse has finished.

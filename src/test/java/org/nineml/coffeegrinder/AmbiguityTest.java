@@ -27,7 +27,6 @@ public class AmbiguityTest {
             Assert.assertTrue(result.succeeded());
             //result.getForest().serialize("program-graph.xml");
             Assert.assertTrue(result.succeeded());
-            Assert.assertEquals(1, result.getForest().getTotalParses());
         } catch (Exception ex) {
             fail();
         }
@@ -70,11 +69,10 @@ public class AmbiguityTest {
         //result.getForest().serialize("ambiguity.xml");
 
         Assert.assertTrue(result.succeeded());
-        Assert.assertEquals(2, result.getForest().getTotalParses());
 
-        ParseTree tree = result.getForest().getTree();
-
-        Assert.assertNotNull(tree);
+        TreeBuilder builder = new NopTreeBuilder();
+        result.getTree(builder);
+        Assert.assertEquals(2, builder.getRevealedParses());
     }
 
     @Test
@@ -103,7 +101,10 @@ public class AmbiguityTest {
         //result.getForest().serialize("ambiguity2.xml");
 
         Assert.assertTrue(result.succeeded());
-        Assert.assertEquals(3, result.getForest().getTotalParses());
+
+        TreeBuilder builder = new NopTreeBuilder();
+        result.getTree(builder);
+        Assert.assertEquals(6, builder.getRevealedParses());
 
         ParseTree tree = result.getForest().getTree();
         Assert.assertNotNull(tree);
@@ -133,6 +134,9 @@ public class AmbiguityTest {
 
         Assert.assertTrue(result.succeeded());
         Assert.assertTrue(result.getForest().isInfinitelyAmbiguous());
-        Assert.assertEquals(2, result.getForest().getTotalParses());
+
+        TreeBuilder builder = new NopTreeBuilder();
+        result.getTree(builder);
+        Assert.assertEquals(2, builder.getRevealedParses());
     }
 }

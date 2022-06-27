@@ -5,6 +5,7 @@ import org.nineml.coffeegrinder.parser.TreeBuilder;
 import org.nineml.coffeegrinder.parser.RuleChoice;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
+import org.nineml.coffeegrinder.tokens.TokenString;
 
 import java.util.Collection;
 import java.util.List;
@@ -47,6 +48,8 @@ public class StdoutTreeBuilder extends PriorityTreeBuilder {
             } else {
                 sb.appendCodePoint(cp);
             }
+        } else if (token instanceof TokenString) {
+            sb.append(token.getValue());
         } else {
             sb.append(token.toString());
         }
