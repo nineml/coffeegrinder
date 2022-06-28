@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -105,10 +105,15 @@ var activeTableTab = "activeTableTab";
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></dd>
+</dl>
 <hr>
 <br>
 <pre>public class <span class="typeNameLabel">Family</span>
-extends java.lang.Object</pre>
+extends java.lang.Object
+implements <a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></pre>
 <div class="block">An internal class representing a family of nodes in the SPPF.
  <p>This has no public use, but it's shared between two classes so it can't be private to either of them.</p></div>
 </li>
@@ -158,9 +163,25 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Family.html#hashCode--">hashCode</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Family.html#getLeftExtent--">getLeftExtent</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Family.html#getRightExtent--">getRightExtent</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>[]</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Family.html#getRightHandSide--">getRightHandSide</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Family.html#getSymbol--">getSymbol</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Family.html#hashCode--">hashCode</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/Family.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
@@ -212,6 +233,58 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="getSymbol--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getSymbol</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>&nbsp;getSymbol()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html#getSymbol--">getSymbol</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getRightHandSide--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRightHandSide</h4>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>[]&nbsp;getRightHandSide()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html#getRightHandSide--">getRightHandSide</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getLeftExtent--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLeftExtent</h4>
+<pre>public&nbsp;int&nbsp;getLeftExtent()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html#getLeftExtent--">getLeftExtent</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getRightExtent--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRightExtent</h4>
+<pre>public&nbsp;int&nbsp;getRightExtent()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html#getRightExtent--">getRightExtent</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></code></dd>
+</dl>
+</li>
+</ul>
 <a name="equals-java.lang.Object-">
 <!--   -->
 </a>

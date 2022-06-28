@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
+var methods = {"i0":10,"i1":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -110,15 +110,10 @@ var activeTableTab = "activeTableTab";
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
-<dl>
-<dt>All Implemented Interfaces:</dt>
-<dd><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></dd>
-</dl>
 <hr>
 <br>
 <pre>public class <span class="typeNameLabel">BinarySubtreeSlot</span>
-extends <a href="../../../../org/nineml/coffeegrinder/gll/BinarySubtreeNode.html" title="class in org.nineml.coffeegrinder.gll">BinarySubtreeNode</a>
-implements <a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></pre>
+extends <a href="../../../../org/nineml/coffeegrinder/gll/BinarySubtreeNode.html" title="class in org.nineml.coffeegrinder.gll">BinarySubtreeNode</a></pre>
 </li>
 </ul>
 </div>
@@ -157,22 +152,6 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html"
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/BinarySubtreeSlot.html#equals-java.lang.Object-">equals</a></span>(java.lang.Object&nbsp;obj)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/BinarySubtreeSlot.html#getLeftExtent--">getLeftExtent</a></span>()</code>&nbsp;</td>
-</tr>
-<tr id="i2" class="altColor">
-<td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/BinarySubtreeSlot.html#getRightExtent--">getRightExtent</a></span>()</code>&nbsp;</td>
-</tr>
-<tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>[]</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/BinarySubtreeSlot.html#getRightHandSide--">getRightHandSide</a></span>()</code>&nbsp;</td>
-</tr>
-<tr id="i4" class="altColor">
-<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/BinarySubtreeSlot.html#getSymbol--">getSymbol</a></span>()</code>&nbsp;</td>
-</tr>
-<tr id="i5" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/gll/BinarySubtreeSlot.html#hashCode--">hashCode</a></span>()</code>&nbsp;</td>
 </tr>
@@ -221,65 +200,13 @@ implements <a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html"
 <a name="hashCode--">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
 <pre>public&nbsp;int&nbsp;hashCode()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
-</dl>
-</li>
-</ul>
-<a name="getSymbol--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getSymbol</h4>
-<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;getSymbol()</pre>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html#getSymbol--">getSymbol</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></code></dd>
-</dl>
-</li>
-</ul>
-<a name="getRightHandSide--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getRightHandSide</h4>
-<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>[]&nbsp;getRightHandSide()</pre>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html#getRightHandSide--">getRightHandSide</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></code></dd>
-</dl>
-</li>
-</ul>
-<a name="getLeftExtent--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getLeftExtent</h4>
-<pre>public&nbsp;int&nbsp;getLeftExtent()</pre>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html#getLeftExtent--">getLeftExtent</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></code></dd>
-</dl>
-</li>
-</ul>
-<a name="getRightExtent--">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>getRightExtent</h4>
-<pre>public&nbsp;int&nbsp;getRightExtent()</pre>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html#getRightExtent--">getRightExtent</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></code></dd>
 </dl>
 </li>
 </ul>
