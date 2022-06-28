@@ -2,7 +2,10 @@ package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A node in the SPPF.

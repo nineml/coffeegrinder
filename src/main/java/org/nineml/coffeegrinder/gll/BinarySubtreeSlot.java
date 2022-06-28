@@ -3,9 +3,8 @@ package org.nineml.coffeegrinder.gll;
 import org.nineml.coffeegrinder.parser.NonterminalSymbol;
 import org.nineml.coffeegrinder.parser.State;
 import org.nineml.coffeegrinder.parser.Symbol;
-import org.nineml.coffeegrinder.parser.RuleChoice;
 
-public class BinarySubtreeSlot extends BinarySubtreeNode implements RuleChoice {
+public class BinarySubtreeSlot extends BinarySubtreeNode {
     protected BinarySubtreeSlot(State slot, int left, int pivot, int right) {
         super(slot, left, pivot, right);
     }
@@ -25,25 +24,5 @@ public class BinarySubtreeSlot extends BinarySubtreeNode implements RuleChoice {
     @Override
     public int hashCode() {
         return slot.hashCode() + (11 * leftExtent) + (13 * pivot) + (31 * rightExtent);
-    }
-
-    @Override
-    public NonterminalSymbol getSymbol() {
-        return slot.symbol;
-    }
-
-    @Override
-    public Symbol[] getRightHandSide() {
-        return slot.rhs.symbols;
-    }
-
-    @Override
-    public int getLeftExtent() {
-        return leftExtent;
-    }
-
-    @Override
-    public int getRightExtent() {
-        return rightExtent;
     }
 }
