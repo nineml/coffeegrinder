@@ -183,7 +183,7 @@ public class ParseForest {
         int index = 0;
         boolean alternatives = false;
         int lowest = Integer.MAX_VALUE;
-        ForestNode selectedAlternative = null;
+        RuleChoice selectedAlternative = null;
         final ArrayList<Family> families;
         final HashMap<Family,Integer> edgeCounts;
         switch (tree.families.size()) {
@@ -217,16 +217,12 @@ public class ParseForest {
                 }
 
                 if (families.size() > 1) {
-                    ArrayList<RuleChoice> choices = new ArrayList<>();
-                    for (Family family : families) {
-                        // Can family.w ever be non-null and what does it mean if it is?
-                        choices.add(family.v);
-                    }
+                    ArrayList<RuleChoice> choices = new ArrayList<>(families);
                     index = builder.startAlternative(choices);
                     if (index < 0 || index >= choices.size()) {
                         throw new IllegalStateException("Invalid alternative selected");
                     }
-                    selectedAlternative = families.get(index).v;
+                    selectedAlternative = families.get(index);
                     alternatives = true;
                 }
         }
@@ -629,8 +625,8 @@ public class ParseForest {
     }
 
     private static class PendingEndAlternatives extends PendingAction {
-        public final ForestNode selectedAlternative;
-        public PendingEndAlternatives(ForestNode selectedAlternative) {
+        public final RuleChoice selectedAlternative;
+        public PendingEndAlternatives(RuleChoice selectedAlternative) {
             super(PendingType.END_ALTERNATIVES);
             this.selectedAlternative = selectedAlternative;
         }
