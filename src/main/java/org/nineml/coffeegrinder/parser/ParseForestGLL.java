@@ -17,12 +17,12 @@ public class ParseForestGLL extends ParseForest {
     private final HashMap<Symbol, PrefixTrie> slotPrefixes;
     private final HashMap<Symbol, HashMap<Integer, HashMap<Integer, ArrayList<ForestNodeGLL>>>> nodes;
     private final HashMap<PrefixTrie, HashMap<Integer, HashMap<Integer, ArrayList<ForestNodeGLL>>>> slots;
-    private final CompiledGrammar grammar;
+    private final ParserGrammar grammar;
     private final int rightExtent;
     private final Token[] inputTokens;
     private final Map<Integer,String> regexMatches;
 
-    public ParseForestGLL(ParserOptions options, CompiledGrammar grammar, int rightExtent, Token[] inputTokens, Map<Integer,String> regexMatches) {
+    public ParseForestGLL(ParserOptions options, ParserGrammar grammar, int rightExtent, Token[] inputTokens, Map<Integer,String> regexMatches) {
         super(options);
         this.grammar = grammar;
         this.rightExtent = rightExtent;

@@ -284,7 +284,7 @@ public class GrammarTest {
         HygieneReport report = grammar.getHygieneReport(_S);
         Assert.assertEquals(0, logger.warncount);
 
-        CompiledGrammar cgrammar = grammar.getCompiledGrammar(_S);
+        ParserGrammar cgrammar = grammar.getCompiledGrammar(_S);
         report = cgrammar.getHygieneReport();
         Assert.assertEquals(1, logger.warncount);
 

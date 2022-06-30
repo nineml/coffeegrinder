@@ -1,8 +1,6 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.gll.GllParser;
-import org.nineml.coffeegrinder.tokens.TokenRegex;
-import org.nineml.coffeegrinder.util.ParserAttribute;
 import org.nineml.coffeegrinder.util.RegexCompiler;
 
 import java.util.*;
@@ -16,7 +14,7 @@ import java.util.*;
  * <p>A grammar can be used to create a parser for that grammar. After doing so, you cannot make any
  * further changes to the grammar.</p>
  */
-public class CompiledGrammar extends Grammar {
+public class ParserGrammar extends Grammar {
     private final ParserType parserType;
     private final NonterminalSymbol seed;
     private final HashSet<Symbol> nullable;
@@ -25,7 +23,7 @@ public class CompiledGrammar extends Grammar {
     private final HashMap<NonterminalSymbol, HashSet<Symbol>> followSets = new HashMap<>();
     private boolean computedSets = false;
 
-    protected CompiledGrammar(SourceGrammar grammar, ParserType parserType, NonterminalSymbol seed) {
+    protected ParserGrammar(SourceGrammar grammar, ParserType parserType, NonterminalSymbol seed) {
         this.parserType = parserType;
         this.seed = seed;
 

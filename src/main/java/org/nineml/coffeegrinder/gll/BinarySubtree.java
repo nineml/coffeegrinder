@@ -2,9 +2,7 @@ package org.nineml.coffeegrinder.gll;
 
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.Token;
-import org.nineml.coffeegrinder.util.ParserAttribute;
 import org.nineml.coffeegrinder.util.StopWatch;
-import org.nineml.logging.Logger;
 
 import java.util.*;
 
@@ -108,7 +106,7 @@ public class BinarySubtree {
         return roots;
     }
 
-    protected ParseForest extractSPPF(CompiledGrammar grammar, Token[] inputTokens) {
+    protected ParseForest extractSPPF(ParserGrammar grammar, Token[] inputTokens) {
         ParseForestGLL G = new ParseForestGLL(grammar.getParserOptions(), grammar, rightExtent, inputTokens, regexMatches);
         int n = rightExtent;
 

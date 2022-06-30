@@ -163,12 +163,12 @@ public class SourceGrammar extends Grammar {
         return getParser(options, getNonterminal(seed));
     }
 
-    public CompiledGrammar getCompiledGrammar(NonterminalSymbol seed) {
-        return new CompiledGrammar(this, defaultParserType, seed);
+    public ParserGrammar getCompiledGrammar(NonterminalSymbol seed) {
+        return new ParserGrammar(this, defaultParserType, seed);
     }
 
-    public CompiledGrammar getCompiledGrammar(ParserType parserType, NonterminalSymbol seed) {
-        return new CompiledGrammar(this, parserType, seed);
+    public ParserGrammar getCompiledGrammar(ParserType parserType, NonterminalSymbol seed) {
+        return new ParserGrammar(this, parserType, seed);
     }
 
     /**
@@ -190,7 +190,7 @@ public class SourceGrammar extends Grammar {
             throw new IllegalStateException("Unexpected parser type: " + options.getParserType());
         }
 
-        CompiledGrammar compiled = getCompiledGrammar(parserType, seed);
+        ParserGrammar compiled = getCompiledGrammar(parserType, seed);
         if (parserType == ParserType.Earley) {
             return new EarleyParser(compiled, options);
         } else {

@@ -12,27 +12,27 @@ public class HygieneReport {
     public static final String logcategory = "Hygiene";
 
     private final SourceGrammar grammar;
-    private final CompiledGrammar compiledGrammar;
+    private final ParserGrammar parserGrammar;
     private final HashSet<Rule> unproductiveRules = new HashSet<>();
     private final HashSet<NonterminalSymbol> unproductiveSymbols = new HashSet<>();
     private final HashSet<NonterminalSymbol> unreachableSymbols = new HashSet<>();
     private final HashSet<NonterminalSymbol> undefinedSymbols = new HashSet<>();
     private ArrayList<Rule> rules = null;
 
-    protected HygieneReport(CompiledGrammar grammar) {
-        this.compiledGrammar = grammar;
+    protected HygieneReport(ParserGrammar grammar) {
+        this.parserGrammar = grammar;
         this.grammar = null;
         checkGrammar(grammar.getSeed());
     }
 
     protected HygieneReport(SourceGrammar grammar, NonterminalSymbol seed) {
-        this.compiledGrammar = null;
+        this.parserGrammar = null;
         this.grammar = grammar;
         checkGrammar(seed);
     }
 
     private void checkGrammar(NonterminalSymbol seed) {
-        if (compiledGrammar != null && rules != null) {
+        if (parserGrammar != null && rules != null) {
             return; // no reason to do this twice, it can't change...
         }
 
@@ -42,9 +42,9 @@ public class HygieneReport {
             rules.addAll(grammar.getRules());
             rulesBySymbol = grammar.getRulesBySymbol();
         } else {
-            assert compiledGrammar != null;
-            rules.addAll(compiledGrammar.getRules());
-            rulesBySymbol = compiledGrammar.getRulesBySymbol();
+            assert parserGrammar != null;
+            rules.addAll(parserGrammar.getRules());
+            rulesBySymbol = parserGrammar.getRulesBySymbol();
         }
 
 
@@ -163,8 +163,8 @@ public class HygieneReport {
      * may have changed since this report was created.</p>
      * @return the grammar.
      */
-    public CompiledGrammar getCompiledGrammar() {
-        return compiledGrammar;
+    public ParserGrammar getCompiledGrammar() {
+        return parserGrammar;
     }
 
     /**
@@ -205,8 +205,8 @@ public class HygieneReport {
         }
 
         unreachableSymbols.add(symbol);
-        if (compiledGrammar != null) {
-            compiledGrammar.getParserOptions().getLogger().warn(logcategory, "Unreachable symbol: %s", symbol);
+        if (parserGrammar != null) {
+            parserGrammar.getParserOptions().getLogger().warn(logcategory, "Unreachable symbol: %s", symbol);
         }
     }
 
@@ -216,8 +216,8 @@ public class HygieneReport {
         }
 
         undefinedSymbols.add(symbol);
-        if (compiledGrammar != null) {
-            compiledGrammar.getParserOptions().getLogger().warn(logcategory, "Undefined symbol: %s", symbol);
+        if (parserGrammar != null) {
+            parserGrammar.getParserOptions().getLogger().warn(logcategory, "Undefined symbol: %s", symbol);
         }
     }
 
@@ -227,8 +227,8 @@ public class HygieneReport {
         }
 
         unproductiveSymbols.add(symbol);
-        if (compiledGrammar != null) {
-            compiledGrammar.getParserOptions().getLogger().warn(logcategory, "Unproductive symbol: %s", symbol);
+        if (parserGrammar != null) {
+            parserGrammar.getParserOptions().getLogger().warn(logcategory, "Unproductive symbol: %s", symbol);
         }
     }
 
@@ -238,8 +238,8 @@ public class HygieneReport {
         }
 
         unproductiveRules.add(rule);
-        if (compiledGrammar != null) {
-            compiledGrammar.getParserOptions().getLogger().warn(logcategory, "Unproductive rule: %s", rule);
+        if (parserGrammar != null) {
+            parserGrammar.getParserOptions().getLogger().warn(logcategory, "Unproductive rule: %s", rule);
         }
     }
 }

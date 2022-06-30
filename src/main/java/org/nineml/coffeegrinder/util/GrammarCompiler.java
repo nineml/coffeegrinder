@@ -83,7 +83,7 @@ public class GrammarCompiler {
      * @param grammar the grammar to compile
      * @return a "compiled" string format of the grammar
      */
-    public String compile(CompiledGrammar grammar) {
+    public String compile(ParserGrammar grammar) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         compile(grammar, ps);
@@ -100,7 +100,7 @@ public class GrammarCompiler {
      * @param grammar the grammar to compile
      * @param ps the print stream where the compiled grammar is written
      */
-    public void compile(CompiledGrammar grammar, PrintStream ps) {
+    public void compile(ParserGrammar grammar, PrintStream ps) {
         initializeDigest();
         agroups.clear();
         sb = new StringBuilder();
@@ -425,7 +425,7 @@ public class GrammarCompiler {
     }
 
     /**
-     * Parse a compiled grammar to reconstruct a {@link CompiledGrammar} object.
+     * Parse a compiled grammar to reconstruct a {@link ParserGrammar} object.
      * @param compiled A file containing a grammar
      * @return The grammar stored in the compiled file
      * @throws GrammarException if there are errors in the compiled form
@@ -440,7 +440,7 @@ public class GrammarCompiler {
     }
 
     /**
-     * Parse a compiled grammar to reconstruct a {@link CompiledGrammar} object.
+     * Parse a compiled grammar to reconstruct a {@link ParserGrammar} object.
      * @param compiled A file containing a grammar
      * @param systemId the systemId of the grammar file
      * @return The grammar stored in the compiled file
@@ -458,7 +458,7 @@ public class GrammarCompiler {
     }
 
     /**
-     * Parse a compiled grammar to reconstruct a {@link CompiledGrammar} object.
+     * Parse a compiled grammar to reconstruct a {@link ParserGrammar} object.
      * @param input A string containing a compiled grammar
      * @return The grammar stored in the compiled file
      * @throws GrammarException if there are errors in the compiled form

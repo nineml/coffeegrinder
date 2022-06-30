@@ -14,7 +14,7 @@ import java.util.*;
 public class GllParser implements GearleyParser {
     public static final String logcategory = "Parser";
     public static final String gllexecution = "GLLExecution";
-    public final CompiledGrammar grammar;
+    public final ParserGrammar grammar;
     private final ArrayList<State> grammarSlots;
     private final HashMap<Rule,List<State>> ruleSlots;
     private Token[] I;
@@ -44,7 +44,7 @@ public class GllParser implements GearleyParser {
     protected int tokenCount;
     protected Token lastToken;
 
-    public GllParser(CompiledGrammar grammar, ParserOptions options) {
+    public GllParser(ParserGrammar grammar, ParserOptions options) {
         this.grammar = grammar;
         this.options = options;
         logger = options.getLogger();
@@ -75,7 +75,7 @@ public class GllParser implements GearleyParser {
         return ParserType.GLL;
     }
 
-    public CompiledGrammar getGrammar() {
+    public ParserGrammar getGrammar() {
         return grammar;
     }
 

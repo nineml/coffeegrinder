@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 public interface GearleyParser {
     ParserType getParserType();
-    CompiledGrammar getGrammar();
+    ParserGrammar getGrammar();
     NonterminalSymbol getSeed();
     GearleyResult parse(Token[] input);
     GearleyResult parse(Iterator<Token> input);

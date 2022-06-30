@@ -3,9 +3,7 @@ package org.nineml.coffeegrinder.parser;
 import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
-import org.nineml.coffeegrinder.tokens.TokenEOF;
 import org.nineml.coffeegrinder.tokens.TokenString;
-import org.nineml.coffeegrinder.util.Iterators;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 import org.nineml.coffeegrinder.util.StopWatch;
 
@@ -25,7 +23,7 @@ public class EarleyParser implements GearleyParser {
 
     private final EarleyChart chart = new EarleyChart();
     private final ForestNodeSet V;
-    private final CompiledGrammar grammar;
+    private final ParserGrammar grammar;
     private final ParseForest graph;
     private final NonterminalSymbol S;
     private final HashMap<NonterminalSymbol, List<Rule>> Rho;
@@ -43,7 +41,7 @@ public class EarleyParser implements GearleyParser {
     protected int progressSize = 0;
     protected int progressCount = 0;
 
-    protected EarleyParser(CompiledGrammar grammar, ParserOptions options) {
+    protected EarleyParser(ParserGrammar grammar, ParserOptions options) {
         this.grammar = grammar;
         this.options = options;
 
@@ -126,7 +124,7 @@ public class EarleyParser implements GearleyParser {
      * Get the grammar used by this parser.
      * @return the grammar
      */
-    public CompiledGrammar getGrammar() {
+    public ParserGrammar getGrammar() {
         return grammar;
     }
 
