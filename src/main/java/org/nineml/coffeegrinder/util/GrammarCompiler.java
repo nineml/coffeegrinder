@@ -26,8 +26,8 @@ import java.util.*;
  * can be loaded with the {@link #parse} method.</p>
  */
 public class GrammarCompiler {
-    private static final String formatVersion="0.9.5";
-    private static final char nameEscape = 'ǝ';
+    private static final String formatVersion="1.99.8";
+    private static final char nameEscape = 'E';
     private static final String NS = "http://nineml.org/coffeegrinder/ns/grammar/compiled";
     private static final HashMap<Character,String> entities = new HashMap<>();
     static {
@@ -104,6 +104,7 @@ public class GrammarCompiler {
         initializeDigest();
         agroups.clear();
         sb = new StringBuilder();
+        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         sb.append("<grammar xmlns=\"").append(NS).append("\"");
         sb.append(" version=\"").append(formatVersion).append("\">\n");
 
@@ -222,7 +223,7 @@ public class GrammarCompiler {
             sb.append("</r>\n");
         }
 
-        sb.append("<check Σ=\"");
+        sb.append("<check sum=\"");
         byte[] hash = xdigest.digest();
         for (int pos = hash.length - 8; pos < hash.length; pos++) {
             sb.append(Integer.toString((hash[pos] & 0xff) + 0x100, 16).substring(1));
@@ -574,7 +575,7 @@ public class GrammarCompiler {
                         sb.append(Integer.toString((hash[pos] & 0xff) + 0x100, 16).substring(1));
                     }
                     String checksum = sb.toString();
-                    String expected = attributes.getValue("Σ");
+                    String expected = attributes.getValue("sum");
                     if (!checksum.equals(expected)) {
                         throw CompilerException.checkumFailed();
                     }
