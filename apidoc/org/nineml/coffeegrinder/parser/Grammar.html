@@ -107,7 +107,7 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <dl>
 <dt>Direct Known Subclasses:</dt>
-<dd><a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser">CompiledGrammar</a>, <a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a></dd>
+<dd><a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser">ParserGrammar</a>, <a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a></dd>
 </dl>
 <hr>
 <br>
@@ -277,7 +277,7 @@ extends java.lang.Object</pre>
 <h4>getRules</h4>
 <pre>public&nbsp;java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a>&gt;&nbsp;getRules()</pre>
 <div class="block">Get the rules currently defined in this grammar.
- <p>For a <a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>CompiledGrammar</code></a>, this is the final set.</p></div>
+ <p>For a <a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserGrammar</code></a>, this is the final set.</p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>Returns the rules that define the grammar.</dd>
@@ -292,7 +292,7 @@ extends java.lang.Object</pre>
 <h4>getSymbols</h4>
 <pre>public&nbsp;java.util.Set&lt;<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&gt;&nbsp;getSymbols()</pre>
 <div class="block">Get the currently defined nonterminals in the grammar.
- <p>For a <a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>CompiledGrammar</code></a>, this is the final set.</p></div>
+ <p>For a <a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserGrammar</code></a>, this is the final set.</p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the set of nonterminals.</dd>
@@ -307,7 +307,7 @@ extends java.lang.Object</pre>
 <h4>getRulesBySymbol</h4>
 <pre>public&nbsp;java.util.Map&lt;<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>,java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a>&gt;&gt;&nbsp;getRulesBySymbol()</pre>
 <div class="block">Get the rules currently defined in this grammar organized by symbol.
- <p>For a <a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>CompiledGrammar</code></a>, this is the final set.</p></div>
+ <p>For a <a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserGrammar</code></a>, this is the final set.</p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>Returns the rules that define the grammar.</dd>
@@ -322,7 +322,7 @@ extends java.lang.Object</pre>
 <h4>getRulesForSymbol</h4>
 <pre>public&nbsp;java.util.List&lt;<a href="../../../../org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a>&gt;&nbsp;getRulesForSymbol(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol)</pre>
 <div class="block">Get the rules currently defined in this grammar for a particular symbol.
- <p>For a <a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>CompiledGrammar</code></a>, this is the final set.</p></div>
+ <p>For a <a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserGrammar</code></a>, this is the final set.</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>symbol</code> - The symbol.</dd>
@@ -380,7 +380,7 @@ extends java.lang.Object</pre>
 <pre>public abstract&nbsp;boolean&nbsp;isNullable(<a href="../../../../org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>&nbsp;symbol)</pre>
 <div class="block">Is the symbol nullable?
  <p>A <a href="../../../../org/nineml/coffeegrinder/parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser"><code>TerminalSymbol</code></a> is never nullable.</p>
- <p>For a <a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>CompiledGrammar</code></a>, the answer is definitive. For an <a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>SourceGrammar</code></a>,
+ <p>For a <a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserGrammar</code></a>, the answer is definitive. For an <a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>SourceGrammar</code></a>,
  a symbol that isn't currently nullable could become nullable by the addition of more rules.</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>

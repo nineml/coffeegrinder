@@ -111,7 +111,7 @@ var activeTableTab = "activeTableTab";
 extends java.lang.Object</pre>
 <div class="block">Store and retrieve CoffeeGrinder grammar files.
 
- <p>The <a href="../../../../org/nineml/coffeegrinder/util/GrammarCompiler.html#compile-org.nineml.coffeegrinder.parser.CompiledGrammar-"><code>compile(org.nineml.coffeegrinder.parser.CompiledGrammar)</code></a> method will return a string representation for a grammar that
+ <p>The <a href="../../../../org/nineml/coffeegrinder/util/GrammarCompiler.html#compile-org.nineml.coffeegrinder.parser.ParserGrammar-"><code>compile(org.nineml.coffeegrinder.parser.ParserGrammar)</code></a> method will return a string representation for a grammar that
  can be loaded with the <a href="../../../../org/nineml/coffeegrinder/util/GrammarCompiler.html#parse-java.io.File-"><code>parse(java.io.File)</code></a> method.</p></div>
 </li>
 </ul>
@@ -157,13 +157,13 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/GrammarCompiler.html#compile-org.nineml.coffeegrinder.parser.CompiledGrammar-">compile</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser">CompiledGrammar</a>&nbsp;grammar)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/GrammarCompiler.html#compile-org.nineml.coffeegrinder.parser.ParserGrammar-">compile</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser">ParserGrammar</a>&nbsp;grammar)</code>
 <div class="block">Compile a grammar.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/GrammarCompiler.html#compile-org.nineml.coffeegrinder.parser.CompiledGrammar-java.io.PrintStream-">compile</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser">CompiledGrammar</a>&nbsp;grammar,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/GrammarCompiler.html#compile-org.nineml.coffeegrinder.parser.ParserGrammar-java.io.PrintStream-">compile</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser">ParserGrammar</a>&nbsp;grammar,
        java.io.PrintStream&nbsp;ps)</code>
 <div class="block">Compile a grammar.</div>
 </td>
@@ -171,20 +171,20 @@ extends java.lang.Object</pre>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/GrammarCompiler.html#parse-java.io.File-">parse</a></span>(java.io.File&nbsp;compiled)</code>
-<div class="block">Parse a compiled grammar to reconstruct a <a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>CompiledGrammar</code></a> object.</div>
+<div class="block">Parse a compiled grammar to reconstruct a <a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserGrammar</code></a> object.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/GrammarCompiler.html#parse-java.io.InputStream-java.lang.String-">parse</a></span>(java.io.InputStream&nbsp;compiled,
      java.lang.String&nbsp;systemId)</code>
-<div class="block">Parse a compiled grammar to reconstruct a <a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>CompiledGrammar</code></a> object.</div>
+<div class="block">Parse a compiled grammar to reconstruct a <a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserGrammar</code></a> object.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/util/GrammarCompiler.html#parse-java.lang.String-">parse</a></span>(java.lang.String&nbsp;input)</code>
-<div class="block">Parse a compiled grammar to reconstruct a <a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>CompiledGrammar</code></a> object.</div>
+<div class="block">Parse a compiled grammar to reconstruct a <a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserGrammar</code></a> object.</div>
 </td>
 </tr>
 </table>
@@ -241,13 +241,13 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="compile-org.nineml.coffeegrinder.parser.CompiledGrammar-">
+<a name="compile-org.nineml.coffeegrinder.parser.ParserGrammar-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>compile</h4>
-<pre>public&nbsp;java.lang.String&nbsp;compile(<a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser">CompiledGrammar</a>&nbsp;grammar)</pre>
+<pre>public&nbsp;java.lang.String&nbsp;compile(<a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser">ParserGrammar</a>&nbsp;grammar)</pre>
 <div class="block">Compile a grammar.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -257,13 +257,13 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a name="compile-org.nineml.coffeegrinder.parser.CompiledGrammar-java.io.PrintStream-">
+<a name="compile-org.nineml.coffeegrinder.parser.ParserGrammar-java.io.PrintStream-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>compile</h4>
-<pre>public&nbsp;void&nbsp;compile(<a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser">CompiledGrammar</a>&nbsp;grammar,
+<pre>public&nbsp;void&nbsp;compile(<a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser">ParserGrammar</a>&nbsp;grammar,
                     java.io.PrintStream&nbsp;ps)</pre>
 <div class="block">Compile a grammar.</div>
 <dl>
@@ -281,7 +281,7 @@ extends java.lang.Object</pre>
 <h4>parse</h4>
 <pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a>&nbsp;parse(java.io.File&nbsp;compiled)
                     throws java.io.IOException</pre>
-<div class="block">Parse a compiled grammar to reconstruct a <a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>CompiledGrammar</code></a> object.</div>
+<div class="block">Parse a compiled grammar to reconstruct a <a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserGrammar</code></a> object.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>compiled</code> - A file containing a grammar</dd>
@@ -303,7 +303,7 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a>&nbsp;parse(java.io.InputStream&nbsp;compiled,
                            java.lang.String&nbsp;systemId)
                     throws java.io.IOException</pre>
-<div class="block">Parse a compiled grammar to reconstruct a <a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>CompiledGrammar</code></a> object.</div>
+<div class="block">Parse a compiled grammar to reconstruct a <a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserGrammar</code></a> object.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>compiled</code> - A file containing a grammar</dd>
@@ -324,7 +324,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>parse</h4>
 <pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a>&nbsp;parse(java.lang.String&nbsp;input)</pre>
-<div class="block">Parse a compiled grammar to reconstruct a <a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>CompiledGrammar</code></a> object.</div>
+<div class="block">Parse a compiled grammar to reconstruct a <a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserGrammar</code></a> object.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>input</code> - A string containing a compiled grammar</dd>

@@ -207,11 +207,11 @@ extends <a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html" title
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser">CompiledGrammar</a></code></td>
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser">ParserGrammar</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html#getCompiledGrammar-org.nineml.coffeegrinder.parser.NonterminalSymbol-">getCompiledGrammar</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</code>&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser">CompiledGrammar</a></code></td>
+<td class="colFirst"><code><a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser">ParserGrammar</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html#getCompiledGrammar-org.nineml.coffeegrinder.parser.ParserType-org.nineml.coffeegrinder.parser.NonterminalSymbol-">getCompiledGrammar</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/ParserType.html" title="enum in org.nineml.coffeegrinder.parser">ParserType</a>&nbsp;parserType,
                   <a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</code>&nbsp;</td>
 </tr>
@@ -505,7 +505,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html" title
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html#isNullable-org.nineml.coffeegrinder.parser.Symbol-">Grammar</a></code></span></div>
 <div class="block">Is the symbol nullable?
  <p>A <a href="../../../../org/nineml/coffeegrinder/parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser"><code>TerminalSymbol</code></a> is never nullable.</p>
- <p>For a <a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>CompiledGrammar</code></a>, the answer is definitive. For an <a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>SourceGrammar</code></a>,
+ <p>For a <a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserGrammar</code></a>, the answer is definitive. For an <a href="../../../../org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser"><code>SourceGrammar</code></a>,
  a symbol that isn't currently nullable could become nullable by the addition of more rules.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
@@ -533,7 +533,7 @@ extends <a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>getCompiledGrammar</h4>
-<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser">CompiledGrammar</a>&nbsp;getCompiledGrammar(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</pre>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser">ParserGrammar</a>&nbsp;getCompiledGrammar(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</pre>
 </li>
 </ul>
 <a name="getCompiledGrammar-org.nineml.coffeegrinder.parser.ParserType-org.nineml.coffeegrinder.parser.NonterminalSymbol-">
@@ -542,8 +542,8 @@ extends <a href="../../../../org/nineml/coffeegrinder/parser/Grammar.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>getCompiledGrammar</h4>
-<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/CompiledGrammar.html" title="class in org.nineml.coffeegrinder.parser">CompiledGrammar</a>&nbsp;getCompiledGrammar(<a href="../../../../org/nineml/coffeegrinder/parser/ParserType.html" title="enum in org.nineml.coffeegrinder.parser">ParserType</a>&nbsp;parserType,
-                                          <a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</pre>
+<pre>public&nbsp;<a href="../../../../org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser">ParserGrammar</a>&nbsp;getCompiledGrammar(<a href="../../../../org/nineml/coffeegrinder/parser/ParserType.html" title="enum in org.nineml.coffeegrinder.parser">ParserType</a>&nbsp;parserType,
+                                        <a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;seed)</pre>
 </li>
 </ul>
 <a name="getParser-org.nineml.coffeegrinder.parser.ParserOptions-org.nineml.coffeegrinder.parser.NonterminalSymbol-">
