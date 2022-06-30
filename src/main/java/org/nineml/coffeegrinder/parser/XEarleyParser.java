@@ -12,7 +12,7 @@ import java.util.List;
 
 public class XEarleyParser {
     public static final String logcategory = "Parser";
-    public final CompiledGrammar grammar;
+    public final ParserGrammar grammar;
     private final NonterminalSymbol seedPrime;
     private final ArrayList<State> grammarSlots;
     private final EarleyChart S = new EarleyChart();
@@ -28,7 +28,7 @@ public class XEarleyParser {
         SourceGrammar modifiedGrammar = new SourceGrammar(sourceGrammar);
         seedPrime = modifiedGrammar.getNonterminal("$$");
         modifiedGrammar.addRule(seedPrime, seed);
-        grammar = new CompiledGrammar(modifiedGrammar, ParserType.Earley, seedPrime);
+        grammar = new ParserGrammar(modifiedGrammar, ParserType.Earley, seedPrime);
 
         bsr = new BinarySubtree(grammar.getSeed(), options);
 

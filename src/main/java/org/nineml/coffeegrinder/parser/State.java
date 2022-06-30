@@ -175,7 +175,7 @@ public class State {
         return position == rhs.length;
     }
 
-    public Set<Symbol> getFirst(CompiledGrammar grammar) {
+    public Set<Symbol> getFirst(ParserGrammar grammar) {
         if (firstSet == null) {
             firstSet = new HashSet<>();
             int spos = position;

@@ -11,7 +11,7 @@ public abstract class Grammar {
 
     /**
      * Get the rules currently defined in this grammar.
-     * <p>For a {@link CompiledGrammar}, this is the final set.</p>
+     * <p>For a {@link ParserGrammar}, this is the final set.</p>
      * @return Returns the rules that define the grammar.
      */
     public List<Rule> getRules() {
@@ -20,7 +20,7 @@ public abstract class Grammar {
 
     /**
      * Get the currently defined nonterminals in the grammar.
-     * <p>For a {@link CompiledGrammar}, this is the final set.</p>
+     * <p>For a {@link ParserGrammar}, this is the final set.</p>
      * @return the set of nonterminals.
      */
     public Set<NonterminalSymbol> getSymbols() {
@@ -29,7 +29,7 @@ public abstract class Grammar {
 
     /**
      * Get the rules currently defined in this grammar organized by symbol.
-     * <p>For a {@link CompiledGrammar}, this is the final set.</p>
+     * <p>For a {@link ParserGrammar}, this is the final set.</p>
      * @return Returns the rules that define the grammar.
      */
     public Map<NonterminalSymbol,List<Rule>> getRulesBySymbol() {
@@ -38,7 +38,7 @@ public abstract class Grammar {
 
     /**
      * Get the rules currently defined in this grammar for a particular symbol.
-     * <p>For a {@link CompiledGrammar}, this is the final set.</p>
+     * <p>For a {@link ParserGrammar}, this is the final set.</p>
      * @param symbol The symbol.
      * @return Returns the rules that define the grammar.
      */
@@ -78,7 +78,7 @@ public abstract class Grammar {
     /**
      * Is the symbol nullable?
      * <p>A {@link TerminalSymbol} is never nullable.</p>
-     * <p>For a {@link CompiledGrammar}, the answer is definitive. For an {@link SourceGrammar},
+     * <p>For a {@link ParserGrammar}, the answer is definitive. For an {@link SourceGrammar},
      * a symbol that isn't currently nullable could become nullable by the addition of more rules.</p>
      * @param symbol The symbol.
      * @return true if the symbol is nullable
