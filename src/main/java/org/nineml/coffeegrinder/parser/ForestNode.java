@@ -264,13 +264,13 @@ public class ForestNode implements RuleChoice {
     }
 
     @Override
-    public int getLeftExtent() {
-        return leftExtent;
+    public ForestNode getLeftNode() {
+        return null;
     }
 
     @Override
-    public int getRightExtent() {
-        return rightExtent;
+    public ForestNode getRightNode() {
+        return this;
     }
 
     public Symbol[] getRightHandSide() {
