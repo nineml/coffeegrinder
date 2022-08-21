@@ -27,34 +27,50 @@
     <xsl:text>fontsize="10pt"; fontcolor={$label-color}&#10;</xsl:text>;
   </xsl:if>
 
-  <xsl:variable name="label" as="xs:string+">
-    <xsl:sequence select="replace(replace(@label, '\\', '\\\\'), '&quot;', '\\&quot;')"/>
-    <xsl:if test="@type != 'state' and $show-states != 'false'">
-      <xsl:sequence select="replace(replace(@state, '\\', '\\\\'), '&quot;', '\\&quot;')"/>
-    </xsl:if>
-
-    <xsl:if test="@leftExtent and @rightExtent">
-      <xsl:variable name="left" select="xs:integer(@leftExtent)"/>
-      <xsl:variable name="right" select="xs:integer(@rightExtent)"/>
-      <xsl:if test="$left != $right and $left + 1 != $right">
-        <xsl:sequence select="$left || ' – ' || $right"/>
-      </xsl:if>
-    </xsl:if>
-
-    <xsl:if test="$show-hashes = 'true'">
-      <xsl:sequence select="@hash/string()"/>
-    </xsl:if>
-    <xsl:if test="@trees ne '1'">
-      <xsl:sequence select="' (' || @trees || ')'"/>
-    </xsl:if>
-  </xsl:variable>
-
   <xsl:variable name="shape"
                 select="if (@type = 'state')
                         then 'box'
                         else if (@type = 'terminal')
                              then 'house'
                              else 'oval'"/>
+
+  <xsl:variable name="label" as="xs:string+">
+    <xsl:sequence select="replace(replace(@label, '\\', '\\\\'), '&quot;', '\\&quot;')"/>
+    <xsl:if test="@type != 'state' and $show-states != 'false'">
+      <xsl:sequence select="replace(replace(@state, '\\', '\\\\'), '&quot;', '\\&quot;')"/>
+    </xsl:if>
+    
+    <!-- house is always a single terminal -->
+    <xsl:if test="$shape != 'house' and @leftExtent and @rightExtent">
+      <xsl:variable name="left" select="xs:integer(@leftExtent)"/>
+      <xsl:variable name="right" select="xs:integer(@rightExtent)"/>
+      <xsl:variable name="extent" as="xs:string">
+        <xsl:choose>
+          <xsl:when test="$left != $right and $left + 1 != $right">
+            <xsl:sequence select="$left || ' – ' || $right"/>
+          </xsl:when>
+          <xsl:when test="$left + 1 = $right">
+            <xsl:sequence select="$left || ' – ' || $right"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:sequence select="'ε'"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      <xsl:variable name="ambig" as="xs:string?">
+        <xsl:if test="@trees ne '1'">
+          <xsl:sequence select="' / ' || @trees"/>
+        </xsl:if>
+      </xsl:variable>
+
+      <xsl:sequence select="'« ' || $extent || ' »' || $ambig"/>
+    </xsl:if>
+
+    <xsl:if test="$show-hashes = 'true'">
+      <xsl:sequence select="@hash/string()"/>
+    </xsl:if>
+  </xsl:variable>
+
   <xsl:variable name="style"
                 select="if ($shape = 'box') then 'style=rounded' else ''"/>
 
