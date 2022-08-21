@@ -96,23 +96,13 @@ public class Family implements RuleChoice {
     }
 
     @Override
-    public int getLeftExtent() {
-        if (v == null) {
-            // How *is* the left extent of an epsilon represented?
-            return -1;
-        }
-        if (w == null) {
-            return v.leftExtent;
-        }
-        return w.leftExtent;
+    public ForestNode getLeftNode() {
+        return w;
     }
 
     @Override
-    public int getRightExtent() {
-        if (v == null) {
-            return -1;
-        }
-        return v.rightExtent;
+    public ForestNode getRightNode() {
+        return v;
     }
 
     @Override
