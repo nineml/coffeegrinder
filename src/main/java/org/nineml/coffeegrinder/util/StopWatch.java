@@ -78,13 +78,13 @@ public class StopWatch {
      * @return A formatted string
      */
     public String elapsed(long duration) {
-        long days = Math.floorDiv(duration, DAYMS);
+        long days = floorDiv(duration, DAYMS);
 
         long left = duration - (days * DAYMS);
-        long hours = Math.floorDiv(left, HOURMS);
+        long hours = floorDiv(left, HOURMS);
         left = left - (hours * HOURMS);
 
-        long minutes = Math.floorDiv(left, MINMS);
+        long minutes = floorDiv(left, MINMS);
         left = left - (minutes * MINMS);
 
         StringBuilder sb = new StringBuilder();
@@ -100,5 +100,15 @@ public class StopWatch {
         sb.append(String.format("%1.2f", (1.0*left/1000.0))).append("s");
 
         return sb.toString();
+    }
+
+    // Stolen from java.lang.Math version 9+
+    private long floorDiv(long x, long y) {
+        long r = x / y;
+        // if the signs are different and modulo not zero, round down
+        if ((x ^ y) < 0 && (r * y != x)) {
+            r--;
+        }
+        return r;
     }
 }
