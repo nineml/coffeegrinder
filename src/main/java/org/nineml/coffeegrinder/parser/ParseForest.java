@@ -227,7 +227,6 @@ public class ParseForest {
                 }
         }
 
-        int choiceCount = families.size();
         if (!families.isEmpty()) {
             Family family = families.get(index);
             // Don't advance an epsilon edge, leave it as an escape hatch.
@@ -243,23 +242,29 @@ public class ParseForest {
             }
         }
 
-        if (child1 != null) {
-            int pos = getSymbol(child1.getSymbol(), state, state.getPosition());
-            if (pos >= 0) {
-                child1Symbol = state.getRhs().get(pos);
-            } else {
-                pos = state.getPosition();
-            }
+        // When the GLL parser builds the forest, the states associated with nodes in the tree
+        // are sometimes associated with the node's parent symbol. I dunno why. But if the
+        // state symbol isn't the same as the tree symbol, don't go looking at its RHS.
+        if ("Earley".equals(options.getParserType())
+                || tree.getSymbol() == null || tree.getSymbol().equals(state.getSymbol())) {
+            if (child1 != null) {
+                int pos = getSymbol(child1.getSymbol(), state, state.getPosition());
+                if (pos >= 0) {
+                    child1Symbol = state.getRhs().get(pos);
+                } else {
+                    pos = state.getPosition();
+                }
 
-            pos = getSymbol(child0.getSymbol(), state, pos); // don't "pass" the second symbol
-            if (pos >= 0) {
-                child0Symbol = state.getRhs().get(pos);
-            }
-        } else {
-            if (child0 != null) {
-                int pos = getSymbol(child0.getSymbol(), state, state.getPosition());
+                pos = getSymbol(child0.getSymbol(), state, pos); // don't "pass" the second symbol
                 if (pos >= 0) {
                     child0Symbol = state.getRhs().get(pos);
+                }
+            } else {
+                if (child0 != null) {
+                    int pos = getSymbol(child0.getSymbol(), state, state.getPosition());
+                    if (pos >= 0) {
+                        child0Symbol = state.getRhs().get(pos);
+                    }
                 }
             }
         }
