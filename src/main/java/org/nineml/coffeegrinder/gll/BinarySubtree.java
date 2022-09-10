@@ -107,7 +107,7 @@ public class BinarySubtree {
     }
 
     protected ParseForest extractSPPF(ParserGrammar grammar, Token[] inputTokens) {
-        ParseForestGLL G = new ParseForestGLL(grammar.getParserOptions(), grammar, rightExtent, inputTokens, regexMatches);
+        ParseForestGLL G = new ParseForestGLL(options, grammar, rightExtent, inputTokens, regexMatches);
         int n = rightExtent;
 
         if (getRoots().isEmpty()) {
