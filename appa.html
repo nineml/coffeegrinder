@@ -1,94 +1,94 @@
-<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" class="no-js"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><script>(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement)</script><title>Appendix  A.  Earley Parser</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link href="https://purl.org/dc/elements/1.1/" rel="schema.dc"/><meta name="dc.modified" content="2022-09-10T16:20:35Z"/><meta name="generator" content="DocBook xslTNG version 1.8.0 / 40e03c27 / SAXON HE 11.4"/><link href="/css/toc.css" rel="stylesheet"/><link href="/css/docbook.css" rel="stylesheet"/><link href="/css/docbook-screen.css" rel="stylesheet" media="screen"/><link href="/css/docbook-page-setup.css" rel="stylesheet" media="print"/><link href="/css/docbook-paged.css" rel="stylesheet" media="print"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><script src="https://kit.fontawesome.com/498b6706f0.js" type="text/javascript" crossorigin="anonymous"></script><link href="icon/CoffeeGrinder.png" rel="shortcut icon"/><link href="/css/nineml.css" rel="stylesheet"/><link href="/css/coffeegrinder.css" rel="stylesheet"/><link rel="prev" href="ch01.html"/><link rel="next" href="appb.html"/><link rel="up" href="index.html"/><link rel="home" href="index.html"/></head><body><nav class="top"><span class="nav"><a title="CoffeeGrinder" href="index.html"><i class="fas fa-home"></i></a> <a href="ch01.html" title="1.  General use"><i class="fas fa-arrow-left"></i></a> <a title="CoffeeGrinder" href="index.html"><i class="fas fa-arrow-up"></i></a> <a title="Appendix  B.  GLL Parser" href="appb.html"><i class="fas fa-arrow-right"></i></a></span><span class="title"><i class="title">CoffeeGrinder</i></span></nav><main><div id="earley_parser" class="appendix component"><header><h2><span class="label">Appendix<span class="sep"> </span></span><span class="number">A<span class="sep">. </span></span>Earley Parser</h2></header><p>This is the Earley parsing algorithm described in
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" class="no-js"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><script>(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement)</script><title>Appendix A. Earley Parser</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link href="https://purl.org/dc/elements/1.1/" rel="schema.dc"/><meta name="dc.modified" content="2023-01-22T17:19:14Z"/><meta name="generator" content="DocBook xslTNG version 2.0.4 / 37c68d3 / SAXON HE 11.4"/><link href="/css/docbook-toc.css" rel="stylesheet"/><link href="/css/docbook.css" rel="stylesheet" media="screen"/><link href="/css/docbook-paged.css" rel="stylesheet" media="print"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><script src="https://kit.fontawesome.com/498b6706f0.js" type="text/javascript" crossorigin="anonymous"></script><link href="icon/CoffeeGrinder.png" rel="shortcut icon"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link href="css/nineml.css" rel="stylesheet"/><link href="css/coffeesacks.css" rel="stylesheet"/><link rel="prev" href="ch01.html"/><link rel="next" href="appb.html"/><link rel="up" href="index.html"/><link rel="home" href="index.html"/></head><body><nav class="top"><span class="nav"><a title="CoffeeGrinder" href="index.html"><i class="fas fa-home"></i></a> <a href="ch01.html" title="Chapter  1 .  General use"><i class="fas fa-arrow-left"></i></a> <a title="CoffeeGrinder" href="index.html"><i class="fas fa-arrow-up"></i></a> <a title="Appendix  B .  GLL Parser" href="appb.html"><i class="fas fa-arrow-right"></i></a></span><span class="title"><i class="title">CoffeeGrinder</i></span></nav><main><div id="earley_parser" class="appendix component"><header><h2>Appendix <span class="label">A</span><span class="sep">. </span>Earley Parser</h2></header><p>This is the Earley parsing algorithm described in
 <i class="citetitle">SPPF-Style Parsing from Earley Recognisers</i>
 by <span class="first-last personname">Elizabeth Scott</span>. This algorithm forms the basis
-of the parser in <span class="application">CoffeeGrinder</span>.</p><p>The input is a grammar Γ = (N, T, S, P) and a string a₁a₂…aₙ</p><div class="pre-wrap" db-startinglinenumber="1" db-numberoflines="90"><pre class="language-none long numbered programlisting verbatim verblines"><span class="line" db-line="1"><span class="ln">1</span><span class="ld"><code>EARLEYPARSER {</code></span></span>
-<span class="line" db-line="2"><span class="ln"></span><span class="ld"><code>  E₀,…,Eₙ, R, Q′, V=∅</code></span></span>
-<span class="line" db-line="3"><span class="ln"></span><span class="ld"><code> </code></span></span>
-<span class="line" db-line="4"><span class="ln"></span><span class="ld"><code>  for all (S ::= α) ∈ P {</code></span></span>
-<span class="line" db-line="5"><span class="ln">5</span><span class="ld"><code>    if α ∈ Σ<sub>N</sub> add (S ::= ·α,0, null) to E₀</code></span></span>
-<span class="line" db-line="6"><span class="ln"></span><span class="ld"><code>    if α = a₁α′ add (S ::= ·α,0, null) to Q′</code></span></span>
-<span class="line" db-line="7"><span class="ln"></span><span class="ld"><code>  }</code></span></span>
-<span class="line" db-line="8"><span class="ln"></span><span class="ld"><code> </code></span></span>
-<span class="line" db-line="9"><span class="ln"></span><span class="ld"><code>  for 0 ≤ i ≤ n {</code></span></span>
-<span class="line" db-line="10"><span class="ln">10</span><span class="ld"><code>    H=∅, R=Eᵢ, Q=Q′</code></span></span>
-<span class="line" db-line="11"><span class="ln"></span><span class="ld"><code>    Q′=∅</code></span></span>
-<span class="line" db-line="12"><span class="ln"></span><span class="ld"><code> </code></span></span>
-<span class="line" db-line="13"><span class="ln"></span><span class="ld"><code>    while R ≠ ∅ {</code></span></span>
-<span class="line" db-line="14"><span class="ln"></span><span class="ld"><code>      remove an element, Λ say, from R</code></span></span>
-<span class="line" db-line="15"><span class="ln">15</span><span class="ld"><code>      if Λ = (B ::= α·Cβ, h, w) {</code></span></span>
-<span class="line" db-line="16"><span class="ln"></span><span class="ld"><code>        for all (C ::= δ) ∈ P {</code></span></span>
-<span class="line" db-line="17"><span class="ln"></span><span class="ld"><code>          if δ ∈ Σ<sub>N</sub> and (C ::= ·δ, i, null) ∉ Eᵢ {</code></span></span>
-<span class="line" db-line="18"><span class="ln"></span><span class="ld"><code>            add (C ::= ·δ, i, null) to Eᵢ and R</code></span></span>
-<span class="line" db-line="19"><span class="ln"></span><span class="ld"><code>          }</code></span></span>
-<span class="line" db-line="20"><span class="ln">20</span><span class="ld"><code>          if δ = aᵢ₊₁δ′ {</code></span></span>
-<span class="line" db-line="21"><span class="ln"></span><span class="ld"><code>            add (C ::= ·δ, i, null) to Q</code></span></span>
-<span class="line" db-line="22"><span class="ln"></span><span class="ld"><code>          }</code></span></span>
-<span class="line" db-line="23"><span class="ln"></span><span class="ld"><code>        }</code></span></span>
-<span class="line" db-line="24"><span class="ln"></span><span class="ld"><code>        if ((C, v) ∈ H) {</code></span></span>
-<span class="line" db-line="25"><span class="ln">25</span><span class="ld"><code>          let y = MAKE_NODE(B ::= αC·β, h, i, w, v, V)</code></span></span>
-<span class="line" db-line="26"><span class="ln"></span><span class="ld"><code>          if β ∈ Σ<sub>N</sub> and (B ::= αC·β, h, y) ∉ Eᵢ {</code></span></span>
-<span class="line" db-line="27"><span class="ln"></span><span class="ld"><code>            add (B ::= αC·β, h, y) to Eᵢ and R</code></span></span>
-<span class="line" db-line="28"><span class="ln"></span><span class="ld"><code>          }</code></span></span>
-<span class="line" db-line="29"><span class="ln"></span><span class="ld"><code>          if β = aᵢ₊₁β′ {</code></span></span>
-<span class="line" db-line="30"><span class="ln">30</span><span class="ld"><code>            add (B ::= αC·β, h, y) to Q</code></span></span>
-<span class="line" db-line="31"><span class="ln"></span><span class="ld"><code>          }</code></span></span>
-<span class="line" db-line="32"><span class="ln"></span><span class="ld"><code>        }</code></span></span>
-<span class="line" db-line="33"><span class="ln"></span><span class="ld"><code>      }</code></span></span>
-<span class="line" db-line="34"><span class="ln"></span><span class="ld"><code>  </code></span></span>
-<span class="line" db-line="35"><span class="ln">35</span><span class="ld"><code>      if Λ = (D ::= α·, h, w) {</code></span></span>
-<span class="line" db-line="36"><span class="ln"></span><span class="ld"><code>        if w = null {</code></span></span>
-<span class="line" db-line="37"><span class="ln"></span><span class="ld"><code>          if there is no node v ∈ V labelled (D, i, i) create one</code></span></span>
-<span class="line" db-line="38"><span class="ln"></span><span class="ld"><code>          set w=v</code></span></span>
-<span class="line" db-line="39"><span class="ln"></span><span class="ld"><code>          if w does not have family (ϵ) add one</code></span></span>
-<span class="line" db-line="40"><span class="ln">40</span><span class="ld"><code>        }</code></span></span>
-<span class="line" db-line="41"><span class="ln"></span><span class="ld"><code>        if h = i {</code></span></span>
-<span class="line" db-line="42"><span class="ln"></span><span class="ld"><code>          add (D, w) to H</code></span></span>
-<span class="line" db-line="43"><span class="ln"></span><span class="ld"><code>        }</code></span></span>
-<span class="line" db-line="44"><span class="ln"></span><span class="ld"><code>        for all (A ::= τ·Dδ, k, z) in Eₕ {</code></span></span>
-<span class="line" db-line="45"><span class="ln">45</span><span class="ld"><code>          let y = MAKE_NODE(A ::= τD·δ, k, i, z, w, V)</code></span></span>
-<span class="line" db-line="46"><span class="ln"></span><span class="ld"><code>          if δ ∈ Σ<sub>N</sub> and (A ::= τD·δ, k, y) ∉ Eᵢ {</code></span></span>
-<span class="line" db-line="47"><span class="ln"></span><span class="ld"><code>            add (A ::= τD·δ, k, y) to Eᵢ and R</code></span></span>
-<span class="line" db-line="48"><span class="ln"></span><span class="ld"><code>          }</code></span></span>
-<span class="line" db-line="49"><span class="ln"></span><span class="ld"><code>          if δ = aᵢ₊₁δ′ {</code></span></span>
-<span class="line" db-line="50"><span class="ln">50</span><span class="ld"><code>            add (A ::= τD·δ, k, y) to Q</code></span></span>
-<span class="line" db-line="51"><span class="ln"></span><span class="ld"><code>          }</code></span></span>
-<span class="line" db-line="52"><span class="ln"></span><span class="ld"><code>        }</code></span></span>
-<span class="line" db-line="53"><span class="ln"></span><span class="ld"><code>      }</code></span></span>
-<span class="line" db-line="54"><span class="ln"></span><span class="ld"><code>    }</code></span></span>
-<span class="line" db-line="55"><span class="ln">55</span><span class="ld"><code>  </code></span></span>
-<span class="line" db-line="56"><span class="ln"></span><span class="ld"><code>    V=∅</code></span></span>
-<span class="line" db-line="57"><span class="ln"></span><span class="ld"><code>    create an SPPF node v labelled (aᵢ₊₁, i, i+1)</code></span></span>
-<span class="line" db-line="58"><span class="ln"></span><span class="ld"><code> </code></span></span>
-<span class="line" db-line="59"><span class="ln"></span><span class="ld"><code>    while Q ≠ ∅ {</code></span></span>
-<span class="line" db-line="60"><span class="ln">60</span><span class="ld"><code>      remove an element, Λ = (B ::= α·ai+1β, h, w) say, from Q</code></span></span>
-<span class="line" db-line="61"><span class="ln"></span><span class="ld"><code>      let y = MAKE_NODE(B ::= αai+1·β, h, i+1, w, v, V)</code></span></span>
-<span class="line" db-line="62"><span class="ln"></span><span class="ld"><code>      if β ∈ Σ<sub>N</sub> {</code></span></span>
-<span class="line" db-line="63"><span class="ln"></span><span class="ld"><code>        add (B ::= αaᵢ₊₁·β, h, y) to Eᵢ₊₁</code></span></span>
-<span class="line" db-line="64"><span class="ln"></span><span class="ld"><code>      }</code></span></span>
-<span class="line" db-line="65"><span class="ln">65</span><span class="ld"><code>      if β = aᵢ₊₂β′ {</code></span></span>
-<span class="line" db-line="66"><span class="ln"></span><span class="ld"><code>        add (B ::= αaᵢ₊₁·β, h, y) to Q′</code></span></span>
-<span class="line" db-line="67"><span class="ln"></span><span class="ld"><code>      }</code></span></span>
-<span class="line" db-line="68"><span class="ln"></span><span class="ld"><code>    }</code></span></span>
-<span class="line" db-line="69"><span class="ln"></span><span class="ld"><code>  }</code></span></span>
-<span class="line" db-line="70"><span class="ln">70</span><span class="ld"><code>  </code></span></span>
-<span class="line" db-line="71"><span class="ln"></span><span class="ld"><code>  if (S ::= τ·, 0, w) ∈ Eₙ return w</code></span></span>
-<span class="line" db-line="72"><span class="ln"></span><span class="ld"><code>  else return failure</code></span></span>
-<span class="line" db-line="73"><span class="ln"></span><span class="ld"><code>}</code></span></span>
-<span class="line" db-line="74"><span class="ln"></span><span class="ld"><code> </code></span></span>
-<span class="line" db-line="75"><span class="ln">75</span><span class="ld"><code>MAKE_NODE(B ::= αx·β, j, i, w, v,V) {</code></span></span>
-<span class="line" db-line="76"><span class="ln"></span><span class="ld"><code>  if β=ϵ {</code></span></span>
-<span class="line" db-line="77"><span class="ln"></span><span class="ld"><code>    let s =B</code></span></span>
-<span class="line" db-line="78"><span class="ln"></span><span class="ld"><code>  } else {</code></span></span>
-<span class="line" db-line="79"><span class="ln"></span><span class="ld"><code>    let s = (B::=αx·β)</code></span></span>
-<span class="line" db-line="80"><span class="ln">80</span><span class="ld"><code>  }</code></span></span>
-<span class="line" db-line="81"><span class="ln"></span><span class="ld"><code> </code></span></span>
-<span class="line" db-line="82"><span class="ln"></span><span class="ld"><code>  if α=ϵ and β≠ϵ {</code></span></span>
-<span class="line" db-line="83"><span class="ln"></span><span class="ld"><code>    let y=v</code></span></span>
-<span class="line" db-line="84"><span class="ln"></span><span class="ld"><code>  } else {</code></span></span>
-<span class="line" db-line="85"><span class="ln">85</span><span class="ld"><code>    if there is no node y ∈ V labelled (s, j, i) create one and add it to V</code></span></span>
-<span class="line" db-line="86"><span class="ln"></span><span class="ld"><code>    if w=null and y does not have a family of children (v) add one</code></span></span>
-<span class="line" db-line="87"><span class="ln"></span><span class="ld"><code>    if w≠null and y does not have a family of children (w, v) add one</code></span></span>
-<span class="line" db-line="88"><span class="ln"></span><span class="ld"><code>  }</code></span></span>
-<span class="line" db-line="89"><span class="ln"></span><span class="ld"><code>  return y</code></span></span>
-<span class="line" db-line="90"><span class="ln">90</span><span class="ld"><code>}</code></span></span>
-</pre></div></div></main><nav class="bottom"><div class="navrow"><div class="navleft"><a title="1.  General use" href="ch01.html"><i class="fas fa-arrow-left"></i></a></div><div class="navmiddle"><a title="CoffeeGrinder" href="index.html"><i class="fas fa-home"></i></a></div><div class="navright"><a title="Appendix  B.  GLL Parser" href="appb.html"><i class="fas fa-arrow-right"></i></a></div></div><div class="navrow"><div class="navleft navtitle">1.  General use</div><div class="navmiddle"><a title="CoffeeGrinder" href="index.html"><i class="fas fa-arrow-up"></i></a></div><div class="navright navtitle">Appendix  B.  GLL Parser</div></div><div class="infofooter"><span class="copyrightfooter">Copyright © 2022 Norman Walsh.</span></div><nav class="tocopen"></nav><nav class="toc"></nav><!-- Hide ToC details from user agents that don’t support JS --><script type="text/html" class="tocopen"><i class="far fa-book"></i></script><script type="text/html" class="toc"><header><span>Table of Contents</span><span class="close"><i class="far fa-window-close"></i></span><p class="ptoc-search"><input class="ptoc-search" placeholder="Search" style="width: 80%"/></p></header><div><ul class="toc"><li><a href="pf01.html">Introduction</a></li><li><a href="ch01.html"><span class="number">1<span class="sep">. </span></span>General use</a></li><li><a href="appa.html"><span class="label">Appendix<span class="sep"> </span></span><span class="number">A<span class="sep">. </span></span>Earley Parser</a></li><li><a href="appb.html"><span class="label">Appendix<span class="sep"> </span></span><span class="number">B<span class="sep">. </span></span>GLL Parser</a></li><li><a href="appc.html"><span class="label">Appendix<span class="sep"> </span></span><span class="number">C<span class="sep">. </span></span>Change log</a></li></ul></div></script></nav><script src="/js/persistent-toc.js"></script><script src="/js/chunk-nav.js"></script></body></html>
+of the parser in <span class="application">CoffeeGrinder</span>.</p><p>The input is a grammar Γ = (N, T, S, P) and a string a₁a₂…aₙ</p><div class="pre-wrap" db-startinglinenumber="1" db-numberoflines="90"><pre class="language-none long numbered programlisting verbatim verblines"><span class="line" db-line="1"><span class="ln"> 1 <span class="nsep">|</span></span><span class="ld"><code>EARLEYPARSER {</code></span></span>
+<span class="line" db-line="2"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>  E₀,…,Eₙ, R, Q′, V=∅</code></span></span>
+<span class="line" db-line="3"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code> </code></span></span>
+<span class="line" db-line="4"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>  for all (S ::= α) ∈ P {</code></span></span>
+<span class="line" db-line="5"><span class="ln"> 5 <span class="nsep">|</span></span><span class="ld"><code>    if α ∈ Σ<sub>N</sub> add (S ::= ·α,0, null) to E₀</code></span></span>
+<span class="line" db-line="6"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>    if α = a₁α′ add (S ::= ·α,0, null) to Q′</code></span></span>
+<span class="line" db-line="7"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>  }</code></span></span>
+<span class="line" db-line="8"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code> </code></span></span>
+<span class="line" db-line="9"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>  for 0 ≤ i ≤ n {</code></span></span>
+<span class="line" db-line="10"><span class="ln">10 <span class="nsep">|</span></span><span class="ld"><code>    H=∅, R=Eᵢ, Q=Q′</code></span></span>
+<span class="line" db-line="11"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>    Q′=∅</code></span></span>
+<span class="line" db-line="12"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code> </code></span></span>
+<span class="line" db-line="13"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>    while R ≠ ∅ {</code></span></span>
+<span class="line" db-line="14"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>      remove an element, Λ say, from R</code></span></span>
+<span class="line" db-line="15"><span class="ln">15 <span class="nsep">|</span></span><span class="ld"><code>      if Λ = (B ::= α·Cβ, h, w) {</code></span></span>
+<span class="line" db-line="16"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>        for all (C ::= δ) ∈ P {</code></span></span>
+<span class="line" db-line="17"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          if δ ∈ Σ<sub>N</sub> and (C ::= ·δ, i, null) ∉ Eᵢ {</code></span></span>
+<span class="line" db-line="18"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>            add (C ::= ·δ, i, null) to Eᵢ and R</code></span></span>
+<span class="line" db-line="19"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          }</code></span></span>
+<span class="line" db-line="20"><span class="ln">20 <span class="nsep">|</span></span><span class="ld"><code>          if δ = aᵢ₊₁δ′ {</code></span></span>
+<span class="line" db-line="21"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>            add (C ::= ·δ, i, null) to Q</code></span></span>
+<span class="line" db-line="22"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          }</code></span></span>
+<span class="line" db-line="23"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>        }</code></span></span>
+<span class="line" db-line="24"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>        if ((C, v) ∈ H) {</code></span></span>
+<span class="line" db-line="25"><span class="ln">25 <span class="nsep">|</span></span><span class="ld"><code>          let y = MAKE_NODE(B ::= αC·β, h, i, w, v, V)</code></span></span>
+<span class="line" db-line="26"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          if β ∈ Σ<sub>N</sub> and (B ::= αC·β, h, y) ∉ Eᵢ {</code></span></span>
+<span class="line" db-line="27"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>            add (B ::= αC·β, h, y) to Eᵢ and R</code></span></span>
+<span class="line" db-line="28"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          }</code></span></span>
+<span class="line" db-line="29"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          if β = aᵢ₊₁β′ {</code></span></span>
+<span class="line" db-line="30"><span class="ln">30 <span class="nsep">|</span></span><span class="ld"><code>            add (B ::= αC·β, h, y) to Q</code></span></span>
+<span class="line" db-line="31"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          }</code></span></span>
+<span class="line" db-line="32"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>        }</code></span></span>
+<span class="line" db-line="33"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>      }</code></span></span>
+<span class="line" db-line="34"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>  </code></span></span>
+<span class="line" db-line="35"><span class="ln">35 <span class="nsep">|</span></span><span class="ld"><code>      if Λ = (D ::= α·, h, w) {</code></span></span>
+<span class="line" db-line="36"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>        if w = null {</code></span></span>
+<span class="line" db-line="37"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          if there is no node v ∈ V labelled (D, i, i) create one</code></span></span>
+<span class="line" db-line="38"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          set w=v</code></span></span>
+<span class="line" db-line="39"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          if w does not have family (ϵ) add one</code></span></span>
+<span class="line" db-line="40"><span class="ln">40 <span class="nsep">|</span></span><span class="ld"><code>        }</code></span></span>
+<span class="line" db-line="41"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>        if h = i {</code></span></span>
+<span class="line" db-line="42"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          add (D, w) to H</code></span></span>
+<span class="line" db-line="43"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>        }</code></span></span>
+<span class="line" db-line="44"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>        for all (A ::= τ·Dδ, k, z) in Eₕ {</code></span></span>
+<span class="line" db-line="45"><span class="ln">45 <span class="nsep">|</span></span><span class="ld"><code>          let y = MAKE_NODE(A ::= τD·δ, k, i, z, w, V)</code></span></span>
+<span class="line" db-line="46"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          if δ ∈ Σ<sub>N</sub> and (A ::= τD·δ, k, y) ∉ Eᵢ {</code></span></span>
+<span class="line" db-line="47"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>            add (A ::= τD·δ, k, y) to Eᵢ and R</code></span></span>
+<span class="line" db-line="48"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          }</code></span></span>
+<span class="line" db-line="49"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          if δ = aᵢ₊₁δ′ {</code></span></span>
+<span class="line" db-line="50"><span class="ln">50 <span class="nsep">|</span></span><span class="ld"><code>            add (A ::= τD·δ, k, y) to Q</code></span></span>
+<span class="line" db-line="51"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>          }</code></span></span>
+<span class="line" db-line="52"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>        }</code></span></span>
+<span class="line" db-line="53"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>      }</code></span></span>
+<span class="line" db-line="54"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>    }</code></span></span>
+<span class="line" db-line="55"><span class="ln">55 <span class="nsep">|</span></span><span class="ld"><code>  </code></span></span>
+<span class="line" db-line="56"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>    V=∅</code></span></span>
+<span class="line" db-line="57"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>    create an SPPF node v labelled (aᵢ₊₁, i, i+1)</code></span></span>
+<span class="line" db-line="58"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code> </code></span></span>
+<span class="line" db-line="59"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>    while Q ≠ ∅ {</code></span></span>
+<span class="line" db-line="60"><span class="ln">60 <span class="nsep">|</span></span><span class="ld"><code>      remove an element, Λ = (B ::= α·ai+1β, h, w) say, from Q</code></span></span>
+<span class="line" db-line="61"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>      let y = MAKE_NODE(B ::= αai+1·β, h, i+1, w, v, V)</code></span></span>
+<span class="line" db-line="62"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>      if β ∈ Σ<sub>N</sub> {</code></span></span>
+<span class="line" db-line="63"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>        add (B ::= αaᵢ₊₁·β, h, y) to Eᵢ₊₁</code></span></span>
+<span class="line" db-line="64"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>      }</code></span></span>
+<span class="line" db-line="65"><span class="ln">65 <span class="nsep">|</span></span><span class="ld"><code>      if β = aᵢ₊₂β′ {</code></span></span>
+<span class="line" db-line="66"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>        add (B ::= αaᵢ₊₁·β, h, y) to Q′</code></span></span>
+<span class="line" db-line="67"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>      }</code></span></span>
+<span class="line" db-line="68"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>    }</code></span></span>
+<span class="line" db-line="69"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>  }</code></span></span>
+<span class="line" db-line="70"><span class="ln">70 <span class="nsep">|</span></span><span class="ld"><code>  </code></span></span>
+<span class="line" db-line="71"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>  if (S ::= τ·, 0, w) ∈ Eₙ return w</code></span></span>
+<span class="line" db-line="72"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>  else return failure</code></span></span>
+<span class="line" db-line="73"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>}</code></span></span>
+<span class="line" db-line="74"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code> </code></span></span>
+<span class="line" db-line="75"><span class="ln">75 <span class="nsep">|</span></span><span class="ld"><code>MAKE_NODE(B ::= αx·β, j, i, w, v,V) {</code></span></span>
+<span class="line" db-line="76"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>  if β=ϵ {</code></span></span>
+<span class="line" db-line="77"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>    let s =B</code></span></span>
+<span class="line" db-line="78"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>  } else {</code></span></span>
+<span class="line" db-line="79"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>    let s = (B::=αx·β)</code></span></span>
+<span class="line" db-line="80"><span class="ln">80 <span class="nsep">|</span></span><span class="ld"><code>  }</code></span></span>
+<span class="line" db-line="81"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code> </code></span></span>
+<span class="line" db-line="82"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>  if α=ϵ and β≠ϵ {</code></span></span>
+<span class="line" db-line="83"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>    let y=v</code></span></span>
+<span class="line" db-line="84"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>  } else {</code></span></span>
+<span class="line" db-line="85"><span class="ln">85 <span class="nsep">|</span></span><span class="ld"><code>    if there is no node y ∈ V labelled (s, j, i) create one and add it to V</code></span></span>
+<span class="line" db-line="86"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>    if w=null and y does not have a family of children (v) add one</code></span></span>
+<span class="line" db-line="87"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>    if w≠null and y does not have a family of children (w, v) add one</code></span></span>
+<span class="line" db-line="88"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>  }</code></span></span>
+<span class="line" db-line="89"><span class="ln">   <span class="nsep">|</span></span><span class="ld"><code>  return y</code></span></span>
+<span class="line" db-line="90"><span class="ln">90 <span class="nsep">|</span></span><span class="ld"><code>}</code></span></span>
+</pre></div></div></main><nav class="bottom"><div class="navrow"><div class="navleft"><a title="Chapter  1 .  General use" href="ch01.html"><i class="fas fa-arrow-left"></i></a></div><div class="navmiddle"><a title="CoffeeGrinder" href="index.html"><i class="fas fa-home"></i></a></div><div class="navright"><a title="Appendix  B .  GLL Parser" href="appb.html"><i class="fas fa-arrow-right"></i></a></div></div><div class="navrow"><div class="navleft navtitle">Chapter  1 .  General use</div><div class="navmiddle"><a title="CoffeeGrinder" href="index.html"><i class="fas fa-arrow-up"></i></a></div><div class="navright navtitle">Appendix  B .  GLL Parser</div></div><div class="infofooter"><span class="copyrightfooter">Copyright © 2022–2023 Norman Walsh.</span></div><nav class="tocopen"></nav><nav class="toc"></nav><!-- Hide ToC details from user agents that don’t support JS --><script type="text/html" class="tocopen"><i class="far fa-book"></i></script><script type="text/html" class="toc"><header><span>Table of Contents</span><span class="close"><i class="far fa-window-close"></i></span><p class="ptoc-search"><input class="ptoc-search" placeholder="Search" style="width: 80%"/></p></header><div db-persistent-toc="persistent-toc.html" db-prefix="">Loading…</div></script></nav><script src="/js/persistent-toc.js"></script><script src="/js/chunk-nav.js"></script></body></html>

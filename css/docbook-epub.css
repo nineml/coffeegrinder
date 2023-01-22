@@ -1548,909 +1548,526 @@ a.annomark:visited {
 }
 
 :root {
-  --margin-inner: 1in;
-  --margin-outer: 1in;
-  --margin-above: 1in;
-  --margin-below: 1in;
-  font-size: 12pt;
+  --popup-annotation-color: var(--surface-color);
+  --on-popup-annotation-color: var(--on-surface-color);
+  --popup-annotation-border-color: var(--primary-color);
+  --popup-annotation-border-style: 1px solid var(--popup-annotation-border-color);
+  --popup-annotation-header-color: var(--primary-color);
+  --on-popup-annotation-header-color: var(--on-primary-color);
+  --popup-annotation-header-separator-border-style: 1px solid var(--popup-annotation-border-color);
+  --js-controls-border-color: var(--primary-color);
+  --js-controls-border-style: 1px solid var(--js-controls-border-color);
+  --js-controls-header-color: var(--primary-color);
+  --on-js-controls-header-color: var(--on-primary-color);
+  --js-controls-header-separator-border-style: 1px solid var(--popup-annotation-border-color);
+  --js-controls-color: var(--surface-color);
+  --on-js-controls-color: var(--on-surface-color);
 }
 
-html.article-style.A4 {
-  --margin-inner: 2.5cm;
-  --margin-outer: 2.5cm;
+html {
+  color: var(--on-background-color);
+  background-color: var(--background-color);
+  width: 100%;
+  line-height: 1.75rem;
+  font-size: 13.5pt;
+  scroll-padding-top: 40px;
+  height: 100%;
 }
 
-html.article-style.A5 {
-  --margin-inner: 1.9cm;
-  --margin-outer: 1.9cm;
+/* https://www.smashingmagazine.com/2020/07/css-techniques-legibility/ */
+@supports (font-size-adjust: 1) {
+  html {
+    font-size-adjust: 0.5;
+  }
+}
+body {
+  height: 100%;
+  min-height: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 100%;
 }
 
-html.article-style.Letter {
-  --margin-inner: 1.0in;
-  --margin-outer: 1.0in;
-}
-
-html.book-style.A4 {
-  --margin-inner: 2.8cm;
-  --margin-outer: 2.5cm;
-}
-
-html.book-style.A5 {
-  --margin-inner: 2.2cm;
-  --margin-outer: 1.9cm;
-}
-
-html.book-style.Letter {
-  --margin-inner: 1.25in;
-  --margin-outer: 1.0in;
-}
-
-@page {
-  margin-top: var(--margin-above);
-  margin-bottom: var(--margin-below);
-  /* n.b. both --margin-outer so that pages are centered by default */
-  margin-left: var(--margin-outer);
-  margin-right: var(--margin-outer);
-  counter-reset: footnote;
-  @top-left {
-    content: "";
-  }
-  @top-center {
-    content: "";
-  }
-  @top-right {
-    content: "";
-  }
-  @bottom-left {
-    content: "";
-  }
-  @bottom-center {
-    content: "";
-  }
-  @bottom-right {
-    content: "";
-  }
-}
-/* ============================================================ */
-/* These are the page flow styles. For each page size (A4,
-   A5, Letter) there are two flows: article-flow and book-flow.
-   The article-flow style has identical left and right margins,
-   the book-flow style has a slightly wider inner margin.
-   In addition, there's a -draft style for each combination of
-   size and flow that adds a draft watermark to the page.
-   Finally, there are pseudo-classes for first, left, right,
-   and blank pages. It's all a bit cut-and-pastey. */
-/* ============================================================ */
-@page A4-article-flow {
-  size: A4;
-  @top-center {
-    content: string(DocumentTitle);
-  }
-  @bottom-center {
-    content: counter(page);
-  }
-  @footnote {
-    float: bottom page;
-    border-top: thin solid black;
-    border-length: 30%;
-    padding-top: 0.5em;
-  }
-}
-@page A4-article-flow:first {
-  size: A4;
-  @top-center {
-    content: "";
-  }
-}
-@page A4-article-flow-draft {
-  size: A4;
-  background-image: url("draft-right.svg");
-  background-position: calc(100% - 0.5cm) 0.5cm;
-  background-repeat: no-repeat;
-  background-size: 2.5cm;
-  background-origin: border-box;
-  background-clip: border-box;
-  @top-center {
-    content: string(DocumentTitle);
-  }
-  @bottom-center {
-    content: counter(page);
-  }
-  @footnote {
-    float: bottom page;
-    border-top: thin solid black;
-    border-length: 30%;
-    padding-top: 0.5em;
-  }
-}
-@page A4-article-flow-draft:first {
-  size: A4;
-  @top-center {
-    content: "";
-  }
-}
-@page A5-article-flow {
-  size: A5;
-  @top-center {
-    content: string(DocumentTitle);
-  }
-  @bottom-center {
-    content: counter(page);
-  }
-  @footnote {
-    float: bottom page;
-    border-top: thin solid black;
-    border-length: 30%;
-    padding-top: 0.5em;
-  }
-}
-@page A5-article-flow:first {
-  size: A5;
-  @top-center {
-    content: "";
-  }
-}
-@page A5-article-flow-draft {
-  size: A5;
-  background-image: url("draft-right.svg");
-  background-position: calc(100% - 0.5cm) 0.5cm;
-  background-repeat: no-repeat;
-  background-size: 2.5cm;
-  background-origin: border-box;
-  background-clip: border-box;
-  @top-center {
-    content: string(DocumentTitle);
-  }
-  @bottom-center {
-    content: counter(page);
-  }
-  @footnote {
-    float: bottom page;
-    border-top: thin solid black;
-    border-length: 30%;
-    padding-top: 0.5em;
-  }
-}
-@page A5-article-flow-draft:first {
-  size: A5;
-  @top-center {
-    content: "";
-  }
-}
-@page Letter-article-flow {
-  size: Letter;
-  @top-center {
-    content: string(DocumentTitle);
-  }
-  @bottom-center {
-    content: counter(page);
-  }
-  @footnote {
-    float: bottom page;
-    border-top: thin solid black;
-    border-length: 30%;
-    padding-top: 0.5em;
-  }
-}
-@page Letter-article-flow:first {
-  size: Letter;
-  @top-center {
-    content: "";
-  }
-}
-@page Letter-article-flow-draft {
-  size: Letter;
-  background-image: url("draft-right.svg");
-  background-position: calc(100% - 0.5cm) 0.5cm;
-  background-repeat: no-repeat;
-  background-size: 2.5cm;
-  background-origin: border-box;
-  background-clip: border-box;
-  @top-center {
-    content: string(DocumentTitle);
-  }
-  @bottom-center {
-    content: counter(page);
-  }
-  @footnote {
-    float: bottom page;
-    border-top: thin solid black;
-    border-length: 30%;
-    padding-top: 0.5em;
-  }
-}
-@page Letter-article-flow-draft:first {
-  size: Letter;
-  @top-center {
-    content: "";
-  }
-}
-@page A4-book-title-flow {
-  size: A4;
-  margin-left: var(--margin-outer);
-  margin-right: var(--margin-outer);
-}
-@page A4-book-flow {
-  size: A4;
-  @footnote {
-    float: bottom page;
-    border-top: thin solid black;
-    border-length: 30%;
-    padding-top: 0.5em;
-  }
-}
-@page A4-book-flow:right {
-  size: A4;
-  margin-left: var(--margin-inner);
-  margin-right: var(--margin-outer);
-  @top-center {
-    content: string(SectionTitle);
-  }
-  @bottom-right {
-    content: counter(page);
-  }
-}
-@page A4-book-flow:left {
-  size: A4;
-  margin-left: var(--margin-outer);
-  margin-right: var(--margin-inner);
-  @top-center {
-    content: string(ComponentTitle);
-  }
-  @bottom-left {
-    content: counter(page);
-  }
-}
-@page A4-book-flow:blank {
-  size: A4;
-  @top-left {
-    content: "";
-  }
-  @top-center {
-    content: "";
-  }
-  @top-right {
-    content: "";
-  }
-  @bottom-left {
-    content: counter(page);
-  }
-  @bottom-center {
-    content: "";
-  }
-  @bottom-right {
-    content: "";
-  }
-}
-@page A4-book-title-flow-draft {
-  size: A4;
-  margin-left: var(--margin-outer);
-  margin-right: var(--margin-outer);
-}
-@page A4-book-title-flow-draft:left {
+body.draft {
   background-image: url("draft-left.svg");
-  background-position: 0.5cm 0.5cm;
+  background-position: 2% 2%;
   background-repeat: no-repeat;
-  background-size: 2.5cm;
-  background-origin: border-box;
-  background-clip: border-box;
-}
-@page A4-book-title-flow-draft:right {
-  background-image: url("draft-right.svg");
-  background-position: calc(100% - 0.5cm) 0.5cm;
-  background-repeat: no-repeat;
-  background-size: 2.5cm;
-  background-origin: border-box;
-  background-clip: border-box;
-}
-@page A4-book-flow-draft {
-  size: A4;
-  @footnote {
-    float: bottom page;
-    border-top: thin solid black;
-    border-length: 30%;
-    padding-top: 0.5em;
-  }
-}
-@page A4-book-flow-draft:right {
-  size: A4;
-  margin-left: var(--margin-inner);
-  margin-right: var(--margin-outer);
-  background-image: url("draft-right.svg");
-  background-position: calc(100% - 0.5cm) 0.5cm;
-  background-repeat: no-repeat;
-  background-size: 2.5cm;
-  background-origin: border-box;
-  background-clip: border-box;
-  @top-center {
-    content: string(SectionTitle);
-  }
-  @bottom-right {
-    content: counter(page);
-  }
-}
-@page A4-book-flow-draft:left {
-  size: A4;
-  margin-left: var(--margin-outer);
-  margin-right: var(--margin-inner);
-  background-image: url("draft-left.svg");
-  background-position: 0.5cm 0.5cm;
-  background-repeat: no-repeat;
-  background-size: 2.5cm;
-  background-origin: border-box;
-  background-clip: border-box;
-  @top-center {
-    content: string(ComponentTitle);
-  }
-  @bottom-left {
-    content: counter(page);
-  }
-}
-@page A4-book-flow-draft:blank {
-  size: A4;
-  @top-left {
-    content: "";
-  }
-  @top-center {
-    content: "";
-  }
-  @top-right {
-    content: "";
-  }
-  @bottom-left {
-    content: counter(page);
-  }
-  @bottom-center {
-    content: "";
-  }
-  @bottom-right {
-    content: "";
-  }
-}
-@page A5-book-title-flow {
-  size: A5;
-  margin-left: var(--margin-outer);
-  margin-right: var(--margin-outer);
-}
-@page A5-book-flow {
-  size: A5;
-  @footnote {
-    float: bottom page;
-    border-top: thin solid black;
-    border-length: 30%;
-    padding-top: 0.5em;
-  }
-}
-@page A5-book-flow:right {
-  size: A5;
-  margin-left: var(--margin-inner);
-  margin-right: var(--margin-outer);
-  @top-center {
-    content: string(SectionTitle);
-  }
-  @bottom-right {
-    content: counter(page);
-  }
-}
-@page A5-book-flow:left {
-  size: A5;
-  margin-left: var(--margin-outer);
-  margin-right: var(--margin-inner);
-  @top-center {
-    content: string(ComponentTitle);
-  }
-  @bottom-left {
-    content: counter(page);
-  }
-}
-@page A5-book-flow:blank {
-  size: A5;
-  @top-left {
-    content: "";
-  }
-  @top-center {
-    content: "";
-  }
-  @top-right {
-    content: "";
-  }
-  @bottom-left {
-    content: counter(page);
-  }
-  @bottom-center {
-    content: "";
-  }
-  @bottom-right {
-    content: "";
-  }
-}
-@page A5-book-title-flow-draft {
-  size: A5;
-  margin-left: var(--margin-outer);
-  margin-right: var(--margin-outer);
-  background-image: url("draft.svg");
-  background-position: 0.5cm 0.5cm;
-  background-repeat: no-repeat;
-  background-size: 2.5cm;
-  background-origin: border-box;
-  background-clip: border-box;
-}
-@page A5-book-flow-draft {
-  size: A5;
-  @footnote {
-    float: bottom page;
-    border-top: thin solid black;
-    border-length: 30%;
-    padding-top: 0.5em;
-  }
-}
-@page A5-book-flow-draft:right {
-  size: A5;
-  margin-left: var(--margin-inner);
-  margin-right: var(--margin-outer);
-  background-image: url("draft-right.svg");
-  background-position: calc(100% - 0.5cm) 0.5cm;
-  background-repeat: no-repeat;
-  background-size: 2.5cm;
-  background-origin: border-box;
-  background-clip: border-box;
-  @top-center {
-    content: string(SectionTitle);
-  }
-  @bottom-right {
-    content: counter(page);
-  }
-}
-@page A5-book-flow-draft:left {
-  size: A5;
-  margin-left: var(--margin-outer);
-  margin-right: var(--margin-inner);
-  background-image: url("draft-left.svg");
-  background-position: 0.5cm 0.5cm;
-  background-repeat: no-repeat;
-  background-size: 2.5cm;
-  background-origin: border-box;
-  background-clip: border-box;
-  @top-center {
-    content: string(ComponentTitle);
-  }
-  @bottom-left {
-    content: counter(page);
-  }
-}
-@page A5-book-flow-draft:blank {
-  size: A5;
-  @top-left {
-    content: "";
-  }
-  @top-center {
-    content: "";
-  }
-  @top-right {
-    content: "";
-  }
-  @bottom-left {
-    content: counter(page);
-  }
-  @bottom-center {
-    content: "";
-  }
-  @bottom-right {
-    content: "";
-  }
-}
-@page Letter-book-title-flow {
-  size: Letter;
-  margin-left: var(--margin-outer);
-  margin-right: var(--margin-outer);
-}
-@page Letter-book-flow {
-  size: Letter;
-  @footnote {
-    float: bottom page;
-    border-top: thin solid black;
-    border-length: 30%;
-    padding-top: 0.5em;
-  }
-}
-@page Letter-book-flow:right {
-  size: Letter;
-  margin-left: var(--margin-inner);
-  margin-right: var(--margin-outer);
-  @top-center {
-    content: string(SectionTitle);
-  }
-  @bottom-right {
-    content: counter(page);
-  }
-}
-@page Letter-book-flow:left {
-  size: Letter;
-  margin-left: var(--margin-outer);
-  margin-right: var(--margin-inner);
-  @top-center {
-    content: string(ComponentTitle);
-  }
-  @bottom-left {
-    content: counter(page);
-  }
-}
-@page Letter-book-flow:blank {
-  size: Letter;
-  @top-left {
-    content: "";
-  }
-  @top-center {
-    content: "";
-  }
-  @top-right {
-    content: "";
-  }
-  @bottom-left {
-    content: counter(page);
-  }
-  @bottom-center {
-    content: "";
-  }
-  @bottom-right {
-    content: "";
-  }
-}
-@page Letter-book-title-flow-draft {
-  size: Letter;
-  margin-left: var(--margin-outer);
-  margin-right: var(--margin-outer);
-  background-image: url("draft.svg");
-  background-position: 0.5cm 0.5cm;
-  background-repeat: no-repeat;
-  background-size: 2.5cm;
-  background-origin: border-box;
-  background-clip: border-box;
-}
-@page Letter-book-flow-draft {
-  size: Letter;
-  background-image: url("draft.svg");
-  background-position: 0.5cm 0.5cm;
-  background-repeat: no-repeat;
-  background-size: 2.5cm;
-  background-origin: border-box;
-  background-clip: border-box;
-  @footnote {
-    float: bottom page;
-    border-top: thin solid black;
-    border-length: 30%;
-    padding-top: 0.5em;
-  }
-}
-@page Letter-book-flow-draft:right {
-  size: Letter;
-  margin-left: var(--margin-inner);
-  margin-right: var(--margin-outer);
-  background-image: url("draft-right.svg");
-  background-position: calc(100% - 0.5cm) 0.5cm;
-  background-repeat: no-repeat;
-  background-size: 2.5cm;
-  background-origin: border-box;
-  background-clip: border-box;
-  @top-center {
-    content: string(SectionTitle);
-  }
-  @bottom-right {
-    content: counter(page);
-  }
-}
-@page Letter-book-flow-draft:left {
-  size: Letter;
-  margin-left: var(--margin-outer);
-  margin-right: var(--margin-inner);
-  background-image: url("draft-left.svg");
-  background-position: 0.5cm 0.5cm;
-  background-repeat: no-repeat;
-  background-size: 2.5cm;
-  background-origin: border-box;
-  background-clip: border-box;
-  @top-center {
-    content: string(ComponentTitle);
-  }
-  @bottom-left {
-    content: counter(page);
-  }
-}
-@page Letter-book-flow-draft:blank {
-  size: Letter;
-  @top-left {
-    content: "";
-  }
-  @top-center {
-    content: "";
-  }
-  @top-right {
-    content: "";
-  }
-  @bottom-left {
-    content: counter(page);
-  }
-  @bottom-center {
-    content: "";
-  }
-  @bottom-right {
-    content: "";
-  }
-}
-/* ============================================================ */
-/* Pick the correct page style to start */
-html.article-style.A4 body {
-  page: A4-article-flow;
+  background-size: 10%;
+  background-attachment: fixed;
 }
 
-html.article-style.A4 body.draft {
-  page: A4-article-flow-draft;
+main,
+footer {
+  max-width: 50rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-html.article-style.A5 body {
-  page: A5-article-flow;
+/* If the screen is wide, center. If you do this unconditionally,
+   strange things happen when the screen is narrow. */
+@media screen and (min-width: 58rem) {
+  main,
+  footer {
+    width: 50rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+main {
+  padding-top: 3rem;
 }
 
-html.article-style.A5 body.draft {
-  page: A5-article-flow-draft;
+.book + .book {
+  border-top: var(--division-separator-border-style);
+  margin-top: 6em;
+  padding-top: 6em;
 }
 
-html.article-style.Letter body {
-  page: Letter-article-flow;
+.refentry + .refentry {
+  border-top: var(--division-separator-border-style);
+  margin-top: 6em;
+  padding-top: 6em;
 }
 
-html.article-style.Letter body.draft {
-  page: Letter-article-flow-draft;
+.book > .dedication > header,
+.article > .dedication > header,
+.book .chapter > header,
+.book .preface > header,
+.book .appendix > header,
+.book .part > header {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 0.25rem solid var(--border-color);
 }
 
-html.book-style.A4 body {
-  page: A4-book-title-flow;
+.dedication + .dedication > header {
+  border-top: inherit;
 }
 
-html.book-style.A4 body .division,
-html.book-style.A4 body .component,
-html.book-style.A4 body.book .list-of-titles {
-  break-before: right;
-  page: A4-book-flow;
+.colophon {
+  margin-top: 6rem;
+  margin-bottom: 6rem;
+  margin-left: 6rem;
+  margin-right: 6rem;
+  border: 1px solid var(--border-color);
+  border-radius: 1em;
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-bottom: 2em;
 }
 
-html.book-style.A4 body.draft {
-  page: A4-book-title-flow-draft;
+.set header h1,
+.book header h1 {
+  text-align: center;
 }
 
-html.book-style.A4 body.draft .division,
-html.book-style.A4 body.draft .component,
-html.book-style.A4 body.draft.book .list-of-titles {
-  break-before: right;
-  page: A4-book-flow-draft;
+.footnotes {
+  margin-top: 2em;
 }
 
-html.book-style.A4 body.draft {
-  page: A4-book-title-flow-draft;
+.table-footnotes {
+  margin-top: 0;
 }
 
-html.book-style.A5 body {
-  page: A5-book-title-flow;
+.footnotes div.footnote-number {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0;
+  margin-left: -0.75rem;
+  margin-top: 0.5rem;
+  vertical-align: top;
 }
 
-html.book-style.A5 body .division,
-html.book-style.A5 body .component,
-html.book-style.A5 body.book .list-of-titles {
-  break-before: right;
-  page: A5-book-flow;
+.footnotes div.footnote-body {
+  display: inline-block;
 }
 
-html.book-style.A5 body.draft {
-  page: A5-book-title-flow-draft;
-}
-
-html.book-style.A5 body.draft .division,
-html.book-style.A5 body.draft .component,
-html.book-style.A5 body.draft.book .list-of-titles {
-  break-before: right;
-  page: A5-book-flow-draft;
-}
-
-html.book-style.Letter body {
-  page: Letter-book-title-flow;
-}
-
-html.book-style.Letter body .division,
-html.book-style.Letter body .component,
-html.book-style.Letter body.book .list-of-titles {
-  break-before: right;
-  page: Letter-book-flow;
-}
-
-html.book-style.Letter body.draft {
-  page: Letter-book-title-flow-draft;
-}
-
-html.book-style.Letter body.draft .division,
-html.book-style.Letter body.draft .component,
-html.book-style.Letter body.draft.book .list-of-titles {
-  break-before: right;
-  page: Letter-book-flow-draft;
-}
-
-html.book-style .list-of-titles div .title {
-  string-set: ComponentTitle content();
-}
-
-html.book-style body > header {
-  page-break-after: right;
-}
-
-html.book-style body > header .revhistory {
-  page-break-before: always;
-}
-
-html.book-style .book .list-of-titles {
-  break-before: right;
-  counter-reset: page;
-}
-
-/* ============================================================ */
-html.article-style > header {
-  page-break-after: always;
-}
-
-html.article-style .list-of-titles {
-  break-before: always;
-}
-
-html.article-style .list-of-titles div .title {
-  string-set: ComponentTitle content();
-}
-
-.article-style .division {
-  break-before: always;
-}
-
-.book > header {
-  padding: 0;
-  border: inherit;
-}
-
-.division > header > h1,
-.component > header > h1 {
-  string-set: DocumentTitle content(), DivisionTitle content(), ComponentTitle content();
-}
-
-.division > header > h2 {
-  string-set: DivisionTitle content();
-}
-
-.component > header > h2 {
-  string-set: ComponentTitle content();
-}
-
-.section > header > h1,
-.section > header > h2,
-.section > header > h3 {
-  string-set: SectionTitle content();
-}
-
-header {
-  page-break-inside: avoid;
-}
-
-.example header {
-  page-break-before: avoid;
-}
-
-.book .lot {
-  margin-top: 1em;
-}
-
-.part .list-of-titles {
-  display: none;
-}
-
-.toc a::after {
-  content: leader(dotted) " " target-counter(attr(href url), page);
-}
-
-.footnote {
-  float: footnote;
+.footnotes .footnote {
   margin-left: 0.75rem;
-  font-size: 1rem;
-  font-weight: normal;
-  font-family: "Noto Serif", serif, "Arial Unicode";
 }
 
-.indexref::before {
-  content: target-counter(attr(href url), page);
+.footnote p {
+  margin-bottom: 0;
 }
 
-details {
+.footnotes hr {
+  max-width: 1in;
+  margin: 0;
+}
+
+.calloutlist dl {
+  display: grid;
+  grid-template-columns: max-content auto;
+}
+
+.calloutlist dl dt {
+  float: none;
+  width: inherit;
+  grid-column-start: 1;
+}
+
+.calloutlist dl dd {
+  margin-left: 1em;
+  grid-column-start: 2;
+}
+
+/* ============================================================ */
+nav table td.previous {
+  text-align: left;
+}
+
+nav table td.up {
+  text-align: center;
+}
+
+nav table td.next {
+  text-align: right;
+}
+
+nav.bottom {
+  background-color: var(--nav-background-color);
+}
+
+nav.bottom table {
+  border-top: 2px solid var(--border-color);
+  margin-bottom: 1rem;
+}
+
+nav.bottom table .previous {
+  padding-left: 4rem;
+}
+
+nav.bottom table .next {
+  padding-right: 4rem;
+}
+
+nav.top {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: var(--nav-background-color);
+  opacity: 1;
+}
+
+body.home nav.top {
   display: none;
 }
 
-a, a:visited {
-  text-decoration: none;
+nav.top div {
+  border-bottom: 1px solid var(--border-color);
+  padding-left: 4rem;
+  padding-right: 4rem;
 }
 
-.error * {
-  background-color: inherit;
-  color: inherit;
-  padding: inherit;
+/* ============================================================ */
+/* Javascript annotations */
+.popup-annotation-wrapper {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--modal-overlay-color);
 }
 
-span.error {
-  display: inline;
-  border: none;
-  padding: inherit;
-  margin: inherit;
+.popup-annotation-body {
+  background-color: var(--popup-annotation-color);
+  color: var(--on-popup-annotation-color);
+  border: var(--popup-annotation-border-style);
+  width: 50%;
+  min-height: 40%;
+  max-height: 50%;
+  margin-top: 10%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 0.15em;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 100%;
 }
 
-span.error::before {
-  content: none;
+.wide .popup-annotation-body {
+  width: 80%;
 }
 
-span.error::after {
-  content: none;
+.tall .popup-annotation-body {
+  max-height: 80%;
 }
 
-span.error.broken-link::after {
-  content: none;
+.popup-annotation-header {
+  height: 2em;
+  background-color: var(--popup-annotation-header-color);
+  color: var(--on-popup-annotation-header-color);
+  padding-left: 1em;
+  padding-right: 0.5em;
+  border-bottom: var(--popup-annotation-header-separator-border-style);
 }
 
-.annotations {
-  border-top: none;
-  page-break-before: always;
+.popup-annotation-header .annotation-close {
+  float: right;
+  cursor: pointer;
+  font-size: 125%;
+}
+
+.popup-annotation-header .annotation-title {
+  padding-top: 0.1em;
+}
+
+.popup-annotation-content {
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  overflow: auto;
+}
+
+.annotation-close {
+  padding-top: 4px;
+}
+
+/* ============================================================ */
+/* Javascript controls */
+.js-controls-wrapper {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--modal-overlay-color);
+}
+
+.js-controls-body {
+  background-color: var(--js-controls-color);
+  color: var(--on-js-controls-color);
+  border: var(--js-controls-border-style);
+  max-width: 300px;
+  margin-top: 5px;
+  margin-left: 10px;
+  opacity: 1;
+}
+
+.js-controls-header {
+  height: 2em;
+  background-color: var(--js-controls-header-color);
+  color: var(--on-js-controls-header-color);
+  padding-left: 1em;
+  padding-right: 0.5em;
+  border-bottom: var(--js-controls-header-separator-border-style);
+}
+
+.js-controls-header .js-controls-close {
+  float: right;
+  cursor: pointer;
+  font-size: 125%;
+}
+
+.js-controls-header .js-controls-title {
+  padding-top: 0.1em;
+}
+
+.js-controls-content {
+  background-color: var(--js-controls-color);
+  color: var(--on-js-controls-color);
+  padding: 1em;
+}
+
+.js-controls-buttons {
+  text-align: center;
+  padding-bottom: 0.5em;
+}
+
+.js-controls-buttons button {
+  display: inline-block;
+  text-align: center;
+  font-size: 14pt;
+  background-color: var(--enabled-color);
+  border-radius: 5px;
+  border: 2px solid var(--primary-color);
+  color: var(--on-surface-color);
+  text-align: center;
+  padding: 5px;
+  width: 3em;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.js-controls-reload {
+  text-align: center;
+  background-color: var(--error-color);
+  color: var(--on-error-color);
+}
+
+/* ============================================================ */
+/* For progressive reveals in chunked content. */
+.reveal {
+  display: none;
+}
+
+ul.reveal,
+ol.reveal {
+  display: block;
+}
+
+.reveal > li {
+  display: none;
+}
+
+.reveal > li:first-child {
+  display: list-item;
+}
+
+.noreveal {
+  display: inherit;
+}
+
+.speaker-notes .reveal {
+  display: inherit;
+  background-color: #ffeeee;
+}
+
+.speaker-notes ul.reveal,
+.speaker-notes ol.reveal {
+  display: block;
+  background-color: #ffeeee;
+}
+
+.speaker-notes .reveal > li {
+  display: list-item;
+  background-color: #ffeeee;
+}
+
+.speaker-notes li.reveal {
+  display: list-item;
+  background-color: #ffeeee;
+}
+
+.speaker-notes .transitory {
+  display: none;
+}
+
+/* ============================================================ */
+@media screen and (max-width: 1199px) {
+  nav.top div {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  nav.bottom table .previous {
+    padding-left: 2rem;
+  }
+  nav.bottom table .next {
+    padding-right: 2rem;
+  }
+}
+@media screen and (max-width: 767px) {
+  nav.top div {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  nav.bottom table .previous {
+    padding-left: 1rem;
+  }
+  nav.bottom table .next {
+    padding-right: 1rem;
+  }
+}
+/*
+ * This is xlink.css providing support for multi-targeted links.
+ * The "js" class is added by JavaScript. This enables graceful
+ * fallback in the non-JS case.
+*/
+.xlink .source {
+  border-bottom: 1px dotted black;
+  cursor: pointer;
 }
 
 .xlink-arc-list {
-  font-style: normal;
-}
-
-.xlink-arc-delim {
   display: inline;
+  font-style: normal;
+  cursor: pointer;
+  font-size: 70%;
 }
 
-.nhrefs .arc a::after {
-  content: " (" attr(href) ")";
+.xlink-arc-list.js::before {
+  content: " "; /* thin space */
 }
 
-.admonition {
-  background-color: inherit;
-  page-break-inside: avoid;
+.nhrefs.js .xlink-arc-delim {
+  display: none;
 }
 
-.admonition .icon {
-  color: inherit;
+.nhrefs.js {
+  font-style: normal;
+  display: none;
+  margin-left: 4px;
+  margin-right: 0;
+  padding-bottom: 1em;
+  border: 2px solid var(--primary-variant-color);
+  border-radius: 4px;
+  z-index: 2;
+  background-color: var(--primary-color);
+  color: var(--on-primary-color);
 }
 
-.admonition .icon {
-  padding-top: 3.5rem;
+.nhrefs.js .arc {
+  display: list-item;
+  margin-left: 1.5em;
+  padding-right: 1em;
 }
 
-body > header .copyright {
-  float: bottom;
+.nhrefs.js .xlink-arc-title {
+  display: block;
+  background-color: #afafaf;
+  margin-left: 0;
+  margin-bottom: 0.5em;
+  text-align: center;
 }
 
-.article > header .abstract {
-  margin-left: 1em;
-  margin-right: 1em;
-  font-style: italic;
+/*
+ * This is oxy-markup.css. This CSS supports oXygen change markup 
+ * processing instructions, converted to DocBook proper and then to 
+ * HTML classes/spans.
+ */
+.oxy_insert {
+  background-color: transparent;
+  color: #009900;
+}
+
+.oxy_insert::before {
+  content: var(--revadded-before);
+}
+
+.oxy_insert::after {
+  content: var(--revadded-after);
+}
+
+.oxy_delete {
+  background-color: transparent;
+  color: #cc3333;
+  text-decoration: line-through;
+}
+
+.oxy_delete::before {
+  content: var(--revdeleted-before);
+}
+
+.oxy_delete::after {
+  content: var(--revdeleted-after);
+}
+
+/* The background color doesn't work the way I expect in epub;
+   so turn it off for now. */
+:root {
+  --background-color: inherit;
+}
+
+/* The border looks awful in an EPUB */
+.book > header {
   border: none;
-}
-
-/* Work around bug in AntennaHouse V7.0 MR2 for MacOSX */
-span.footnote p {
-  margin-bottom: 0pt;
-}
-
-/* ============================================================ */
-.book-style .component > header {
-  padding-top: 0;
-  margin-top: 0;
-}
-
-.book-style .component > header h1,
-.book-style .component > header h2,
-.book-style .component > header h3 {
-  padding-top: 0;
-  margin-top: 0;
 }
