@@ -15,9 +15,6 @@
 
 <xsl:import href="../website/docbook.xsl"/>
 
-<xsl:param name="user-css-links"
-           select="'css/nineml.css css/coffeegrinder.css'"/>
-
 <!-- ============================================================ -->
 
 <xsl:template match="db:productname" mode="m:titlepage"
@@ -30,6 +27,10 @@
 <xsl:template match="*" mode="m:html-head-links">
   <xsl:next-match/>
   <link rel="shortcut icon" href="icon/CoffeeGrinder.png"/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css/nineml.css"/>
+  <link rel="stylesheet" href="css/coffeesacks.css"/>
 </xsl:template>
 
 </xsl:stylesheet>
