@@ -288,21 +288,25 @@ and <personname>L. Thomas van Binsbergen</personname>.</para>
 
 <revhistory>
 <revision>
+  <revnumber>1.99.1</revnumber>
   <date>2022-06-17</date>
   <revremark>Second pre-release with GLL support; substantial refactoring of the internals
 and a new API for getting trees from the parse forest.
 </revremark>
 </revision>
 <revision>
+  <revnumber>1.99.0</revnumber>
   <date>2022-06-08</date>
   <revremark>First pre-release that included GLL parser support. Updated to the
 Invisible XML 1.0 grammar.</revremark>
 </revision>
 <revision>
+  <revnumber>1.1.0</revnumber>
   <date>2022-04-16</date>
   <revremark>Internal changes to support the 15 April 2022 Invisible XML “insertions” feature, version 1.1.0</revremark>
 </revision>
 <revision>
+  <revnumber>1.0.0</revnumber>
   <date>2022-03-20</date>
   <revremark>Initial release, version 1.0.0</revremark>
 </revision>
