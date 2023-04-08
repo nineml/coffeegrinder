@@ -1,4 +1,4 @@
-name: build-docbook
+name: build-grinder
 on: push
 
 jobs:
@@ -51,7 +51,8 @@ jobs:
 
       - name: Build and test
         run: |
-          git submodule sync
+          git submodule init
+          git submodule update
           ./gradlew dist website
 
       - name: Deploy main to gh-pages

@@ -55,6 +55,6 @@ jobs:
 
       - name: Build and test
         run: |
-          git submodule sync
-          ./gradlew test
- 
+          git submodule init
+          git submodule update
+          ./gradlew dist website
