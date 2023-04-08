@@ -46,7 +46,13 @@ jobs:
       CI_BRANCH: ${{ needs.check_branch.outputs.branch }}
       CI_TAG: ${{ needs.check_branch.outputs.tag }}
     steps:
-      - name: Checkout the main branch
+      - uses: actions/checkout@v3
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Checkout
         uses: actions/checkout@v3
 
       - name: Build and test
