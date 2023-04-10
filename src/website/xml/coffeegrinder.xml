@@ -40,14 +40,15 @@ Individual parse trees can be obtained from the forest.</para>
 
 <programlistingco>
 <areaspec>
-<area xml:id="ex_g" coords="1 55"/>
-<area xml:id="ex_ntg" coords="3 55"/>
-<area xml:id="ex_r1a" coords="9 35"/>
-<area xml:id="ex_r1b" coords="10 35"/>
-<area xml:id="ex_r2" coords="12 55"/>
-<area xml:id="ex_term" coords="13 55"/>
-<area xml:id="ex_close" coords="19 55"/>
-<area xml:id="ex_hyg" coords="21 55"/>
+<area xml:id="ex_opt" coords="1 55"/>
+<area xml:id="ex_g" coords="2 55"/>
+<area xml:id="ex_ntg" coords="4 55"/>
+<area xml:id="ex_r1a" coords="10 35"/>
+<area xml:id="ex_r1b" coords="11 35"/>
+<area xml:id="ex_r2" coords="13 55"/>
+<area xml:id="ex_term" coords="14 55"/>
+<area xml:id="ex_pgram" coords="20 60"/>
+<area xml:id="ex_hyg" coords="22 55"/>
 <area xml:id="ex_parser" coords="27 55"/>
 <area xml:id="ex_result" coords="29 55"/>
 <area xml:id="ex_success" coords="31 55"/>
@@ -55,53 +56,19 @@ Individual parse trees can be obtained from the forest.</para>
 <area xml:id="ex_tree" coords="33 55"/>
 <area xml:id="ex_amb" coords="37 55"/>
 </areaspec>
-<programlisting language="java">Grammar grammar = new Grammar();
-
-NonterminalSymbol S = grammar.getNonterminal("S");
-NonterminalSymbol A = grammar.getNonterminal("A");
-NonterminalSymbol B = grammar.getNonterminal("B");
-NonterminalSymbol X = grammar.getNonterminal("X");
-NonterminalSymbol Y = grammar.getNonterminal("Y");
-
-Rule s1 = new Rule(S, A);
-grammar.addRule(s1);
-
-grammar.addRule(S, B);
-grammar.addRule(A, TerminalSymbol.ch('a'), X);
-grammar.addRule(A, TerminalSymbol.ch('b'), X);
-grammar.addRule(B, TerminalSymbol.ch('b'), X);
-grammar.addRule(X, TerminalSymbol.ch('x'));
-grammar.addRule(Y, TerminalSymbol.ch('y'));
-
-grammar.close();
-
-HygieneReport report = grammar.checkHygiene(S);
-if (!report.isClean()) {
-    // TODO: deal with undefined,
-    // unused, and unproductive items
-}
-
-EarleyParser parser = grammar.getParser(S);
-
-EarleyResult result = parser.parse("bx");
-
-if (result.succeeded()) {
-    ParseForest forest = result.getForest();
-    ParseTree tree = forest.parse();
-
-    // TODO: do something with the tree.
-
-    if (forest.isAmbiguous()) {
-        long totalParses = forest.getTotalParses();
-        // TODO: deal with multiple parses
-    }
-} else {
-    // TODO: deal with failure
-}</programlisting>
+<programlisting language="java"
+><xi:include href="../../test/java/DocExample.java"
+             fragid="text(line=23,67;md5=135b35933056ba8d06e8d3f5f4ecd318)" parse="text"
+/></programlisting>
 <calloutlist>
+<callout arearefs="ex_opt">
+<para>Create the
+<link xlink:href="/apidoc/org/nineml/coffeegrinder/parser/ParserOptions.html">ParserOptions</link>.
+</para>
+</callout>
 <callout arearefs="ex_g">
 <para>Create a
-<link xlink:href="/apidoc/org/nineml/coffeegrinder/parser/Grammar.html">Grammar</link>.
+<link xlink:href="/apidoc/org/nineml/coffeegrinder/parser/SourceGrammar.html">SourceGrammar</link>.
 </para>
 </callout>
 <callout arearefs="ex_ntg">
@@ -129,14 +96,13 @@ are supported out-of-the-box and the set of
 is extensible.
 </para>
 </callout>
-<callout arearefs="ex_close">
-<para>Close the grammar when you’re finished adding to it. After a grammar
-is closed, it cannot be modified.
+<callout arearefs="ex_pgram">
+<para>Get a parser grammar from the (current state of) the source grammar.
 </para>
 </callout>
 <callout arearefs="ex_hyg">
 <para><link xlink:href="/apidoc/org/nineml/coffeegrinder/parser/HygieneReport.html">Hygiene</link>
-problems with a closed grammar will generate warning messages through the
+problems with a parser grammar will generate warning messages through the
 <link xlink:href="/apidoc/org/nineml/logging/package-summary.html">logging framework</link>.
 Hygiene problems include undefined or unused symbols as well as unproductive symbols
 and rules.
