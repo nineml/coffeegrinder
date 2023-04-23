@@ -40,7 +40,6 @@ jobs:
       HAVE_GPGKEYURI: ${{ secrets.ACCESS_TOKEN != '' && secrets.GPGKEYURI != '' }}
       HAVE_SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY != '' }}
       CAN_PUBLISH: ${{ secrets.ACCESS_TOKEN != '' && secrets.GPGKEYURI != '' && secrets.SSH_PRIVATE_KEY != '' }}
-      HAVE_SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY != '' }}
       CIWORKFLOW: yes
       CI_SHA1: ${{ github.sha }}
       CI_BUILD_NUM: ${{ github.run_number }}
