@@ -117,7 +117,7 @@ public class ParseForest {
         ArrayList<RuleChoice> rootChoice = new ArrayList<>(roots);
         final ForestNode root;
         if (roots.size() > 1) {
-            int idx = builder.startAlternative(rootChoice);
+            int idx = builder.startAlternative(null, rootChoice);
             if (idx < 0 || idx >= roots.size()) {
                 throw new IllegalStateException("Invalid alternative selected");
             }
@@ -218,7 +218,7 @@ public class ParseForest {
 
                 if (families.size() > 1) {
                     ArrayList<RuleChoice> choices = new ArrayList<>(families);
-                    index = builder.startAlternative(choices);
+                    index = builder.startAlternative(tree, choices);
                     if (index < 0 || index >= choices.size()) {
                         throw new IllegalStateException("Invalid alternative selected");
                     }
