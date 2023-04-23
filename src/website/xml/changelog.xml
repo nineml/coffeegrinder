@@ -6,6 +6,11 @@
 
 <revhistory>
 <revision>
+  <revnumber>2.1.0</revnumber>
+  <date>2023-04-23</date>
+  <revremark>Updated the API for choosing among alternatives to supply the immediate context.</revremark>
+</revision>
+<revision>
   <revnumber>2.0.0</revnumber>
   <date>2023-04-10</date>
   <revremark>Making the 2.x code base the current release.</revremark>
