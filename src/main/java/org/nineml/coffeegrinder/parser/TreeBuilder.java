@@ -61,11 +61,11 @@ public abstract class TreeBuilder {
         return edgeCounts;
     }
 
-    public int chooseFromRemaining(List<RuleChoice> alternatives) {
+    public int chooseFromRemaining(ForestNode tree, List<RuleChoice> alternatives) {
         return 0;
     }
 
-    public int chooseFromAll(List<RuleChoice> alternatives, List<Boolean> moreParses) {
+    public int chooseFromAll(ForestNode tree, List<RuleChoice> alternatives, List<Boolean> moreParses) {
         ArrayList<Integer> indexMap = new ArrayList<>();
         ArrayList<RuleChoice> remaining = new ArrayList<>();
         for (int index = 0; index < alternatives.size(); index++) {
@@ -75,7 +75,7 @@ public abstract class TreeBuilder {
             }
         }
 
-        int selected = chooseFromRemaining(remaining);
+        int selected = chooseFromRemaining(tree, remaining);
         if (selected < 0 || selected > remaining.size()) {
             throw new IllegalStateException("Invalid alternative selected");
         }
@@ -83,11 +83,11 @@ public abstract class TreeBuilder {
         return indexMap.get(selected);
     }
 
-    public int startAlternative(List<RuleChoice> alternatives) {
+    public int startAlternative(ForestNode tree, List<RuleChoice> alternatives) {
         currentParses += alternatives.size();
 
         ambiguous = true;
-        int selected = current.choose(alternatives);
+        int selected = current.choose(tree, alternatives);
         current = current.paths.get(selected);
         return selected;
     }
@@ -166,7 +166,7 @@ public abstract class TreeBuilder {
             paths.clear();
         }
 
-        public int choose(List<RuleChoice> alternatives) {
+        public int choose(ForestNode tree, List<RuleChoice> alternatives) {
             if (paths.isEmpty()) {
                 size = alternatives.size();
                 for (int count = 0; count < alternatives.size(); count++) {
@@ -178,7 +178,7 @@ public abstract class TreeBuilder {
             for (int count = 0; count < alternatives.size(); count++) {
                 more.add(pathCount.get(count) > 0);
             }
-            int selected = chooseFromAll(alternatives, more);
+            int selected = chooseFromAll(tree, alternatives, more);
             if (selected < 0 || selected >= alternatives.size()) {
                 throw new IllegalStateException("Invalid alternative selected");
             }

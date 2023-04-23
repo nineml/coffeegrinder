@@ -1,5 +1,6 @@
 package org.nineml.coffeegrinder.util;
 
+import org.nineml.coffeegrinder.parser.ForestNode;
 import org.nineml.coffeegrinder.parser.RuleChoice;
 import org.nineml.coffeegrinder.parser.Symbol;
 import org.nineml.coffeegrinder.parser.TreeBuilder;
@@ -10,7 +11,7 @@ public abstract class PriorityTreeBuilder extends TreeBuilder {
     private static final double defaultPriority = 1.0;
 
     @Override
-    public int chooseFromRemaining(List<RuleChoice> alternatives) {
+    public int chooseFromRemaining(ForestNode tree, List<RuleChoice> alternatives) {
         ambiguous = true;
 
         int choice = 0;
