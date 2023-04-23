@@ -180,13 +180,15 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#chooseFromAll(java.util.List,java.util.List)">chooseFromAll</a></span>&#8203;(java.util.List&lt;<a href="RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#chooseFromAll(org.nineml.coffeegrinder.parser.ForestNode,java.util.List,java.util.List)">chooseFromAll</a></span>&#8203;(<a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;tree,
+             java.util.List&lt;<a href="RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives,
              java.util.List&lt;java.lang.Boolean&gt;&nbsp;moreParses)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#chooseFromRemaining(java.util.List)">chooseFromRemaining</a></span>&#8203;(java.util.List&lt;<a href="RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#chooseFromRemaining(org.nineml.coffeegrinder.parser.ForestNode,java.util.List)">chooseFromRemaining</a></span>&#8203;(<a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;tree,
+                   java.util.List&lt;<a href="RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
@@ -249,7 +251,8 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#startAlternative(java.util.List)">startAlternative</a></span>&#8203;(java.util.List&lt;<a href="RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#startAlternative(org.nineml.coffeegrinder.parser.ForestNode,java.util.List)">startAlternative</a></span>&#8203;(<a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;tree,
+                java.util.List&lt;<a href="RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i14" class="altColor">
@@ -377,32 +380,35 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;java.util.HashMap&lt;<a href="Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>,&#8203;java.lang.Integer&gt;&nbsp;getEdgeCounts&#8203;(<a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;node)</pre>
 </li>
 </ul>
-<a id="chooseFromRemaining(java.util.List)">
+<a id="chooseFromRemaining(org.nineml.coffeegrinder.parser.ForestNode,java.util.List)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>chooseFromRemaining</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;chooseFromRemaining&#8203;(java.util.List&lt;<a href="RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;chooseFromRemaining&#8203;(<a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;tree,
+                               java.util.List&lt;<a href="RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives)</pre>
 </li>
 </ul>
-<a id="chooseFromAll(java.util.List,java.util.List)">
+<a id="chooseFromAll(org.nineml.coffeegrinder.parser.ForestNode,java.util.List,java.util.List)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>chooseFromAll</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;chooseFromAll&#8203;(java.util.List&lt;<a href="RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives,
+<pre class="methodSignature">public&nbsp;int&nbsp;chooseFromAll&#8203;(<a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;tree,
+                         java.util.List&lt;<a href="RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives,
                          java.util.List&lt;java.lang.Boolean&gt;&nbsp;moreParses)</pre>
 </li>
 </ul>
-<a id="startAlternative(java.util.List)">
+<a id="startAlternative(org.nineml.coffeegrinder.parser.ForestNode,java.util.List)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>startAlternative</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;startAlternative&#8203;(java.util.List&lt;<a href="RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives)</pre>
+<pre class="methodSignature">public&nbsp;int&nbsp;startAlternative&#8203;(<a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;tree,
+                            java.util.List&lt;<a href="RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a>&gt;&nbsp;alternatives)</pre>
 </li>
 </ul>
 <a id="endAlternative(org.nineml.coffeegrinder.parser.RuleChoice)">
