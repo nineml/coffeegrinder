@@ -96,7 +96,7 @@ public class ForestNode implements RuleChoice {
         return loops;
     }
 
-    public void addFamily(ForestNode v) {
+    public void addFamily(ForestNode v, State state) {
         for (Family family : families) {
             if (family.w == null) {
                 if ((v == null && family.v == null) || (v != null && v.equals(family.v))) {
@@ -105,10 +105,10 @@ public class ForestNode implements RuleChoice {
             }
         }
 
-        families.add(new Family(v));
+        families.add(new Family(v, state));
     }
 
-    public void addFamily(ForestNode w, ForestNode v) {
+    public void addFamily(ForestNode w, ForestNode v, State state) {
         for (Family family : families) {
             if (((v == null && family.v == null) || (v != null && v.equals(family.v)))
                     && ((w == null && family.w == null) || (w != null && w.equals(family.w)))) {
@@ -116,7 +116,7 @@ public class ForestNode implements RuleChoice {
             }
         }
 
-        families.add(new Family(w, v));
+        families.add(new Family(w, v, state));
     }
 
     protected void reach() {

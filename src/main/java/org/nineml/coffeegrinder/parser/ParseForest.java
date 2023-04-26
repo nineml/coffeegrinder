@@ -217,7 +217,65 @@ public class ParseForest {
                 }
 
                 if (families.size() > 1) {
-                    ArrayList<RuleChoice> choices = new ArrayList<>(families);
+                    // We need to find the actual symbols in the right hand sides of the rules
+                    // and copy those for use in making choices because they may have different
+                    // properties (marks, pragmas, etc.) than the "ordinary" versions on the
+                    // left hand side.
+                    ArrayList<RuleChoice> choices = new ArrayList<>();
+                    for (Family fam : families) {
+                        if (tree.getSymbol() == null || tree.getSymbol().equals(fam.state.getSymbol())) {
+                            final ForestNode c0, c1;
+                            if (fam.w == null) {
+                                c0 = fam.v;
+                                c1 = null;
+                            } else {
+                                c0 = fam.w;
+                                c1 = fam.v;
+                            }
+
+                            Symbol c0symbol = c0 != null ? c0.getSymbol() : null;
+                            Symbol c1symbol = c1 != null ? c1.getSymbol() : null;
+                            int c0pos = -1;
+                            int c1pos = -1;
+
+                            if (c1 != null) {
+                                c1pos = getSymbol(c1.getSymbol(), fam.state, fam.state.getPosition());
+                                if (c1pos >= 0) {
+                                    c1symbol = fam.state.getRhs().get(c1pos);
+                                } else {
+                                    c1pos = fam.state.getPosition();
+                                }
+
+                                c0pos = getSymbol(c0.getSymbol(), fam.state, c1pos); // don't "pass" the second symbol
+                                if (c0pos >= 0) {
+                                    c0symbol = fam.state.getRhs().get(c0pos);
+                                }
+                            } else {
+                                if (c0 != null) {
+                                    c0pos = getSymbol(c0.getSymbol(), fam.state, fam.state.getPosition());
+                                    if (c0pos >= 0) {
+                                        c0symbol = fam.state.getRhs().get(c0pos);
+                                    }
+                                }
+                            }
+
+                            ArrayList<Symbol> rhs = new ArrayList<>();
+                            for (int pos = 0; pos < fam.state.getRhs().length; pos++) {
+                                if (pos == c0pos) {
+                                    rhs.add(c0symbol);
+                                } else if (pos == c1pos) {
+                                    rhs.add(c1symbol);
+                                } else {
+                                    rhs.add(fam.state.getRhs().get(pos));
+                                }
+                            }
+
+                            choices.add(new RuleChoiceImpl(fam.getSymbol(), rhs, c1, c0));
+                        } else {
+                            choices.add(new RuleChoiceImpl(fam));
+                        }
+                    }
+
                     index = builder.startAlternative(tree, choices);
                     if (index < 0 || index >= choices.size()) {
                         throw new IllegalStateException("Invalid alternative selected");
@@ -227,8 +285,18 @@ public class ParseForest {
                 }
         }
 
+        State selectedState = state;
         if (!families.isEmpty()) {
             Family family = families.get(index);
+
+            // The GLL parser and the Earley parser build the forest differently. During construction,
+            // we need to work out which symbols on the RHS were matched (so that we can get any
+            // attributes they might have). For the GLL parser, the state from the tree is correct.
+            // For the Earley parser, the state from the selected family is correct.
+            if ("Earley".equals(options.getParserType())) {
+                selectedState = family.state;
+            }
+
             // Don't advance an epsilon edge, leave it as an escape hatch.
             if (edgeCounts != null && (family.v != null || family.w != null)) {
                 edgeCounts.put(family, lowest+1);
@@ -243,27 +311,27 @@ public class ParseForest {
         }
 
         // When the GLL parser builds the forest, the states associated with nodes in the tree
-        // are sometimes associated with the node's parent symbol. I dunno why. But if the
+        // are sometimes associated with the node's parent symbol. This doesn't seem to occur
+        // in circumstances where it matters. (But I could be wrong). Nevertheless, if the
         // state symbol isn't the same as the tree symbol, don't go looking at its RHS.
-        if ("Earley".equals(options.getParserType())
-                || tree.getSymbol() == null || tree.getSymbol().equals(state.getSymbol())) {
+        if (tree.getSymbol() == null || (selectedState != null && tree.getSymbol().equals(selectedState.getSymbol()))) {
             if (child1 != null) {
-                int pos = getSymbol(child1.getSymbol(), state, state.getPosition());
+                int pos = getSymbol(child1.getSymbol(), selectedState, selectedState.getPosition());
                 if (pos >= 0) {
-                    child1Symbol = state.getRhs().get(pos);
+                    child1Symbol = selectedState.getRhs().get(pos);
                 } else {
-                    pos = state.getPosition();
+                    pos = selectedState.getPosition();
                 }
 
-                pos = getSymbol(child0.getSymbol(), state, pos); // don't "pass" the second symbol
+                pos = getSymbol(child0.getSymbol(), selectedState, pos); // don't "pass" the second symbol
                 if (pos >= 0) {
-                    child0Symbol = state.getRhs().get(pos);
+                    child0Symbol = selectedState.getRhs().get(pos);
                 }
             } else {
                 if (child0 != null) {
-                    int pos = getSymbol(child0.getSymbol(), state, state.getPosition());
+                    int pos = getSymbol(child0.getSymbol(), selectedState, selectedState.getPosition());
                     if (pos >= 0) {
-                        child0Symbol = state.getRhs().get(pos);
+                        child0Symbol = selectedState.getRhs().get(pos);
                     }
                 }
             }

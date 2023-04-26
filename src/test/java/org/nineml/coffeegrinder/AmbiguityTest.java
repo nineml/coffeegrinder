@@ -4,10 +4,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.nineml.coffeegrinder.parser.*;
-import org.nineml.coffeegrinder.util.GrammarCompiler;
-import org.nineml.coffeegrinder.util.Iterators;
-import org.nineml.coffeegrinder.util.NopTreeBuilder;
-import org.nineml.coffeegrinder.util.StdoutTreeBuilder;
+import org.nineml.coffeegrinder.util.*;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -51,18 +48,28 @@ public class AmbiguityTest {
     public void testAmbiguity() {
         SourceGrammar grammar = new SourceGrammar();
 
-        NonterminalSymbol _letter = grammar.getNonterminal("letter");
+        NonterminalSymbol _letter1 = grammar.getNonterminal("letter");
+        _letter1.addAttribute(new ParserAttribute("L", "1"));
+        NonterminalSymbol _letter2 = grammar.getNonterminal("letter");
+        _letter2.addAttribute(new ParserAttribute("L", "2"));
         NonterminalSymbol _letterOrNumber = grammar.getNonterminal("letterOrNumber");
         NonterminalSymbol _expr = grammar.getNonterminal("expr");
-        NonterminalSymbol _number = grammar.getNonterminal("number");
+        NonterminalSymbol _number1 = grammar.getNonterminal("number");
+        _number1.addAttribute(new ParserAttribute("N", "1"));
+        NonterminalSymbol _number2 = grammar.getNonterminal("number");
+        _number2.addAttribute(new ParserAttribute("N", "2"));
+        NonterminalSymbol _number3 = grammar.getNonterminal("number");
+        _number3.addAttribute(new ParserAttribute("N", "3"));
 
-        grammar.addRule(_expr, TerminalSymbol.ch('x'), _letter, _letterOrNumber, _letter);
-        grammar.addRule(_letter, TerminalSymbol.regex("[a-z]"));
-        grammar.addRule(_number, TerminalSymbol.regex("[0-9]"));
-        grammar.addRule(_letterOrNumber, _letter);
-        grammar.addRule(_letterOrNumber, _number);
+        grammar.addRule(_expr, TerminalSymbol.ch('x'), _letter1, _letterOrNumber, _letter1);
+        grammar.addRule(_letter1, TerminalSymbol.regex("[a-z]"));
+        grammar.addRule(_letter2, TerminalSymbol.regex("[a-z]"));
+        grammar.addRule(_number1, TerminalSymbol.regex("[0-9]"));
+        grammar.addRule(_number2, TerminalSymbol.regex("[0-9]"));
+        grammar.addRule(_letterOrNumber, _letter2);
+        grammar.addRule(_letterOrNumber, _number2);
 
-        grammar.addRule(_number, TerminalSymbol.ch('b'));
+        grammar.addRule(_number3, TerminalSymbol.ch('b'));
 
         GearleyParser parser = grammar.getParser(options, _expr);
         GearleyResult result = parser.parse(Iterators.characterIterator("xabb"));
@@ -138,5 +145,31 @@ public class AmbiguityTest {
         TreeBuilder builder = new NopTreeBuilder();
         result.getTree(builder);
         Assert.assertEquals(2, builder.getRevealedParses());
+    }
+
+    @Test
+    public void testAmbiguity4() {
+        SourceGrammar grammar = new SourceGrammar();
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _B = grammar.getNonterminal("B");
+        NonterminalSymbol _C = grammar.getNonterminal("C");
+
+        grammar.addRule(_S, _A);
+        grammar.addRule(_S, _B);
+        grammar.addRule(_S, _C);
+        grammar.addRule(_A, TerminalSymbol.ch('a'));
+        grammar.addRule(_B, TerminalSymbol.ch('a'));
+        grammar.addRule(_C, TerminalSymbol.ch('a'));
+
+        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyResult result = parser.parse(Iterators.characterIterator("a"));
+
+        Assert.assertTrue(result.succeeded());
+
+        TreeBuilder builder = new NopTreeBuilder();
+        result.getTree(builder);
+        Assert.assertEquals(3, builder.getRevealedParses());
     }
 }

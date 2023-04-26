@@ -111,4 +111,25 @@ public class MarkTest {
         Assertions.assertTrue(tree.contains("<b mark=\"@\">"));
     }
 
+    @Test
+    public void parseInsMultAttEarley() {
+        String cxml = loadCxml("src/test/resources/insmultatt.cxml");
+        GrammarCompiler compiler = new GrammarCompiler();
+        SourceGrammar grammar = compiler.parse(cxml);
+
+        NonterminalSymbol S = grammar.getNonterminal("S");
+
+        ParserOptions options = new ParserOptions();
+        options.setParserType("Earley");
+
+        GearleyParser parser = grammar.getParser(options, S);
+        GearleyResult result = parser.parse("a");
+        Assertions.assertTrue(result.succeeded());
+
+        StringTreeBuilder builder = new StringTreeBuilder();
+        result.getTree(builder);
+        String tree = builder.getTree();
+
+        Assertions.assertTrue(tree.contains("<b mark=\"@\">"));
+    }
 }
