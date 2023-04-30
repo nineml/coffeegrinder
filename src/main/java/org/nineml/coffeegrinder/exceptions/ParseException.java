@@ -59,4 +59,15 @@ public class ParseException extends CoffeeGrinderException {
      * @return a ParseException
      */
     public static ParseException internalError(String reason) { return getException("P003", reason); }
+
+    /**
+     * Raised if an attempt is made to parse an invalid input.
+     *
+     * <p>The GLL parser can only parse characters, this exception is raised if it is used to
+     * parse a sequence of string tokens.</p>
+     *
+     * @return a ParseException
+     */
+    public static ParseException invalidInput(String message) { return getException("P004", message); }
+
 }
