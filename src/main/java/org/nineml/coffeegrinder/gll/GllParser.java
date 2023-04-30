@@ -1,5 +1,6 @@
 package org.nineml.coffeegrinder.gll;
 
+import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
@@ -100,7 +101,11 @@ public class GllParser implements GearleyParser {
     public GllResult parse(Iterator<Token> input) {
         ArrayList<Token> list = new ArrayList<>();
         while (input.hasNext()) {
-            list.add(input.next());
+            Token token = input.next();
+            if (!(token instanceof TokenCharacter)) {
+                throw ParseException.invalidInput("Only characters can be parsed with a GLL parser");
+            }
+            list.add(token);
         }
         I = new Token[list.size() + 1];
         for (int pos = 0; pos < list.size(); pos++) {
@@ -112,6 +117,13 @@ public class GllParser implements GearleyParser {
 
     public GllResult parse(Token[] input) {
         I = new Token[input.length+1];
+
+        for (Token token : input) {
+            if (!(token instanceof TokenCharacter)) {
+                throw ParseException.invalidInput("Only characters can be parsed with a GLL parser");
+            }
+        }
+
         System.arraycopy(input, 0, I,  0, input.length);
         I[input.length] = TokenEOF.EOF;
         return parseInput();
