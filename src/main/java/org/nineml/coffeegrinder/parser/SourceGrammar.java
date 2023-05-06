@@ -201,7 +201,19 @@ public class SourceGrammar extends Grammar {
         }
     }
 
-    private SourceGrammar resolveDuplicates() {
+    /**
+     * Resolve duplicate symbols in the grammar.
+     *
+     * <p>This method may return a different SourceGrammar. In this new grammar, all of
+     * the unique nonterminals will have unique names. (That is, if a nonterminal A occurs
+     * twice in the grammar with different parser attributes, it will have two different names
+     * in the resolved grammar.)</p>
+     * <p>This method is public only so that it is possible to know what all of the
+     * nonterminals in the parse grammar will be.</p>
+     *
+     * @return a grammar with duplicates resolved
+     */
+    public SourceGrammar resolveDuplicates() {
         // Two nonterminals are .equals() to each other if they have the same name. But here,
         // we need to consider whether they have the same attributes.
         HashMap<String, Integer> symbolMap = new HashMap<>();
