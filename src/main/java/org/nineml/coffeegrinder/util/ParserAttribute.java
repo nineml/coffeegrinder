@@ -14,11 +14,6 @@ public class ParserAttribute {
 
     public static final String TOKEN_NAME = "https://nineml.org/attr/token";
 
-    public static final String PRUNING_NAME = "https://nineml.org/attr/prune";
-    public static final String ALLOWED_TO_PRUNE = "allowed";
-    public static final String NOT_ALLOWED_TO_PRUNE = "forbidden";
-    public static final ParserAttribute PRUNING_ALLOWED = new ParserAttribute(PRUNING_NAME, ALLOWED_TO_PRUNE);
-    public static final ParserAttribute PRUNING_FORBIDDEN = new ParserAttribute(PRUNING_NAME, NOT_ALLOWED_TO_PRUNE);
     private final String name;
     private final String value;
 

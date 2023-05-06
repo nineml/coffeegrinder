@@ -188,7 +188,6 @@ public class ReadmeExampleTests {
         NonterminalSymbol hex = grammar.getNonterminal("hex");
 
         List<ParserAttribute> attributes = new ArrayList<>();
-        attributes.add(ParserAttribute.PRUNING_ALLOWED);
 
         NonterminalSymbol _letter = grammar.getNonterminal("_letter", attributes);
         NonterminalSymbol _digit = grammar.getNonterminal("_digit", attributes);

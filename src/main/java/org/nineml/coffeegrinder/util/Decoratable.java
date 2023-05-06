@@ -122,11 +122,6 @@ public abstract class Decoratable {
         }
 
         for (ParserAttribute attr : attrcoll) {
-            if (attr.getName().equals(ParserAttribute.PRUNING_NAME)
-                    && !ParserAttribute.ALLOWED_TO_PRUNE.equals(attr.getValue())
-                    && !ParserAttribute.NOT_ALLOWED_TO_PRUNE.equals(attr.getValue())) {
-                throw AttributeException.invalidPRUNING(attr.getValue());
-            }
             if (this.attributes.containsKey(attr.getName())) {
                 if (!this.attributes.get(attr.getName()).getValue().equals(attr.getValue())) {
                     throw AttributeException.immutable(attr.getName(), attr.getValue());

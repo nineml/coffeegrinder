@@ -330,21 +330,8 @@ public class GrammarCompiler {
     }
 
     private void standardAttributes(Collection<ParserAttribute> attributes) {
-        String value = "";
-        for (ParserAttribute attr : attributes) {
-            if (attr.getName().equals(ParserAttribute.PRUNING_NAME)) {
-                if (attr.getValue().equals(ParserAttribute.PRUNING_ALLOWED.getValue())) {
-                    value += "p";
-                } else {
-                    value += "f";
-                }
-            }
-        }
-
-        if (!"".equals(value)) {
-            sb.append(" a=\"").append(value).append("\"");
-            updateDigest(value);
-        }
+        // Used to be for pruning, now just a remnant. I'm leaving the stub in place
+        // for now in case there are other "standard attributes" in the future.
     }
 
     private boolean sameCollection(Collection<ParserAttribute> group, Collection<ParserAttribute> candidate) {
@@ -652,13 +639,11 @@ public class GrammarCompiler {
                 for (int pos = 0; pos < a.length(); pos++) {
                     switch (a.charAt(pos)) {
                         case 'p':
-                            rattr.add(ParserAttribute.PRUNING_ALLOWED);
-                            break;
                         case 'f':
-                            rattr.add(ParserAttribute.PRUNING_FORBIDDEN);
+                            // Formerly for marking prunable nodes
                             break;
                         default:
-                            throw CompilerException.unexpectedFlag("" + a.charAt(pos));
+                            throw CompilerException.unexpectedFlag(String.valueOf(a.charAt(pos)));
                     }
                 }
                 updateDigest(a);

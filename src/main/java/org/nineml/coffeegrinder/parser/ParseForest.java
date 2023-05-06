@@ -365,12 +365,6 @@ public class ParseForest {
             atts = xatts;
         }
 
-        boolean prunable = false;
-        // Always output the root node because we need its attributes
-        if (!pendingActions.isEmpty() && !options.getExposePrunableNonterminals()) {
-            prunable = ParserAttribute.ALLOWED_TO_PRUNE.equals(atts.getOrDefault(ParserAttribute.PRUNING_NAME, ParserAttribute.NOT_ALLOWED_TO_PRUNE));
-        }
-
         if (symbol instanceof TerminalSymbol) {
             Token token = ((TerminalSymbol) symbol).getToken();
             builder.token(token, atts);
@@ -379,9 +373,7 @@ public class ParseForest {
                 pendingActions.push(new PendingEndAlternatives(selectedAlternative));
             }
 
-            if (!prunable) {
-                pendingActions.push(new PendingEnd((NonterminalSymbol) symbol, atts, tree.leftExtent, tree.rightExtent));
-            }
+            pendingActions.push(new PendingEnd((NonterminalSymbol) symbol, atts, tree.leftExtent, tree.rightExtent));
 
             if (child1 != null) {
                 pendingActions.push(new PendingTree(child1, child1Symbol));
@@ -391,9 +383,7 @@ public class ParseForest {
                 pendingActions.push(new PendingTree(child0, child0Symbol));
             }
 
-            if (!prunable) {
-                pendingActions.push(new PendingStart((NonterminalSymbol) symbol, atts, tree.leftExtent, tree.rightExtent));
-            }
+            pendingActions.push(new PendingStart((NonterminalSymbol) symbol, atts, tree.leftExtent, tree.rightExtent));
         }
 
         //depth--;
