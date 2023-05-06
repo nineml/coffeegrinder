@@ -8,6 +8,7 @@ import java.util.*;
 
 public class SourceGrammar extends Grammar {
     public static final String logcategory = "Grammar";
+    private static final char[] subscripts = {'₀','₁','₂','₃','₄','₅','₆','₇','₈','₉'};
 
     private static int nextGrammarId = 0;
     private NonterminalSymbol seed = null;
@@ -190,12 +191,168 @@ public class SourceGrammar extends Grammar {
             throw new IllegalStateException("Unexpected parser type: " + options.getParserType());
         }
 
-        ParserGrammar compiled = getCompiledGrammar(parserType, seed);
+        SourceGrammar sg = resolveDuplicates();
+
+        ParserGrammar compiled = sg.getCompiledGrammar(parserType, seed);
         if (parserType == ParserType.Earley) {
             return new EarleyParser(compiled, options);
         } else {
             return new GllParser(compiled, options);
         }
+    }
+
+    private SourceGrammar resolveDuplicates() {
+        // Two nonterminals are .equals() to each other if they have the same name. But here,
+        // we need to consider whether they have the same attributes.
+        HashMap<String, Integer> symbolMap = new HashMap<>();
+        HashMap<String, Collection<ParserAttribute>> symbolAttributes = new HashMap<>();
+        HashMap<String, Integer> nameCounts = new HashMap<>();
+        HashMap<String, List<Rule>> rulesBySymbol = new HashMap<>();
+
+        // Do all the rules first, so that the LHS nonterminals are the first
+        for (Rule rule : rules) {
+            String key = symbolKey(rule.symbol);
+            if (!symbolMap.containsKey(key)) {
+                if (!nameCounts.containsKey(rule.symbol.name)) {
+                    nameCounts.put(rule.symbol.name, 0);
+                }
+                int next = nameCounts.get(rule.symbol.name);
+                symbolMap.put(key, next);
+                symbolAttributes.put(key, rule.symbol.getAttributes());
+
+                nameCounts.put(rule.symbol.name, next+1);
+            }
+
+            if (!rulesBySymbol.containsKey(rule.symbol.name)) {
+                rulesBySymbol.put(rule.symbol.name, new ArrayList<>());
+            }
+            rulesBySymbol.get(rule.symbol.name).add(rule);
+        }
+
+        boolean found = false;
+        for (Rule rule : rules) {
+            for (Symbol anySymbol : rule.getRhs().symbols) {
+                if (!(anySymbol instanceof NonterminalSymbol)) {
+                    continue;
+                }
+
+                NonterminalSymbol symbol = (NonterminalSymbol) anySymbol;
+                String key = symbolKey(symbol);
+                if (!symbolMap.containsKey(key)) {
+                    found = true;
+                    if (!nameCounts.containsKey(symbol.name)) {
+                        nameCounts.put(symbol.name, 0);
+                    }
+                    int next = nameCounts.get(symbol.name);
+                    symbolMap.put(key, next);
+                    symbolAttributes.put(key, symbol.getAttributes());
+
+                    nameCounts.put(symbol.name, next+1);
+                }
+            }
+        }
+
+        SourceGrammar sg = this;
+        if (found) {
+            sg = new SourceGrammar(options);
+
+            // Now make a list of rules that includes all the original rules and
+            // rules for all the new nonterminals
+            ArrayList<Rule> newRules = new ArrayList<>(getRules());
+            for (String key : symbolMap.keySet()) {
+                if (symbolMap.get(key) == 0) {
+                    continue;
+                }
+
+                int pos = key.indexOf(":");
+                String name = key.substring(0, pos);
+                NonterminalSymbol ruleSymbol = getNonterminal(symbolId(name, symbolMap.get(key)), symbolAttributes.get(key));
+                ruleSymbol.realName = name;
+
+                for (Rule rule : rulesBySymbol.getOrDefault(name, Collections.emptyList())) {
+                    newRules.add(new Rule(ruleSymbol, rule.rhs.symbols));
+                }
+            }
+
+            // Now for each rule, replace any nonterminals on the RHS with the appropriate new symbol
+            // and add that rule to the new grammar.
+            for (Rule rule : newRules) {
+                ArrayList<Symbol> rhs = new ArrayList<>();
+                for (Symbol symbol : rule.getRhs().symbols) {
+                    if (symbol instanceof NonterminalSymbol) {
+                        int count = symbolMap.get(symbolKey((NonterminalSymbol) symbol));
+                        if (count == 0) {
+                            rhs.add(symbol);
+                        } else {
+                            String sid = symbolId(((NonterminalSymbol) symbol).name, count);
+                            NonterminalSymbol news = sg.getNonterminal(sid, symbol.getAttributes());
+                            news.realName = ((NonterminalSymbol) symbol).realName;
+                            rhs.add(news);
+                        }
+                    } else {
+                        rhs.add(symbol);
+                    }
+                }
+
+                sg.addRule(rule.symbol, rhs);
+            }
+        }
+
+        return sg;
+    }
+
+    private String symbolKey(NonterminalSymbol symbol) {
+        ArrayList<String> attributes = new ArrayList<>();
+        for (ParserAttribute attr : symbol.getAttributes()) {
+            attributes.add(attr.getName().replace("=", "%3D")
+                    + "="
+                    + attr.getValue().replace(";", "%3B"));
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(symbol.getName().replace(":", "%3A")).append(":");
+        Collections.sort(attributes);
+        for (String attr : attributes) {
+            sb.append(attr).append(";");
+        }
+
+        return sb.toString();
+    }
+
+    private String symbolId(String symbolName, int count) {
+        int pos = -1;
+        for (char ch : subscripts) {
+            pos = symbolName.indexOf(ch);
+            if (pos >= 0) {
+                break;
+            }
+        }
+
+        StringBuilder number = new StringBuilder();
+        if (count > 0) {
+            if (pos >= 0) {
+                number.append("₍");
+            }
+            String cstr = String.valueOf(count);
+            for (int cpos = 0; cpos < cstr.length(); cpos++) {
+                int digit = (int) cstr.charAt(cpos) - (int) '0';
+                number.append(subscripts[digit]);
+            }
+            if (pos >= 0) {
+                number.append("₎");
+            }
+        }
+
+        final String name;
+        if (pos >= 0) {
+            String newName = symbolName.substring(0, pos);
+            newName += subscripts[0];
+            name = newName + symbolName.substring(pos) + number;
+        } else {
+            name = symbolName + number;
+        }
+
+        return name;
     }
 
     /**
@@ -218,7 +375,7 @@ public class SourceGrammar extends Grammar {
     /**
      * Does this grammar contain an equivalent rule?
      * <p>Two rules are equivalent if they have the same symbol, the same list of right-hand-side
-     * symbols, and if the optionality of every symbol on the right-hand-side is the same in both rules.</p>
+     * symbols, and if the attributes and optionality of every symbol on the right-hand-side are the same in both rules.</p>
      * @param candidate the candidate rule
      * @return true if the grammar contains an equivalent rule
      */
@@ -231,13 +388,22 @@ public class SourceGrammar extends Grammar {
                         Symbol symbol = rule.getRhs().get(pos);
                         Symbol csym = candidate.getRhs().get(pos);
                         if (symbol instanceof NonterminalSymbol) {
-                            if (csym instanceof NonterminalSymbol) {
-                                same = same && ((NonterminalSymbol) symbol).getName().equals(((NonterminalSymbol) csym).getName());
-                            } else {
-                                same = false;
+                            NonterminalSymbol ntsymbol = (NonterminalSymbol) symbol;
+                            same = csym instanceof NonterminalSymbol;
+                            if (same) {
+                                NonterminalSymbol ntcsym = (NonterminalSymbol) csym;
+                                same = ntsymbol.getName().equals(ntcsym.getName());
+                                if (same) {
+                                    Collection<ParserAttribute> a1 = ntsymbol.getAttributes();
+                                    Collection<ParserAttribute> a2 = ntcsym.getAttributes();
+                                    same = a1.equals(a2);
+                                }
                             }
                         } else {
-                            same = same && symbol.equals(csym);
+                            same = symbol.equals(csym);
+                        }
+                        if (!same) {
+                            break;
                         }
                     }
                     if (same) {

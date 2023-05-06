@@ -11,7 +11,8 @@ import java.util.Collection;
  * {@link ParserGrammar Grammar}.</p>
  */
 public class NonterminalSymbol extends Symbol {
-    private final String name;
+    /* package private */ final String name;
+    /* package private */ String realName;
     private final Grammar grammar;
 
     protected NonterminalSymbol(Grammar grammar, String name, Collection<ParserAttribute> attributes) {
@@ -23,6 +24,7 @@ public class NonterminalSymbol extends Symbol {
 
         this.grammar = grammar;
         this.name = name;
+        realName = name;
     }
 
     /**
@@ -30,7 +32,7 @@ public class NonterminalSymbol extends Symbol {
      * @return the name of the symbol.
      */
     public String getName() {
-        return name;
+        return realName;
     }
 
     /**
