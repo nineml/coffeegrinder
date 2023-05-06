@@ -6,6 +6,38 @@
 
 <revhistory>
 <revision>
+<revnumber>2.2.0</revnumber>
+<date>2023-05-06</date>
+<revdescription>
+<itemizedlist>
+<listitem>
+<para>CoffeeGrinder now carefully distinguishes between nonterminals
+with different attributes. This introduces new nonterminals into
+the grammar. These can be examined by calling
+<methodname>resolveDuplicates</methodname> on the
+<classname>SourceGrammar</classname>.</para>
+<para>If, for example, you have two instances of a nonterminal
+“B” in the grammar, where one has a mark attribute of “^” and the
+other a mark attribute of “@”, after resolving duplicates there
+will be two nonterminals in the grammar, “B” and “B₁”. They will
+match the same inputs, but is now possible to distinguish between
+them in the parse forest.</para>
+<para>One particular use for this feature is the priority attribute
+supported by CoffeeFilter. This attribute allows the grammar author
+to associate priorities with nonterminals in ambiguous grammars to
+guide the parse.</para>
+</listitem>
+<listitem>
+<para>All of the infrastructure associated with “pruning” nonterminals
+that lead to ε has been removed. (It hasn’t actually be used for at
+least a couple of releases.)
+</para>
+</listitem>
+</itemizedlist>
+</revdescription>
+
+</revision>
+<revision>
   <revnumber>2.1.0</revnumber>
   <date>2023-04-23</date>
   <revremark>Updated the API for choosing among alternatives to supply the immediate context.</revremark>
