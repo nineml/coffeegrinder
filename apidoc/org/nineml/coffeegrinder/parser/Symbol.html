@@ -27,8 +27,8 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":6,"i2":6};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
+var data = {"i0":6,"i1":6};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -190,25 +190,20 @@ extends <a href="../util/Decoratable.html" title="class in org.nineml.coffeegrin
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Abstract Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colSecond" scope="col">Method</th>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isPruneable()">isPruneable</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i1" class="rowColor">
 <td class="colFirst"><code>abstract boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#matches(org.nineml.coffeegrinder.parser.Symbol)">matches</a></span>&#8203;(<a href="Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>&nbsp;input)</code></th>
 <td class="colLast">
 <div class="block">Does this symbol match the specified symbol?</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>abstract boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#matches(org.nineml.coffeegrinder.tokens.Token)">matches</a></span>&#8203;(<a href="../tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;input)</code></th>
 <td class="colLast">
@@ -283,15 +278,6 @@ extends <a href="../util/Decoratable.html" title="class in org.nineml.coffeegrin
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="isPruneable()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>isPruneable</h4>
-<pre class="methodSignature">public final&nbsp;boolean&nbsp;isPruneable()</pre>
-</li>
-</ul>
 <a id="matches(org.nineml.coffeegrinder.tokens.Token)">
 <!--   -->
 </a>

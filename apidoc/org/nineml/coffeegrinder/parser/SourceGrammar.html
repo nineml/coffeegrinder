@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -316,6 +316,13 @@ extends <a href="Grammar.html" title="class in org.nineml.coffeegrinder.parser">
 </td>
 </tr>
 <tr id="i14" class="altColor">
+<td class="colFirst"><code><a href="SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resolveDuplicates()">resolveDuplicates</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Resolve duplicate symbols in the grammar.</div>
+</td>
+</tr>
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMetadataProperty(java.lang.String,java.lang.String)">setMetadataProperty</a></span>&#8203;(java.lang.String&nbsp;name,
                    java.lang.String&nbsp;value)</code></th>
@@ -623,6 +630,27 @@ extends <a href="Grammar.html" title="class in org.nineml.coffeegrinder.parser">
 </dl>
 </li>
 </ul>
+<a id="resolveDuplicates()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>resolveDuplicates</h4>
+<pre class="methodSignature">public&nbsp;<a href="SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a>&nbsp;resolveDuplicates()</pre>
+<div class="block">Resolve duplicate symbols in the grammar.
+
+ <p>This method may return a different SourceGrammar. In this new grammar, all of
+ the unique nonterminals will have unique names. (That is, if a nonterminal A occurs
+ twice in the grammar with different parser attributes, it will have two different names
+ in the resolved grammar.)</p>
+ <p>This method is public only so that it is possible to know what all of the
+ nonterminals in the parse grammar will be.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a grammar with duplicates resolved</dd>
+</dl>
+</li>
+</ul>
 <a id="getParserOptions()">
 <!--   -->
 </a>
@@ -662,7 +690,7 @@ extends <a href="Grammar.html" title="class in org.nineml.coffeegrinder.parser">
 <pre class="methodSignature">public&nbsp;boolean&nbsp;contains&#8203;(<a href="Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a>&nbsp;candidate)</pre>
 <div class="block">Does this grammar contain an equivalent rule?
  <p>Two rules are equivalent if they have the same symbol, the same list of right-hand-side
- symbols, and if the optionality of every symbol on the right-hand-side is the same in both rules.</p></div>
+ symbols, and if the attributes and optionality of every symbol on the right-hand-side are the same in both rules.</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>candidate</code> - the candidate rule</dd>

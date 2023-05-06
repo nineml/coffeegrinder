@@ -113,9 +113,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNodeGLL.html#addEdge(org.nineml.coffeegrinder.parser.ForestNodeGLL)">addEdge(ForestNodeGLL)</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNodeGLL.html" title="class in org.nineml.coffeegrinder.parser">ForestNodeGLL</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#addFamily(org.nineml.coffeegrinder.parser.ForestNode)">addFamily(ForestNode)</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#addFamily(org.nineml.coffeegrinder.parser.ForestNode,org.nineml.coffeegrinder.parser.ForestNode,org.nineml.coffeegrinder.parser.State)">addFamily(ForestNode, ForestNode, State)</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#addFamily(org.nineml.coffeegrinder.parser.ForestNode,org.nineml.coffeegrinder.parser.ForestNode)">addFamily(ForestNode, ForestNode)</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#addFamily(org.nineml.coffeegrinder.parser.ForestNode,org.nineml.coffeegrinder.parser.State)">addFamily(ForestNode, State)</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/SourceGrammar.html#addRule(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.List)">addRule(NonterminalSymbol, List&lt;Symbol&gt;)</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a></dt>
 <dd>
@@ -133,8 +133,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Get a new state with the position advanced by one</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/ParserAttribute.html#ALLOWED_TO_PRUNE">ALLOWED_TO_PRUNE</a></span> - Static variable in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/ParseException.html#attemptToContinueInvalidParse()">attemptToContinueInvalidParse()</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></dt>
 <dd>
 <div class="block">Raised if an attempt is made to continue after an invalid parse.</div>
@@ -711,10 +709,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/TreeBuilder.html#getEdgeCounts(org.nineml.coffeegrinder.parser.ForestNode)">getEdgeCounts(ForestNode)</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParserOptions.html#getExposePrunableNonterminals()">getExposePrunableNonterminals()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a></dt>
-<dd>
-<div class="block">Return prunable nonterminals in parse trees?</div>
-</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#getFamilies()">getFamilies()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/NodeChoices.html#getFamilies()">getFamilies()</a></span> - Method in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/NodeChoices.html" title="class in org.nineml.coffeegrinder.util">NodeChoices</a></dt>
@@ -764,6 +758,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#getLeftNode()">getLeftNode()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/RuleChoice.html#getLeftNode()">getLeftNode()</a></span> - Method in interface org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/RuleChoiceImpl.html#getLeftNode()">getLeftNode()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/RuleChoiceImpl.html" title="class in org.nineml.coffeegrinder.parser">RuleChoiceImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/gll/GllParser.html#getLineNumber()">getLineNumber()</a></span> - Method in class org.nineml.coffeegrinder.gll.<a href="org/nineml/coffeegrinder/gll/GllParser.html" title="class in org.nineml.coffeegrinder.gll">GllParser</a></dt>
 <dd>&nbsp;</dd>
@@ -949,11 +945,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/RuleChoice.html#getRightHandSide()">getRightHandSide()</a></span> - Method in interface org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/RuleChoiceImpl.html#getRightHandSide()">getRightHandSide()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/RuleChoiceImpl.html" title="class in org.nineml.coffeegrinder.parser">RuleChoiceImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Family.html#getRightNode()">getRightNode()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#getRightNode()">getRightNode()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/RuleChoice.html#getRightNode()">getRightNode()</a></span> - Method in interface org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/RuleChoiceImpl.html#getRightNode()">getRightNode()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/RuleChoiceImpl.html" title="class in org.nineml.coffeegrinder.parser">RuleChoiceImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParseForest.html#getRoots()">getRoots()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParseForest.html" title="class in org.nineml.coffeegrinder.parser">ParseForest</a></dt>
 <dd>
@@ -1008,6 +1008,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">The nonterminal symbol defined by this rule.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/RuleChoice.html#getSymbol()">getSymbol()</a></span> - Method in interface org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/RuleChoiceImpl.html#getSymbol()">getSymbol()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/RuleChoiceImpl.html" title="class in org.nineml.coffeegrinder.parser">RuleChoiceImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/State.html#getSymbol()">getSymbol()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/State.html" title="class in org.nineml.coffeegrinder.parser">State</a></dt>
 <dd>
@@ -1319,10 +1321,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Raised if an attempt is made to set an invalid option value.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/AttributeException.html#invalidPRUNING(java.lang.String)">invalidPRUNING(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></dt>
-<dd>
-<div class="block">Raised if an attempt is made to set an invalid pruning value.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/ForestException.html#ioError(java.lang.String,java.lang.Exception)">ioError(String, Exception)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/ForestException.html" title="class in org.nineml.coffeegrinder.exceptions">ForestException</a></dt>
 <dd>
 <div class="block">An I/O exception.</div>
@@ -1370,8 +1368,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Is a symbol nullable?</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/SourceGrammar.html#isNullable(org.nineml.coffeegrinder.parser.Symbol)">isNullable(Symbol)</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Symbol.html#isPruneable()">isPruneable()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/tokens/CharacterSet.html#isRange()">isRange()</a></span> - Method in class org.nineml.coffeegrinder.tokens.<a href="org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a></dt>
 <dd>
@@ -1657,8 +1653,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">A no-such-node exception.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/ParserAttribute.html#NOT_ALLOWED_TO_PRUNE">NOT_ALLOWED_TO_PRUNE</a></span> - Static variable in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/CompilerException.html#notAGrammar(java.lang.String)">notAGrammar(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/CompilerException.html" title="class in org.nineml.coffeegrinder.exceptions">CompilerException</a></dt>
 <dd>
 <div class="block">Raised if the compiled grammar is not in the correct namespace.</div>
@@ -1865,12 +1859,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParseForestGLL.html#prune()">prune()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParseForestGLL.html" title="class in org.nineml.coffeegrinder.parser">ParseForestGLL</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/ParserAttribute.html#PRUNING_ALLOWED">PRUNING_ALLOWED</a></span> - Static variable in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/ParserAttribute.html#PRUNING_FORBIDDEN">PRUNING_FORBIDDEN</a></span> - Static variable in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/ParserAttribute.html#PRUNING_NAME">PRUNING_NAME</a></span> - Static variable in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a></dt>
-<dd>&nbsp;</dd>
 </dl>
 <a id="I:Q">
 <!--   -->
@@ -1903,6 +1891,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/TreeBuilder.html#reset()">reset()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/SourceGrammar.html#resolveDuplicates()">resolveDuplicates()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a></dt>
+<dd>
+<div class="block">Resolve duplicate symbols in the grammar.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Rule.html#rhs">rhs</a></span> - Variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/State.html#rhs">rhs</a></span> - Variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/State.html" title="class in org.nineml.coffeegrinder.parser">State</a></dt>
@@ -1934,6 +1926,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Construct a new rule mapping the nonterminal to a sequence of symbols.</div>
 </dd>
 <dt><a href="org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser"><span class="typeNameLink">RuleChoice</span></a> - Interface in <a href="org/nineml/coffeegrinder/parser/package-summary.html">org.nineml.coffeegrinder.parser</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="org/nineml/coffeegrinder/parser/RuleChoiceImpl.html" title="class in org.nineml.coffeegrinder.parser"><span class="typeNameLink">RuleChoiceImpl</span></a> - Class in <a href="org/nineml/coffeegrinder/parser/package-summary.html">org.nineml.coffeegrinder.parser</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/RuleChoiceImpl.html#%3Cinit%3E(org.nineml.coffeegrinder.parser.Family)">RuleChoiceImpl(Family)</a></span> - Constructor for class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/RuleChoiceImpl.html" title="class in org.nineml.coffeegrinder.parser">RuleChoiceImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/RuleChoiceImpl.html#%3Cinit%3E(org.nineml.coffeegrinder.parser.Symbol,java.util.List,org.nineml.coffeegrinder.parser.ForestNode,org.nineml.coffeegrinder.parser.ForestNode)">RuleChoiceImpl(Symbol, List&lt;Symbol&gt;, ForestNode, ForestNode)</a></span> - Constructor for class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/RuleChoiceImpl.html" title="class in org.nineml.coffeegrinder.parser">RuleChoiceImpl</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <a id="I:S">
@@ -1982,10 +1980,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/nineml/logging/Logger.html#setDefaultLogLevel(java.lang.String)">setDefaultLogLevel(String)</a></span> - Method in class org.nineml.logging.<a href="org/nineml/logging/Logger.html" title="class in org.nineml.logging">Logger</a></dt>
 <dd>
 <div class="block">Set the default log level.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParserOptions.html#setExposePrunableNonterminals(boolean)">setExposePrunableNonterminals(boolean)</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a></dt>
-<dd>
-<div class="block">Set the <a href="org/nineml/coffeegrinder/parser/ParserOptions.html#getExposePrunableNonterminals()"><code>ParserOptions.getExposePrunableNonterminals()</code></a> property.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/State.html#setInstructionPointer(int)">setInstructionPointer(int)</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/State.html" title="class in org.nineml.coffeegrinder.parser">State</a></dt>
 <dd>&nbsp;</dd>
@@ -2094,6 +2088,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/TreeBuilder.html#startTree()">startTree()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/EarleyItem.html#state">state</a></span> - Variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/EarleyItem.html" title="class in org.nineml.coffeegrinder.parser">EarleyItem</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/Family.html#state">state</a></span> - Variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ForestNode.html#state">state</a></span> - Variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></dt>
 <dd>&nbsp;</dd>

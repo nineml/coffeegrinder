@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -193,83 +193,69 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getExposePrunableNonterminals()">getExposePrunableNonterminals</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Return prunable nonterminals in parse trees?</div>
-</td>
-</tr>
-<tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="../../logging/Logger.html" title="class in org.nineml.logging">Logger</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLogger()">getLogger</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The parser logger.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getParserType()">getParserType</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Return the default parser type.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPrefixParsing()">getPrefixParsing</a></span>()</code></th>
 <td class="colLast">
 <div class="block">If a parse fails, but some prefix of the input was successfully parsed, make that available.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getProgressMonitor()">getProgressMonitor</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The progress monitor.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getReturnChart()">getReturnChart</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Return the Earley chart even for a successful parse?</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setExposePrunableNonterminals(boolean)">setExposePrunableNonterminals</a></span>&#8203;(boolean&nbsp;exposePrunable)</code></th>
-<td class="colLast">
-<div class="block">Set the <a href="#getExposePrunableNonterminals()"><code>getExposePrunableNonterminals()</code></a> property.</div>
-</td>
-</tr>
-<tr id="i7" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLogger(org.nineml.logging.Logger)">setLogger</a></span>&#8203;(<a href="../../logging/Logger.html" title="class in org.nineml.logging">Logger</a>&nbsp;logger)</code></th>
 <td class="colLast">
 <div class="block">Set the logger.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setParserType(java.lang.String)">setParserType</a></span>&#8203;(java.lang.String&nbsp;parserType)</code></th>
 <td class="colLast">
 <div class="block">Set the default parser type.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPrefixParsing(boolean)">setPrefixParsing</a></span>&#8203;(boolean&nbsp;prefixParsing)</code></th>
 <td class="colLast">
 <div class="block">Set the <a href="#getPrefixParsing()"><code>getPrefixParsing()</code></a> property.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setProgressMonitor(org.nineml.coffeegrinder.parser.ProgressMonitor)">setProgressMonitor</a></span>&#8203;(<a href="ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser">ProgressMonitor</a>&nbsp;monitor)</code></th>
 <td class="colLast">
 <div class="block">Set the progress monitor.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setReturnChart(boolean)">setReturnChart</a></span>&#8203;(boolean&nbsp;returnChart)</code></th>
 <td class="colLast">
@@ -438,37 +424,6 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>prefixParsing</code> - prefix parsing?</dd>
-</dl>
-</li>
-</ul>
-<a id="getExposePrunableNonterminals()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getExposePrunableNonterminals</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;getExposePrunableNonterminals()</pre>
-<div class="block">Return prunable nonterminals in parse trees?
- <p>If true, prunable nonterminals will be returned. Depending on how your grammar is
- defined, this may lead to much larger memory allocation when extracting trees from
- the forest.</p></div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>true if prunable nonterminals will be in parse trees.</dd>
-</dl>
-</li>
-</ul>
-<a id="setExposePrunableNonterminals(boolean)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setExposePrunableNonterminals</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;setExposePrunableNonterminals&#8203;(boolean&nbsp;exposePrunable)</pre>
-<div class="block">Set the <a href="#getExposePrunableNonterminals()"><code>getExposePrunableNonterminals()</code></a> property.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>exposePrunable</code> - expose prunable nonterminals?</dd>
 </dl>
 </li>
 </ul>
