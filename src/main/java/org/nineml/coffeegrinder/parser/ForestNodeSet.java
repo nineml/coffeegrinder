@@ -48,16 +48,6 @@ public class ForestNodeSet {
         return get(state, j, i) != null;
     }
 
-    protected ForestNode conditionallyCreateNode(Symbol symbol, int j, int i) {
-        ForestNode node = get(symbol, j, i);
-        if (node == null) {
-            long ji = ((long) j << 32) + i;
-            node = graph.createNode(symbol, j, i);
-            forestSymbolMap.get(symbol).put(ji, node);
-        }
-        return node;
-    }
-
     protected ForestNode conditionallyCreateNode(Symbol symbol, State state, int j, int i) {
         ForestNode node = get(symbol, j, i);
         if (node == null) {

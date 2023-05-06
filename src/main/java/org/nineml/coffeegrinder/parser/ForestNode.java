@@ -187,7 +187,7 @@ public class ForestNode implements RuleChoice {
 
         for (Family family : families) {
             if (family.w != null) {
-                // Never trim w
+                // Never remove w
                 family.w.trimEpsilon();
             }
 

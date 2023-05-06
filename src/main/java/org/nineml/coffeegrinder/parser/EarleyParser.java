@@ -61,8 +61,8 @@ public class EarleyParser implements GearleyParser {
         }
 
         // If there are any nulled symbols that don't have an epsilon rule, add one
-        // (Since I rewrote Grammar.expandOptionalSymbols in May, 2022, I don't
-        // think this condition ever applies anymore.
+        // (Since I rewrote Grammar.expandOptionalSymbols in May 2022, I don't
+        // think this condition ever applies anymore.)
         for (NonterminalSymbol symbol : Rho.keySet()) {
             if (grammar.isNullable(symbol) && !nulled.contains(symbol)) {
                 Rho.get(symbol).add(new Rule(symbol));
