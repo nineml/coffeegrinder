@@ -38,7 +38,7 @@ public class PrintStreamTreeBuilder extends PriorityTreeBuilder {
             stream.printf("%s%s%s", indent, sb, nl);
             sb = null;
         }
-        stream.printf("%s<%s", indent, symbol);
+        stream.printf("%s<%s", indent, symbol.getName());
         for (String name : attributes.keySet()) {
             if (!"name".equals(name)) {
                 stream.printf(" %s=\"%s\"", name, attributes.get(name));
@@ -56,7 +56,7 @@ public class PrintStreamTreeBuilder extends PriorityTreeBuilder {
             sb = null;
         }
         indent = indent.substring(tab.length());
-        stream.printf("%s</%s>%s", indent, symbol, nl);
+        stream.printf("%s</%s>%s", indent, symbol.getName(), nl);
     }
 
     @Override
