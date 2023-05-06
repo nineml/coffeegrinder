@@ -10,19 +10,22 @@ public class Family implements RuleChoice {
     // if v is null, this family represents epsilon
     public ForestNode v;
     public ForestNode w;
+    public final State state;
     private Symbol[] combinedRHS = null;
 
-    protected Family(ForestNode v) {
+    protected Family(ForestNode v, State state) {
         this.v = v;
         this.w = null;
+        this.state = state;
     }
 
-    protected Family(ForestNode w, ForestNode v) {
+    protected Family(ForestNode w, ForestNode v, State state) {
         if (w == null) {
             throw ParseException.internalError("Attempt to create family with null 'w'");
         }
         this.w = w;
         this.v = v;
+        this.state = state;
     }
 
     @Override

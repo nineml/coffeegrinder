@@ -33,11 +33,6 @@ public abstract class Symbol extends Decoratable {
         super(attributes);
     }
 
-    public final boolean isPruneable() {
-        return ParserAttribute.ALLOWED_TO_PRUNE.equals(getAttributeValue(ParserAttribute.PRUNING_NAME,
-                ParserAttribute.NOT_ALLOWED_TO_PRUNE));
-    }
-
     /**
      * Does this symbol match the specified token?
      * <p>This is very like equality, but consider that for some kinds of symbols (for example, tokens

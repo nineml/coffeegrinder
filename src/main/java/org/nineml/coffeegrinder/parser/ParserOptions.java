@@ -14,7 +14,6 @@ public class ParserOptions {
     private String parserType = "Earley";
     private boolean returnChart = false;
     private boolean prefixParsing = false;
-    private boolean exposePrunableNonterminals = false;
     private ProgressMonitor monitor = null;
 
     /**
@@ -53,7 +52,6 @@ public class ParserOptions {
         parserType = copy.parserType;
         returnChart = copy.returnChart;
         prefixParsing = copy.prefixParsing;
-        exposePrunableNonterminals = copy.exposePrunableNonterminals;
         monitor = copy.monitor;
     }
 
@@ -122,17 +120,6 @@ public class ParserOptions {
      *
      * @return true if prunable nonterminals will be in parse trees.
      */
-    public boolean getExposePrunableNonterminals() {
-        return exposePrunableNonterminals;
-    }
-
-    /**
-     * Set the {@link #getExposePrunableNonterminals()} property.
-     * @param exposePrunable expose prunable nonterminals?
-     */
-    public void setExposePrunableNonterminals(boolean exposePrunable) {
-        this.exposePrunableNonterminals = exposePrunable;
-    }
 
     /**
      * The parser logger.

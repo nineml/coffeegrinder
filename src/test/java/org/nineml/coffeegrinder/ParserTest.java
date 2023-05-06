@@ -314,7 +314,6 @@ public class ParserTest {
         NonterminalSymbol _letter = grammar.getNonterminal("letter");
 
         ArrayList<ParserAttribute> atts = new ArrayList<>();
-        atts.add(ParserAttribute.PRUNING_ALLOWED);
 
         NonterminalSymbol _letterOrNumber = grammar.getNonterminal("letterOrNumber", atts);
         NonterminalSymbol _number = grammar.getNonterminal("number");

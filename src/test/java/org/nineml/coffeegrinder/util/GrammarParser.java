@@ -48,11 +48,7 @@ public class GrammarParser {
                 if (nts.startsWith("-") || nts.startsWith("^") || nts.startsWith("@")) {
                     nts = nts.substring(1);
                 }
-                if (nts.startsWith("_")) {
-                    nonterminal = grammar.getNonterminal(nts, ParserAttribute.PRUNING_ALLOWED);
-                } else {
-                    nonterminal = grammar.getNonterminal(nts);
-                }
+                nonterminal = grammar.getNonterminal(nts);
                 rest = line.substring(pos+2).trim();
             } else {
                 throw new RuntimeException("Unparseable: " + line);
@@ -91,9 +87,6 @@ public class GrammarParser {
             Matcher match = rnt.matcher(line);
             if (match.matches()) {
                 ArrayList<ParserAttribute> attrs = new ArrayList<>();
-                if (match.group(1).startsWith("_")) {
-                    attrs.add(ParserAttribute.PRUNING_ALLOWED);
-                }
                 symbol = grammar.getNonterminal(match.group(1), attrs);
                 tokens.add(symbol);
                 line = match.group(3);

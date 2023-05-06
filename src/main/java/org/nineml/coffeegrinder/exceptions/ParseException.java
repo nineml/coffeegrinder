@@ -66,6 +66,7 @@ public class ParseException extends CoffeeGrinderException {
      * <p>The GLL parser can only parse characters, this exception is raised if it is used to
      * parse a sequence of string tokens.</p>
      *
+     * @param message a detail message
      * @return a ParseException
      */
     public static ParseException invalidInput(String message) { return getException("P004", message); }

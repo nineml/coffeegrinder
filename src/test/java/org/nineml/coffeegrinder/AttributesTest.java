@@ -7,6 +7,7 @@ import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenString;
 import org.nineml.coffeegrinder.util.GrammarParser;
 import org.nineml.coffeegrinder.util.Iterators;
+import org.nineml.coffeegrinder.util.NopTreeBuilder;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.ArrayList;
@@ -91,5 +92,35 @@ public class AttributesTest {
         GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("start"));
         GearleyResult result = parser.parse(Iterators.characterIterator("ab"));
         Assert.assertTrue(result.succeeded());
+    }
+
+    @Test
+    public void testRHSAttributes() {
+        SourceGrammar grammar = new SourceGrammar();
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _B0 = grammar.getNonterminal("B", new ParserAttribute("N", "0"));
+        NonterminalSymbol _B1 = grammar.getNonterminal("B", new ParserAttribute("N", "1"));
+        NonterminalSymbol _B2 = grammar.getNonterminal("B", new ParserAttribute("N", "2"));
+        NonterminalSymbol _C = grammar.getNonterminal("C");
+        NonterminalSymbol _D = grammar.getNonterminal("D");
+
+        grammar.addRule(_S, _A, _B1, _C);
+        grammar.addRule(_S, _A, _B2, _D);
+        grammar.addRule(_A, TerminalSymbol.ch('a'));
+        grammar.addRule(_B0, TerminalSymbol.ch('b'));
+        grammar.addRule(_B1, TerminalSymbol.ch('b'));
+        grammar.addRule(_B2, TerminalSymbol.ch('b'));
+        grammar.addRule(_C, TerminalSymbol.ch('c'));
+        grammar.addRule(_D, TerminalSymbol.ch('c'));
+
+        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyResult result = parser.parse(Iterators.characterIterator("abc"));
+        Assert.assertTrue(result.succeeded());
+
+        TreeBuilder builder = new NopTreeBuilder();
+        result.getTree(builder);
+        Assert.assertEquals(2, builder.getRevealedParses());
     }
 }

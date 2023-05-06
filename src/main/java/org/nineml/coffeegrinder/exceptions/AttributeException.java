@@ -44,13 +44,6 @@ public class AttributeException extends CoffeeGrinderException {
     public static AttributeException invalidOPTIONAL(String value) { return getException("A001", value); }
 
     /**
-     * Raised if an attempt is made to set an invalid pruning value.
-     * @param value the value.
-     * @return an AttributeException.
-     */
-    public static AttributeException invalidPRUNING(String value) { return getException("A002", value); }
-
-    /**
      * Raised if an attempt is made to modify an existing attribute.
      * @param name the attribute name.
      * @param value the value.

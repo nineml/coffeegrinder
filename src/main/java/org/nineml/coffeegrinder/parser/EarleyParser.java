@@ -61,8 +61,8 @@ public class EarleyParser implements GearleyParser {
         }
 
         // If there are any nulled symbols that don't have an epsilon rule, add one
-        // (Since I rewrote Grammar.expandOptionalSymbols in May, 2022, I don't
-        // think this condition ever applies anymore.
+        // (Since I rewrote Grammar.expandOptionalSymbols in May 2022, I don't
+        // think this condition ever applies anymore.)
         for (NonterminalSymbol symbol : Rho.keySet()) {
             if (grammar.isNullable(symbol) && !nulled.contains(symbol)) {
                 Rho.get(symbol).add(new Rule(symbol));
@@ -328,7 +328,7 @@ public class EarleyParser implements GearleyParser {
                     NonterminalSymbol D = Lambda.state.getSymbol();
                     if (w == null) {
                         w = V.conditionallyCreateNode(D, Lambda.state, i, i);
-                        w.addFamily(null);
+                        w.addFamily(null, Lambda.state);
                     }
                     if (h == i) {
                         H.add(new Hitem(D, w));
@@ -588,9 +588,9 @@ public class EarleyParser implements GearleyParser {
             Symbol s = B.getSymbol();
             y = V.conditionallyCreateNode(s, B, j, i);
             if (w == null) {
-                y.addFamily(v);
+                y.addFamily(v, B);
             } else {
-                y.addFamily(w, v);
+                y.addFamily(w, v, B);
             }
         } else {
             State s = B;
@@ -599,9 +599,9 @@ public class EarleyParser implements GearleyParser {
             } else {
                 y = V.conditionallyCreateNode(s, j, i);
                 if (w == null) {
-                    y.addFamily(v);
+                    y.addFamily(v, B);
                 } else {
-                    y.addFamily(w, v);
+                    y.addFamily(w, v, B);
                 }
             }
         }

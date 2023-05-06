@@ -96,7 +96,7 @@ public class ForestNode implements RuleChoice {
         return loops;
     }
 
-    public void addFamily(ForestNode v) {
+    public void addFamily(ForestNode v, State state) {
         for (Family family : families) {
             if (family.w == null) {
                 if ((v == null && family.v == null) || (v != null && v.equals(family.v))) {
@@ -105,10 +105,10 @@ public class ForestNode implements RuleChoice {
             }
         }
 
-        families.add(new Family(v));
+        families.add(new Family(v, state));
     }
 
-    public void addFamily(ForestNode w, ForestNode v) {
+    public void addFamily(ForestNode w, ForestNode v, State state) {
         for (Family family : families) {
             if (((v == null && family.v == null) || (v != null && v.equals(family.v)))
                     && ((w == null && family.w == null) || (w != null && w.equals(family.w)))) {
@@ -116,7 +116,7 @@ public class ForestNode implements RuleChoice {
             }
         }
 
-        families.add(new Family(w, v));
+        families.add(new Family(w, v, state));
     }
 
     protected void reach() {
@@ -162,105 +162,6 @@ public class ForestNode implements RuleChoice {
                 }
             }
         }
-    }
-
-    // Remove discardable nodes that lead only to ε
-    protected boolean trimEpsilon() {
-        //if (true) { return false; }
-        if (nodeHash != null) {
-            return false;
-        }
-
-        if (families.isEmpty()) {
-            nodeHash = getSymbol().hashCode();
-            return false;
-        }
-
-        nodeHash = 0; // mark that we've seen this one, even though we'll recompute this later
-
-        for (Family family : families) {
-            if ((family.w != null && family.w.nodeHash != null)
-                || (family.v != null && family.v.nodeHash != null)) {
-                loops.add(family);
-            }
-        }
-
-        for (Family family : families) {
-            if (family.w != null) {
-                // Never trim w
-                family.w.trimEpsilon();
-            }
-
-            if (family.v != null) {
-                if (family.v.trimEpsilon()) {
-                    if (family.w == null) {
-                        graph.graph.remove(family.v);
-                        family.v = null;
-                    }
-                }
-            }
-        }
-
-        if (getSymbol() == null) {
-            nodeHash = getState().hashCode();
-        } else {
-            nodeHash = getSymbol().hashCode();
-        }
-
-        for (Family family : families) {
-            if (family.w != null) {
-                nodeHash += 7 * family.w.nodeHash;
-            }
-            if (family.v != null) {
-                nodeHash += 3 * family.v.nodeHash;
-            }
-        }
-
-        ArrayList<Family> newFamilies = new ArrayList<>();
-        for (Family family : families) {
-            boolean found = false;
-            for (Family newfam : newFamilies) {
-                found = true;
-
-                if (newfam.w != family.w) {
-                    if ((newfam.w == null || family.w == null)) {
-                        found = false;
-                    } else {
-                        found = newfam.w.nodeHash.equals(family.w.nodeHash);
-                    }
-                }
-
-                if (newfam.v != family.v) {
-                    if ((newfam.v == null || family.v == null)) {
-                        found = false;
-                    } else {
-                        found = found && newfam.v.nodeHash.equals(family.v.nodeHash);
-                    }
-                }
-            }
-            if (!found) {
-                newFamilies.add(family);
-            }
-        }
-
-        families.clear();
-        families.addAll(newFamilies);
-
-        if (getSymbol() == null) {
-            return false;
-        }
-
-        ParserAttribute pclass = getSymbol().getAttribute(ParserAttribute.PRUNING_NAME);
-        if (pclass == null || pclass.getValue().equals(ParserAttribute.PRUNING_FORBIDDEN.getValue())) {
-            return false;
-        }
-
-        if (families.size() == 1) {
-            Family family = families.get(0);
-            return family.w == null && family.v == null;
-        }
-
-        return false;
     }
 
     @Override
