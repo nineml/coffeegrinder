@@ -6,6 +6,15 @@
 
 <revhistory>
 <revision>
+<revnumber>2.2.1</revnumber>
+<date>2023-05-17</date>
+<revdescription>
+<para>Fixed a small bug in the presentation of alternative parses when
+there is ambiguity. Nonterminal symbols in the alternative choices did
+not necessarily have the correct attributes.</para>
+</revdescription>
+</revision>
+<revision>
 <revnumber>2.2.0</revnumber>
 <date>2023-05-06</date>
 <revdescription>
