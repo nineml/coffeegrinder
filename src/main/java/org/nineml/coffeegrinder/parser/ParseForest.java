@@ -224,7 +224,7 @@ public class ParseForest {
                     ArrayList<RuleChoice> choices = new ArrayList<>();
                     for (Family fam : families) {
                         if (tree.getSymbol() == null || tree.getSymbol().equals(fam.state.getSymbol())) {
-                            final ForestNode c0, c1;
+                            ForestNode c0, c1;
                             if (fam.w == null) {
                                 c0 = fam.v;
                                 c1 = null;
@@ -263,8 +263,12 @@ public class ParseForest {
                             for (int pos = 0; pos < fam.state.getRhs().length; pos++) {
                                 if (pos == c0pos) {
                                     rhs.add(c0symbol);
+                                    // And patch c0...
+                                    c0 = new ForestNode(c0.graph, c0symbol, c0.leftExtent, c0.rightExtent);
                                 } else if (pos == c1pos) {
                                     rhs.add(c1symbol);
+                                    // And patch c1...
+                                    c1 = new ForestNode(c1.graph, c1symbol, c1.leftExtent, c1.rightExtent);
                                 } else {
                                     rhs.add(fam.state.getRhs().get(pos));
                                 }
