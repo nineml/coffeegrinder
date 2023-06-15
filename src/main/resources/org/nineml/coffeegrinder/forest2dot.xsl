@@ -10,47 +10,50 @@
 
 <xsl:param name="label-color" select="'none'"/>
 <xsl:param name="show-states" select="'false'"/>
-<xsl:param name="show-hashes" select="'false'"/>
+<xsl:param name="elide-root" select="'false'"/>
+<xsl:param name="rankdir" select="'TB'"/>
+<xsl:param name="terminal-shape" select="'house'"/>
+<xsl:param name="subgraph-color" select="'white'"/>
 
 <xsl:template match="sppf">
   <xsl:text>digraph SPPF {{&#10;</xsl:text>
-  <xsl:apply-templates/>
+  <xsl:text>rankdir={$rankdir}&#10;</xsl:text>
+  <xsl:apply-templates select="*[$elide-root = 'false' or not(@label = '$$')]"/>
   <xsl:text>}}&#10;</xsl:text>
 </xsl:template>
 
 <xsl:template match="sppf/*">
   <xsl:text>subgraph cluster_{@id/string()} {{&#10;</xsl:text>
-  <xsl:text>style=filled; color=white;&#10;</xsl:text>
+  <xsl:text>style="filled"; color="{$subgraph-color}";&#10;</xsl:text>
 
   <xsl:if test="$label-color != 'none'">
-    <xsl:text>label={local-name(.)}&#10;</xsl:text>;
-    <xsl:text>fontsize="10pt"; fontcolor={$label-color}&#10;</xsl:text>;
+    <xsl:text>label={local-name(.)}; </xsl:text>
+    <xsl:text>fontsize="10pt"; fontcolor={$label-color}&#10;</xsl:text>
   </xsl:if>
 
   <xsl:variable name="shape"
                 select="if (@type = 'state')
                         then 'box'
                         else if (@type = 'terminal')
-                             then 'house'
+                             then $terminal-shape
                              else 'oval'"/>
 
   <xsl:variable name="label" as="xs:string+">
     <xsl:sequence select="replace(replace(@label, '\\', '\\\\'), '&quot;', '\\&quot;')"/>
-    <xsl:if test="@type != 'state' and $show-states != 'false'">
+    <xsl:if test="@type = 'nonterminal' and $show-states != 'false'">
       <xsl:sequence select="replace(replace(@state, '\\', '\\\\'), '&quot;', '\\&quot;')"/>
     </xsl:if>
     
-    <!-- house is always a single terminal -->
-    <xsl:if test="$shape != 'house' and @leftExtent and @rightExtent">
+    <xsl:if test="@type = 'terminal' and @leftExtent and @rightExtent">
       <xsl:variable name="left" select="xs:integer(@leftExtent)"/>
       <xsl:variable name="right" select="xs:integer(@rightExtent)"/>
       <xsl:variable name="extent" as="xs:string">
         <xsl:choose>
           <xsl:when test="$left != $right and $left + 1 != $right">
-            <xsl:sequence select="$left || ' – ' || $right"/>
+            <xsl:sequence select="$left+1 || ' – ' || $right+1"/>
           </xsl:when>
           <xsl:when test="$left + 1 = $right">
-            <xsl:sequence select="$left || ' – ' || $right"/>
+            <xsl:sequence select="string($left+1)"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:sequence select="'ε'"/>
@@ -65,16 +68,13 @@
 
       <xsl:sequence select="'« ' || $extent || ' »' || $ambig"/>
     </xsl:if>
-
-    <xsl:if test="$show-hashes = 'true'">
-      <xsl:sequence select="@hash/string()"/>
-    </xsl:if>
   </xsl:variable>
 
   <xsl:variable name="style"
-                select="if ($shape = 'box') then 'style=rounded' else ''"/>
+                select="if (@type = 'state') then 'style=rounded' else ''"/>
 
-  <xsl:text>node{@id/string()} [ label="{string-join($label, '&#10;')}" shape={$shape} {$style} ]&#10;</xsl:text>
+  <xsl:text>node{@id/string()} [ label="{string-join($label, '&#10;')}" </xsl:text>
+  <xsl:text>shape={$shape} {$style} ]&#10;</xsl:text>
   <xsl:apply-templates/>
   <xsl:text>}}&#10;</xsl:text>
 </xsl:template>
