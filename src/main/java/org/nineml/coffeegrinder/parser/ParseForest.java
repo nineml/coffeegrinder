@@ -444,7 +444,6 @@ public class ParseForest {
         int count = 0;
         for (ForestNode node : graph) {
             stream.printf("  <u%d id='%s'", count, id(node.hashCode()));
-            stream.printf(" hash='%d'", node.nodeHash);
 
             String symstr = null;
             String stastr = null;

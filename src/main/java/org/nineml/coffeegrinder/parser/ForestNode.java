@@ -36,7 +36,6 @@ public class ForestNode implements RuleChoice {
     protected final ArrayList<Family> families = new ArrayList<>();
     protected final ArrayList<Family> loops = new ArrayList<>();
     protected boolean reachable = false;
-    protected Integer nodeHash = null;
 
     protected ForestNode(ParseForest graph, Symbol symbol, int leftExtent, int rightExtent) {
         this.graph = graph;
