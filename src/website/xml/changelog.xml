@@ -6,6 +6,17 @@
 
 <revhistory>
 <revision>
+<revnumber>2.2.2</revnumber>
+<date>2023-06-15</date>
+<revdescription>
+<para>Small tweaks to the stylesheet that generates GraphViz DOT output from parse forests.
+Added options to suppress the <literal>$$</literal> root, set the rank direction, set the
+shape of terminals, and set the color of subgraphs. Removed the node hash field; it is no
+longer used.</para>
+</revdescription>
+</revision>
+
+<revision>
 <revnumber>2.2.1</revnumber>
 <date>2023-05-17</date>
 <revdescription>
