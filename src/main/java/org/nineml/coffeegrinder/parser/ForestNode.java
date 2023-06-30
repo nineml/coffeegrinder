@@ -13,9 +13,10 @@ import java.util.Objects;
  * <p>When walking the graph, for example to extract parses, these nodes represent what's
  * available in the graph.</p>
  */
-public class ForestNode implements RuleChoice {
+public class ForestNode {
     public static final String logcategory = "ForestNode";
-
+    public static final String PRIORITY_ATTRIBUTE = "https://coffeegrinder.nineml.org/attr/priority";
+    private final TreeInfo emptyTree = new TreeInfo(0, 1);
     private static int nextNodeId = 0;
 
     protected final ParseForest graph;
@@ -34,8 +35,9 @@ public class ForestNode implements RuleChoice {
      */
     public final int id;
     protected final ArrayList<Family> families = new ArrayList<>();
-    protected final ArrayList<Family> loops = new ArrayList<>();
-    protected boolean reachable = false;
+    protected int priority = 0;
+
+    protected int reachable = 0;
 
     protected ForestNode(ParseForest graph, Symbol symbol, int leftExtent, int rightExtent) {
         this.graph = graph;
@@ -67,6 +69,13 @@ public class ForestNode implements RuleChoice {
     }
 
     /**
+     * Returns the priority style.
+     */
+    protected String getPriorityStyle() {
+        return graph.getOptions().getPriorityStyle();
+    }
+
+    /**
      * What symbol does this node represent?
      * <p>There are nodes for terminal and nonterminal symbols as well as intermediate nodes
      * representing partial parses of a rule.</p>
@@ -89,10 +98,6 @@ public class ForestNode implements RuleChoice {
 
     public List<Family> getFamilies() {
         return families;
-    }
-
-    public List<Family> getLoops() {
-        return loops;
     }
 
     public void addFamily(ForestNode v, State state) {
@@ -118,57 +123,88 @@ public class ForestNode implements RuleChoice {
         families.add(new Family(w, v, state));
     }
 
-    protected void reach() {
-        // Don't try to use the stack for this...
-        ArrayList<ForestNode> pending = new ArrayList<>();
-        HashSet<ForestNode> seen = new HashSet<>();
-        pending.add(this);
-        while (!pending.isEmpty()) {
-            ForestNode check = pending.remove(0);
-            check.reach(pending, seen);
-        }
+    protected void reach(int roots) {
+        TreeInfo info = treewalk(roots, new HashSet<> ());
+        graph.parseTreeCount = info.trees;
     }
 
-    protected void reach(ArrayList<ForestNode> pending, HashSet<ForestNode> seen) {
-        if (seen.contains(this)) {
-            return;
-        }
-        seen.add(this);
+    private TreeInfo treewalk(int choiceCount, HashSet<ForestNode> ancestors) {
+        reachable++;
 
-        if (!reachable) {
-            reachable = true;
+        int value = 0;
+        boolean assignedPriority = false;
+        if (getSymbol() != null) {
+            ParserAttribute pattr = getSymbol().getAttribute(PRIORITY_ATTRIBUTE);
+            if (pattr != null) {
+                try {
+                    value = Integer.parseInt(pattr.getValue());
+                    assignedPriority = true;
 
-            for (Family family : families) {
-                if (family.v != null && family.w != null) {
-                    // If the left and right sides cover overlapping regions, then there must be
-                    // ambiguity in the parse. (I wish I'd kept track of the test case that
-                    // persuaded me this was possible.)
-                    if ((family.v.leftExtent == family.v.rightExtent) || (family.w.leftExtent == family.w.rightExtent)) {
-                        // If one side is an epsilon transition, that doesn't count as overlap
-                    } else {
-                        if ((family.v.leftExtent == family.w.leftExtent || family.v.rightExtent == family.w.rightExtent)) {
-                            graph.options.getLogger().debug(logcategory, "Ambiguity detected; overlap: %d,%d :: %d,%d", family.v.leftExtent, family.v.rightExtent, family.w.leftExtent, family.w.rightExtent);
-                        }
+                    if (value < 0) {
+                        graph.getOptions().getLogger().error(logcategory, "Invalid priority: %s (must be non-negative)",
+                                pattr.getValue());
+                        value = 0;
                     }
-                }
-                if (family.v != null) {
-                    pending.add(family.v);
-                    //family.v.reach(seen);
-                }
-                if (family.w != null) {
-                    pending.add(family.w);
-                    //family.w.reach(seen);
+                } catch (NumberFormatException ex) {
+                    graph.getOptions().getLogger().error(logcategory, "Invalid priority: %s (must be an integer)",
+                            pattr.getValue());
                 }
             }
         }
+
+        int treeCount = 0;
+        ancestors.add(this);
+        if (!families.isEmpty()) {
+            if (families.size() > 1) {
+                graph.ambiguous = true;
+                if (!graph.ambiguousNodes.contains(this)) {
+                    graph.ambiguousNodes.add(this);
+                }
+            }
+
+            for (Family family : families) {
+                TreeInfo left = emptyTree;
+                TreeInfo right = emptyTree;
+
+                if (ancestors.contains(family.v) || ancestors.contains(family.w)) {
+                    graph.ambiguous = true;
+                    graph.infinitelyAmbiguous = true;
+                }
+
+                if (family.v != null && !ancestors.contains(family.v)) {
+                    left = family.v.treewalk(choiceCount * families.size(), ancestors);
+                    family.v.priority = left.priority;
+                    //System.err.printf("V %s %d%n", family.v, family.v.priority);
+                }
+
+                if (family.w != null && !ancestors.contains(family.w)) {
+                    right = family.w.treewalk(choiceCount * families.size(), ancestors);
+                    family.w.priority = right.priority;
+                    //System.err.printf("W %s %d%n", family.w, family.w.priority);
+                }
+
+                if ("max".equals(getPriorityStyle())) {
+                    if (!assignedPriority) {
+                        value = Math.max(value, Math.max(left.priority, right.priority));
+                    }
+                } else {
+                    value += (left.priority + right.priority);
+                }
+
+                treeCount += left.trees * right.trees;
+            }
+        }
+
+        //System.err.printf("C %s %d%n", current, value);
+        priority = value;
+        ancestors.remove(this);
+        return new TreeInfo(value, Math.max(treeCount, 1));
     }
 
-    @Override
     public ForestNode getLeftNode() {
         return null;
     }
 
-    @Override
     public ForestNode getRightNode() {
         return this;
     }
@@ -179,6 +215,10 @@ public class ForestNode implements RuleChoice {
         } else {
             return null;
         }
+    }
+
+    public int getPriority() {
+        return priority;
     }
 
     @Override
@@ -214,4 +254,18 @@ public class ForestNode implements RuleChoice {
             return symbol + ", " + leftExtent + ", " + rightExtent;
         }
     }
+
+    private class TreeInfo {
+        public final int priority;
+        public final int trees;
+        public TreeInfo(int priority, int trees) {
+            this.priority = priority;
+            this.trees = trees;
+        }
+        @Override
+        public String toString() {
+            return String.format("%d / %d", priority, trees);
+        }
+    }
+
 }

@@ -5,10 +5,10 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.TokenRegex;
-import org.nineml.coffeegrinder.util.GrammarCompiler;
 import org.nineml.coffeegrinder.util.Iterators;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import static org.junit.Assert.fail;
 
@@ -34,12 +34,39 @@ public class FailedParseTest {
         Assert.assertEquals("-", result.getLastToken().getValue());
     }
 
+    private TerminalSymbol[] stringToChars(String str) {
+        ArrayList<TerminalSymbol> symbols = new ArrayList<>();
+        for (int offset = 0; offset < str.length(); ) {
+            int codepoint = str.codePointAt(offset);
+            symbols.add(TerminalSymbol.ch((char) codepoint));
+            offset += Character.charCount(codepoint);
+        }
+        return symbols.toArray(new TerminalSymbol[0]);
+    }
+
+    private SourceGrammar monthsGrammar() {
+        SourceGrammar grammar = new SourceGrammar(options);
+        NonterminalSymbol _month = grammar.getNonterminal("month");
+        grammar.addRule(_month, stringToChars("January"));
+        grammar.addRule(_month, stringToChars("February"));
+        grammar.addRule(_month, stringToChars("March"));
+        grammar.addRule(_month, stringToChars("April"));
+        grammar.addRule(_month, stringToChars("May"));
+        grammar.addRule(_month, stringToChars("June"));
+        grammar.addRule(_month, stringToChars("July"));
+        grammar.addRule(_month, stringToChars("August"));
+        grammar.addRule(_month, stringToChars("September"));
+        grammar.addRule(_month, stringToChars("October"));
+        grammar.addRule(_month, stringToChars("November"));
+        grammar.addRule(_month, stringToChars("December"));
+        return grammar;
+    }
+
     @Test
     public void testMonths_March() {
         try {
-            GrammarCompiler compiler = new GrammarCompiler();
-            SourceGrammar grammar = compiler.parse(new File("src/test/resources/month.cxml"));
-            NonterminalSymbol start = grammar.getNonterminal("$$");
+            SourceGrammar grammar = monthsGrammar();
+            NonterminalSymbol start = grammar.getNonterminal("month");
             GearleyParser parser = grammar.getParser(options, start);
             GearleyResult result = parser.parse("March");
             Assertions.assertTrue(result.succeeded());
@@ -56,9 +83,8 @@ public class FailedParseTest {
     @Test
     public void testMonths_Max() {
         try {
-            GrammarCompiler compiler = new GrammarCompiler();
-            SourceGrammar grammar = compiler.parse(new File("src/test/resources/month.cxml"));
-            NonterminalSymbol start = grammar.getNonterminal("$$");
+            SourceGrammar grammar = monthsGrammar();
+            NonterminalSymbol start = grammar.getNonterminal("month");
             GearleyParser parser = grammar.getParser(options, start);
             GearleyResult result = parser.parse("Max");
             Assertions.assertFalse(result.succeeded());
@@ -78,9 +104,8 @@ public class FailedParseTest {
     @Test
     public void testMonths_Marsh() {
         try {
-            GrammarCompiler compiler = new GrammarCompiler();
-            SourceGrammar grammar = compiler.parse(new File("src/test/resources/month.cxml"));
-            NonterminalSymbol start = grammar.getNonterminal("$$");
+            SourceGrammar grammar = monthsGrammar();
+            NonterminalSymbol start = grammar.getNonterminal("month");
             GearleyParser parser = grammar.getParser(options, start);
             GearleyResult result = parser.parse("Marsh");
             Assertions.assertFalse(result.succeeded());

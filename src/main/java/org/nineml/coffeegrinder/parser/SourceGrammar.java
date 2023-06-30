@@ -90,7 +90,7 @@ public class SourceGrammar extends Grammar {
      * @throws NullPointerException if the name is null.
      * @throws GrammarException if the symbol already exists and attributes are different
      */
-    public NonterminalSymbol getNonterminal(String name, Collection<ParserAttribute> attributes) {
+    public NonterminalSymbol getNonterminal(String name, List<ParserAttribute> attributes) {
         options.getLogger().trace(logcategory, "Creating nonterminal %s for grammar %d", name, id);
         return new NonterminalSymbol(this, name, attributes);
     }
@@ -217,7 +217,7 @@ public class SourceGrammar extends Grammar {
         // Two nonterminals are .equals() to each other if they have the same name. But here,
         // we need to consider whether they have the same attributes.
         HashMap<String, Integer> symbolMap = new HashMap<>();
-        HashMap<String, Collection<ParserAttribute>> symbolAttributes = new HashMap<>();
+        HashMap<String, List<ParserAttribute>> symbolAttributes = new HashMap<>();
         HashMap<String, Integer> nameCounts = new HashMap<>();
         HashMap<String, List<Rule>> rulesBySymbol = new HashMap<>();
 
@@ -225,20 +225,20 @@ public class SourceGrammar extends Grammar {
         for (Rule rule : rules) {
             String key = symbolKey(rule.symbol);
             if (!symbolMap.containsKey(key)) {
-                if (!nameCounts.containsKey(rule.symbol.name)) {
-                    nameCounts.put(rule.symbol.name, 0);
+                if (!nameCounts.containsKey(rule.symbol.symbolName)) {
+                    nameCounts.put(rule.symbol.symbolName, 0);
                 }
-                int next = nameCounts.get(rule.symbol.name);
+                int next = nameCounts.get(rule.symbol.symbolName);
                 symbolMap.put(key, next);
                 symbolAttributes.put(key, rule.symbol.getAttributes());
 
-                nameCounts.put(rule.symbol.name, next+1);
+                nameCounts.put(rule.symbol.symbolName, next+1);
             }
 
-            if (!rulesBySymbol.containsKey(rule.symbol.name)) {
-                rulesBySymbol.put(rule.symbol.name, new ArrayList<>());
+            if (!rulesBySymbol.containsKey(rule.symbol.symbolName)) {
+                rulesBySymbol.put(rule.symbol.symbolName, new ArrayList<>());
             }
-            rulesBySymbol.get(rule.symbol.name).add(rule);
+            rulesBySymbol.get(rule.symbol.symbolName).add(rule);
         }
 
         boolean found = false;
@@ -252,14 +252,14 @@ public class SourceGrammar extends Grammar {
                 String key = symbolKey(symbol);
                 if (!symbolMap.containsKey(key)) {
                     found = true;
-                    if (!nameCounts.containsKey(symbol.name)) {
-                        nameCounts.put(symbol.name, 0);
+                    if (!nameCounts.containsKey(symbol.symbolName)) {
+                        nameCounts.put(symbol.symbolName, 0);
                     }
-                    int next = nameCounts.get(symbol.name);
+                    int next = nameCounts.get(symbol.symbolName);
                     symbolMap.put(key, next);
                     symbolAttributes.put(key, symbol.getAttributes());
 
-                    nameCounts.put(symbol.name, next+1);
+                    nameCounts.put(symbol.symbolName, next+1);
                 }
             }
         }
@@ -296,7 +296,7 @@ public class SourceGrammar extends Grammar {
                         if (count == 0) {
                             rhs.add(symbol);
                         } else {
-                            String sid = symbolId(((NonterminalSymbol) symbol).name, count);
+                            String sid = symbolId(((NonterminalSymbol) symbol).symbolName, count);
                             NonterminalSymbol news = sg.getNonterminal(sid, symbol.getAttributes());
                             news.realName = ((NonterminalSymbol) symbol).realName;
                             rhs.add(news);
@@ -381,7 +381,9 @@ public class SourceGrammar extends Grammar {
      * @return the report.
      */
     public HygieneReport getHygieneReport(NonterminalSymbol seed) {
-        return new HygieneReport(this, seed);
+        HygieneReport report = new HygieneReport(this, seed);
+        report.checkGrammar();
+        return report;
     }
 
     /**
@@ -430,9 +432,7 @@ public class SourceGrammar extends Grammar {
     /**
      * Sets a metadata property.
      * <p>Metadata properties exist solely for annotations by an application. They have
-     * no bearing on the function of the grammar. The {@link org.nineml.coffeegrinder.util.GrammarCompiler GrammarCompiler}
-     * stores metadata properties in the compiled grammar and they are restored when a parsed
-     * grammar is loaded.</p>
+     * no bearing on the function of the grammar.</p>
      * @param name the name of the property
      * @param value the value of the property, or null to remove a property
      * @throws NullPointerException if the name is null

@@ -1,17 +1,17 @@
 package org.nineml.coffeegrinder.gll;
 
+import org.nineml.coffeegrinder.trees.ParseTree;
+import org.nineml.coffeegrinder.trees.ParseTreeBuilder;
+import org.nineml.coffeegrinder.trees.TreeBuilder;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.Token;
-import org.nineml.coffeegrinder.util.ParseTreeBuilder;
+import org.nineml.coffeegrinder.trees.TreeSelector;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 
 public class GllResult implements GearleyResult {
     private final GllParser parser;
-    private final BinarySubtree bsr;
     private final ParseForest graph;
     public final boolean success;
     private final int tokenCount;
@@ -19,11 +19,11 @@ public class GllResult implements GearleyResult {
     private final int offset;
     private final int lineNumber;
     private final int columnNumber;
+    private ForestWalker walker = null;
     private long parseTime = -1;
 
     public GllResult(GllParser parser, BinarySubtree bsr) {
         this.parser = parser;
-        this.bsr = bsr;
         this.graph = bsr.extractSPPF(parser.getGrammar(), parser.getTokens());
         tokenCount = parser.tokenCount;
         lastToken = parser.lastToken;
@@ -44,19 +44,53 @@ public class GllResult implements GearleyResult {
     }
 
     @Override
-    public ParseTree getTree() {
-        ParseTreeBuilder builder = new ParseTreeBuilder();
-        getTree(builder);
-        return builder.getParseTree();
+    public boolean hasMoreTrees() {
+        if (walker == null) {
+            walker = graph.getWalker();
+        }
+        return walker.hasMoreTrees();
     }
 
     @Override
-    public void getTree(TreeBuilder builder) {
-        graph.getTree(builder);
+    public void resetTrees() {
+        if (walker == null) {
+            walker = graph.getWalker();
+            return;
+        }
+        walker.reset();
     }
 
-    public BinarySubtree getBinarySubtree() {
-        return bsr;
+    @Override
+    public void setTreeSelector(TreeSelector selector) {
+        walker = graph.getWalker(selector);
+    }
+
+    @Override
+    public ParseTree getTree() {
+        if (hasMoreTrees()) {
+            ParseTreeBuilder builder = new ParseTreeBuilder();
+            walker.getNextTree(builder);
+            return builder.getTree();
+        }
+        return null;
+    }
+
+    /**
+     * Get a tree.
+     */
+    @Override
+    public void getTree(TreeBuilder builder) {
+        if (hasMoreTrees()) {
+            walker.getNextTree(builder);
+        }
+    }
+
+    @Override
+    public Set<Integer> lastSelectedNodes() {
+        if (walker == null) {
+            return Collections.emptySet();
+        }
+        return walker.selectedNodes();
     }
 
     @Override

@@ -3,19 +3,21 @@ package org.nineml.coffeegrinder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.nineml.coffeegrinder.trees.*;
+import org.nineml.coffeegrinder.parser.ForestWalker;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.*;
+import org.nineml.coffeegrinder.trees.TreeBuilder;
 import org.nineml.coffeegrinder.util.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
 
 import static org.junit.Assert.fail;
 
-public class ParserTest {
-    private final ParserOptions options = new ParserOptions();
-
+public class ParserTest extends CoffeeGrinderTest {
     @Test
     public void ifThenElseTest() {
         SourceGrammar grammar = new SourceGrammar(options);
@@ -434,7 +436,10 @@ public class ParserTest {
 
         if (result.succeeded()) {
             ParseForest forest = result.getForest();
-            ParseTree tree = forest.getTree();
+            ForestWalker walker = forest.getWalker();
+            ParseTreeBuilder builder = new ParseTreeBuilder();
+            walker.getNextTree(builder);
+            ParseTree tree = builder.getTree();
 
             // TODO: do something with the tree.
 
@@ -453,8 +458,8 @@ public class ParserTest {
     public void lettersAndNumbers() {
         SourceGrammar grammar = new SourceGrammar(new ParserOptions());
 
-        ParserAttribute greedyLetters = new ParserAttribute("regex", "[^0-9]");
-        ParserAttribute greedyNumbers = new ParserAttribute("regex", "[0-9]");
+        ParserAttribute greedyLetters = new ParserAttribute(ParserAttribute.REGEX_NAME, "[^0-9]");
+        ParserAttribute greedyNumbers = new ParserAttribute(ParserAttribute.REGEX_NAME, "[0-9]");
 
         NonterminalSymbol _String = grammar.getNonterminal("String");
         NonterminalSymbol _Numbers = grammar.getNonterminal("Numbers");
@@ -511,7 +516,7 @@ M: 'm'; LDOE .
         NonterminalSymbol _A = grammar.getNonterminal("A");
         NonterminalSymbol _B = grammar.getNonterminal("B");
         NonterminalSymbol _LDOE = grammar.getNonterminal("LDOE");
-        NonterminalSymbol _M = grammar.getNonterminal("M", new ParserAttribute("priority", "5"));
+        NonterminalSymbol _M = grammar.getNonterminal("M", new ParserAttribute(ForestNode.PRIORITY_ATTRIBUTE, "5"));
 
         TerminalSymbol _a = TerminalSymbol.ch('a');
         TerminalSymbol _b = TerminalSymbol.ch('b');
@@ -532,13 +537,26 @@ M: 'm'; LDOE .
         GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse("amalx");
 
-        TreeBuilder builder = new NopPriorityTreeBuilder();
-        result.getForest().getTree(builder);
-        Assertions.assertTrue(builder.isAmbiguous());
-        Assertions.assertTrue(builder.isInfinitelyAmbiguous());
+        Assertions.assertTrue(result.getForest().isAmbiguous());
+        Assertions.assertTrue(result.getForest().isInfinitelyAmbiguous());
 
-        ParseTree tree = result.getForest().getTree();
-        Assertions.assertNotNull(tree);
+        TreeBuilder builder = new NopTreeBuilder();
+        TreeSelector selector = new SequentialTreeSelector();
+        ForestWalker walker = result.getForest().getWalker(selector);
+        walker.getNextTree(builder);
+        Assertions.assertTrue(selector.getMadeAmbiguousChoice());
+
+        //result.getForest().serialize("ldoe.xml");
+
+        selector = new PriorityTreeSelector();
+        walker = result.getForest().getWalker(selector);
+        walker.getNextTree(builder);
+        Assertions.assertFalse(selector.getMadeAmbiguousChoice());
+
+        StringTreeBuilder sbuilder = new StringTreeBuilder();
+        walker.reset();
+        walker.getNextTree(sbuilder);
+        //System.err.println(sbuilder.getTree());
     }
 
     @Test
@@ -573,12 +591,58 @@ M: 'm'; LDOE .
         try {
             GearleyParser parser = grammar.getParser(options, _S);
             GearleyResult result = parser.parse("a");
-            TreeBuilder builder = new NopPriorityTreeBuilder();
-            result.getForest().getTree(builder);
-            Assertions.assertTrue(builder.isAmbiguous());
-            Assertions.assertTrue(builder.isInfinitelyAmbiguous());
-            ParseTree tree = result.getTree();
-            Assertions.assertNotNull(tree);
+
+            result.getForest().serialize("longloop.xml");
+
+            StringTreeBuilder builder = new StringTreeBuilder();
+            ForestWalker walker = result.getForest().getWalker();
+            walker.getNextTree(builder);
+            Assertions.assertTrue(result.getForest().isAmbiguous());
+            Assertions.assertTrue(result.getForest().isInfinitelyAmbiguous());
+            Assertions.assertEquals(242, result.getForest().getParseTreeCount());
+
+            expectTrees(result.getForest().getWalker(), Arrays.asList(
+                    "<S><Sp><A><X></X><Y><X><Z priority='5'><X><Y></Y></X></Z></X></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X></X><Y><X><Z priority='5'></Z></X></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X></X><Y><X><Z priority='5'><Y><X></X></Y></Z></X></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X></X><Y><Z priority='5'><X></X></Z></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X></X><Y><Z priority='5'></Z></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X></X><Y><Z priority='5'><Y><X></X></Y></Z></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X></X><Y></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X><Z priority='5'><X></X></Z></X><Y><X></X></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X><Z priority='5'><X></X></Z></X><Y><Z priority='5'><X></X></Z></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X><Z priority='5'><X></X></Z></X><Y></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X><Z priority='5'></Z></X><Y><X></X></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X><Z priority='5'></Z></X><Y><Z priority='5'><X></X></Z></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X><Z priority='5'></Z></X><Y></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X><Z priority='5'><Y><X></X></Y></Z></X><Y><X></X></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X><Z priority='5'><Y><Z priority='5'><X></X></Z></Y></Z></X><Y><X></X></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X><Z priority='5'><Y></Y></Z></X><Y><X></X></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X><Y><X></X></Y></X><Y><X></X></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X><Y><Z priority='5'><X></X></Z></Y></X><Y><X></X></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X><Y><Z priority='5'></Z></Y></X><Y><X></X></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X><Y><Z priority='5'><Y><X></X></Y></Z></Y></X><Y><X></X></Y>a</A></Sp></S>",
+                    "<S><Sp><A><X><Y></Y></X><Y><X></X></Y>a</A></Sp></S>",
+                    "<S><Sp><B><Z priority='5'><X></X></Z><X></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'><X><Z priority='5'><X></X></Z></X></Z><X></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'><X><Y><X></X></Y></X></Z><X></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'><X><Y><Z priority='5'><X></X></Z></Y></X></Z><X></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'><X><Y></Y></X></Z><X></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'></Z><X></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'></Z><X><Z priority='5'><X></X></Z></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'></Z><X><Y><X></X></Y></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'></Z><X><Y><Z priority='5'><X></X></Z></Y></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'></Z><X><Y></Y></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'><Y><X></X></Y></Z><X></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'><Y><X><Z priority='5'><X></X></Z></X></Y></Z><X></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'><Y><X><Y><X></X></Y></X></Y></Z><X></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'><Y><Z priority='5'><X></X></Z></Y></Z><X></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'><Y><Z priority='5'><X><Z priority='5'><X></X></Z></X></Z></Y></Z><X></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'><Y><Z priority='5'><X><Y><X></X></Y></X></Z></Y></Z><X></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'><Y></Y></Z><X></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'><Y></Y></Z><X><Z priority='5'><X></X></Z></X>a</B></Sp></S>",
+                    "<S><Sp><B><Z priority='5'><Y></Y></Z><X><Y><X></X></Y></X>a</B></Sp></S>"));
+
         } catch (Exception ex) {
             fail();
         }

@@ -13,6 +13,8 @@ public class HygieneReport {
 
     private final SourceGrammar grammar;
     private final ParserGrammar parserGrammar;
+    private final NonterminalSymbol seed;
+    private final AmbiguityReport ambiguityReport;
     private final HashSet<Rule> unproductiveRules = new HashSet<>();
     private final HashSet<NonterminalSymbol> unproductiveSymbols = new HashSet<>();
     private final HashSet<NonterminalSymbol> unreachableSymbols = new HashSet<>();
@@ -22,16 +24,18 @@ public class HygieneReport {
     protected HygieneReport(ParserGrammar grammar) {
         this.parserGrammar = grammar;
         this.grammar = null;
-        checkGrammar(grammar.getSeed());
+        this.seed = grammar.getSeed();
+        ambiguityReport = new AmbiguityReport(grammar);
     }
 
     protected HygieneReport(SourceGrammar grammar, NonterminalSymbol seed) {
         this.parserGrammar = null;
         this.grammar = grammar;
-        checkGrammar(seed);
+        this.seed = seed;
+        ambiguityReport = new AmbiguityReport(grammar, seed);
     }
 
-    private void checkGrammar(NonterminalSymbol seed) {
+    public void checkGrammar() {
         if (parserGrammar != null && rules != null) {
             return; // no reason to do this twice, it can't change...
         }
@@ -46,7 +50,6 @@ public class HygieneReport {
             rules.addAll(parserGrammar.getRules());
             rulesBySymbol = parserGrammar.getRulesBySymbol();
         }
-
 
         HashSet<NonterminalSymbol> reachable = new HashSet<>();
         walk(seed, reachable);
@@ -105,6 +108,10 @@ public class HygieneReport {
                 addUnproductive(rule);
             }
         }
+    }
+
+    public void checkAmbiguity() {
+        ambiguityReport.check();
     }
 
     private void walk(NonterminalSymbol symbol, HashSet<NonterminalSymbol> reachable) {
@@ -197,6 +204,38 @@ public class HygieneReport {
      */
     public Set<NonterminalSymbol> getUndefinedSymbols() {
         return undefinedSymbols;
+    }
+
+    /**
+     * Did the dk.brics.grammar.ambiguity analyzer run successfully?
+     * @return true, if the analyzer ran successfully
+     */
+    public boolean ambiguityChecked() {
+        return ambiguityReport.getCheckSucceeded();
+    }
+
+    /**
+     * Did the dk.brics.grammar.ambiguity analyzer report the grammar unambigous?
+     * @return true, if the grammar is unambiguous
+     */
+    public boolean provablyUnambiguous() {
+        return ambiguityReport.getUnambiguous();
+    }
+
+    /**
+     * Did the dk.brics.grammar.ambiguity analyzer run reliably?
+     * @return true, if the analyzer detected no uncheckable characters or character classes
+     */
+    public boolean reliablyUnambiguous() {
+        return ambiguityReport.getReliable();
+    }
+
+    /**
+     * Get the dk.brics.grammar.ambiguity analyzer report.
+     * @return the report, or null if no report is available
+     */
+    public String getAmbiguityReport() {
+        return ambiguityReport.getAmbiguityReport();
     }
 
     protected void addUnreachable(NonterminalSymbol symbol) {

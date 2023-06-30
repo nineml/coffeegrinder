@@ -3,12 +3,11 @@ package org.nineml.coffeegrinder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Test;
+import org.nineml.coffeegrinder.trees.StdoutTreeBuilder;
+import org.nineml.coffeegrinder.trees.TreeBuilder;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
-import org.nineml.coffeegrinder.tokens.TokenRegex;
 import org.nineml.coffeegrinder.util.ParserAttribute;
-import org.nineml.coffeegrinder.util.StdoutTreeBuilder;
 
 public class GreedyTest {
     private final ParserOptions options = new ParserOptions();
@@ -24,7 +23,7 @@ public class GreedyTest {
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");
-        NonterminalSymbol B = grammar.getNonterminal("B", new ParserAttribute(ParserAttribute.TOKEN_NAME, ""));
+        NonterminalSymbol B = grammar.getNonterminal("B");
         NonterminalSymbol C = grammar.getNonterminal("C");
         NonterminalSymbol bplus = grammar.getNonterminal("bplus");
         NonterminalSymbol bstar = grammar.getNonterminal("bstar");
@@ -54,7 +53,6 @@ public class GreedyTest {
 
         TreeBuilder builder = new StdoutTreeBuilder();
         result.getTree(builder);
-
     }
 
     @Ignore
@@ -63,7 +61,7 @@ public class GreedyTest {
 
         NonterminalSymbol S = grammar.getNonterminal("S");
         NonterminalSymbol A = grammar.getNonterminal("A");
-        NonterminalSymbol B = grammar.getNonterminal("B", new ParserAttribute(ParserAttribute.TOKEN_NAME, ""));
+        NonterminalSymbol B = grammar.getNonterminal("B");
         NonterminalSymbol altplus = grammar.getNonterminal("altplus");
         NonterminalSymbol alt = grammar.getNonterminal("alt");
         NonterminalSymbol altstar = grammar.getNonterminal("altstar");
@@ -89,7 +87,5 @@ public class GreedyTest {
 
         TreeBuilder builder = new StdoutTreeBuilder();
         result.getTree(builder);
-
     }
-
 }

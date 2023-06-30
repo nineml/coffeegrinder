@@ -99,7 +99,9 @@ public class ParserGrammar extends Grammar {
      * @return the report.
      */
     public HygieneReport getHygieneReport() {
-        return new HygieneReport(this);
+        HygieneReport report = new HygieneReport(this);
+        report.checkGrammar();
+        return report;
     }
 
     public Set<Symbol> getFirst(Symbol symbol) {

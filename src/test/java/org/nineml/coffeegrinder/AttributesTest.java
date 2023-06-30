@@ -2,20 +2,20 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.nineml.coffeegrinder.trees.ParseTree;
+import org.nineml.coffeegrinder.trees.ParseTreeBuilder;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenString;
-import org.nineml.coffeegrinder.util.GrammarParser;
-import org.nineml.coffeegrinder.util.Iterators;
-import org.nineml.coffeegrinder.util.NopTreeBuilder;
-import org.nineml.coffeegrinder.util.ParserAttribute;
+import org.nineml.coffeegrinder.util.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 import static org.junit.Assert.fail;
 
-public class AttributesTest {
+public class AttributesTest extends CoffeeGrinderTest {
     private final ParserOptions options = new ParserOptions();
 
     @Test
@@ -37,6 +37,7 @@ public class AttributesTest {
         grammar.addRule(_statement, _if, _condition, _then, _statement, _else, _statement);
         grammar.addRule(_statement, _variable, _eq, _variable);
         grammar.addRule(_condition, _op, _variable, _eqeq, _variable, _cp);
+
         GearleyParser parser = grammar.getParser(options, _statement);
 
         ArrayList<ParserAttribute> attrs = new ArrayList<>();
@@ -59,7 +60,10 @@ public class AttributesTest {
         GearleyResult result = parser.parse(inputTokens);
         Assert.assertTrue(result.succeeded());
 
-        ParseTree tree = result.getForest().getTree();
+        ForestWalker walker = result.getForest().getWalker();
+        ParseTreeBuilder builder = new ParseTreeBuilder();
+        walker.getNextTree(builder);
+        ParseTree tree = builder.getTree();
 
         Token t_if = tree.getChildren().get(0).getToken();
         Assert.assertEquals("if", t_if.getValue());
@@ -92,6 +96,10 @@ public class AttributesTest {
         GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("start"));
         GearleyResult result = parser.parse(Iterators.characterIterator("ab"));
         Assert.assertTrue(result.succeeded());
+
+        //result.getForest().serialize("testchoice.xml");
+
+        Assert.assertEquals(1, result.getForest().getParseTreeCount());
     }
 
     @Test
@@ -119,8 +127,10 @@ public class AttributesTest {
         GearleyResult result = parser.parse(Iterators.characterIterator("abc"));
         Assert.assertTrue(result.succeeded());
 
-        TreeBuilder builder = new NopTreeBuilder();
-        result.getTree(builder);
-        Assert.assertEquals(2, builder.getRevealedParses());
+        Assert.assertEquals(2, result.getForest().getParseTreeCount());
+
+        expectTrees(result.getForest().getWalker(), Arrays.asList(
+                "<S><A>a</A><B N='1'>b</B><C>c</C></S>",
+                "<S><A>a</A><B N='2'>b</B><D>c</D></S>"));
     }
 }

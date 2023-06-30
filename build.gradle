@@ -56,7 +56,8 @@ configurations {
 
 dependencies {
   compileOnly (
-    [group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30' ]
+    [group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30' ],
+    fileTree(dir: "${projectDir}/lib", include: '*.jar')
   )
 
   testImplementation (
@@ -68,7 +69,9 @@ dependencies {
   testRuntimeOnly (
     [group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.4.2'],
     [group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.8.2'],
+    fileTree(dir: "${projectDir}/lib", include: '*.jar')
   )
+
   documentation (
     [group: saxonGroup, name: saxonEdition, version: saxonVersion],
     [group: 'org.docbook', name: 'schemas-docbook', version: docbookVersion],

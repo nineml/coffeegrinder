@@ -8,11 +8,10 @@ package org.nineml.coffeegrinder.util;
  * <p>It's worth observing that the terminals created from the input stream don't get metadata.</p>
  */
 public class ParserAttribute {
-    public static final String LINE_NUMBER_NAME = "https://nineml.org/attr/line";
-    public static final String COLUMN_NUMBER_NAME = "https://nineml.org/attr/column";
-    public static final String OFFSET_NAME = "https://nineml.org/attr/offset";
-
-    public static final String TOKEN_NAME = "https://nineml.org/attr/token";
+    public static final String LINE_NUMBER_NAME = "https://coffeegrinder.nineml.org/attr/line";
+    public static final String COLUMN_NUMBER_NAME = "https://coffeegrinder.nineml.org/attr/column";
+    public static final String OFFSET_NAME = "https://coffeegrinder.nineml.org/attr/offset";
+    public static final String REGEX_NAME = "https://coffeegrinder.nineml.org/attr/regex";
 
     private final String name;
     private final String value;
@@ -21,11 +20,14 @@ public class ParserAttribute {
      * Create a parser attribute.
      * @param name the attribute name
      * @param value the attribute value
-     * @throws NullPointerException if the name is null
+     * @throws NullPointerException if the name or value are null
      */
     public ParserAttribute(String name, String value) {
         if (name == null) {
             throw new NullPointerException("Attribute name must not be null");
+        }
+        if (value == null) {
+            throw new NullPointerException("Attribute value must not be null");
         }
         this.name = name;
         this.value = value;
