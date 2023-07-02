@@ -22,11 +22,13 @@
 <h1 class="bar">All&nbsp;Classes</h1>
 <div class="indexContainer">
 <ul>
+<li><a href="org/nineml/coffeegrinder/parser/AmbiguityReport.html" title="class in org.nineml.coffeegrinder.parser">AmbiguityReport</a></li>
 <li><a href="org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></li>
 <li><a href="org/nineml/coffeegrinder/gll/BinarySubtree.html" title="class in org.nineml.coffeegrinder.gll">BinarySubtree</a></li>
 <li><a href="org/nineml/coffeegrinder/gll/BinarySubtreeNode.html" title="class in org.nineml.coffeegrinder.gll">BinarySubtreeNode</a></li>
 <li><a href="org/nineml/coffeegrinder/gll/BinarySubtreePrefix.html" title="class in org.nineml.coffeegrinder.gll">BinarySubtreePrefix</a></li>
 <li><a href="org/nineml/coffeegrinder/gll/BinarySubtreeSlot.html" title="class in org.nineml.coffeegrinder.gll">BinarySubtreeSlot</a></li>
+<li><a href="org/nineml/coffeegrinder/util/BricsAmbiguity.html" title="class in org.nineml.coffeegrinder.util">BricsAmbiguity</a></li>
 <li><a href="org/nineml/logging/CachingLogger.html" title="class in org.nineml.logging">CachingLogger</a></li>
 <li><a href="org/nineml/coffeegrinder/tokens/CharacterSet.html" title="class in org.nineml.coffeegrinder.tokens">CharacterSet</a></li>
 <li><a href="org/nineml/coffeegrinder/gll/ClusterNode.html" title="class in org.nineml.coffeegrinder.gll">ClusterNode</a></li>
@@ -48,12 +50,12 @@
 <li><a href="org/nineml/coffeegrinder/parser/ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/ForestNodeGLL.html" title="class in org.nineml.coffeegrinder.parser">ForestNodeGLL</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/ForestNodeSet.html" title="class in org.nineml.coffeegrinder.parser">ForestNodeSet</a></li>
+<li><a href="org/nineml/coffeegrinder/parser/ForestWalker.html" title="class in org.nineml.coffeegrinder.parser">ForestWalker</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser"><span class="interfaceName">GearleyParser</span></a></li>
 <li><a href="org/nineml/coffeegrinder/parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser"><span class="interfaceName">GearleyResult</span></a></li>
 <li><a href="org/nineml/coffeegrinder/gll/GllParser.html" title="class in org.nineml.coffeegrinder.gll">GllParser</a></li>
 <li><a href="org/nineml/coffeegrinder/gll/GllResult.html" title="class in org.nineml.coffeegrinder.gll">GllResult</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/Grammar.html" title="class in org.nineml.coffeegrinder.parser">Grammar</a></li>
-<li><a href="org/nineml/coffeegrinder/util/GrammarCompiler.html" title="class in org.nineml.coffeegrinder.util">GrammarCompiler</a></li>
 <li><a href="org/nineml/coffeegrinder/exceptions/GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser">HygieneReport</a></li>
 <li><a href="org/nineml/coffeegrinder/util/Iterators.html" title="class in org.nineml.coffeegrinder.util">Iterators</a></li>
@@ -69,10 +71,8 @@
 <li><a href="org/nineml/coffeegrinder/gll/MNextDescriptor.html" title="class in org.nineml.coffeegrinder.gll">MNextDescriptor</a></li>
 <li><a href="org/nineml/coffeegrinder/gll/MStatement.html" title="class in org.nineml.coffeegrinder.gll">MStatement</a></li>
 <li><a href="org/nineml/coffeegrinder/gll/MTestSelect.html" title="class in org.nineml.coffeegrinder.gll">MTestSelect</a></li>
-<li><a href="org/nineml/coffeegrinder/util/NodeChoices.html" title="class in org.nineml.coffeegrinder.util">NodeChoices</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></li>
-<li><a href="org/nineml/coffeegrinder/util/NopPriorityTreeBuilder.html" title="class in org.nineml.coffeegrinder.util">NopPriorityTreeBuilder</a></li>
-<li><a href="org/nineml/coffeegrinder/util/NopTreeBuilder.html" title="class in org.nineml.coffeegrinder.util">NopTreeBuilder</a></li>
+<li><a href="org/nineml/coffeegrinder/trees/NopTreeBuilder.html" title="class in org.nineml.coffeegrinder.trees">NopTreeBuilder</a></li>
 <li><a href="org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/ParseForest.html" title="class in org.nineml.coffeegrinder.parser">ParseForest</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/ParseForestGLL.html" title="class in org.nineml.coffeegrinder.parser">ParseForestGLL</a></li>
@@ -81,22 +81,21 @@
 <li><a href="org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser">ParserGrammar</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/ParserType.html" title="enum in org.nineml.coffeegrinder.parser">ParserType</a></li>
-<li><a href="org/nineml/coffeegrinder/parser/ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a></li>
-<li><a href="org/nineml/coffeegrinder/util/ParseTreeBuilder.html" title="class in org.nineml.coffeegrinder.util">ParseTreeBuilder</a></li>
+<li><a href="org/nineml/coffeegrinder/trees/ParseTree.html" title="class in org.nineml.coffeegrinder.trees">ParseTree</a></li>
+<li><a href="org/nineml/coffeegrinder/trees/ParseTreeBuilder.html" title="class in org.nineml.coffeegrinder.trees">ParseTreeBuilder</a></li>
 <li><a href="org/nineml/coffeegrinder/gll/PoppedNode.html" title="class in org.nineml.coffeegrinder.gll">PoppedNode</a></li>
-<li><a href="org/nineml/coffeegrinder/util/PrintStreamTreeBuilder.html" title="class in org.nineml.coffeegrinder.util">PrintStreamTreeBuilder</a></li>
-<li><a href="org/nineml/coffeegrinder/util/PriorityTreeBuilder.html" title="class in org.nineml.coffeegrinder.util">PriorityTreeBuilder</a></li>
+<li><a href="org/nineml/coffeegrinder/trees/PrintStreamTreeBuilder.html" title="class in org.nineml.coffeegrinder.trees">PrintStreamTreeBuilder</a></li>
+<li><a href="org/nineml/coffeegrinder/trees/PriorityTreeSelector.html" title="class in org.nineml.coffeegrinder.trees">PriorityTreeSelector</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/ProgressMonitor.html" title="interface in org.nineml.coffeegrinder.parser"><span class="interfaceName">ProgressMonitor</span></a></li>
 <li><a href="org/nineml/coffeegrinder/util/RegexCompiler.html" title="class in org.nineml.coffeegrinder.util">RegexCompiler</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/RightHandSide.html" title="class in org.nineml.coffeegrinder.parser">RightHandSide</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a></li>
-<li><a href="org/nineml/coffeegrinder/parser/RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser"><span class="interfaceName">RuleChoice</span></a></li>
-<li><a href="org/nineml/coffeegrinder/parser/RuleChoiceImpl.html" title="class in org.nineml.coffeegrinder.parser">RuleChoiceImpl</a></li>
+<li><a href="org/nineml/coffeegrinder/trees/SequentialTreeSelector.html" title="class in org.nineml.coffeegrinder.trees">SequentialTreeSelector</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/State.html" title="class in org.nineml.coffeegrinder.parser">State</a></li>
-<li><a href="org/nineml/coffeegrinder/util/StdoutTreeBuilder.html" title="class in org.nineml.coffeegrinder.util">StdoutTreeBuilder</a></li>
+<li><a href="org/nineml/coffeegrinder/trees/StdoutTreeBuilder.html" title="class in org.nineml.coffeegrinder.trees">StdoutTreeBuilder</a></li>
 <li><a href="org/nineml/coffeegrinder/util/StopWatch.html" title="class in org.nineml.coffeegrinder.util">StopWatch</a></li>
-<li><a href="org/nineml/coffeegrinder/util/StringTreeBuilder.html" title="class in org.nineml.coffeegrinder.util">StringTreeBuilder</a></li>
+<li><a href="org/nineml/coffeegrinder/trees/StringTreeBuilder.html" title="class in org.nineml.coffeegrinder.trees">StringTreeBuilder</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a></li>
 <li><a href="org/nineml/logging/SystemLogger.html" title="class in org.nineml.logging">SystemLogger</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">TerminalSymbol</a></li>
@@ -107,7 +106,8 @@
 <li><a href="org/nineml/coffeegrinder/tokens/TokenEPSILON.html" title="class in org.nineml.coffeegrinder.tokens">TokenEPSILON</a></li>
 <li><a href="org/nineml/coffeegrinder/tokens/TokenRegex.html" title="class in org.nineml.coffeegrinder.tokens">TokenRegex</a></li>
 <li><a href="org/nineml/coffeegrinder/tokens/TokenString.html" title="class in org.nineml.coffeegrinder.tokens">TokenString</a></li>
-<li><a href="org/nineml/coffeegrinder/parser/TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></li>
+<li><a href="org/nineml/coffeegrinder/trees/TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees"><span class="interfaceName">TreeBuilder</span></a></li>
+<li><a href="org/nineml/coffeegrinder/trees/TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees"><span class="interfaceName">TreeSelector</span></a></li>
 <li><a href="org/nineml/coffeegrinder/exceptions/TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a></li>
 <li><a href="org/nineml/coffeegrinder/parser/XEarleyParser.html" title="class in org.nineml.coffeegrinder.parser">XEarleyParser</a></li>
 </ul>

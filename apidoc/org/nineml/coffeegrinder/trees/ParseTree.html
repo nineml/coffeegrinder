@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -115,7 +115,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== START OF CLASS DATA ======== -->
 <main role="main">
 <div class="header">
-<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">org.nineml.coffeegrinder.parser</a></div>
+<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">org.nineml.coffeegrinder.trees</a></div>
 <h2 title="Class ParseTree" class="title">Class ParseTree</h2>
 </div>
 <div class="contentContainer">
@@ -123,7 +123,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>org.nineml.coffeegrinder.parser.ParseTree</li>
+<li>org.nineml.coffeegrinder.trees.ParseTree</li>
 </ul>
 </li>
 </ul>
@@ -155,8 +155,13 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>java.util.ArrayList&lt;<a href="ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#children">children</a></span></code></th>
+<td class="colFirst"><code>int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#leftExtent">leftExtent</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rightExtent">rightExtent</a></span></code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -177,13 +182,17 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map)">ParseTree</a></span>&#8203;(<a href="NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
-         java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map,int,int)">ParseTree</a></span>&#8203;(<a href="../parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
+         java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs,
+         int&nbsp;leftExtent,
+         int&nbsp;rightExtent)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.nineml.coffeegrinder.tokens.Token,java.util.Map)">ParseTree</a></span>&#8203;(<a href="../tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
-         java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.nineml.coffeegrinder.tokens.Token,java.util.Map,int,int)">ParseTree</a></span>&#8203;(<a href="../tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
+         java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs,
+         int&nbsp;leftExtent,
+         int&nbsp;rightExtent)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -205,15 +214,19 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addChild(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map)">addChild</a></span>&#8203;(<a href="NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
-        java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs)</code></th>
+<td class="colFirst"><code><a href="ParseTree.html" title="class in org.nineml.coffeegrinder.trees">ParseTree</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addChild(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map,int,int)">addChild</a></span>&#8203;(<a href="../parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
+        java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs,
+        int&nbsp;leftExtent,
+        int&nbsp;rightExtent)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addChild(org.nineml.coffeegrinder.tokens.Token,java.util.Map)">addChild</a></span>&#8203;(<a href="../tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
-        java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addChild(org.nineml.coffeegrinder.tokens.Token,java.util.Map,int,int)">addChild</a></span>&#8203;(<a href="../tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
+        java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs,
+        int&nbsp;leftExtent,
+        int&nbsp;rightExtent)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
@@ -228,55 +241,70 @@ extends java.lang.Object</pre>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.List&lt;<a href="ParseTree.html" title="class in org.nineml.coffeegrinder.trees">ParseTree</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getChildren()">getChildren</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the children</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code><a href="ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a></code></td>
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getMadeAmbiguousChoice()">getMadeAmbiguousChoice</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code><a href="ParseTree.html" title="class in org.nineml.coffeegrinder.trees">ParseTree</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getParent()">getParent</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the parent.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
-<td class="colFirst"><code><a href="Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a></code></td>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code><a href="../parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSymbol()">getSymbol</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the symbol associated with this node in the tree.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="../tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getToken()">getToken</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the token associated with this node in the tree.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isAmbiguous()">isAmbiguous</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i10" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isInfinitelyAmbiguous()">isInfinitelyAmbiguous</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#serialize()">serialize</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Serialize the tree as XML.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#serialize(java.io.PrintStream)">serialize</a></span>&#8203;(java.io.PrintStream&nbsp;stream)</code></th>
 <td class="colLast">
 <div class="block">Serialize the tree as XML.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#serialize(java.lang.String)">serialize</a></span>&#8203;(java.lang.String&nbsp;filename)</code></th>
 <td class="colLast">
 <div class="block">Serialize the tree as XML.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
@@ -305,13 +333,22 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Field Detail</h3>
-<a id="children">
+<a id="leftExtent">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>leftExtent</h4>
+<pre>public final&nbsp;int leftExtent</pre>
+</li>
+</ul>
+<a id="rightExtent">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>children</h4>
-<pre>public&nbsp;java.util.ArrayList&lt;<a href="ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a>&gt; children</pre>
+<h4>rightExtent</h4>
+<pre>public final&nbsp;int rightExtent</pre>
 </li>
 </ul>
 </li>
@@ -324,24 +361,28 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a id="&lt;init&gt;(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map)">
+<a id="&lt;init&gt;(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map,int,int)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>ParseTree</h4>
-<pre>public&nbsp;ParseTree&#8203;(<a href="NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
-                 java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs)</pre>
+<pre>public&nbsp;ParseTree&#8203;(<a href="../parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
+                 java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs,
+                 int&nbsp;leftExtent,
+                 int&nbsp;rightExtent)</pre>
 </li>
 </ul>
-<a id="&lt;init&gt;(org.nineml.coffeegrinder.tokens.Token,java.util.Map)">
+<a id="&lt;init&gt;(org.nineml.coffeegrinder.tokens.Token,java.util.Map,int,int)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ParseTree</h4>
 <pre>public&nbsp;ParseTree&#8203;(<a href="../tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
-                 java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs)</pre>
+                 java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs,
+                 int&nbsp;leftExtent,
+                 int&nbsp;rightExtent)</pre>
 </li>
 </ul>
 </li>
@@ -354,24 +395,55 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="addChild(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map)">
+<a id="isAmbiguous()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isAmbiguous</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;isAmbiguous()</pre>
+</li>
+</ul>
+<a id="isInfinitelyAmbiguous()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isInfinitelyAmbiguous</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;isInfinitelyAmbiguous()</pre>
+</li>
+</ul>
+<a id="getMadeAmbiguousChoice()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getMadeAmbiguousChoice</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;getMadeAmbiguousChoice()</pre>
+</li>
+</ul>
+<a id="addChild(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map,int,int)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>addChild</h4>
-<pre class="methodSignature">public&nbsp;<a href="ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a>&nbsp;addChild&#8203;(<a href="NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
-                          java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs)</pre>
+<pre class="methodSignature">public&nbsp;<a href="ParseTree.html" title="class in org.nineml.coffeegrinder.trees">ParseTree</a>&nbsp;addChild&#8203;(<a href="../parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
+                          java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs,
+                          int&nbsp;leftExtent,
+                          int&nbsp;rightExtent)</pre>
 </li>
 </ul>
-<a id="addChild(org.nineml.coffeegrinder.tokens.Token,java.util.Map)">
+<a id="addChild(org.nineml.coffeegrinder.tokens.Token,java.util.Map,int,int)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>addChild</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;addChild&#8203;(<a href="../tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
-                     java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs)</pre>
+                     java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attrs,
+                     int&nbsp;leftExtent,
+                     int&nbsp;rightExtent)</pre>
 </li>
 </ul>
 <a id="getSymbol()">
@@ -380,7 +452,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getSymbol</h4>
-<pre class="methodSignature">public&nbsp;<a href="Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>&nbsp;getSymbol()</pre>
+<pre class="methodSignature">public&nbsp;<a href="../parser/Symbol.html" title="class in org.nineml.coffeegrinder.parser">Symbol</a>&nbsp;getSymbol()</pre>
 <div class="block">Get the symbol associated with this node in the tree.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -427,7 +499,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getParent</h4>
-<pre class="methodSignature">public&nbsp;<a href="ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a>&nbsp;getParent()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ParseTree.html" title="class in org.nineml.coffeegrinder.trees">ParseTree</a>&nbsp;getParent()</pre>
 <div class="block">Get the parent.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -441,7 +513,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getChildren</h4>
-<pre class="methodSignature">public&nbsp;java.util.List&lt;<a href="ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a>&gt;&nbsp;getChildren()</pre>
+<pre class="methodSignature">public&nbsp;java.util.List&lt;<a href="ParseTree.html" title="class in org.nineml.coffeegrinder.trees">ParseTree</a>&gt;&nbsp;getChildren()</pre>
 <div class="block">Get the children</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -457,7 +529,7 @@ extends java.lang.Object</pre>
 <h4>serialize</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;serialize()</pre>
 <div class="block">Serialize the tree as XML.
- <p>See <a href="ParserOptions.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserOptions</code></a> for details about options that may be used to influence the
+ <p>See <a href="../parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserOptions</code></a> for details about options that may be used to influence the
  structure of trees.</p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -473,7 +545,7 @@ extends java.lang.Object</pre>
 <h4>serialize</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;serialize&#8203;(java.io.PrintStream&nbsp;stream)</pre>
 <div class="block">Serialize the tree as XML.
- <p>See <a href="ParserOptions.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserOptions</code></a> for details about options that may be used to influence the
+ <p>See <a href="../parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserOptions</code></a> for details about options that may be used to influence the
  structure of trees.</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -490,7 +562,7 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;void&nbsp;serialize&#8203;(java.lang.String&nbsp;filename)</pre>
 <div class="block">Serialize the tree as XML.
  <p>This method attempts to write the XML to a file.</p>
- <p>See <a href="ParserOptions.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserOptions</code></a> for details about options that may be used to influence the
+ <p>See <a href="../parser/ParserOptions.html" title="class in org.nineml.coffeegrinder.parser"><code>ParserOptions</code></a> for details about options that may be used to influence the
  structure of trees.</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>

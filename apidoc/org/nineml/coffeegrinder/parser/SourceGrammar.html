@@ -273,8 +273,8 @@ extends <a href="Grammar.html" title="class in org.nineml.coffeegrinder.parser">
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNonterminal(java.lang.String,java.util.Collection)">getNonterminal</a></span>&#8203;(java.lang.String&nbsp;name,
-              java.util.Collection&lt;<a href="../util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNonterminal(java.lang.String,java.util.List)">getNonterminal</a></span>&#8203;(java.lang.String&nbsp;name,
+              java.util.List&lt;<a href="../util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</code></th>
 <td class="colLast">
 <div class="block">Return the nonterminal symbol identified by name.</div>
 </td>
@@ -475,14 +475,14 @@ extends <a href="Grammar.html" title="class in org.nineml.coffeegrinder.parser">
 </dl>
 </li>
 </ul>
-<a id="getNonterminal(java.lang.String,java.util.Collection)">
+<a id="getNonterminal(java.lang.String,java.util.List)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getNonterminal</h4>
 <pre class="methodSignature">public&nbsp;<a href="NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;getNonterminal&#8203;(java.lang.String&nbsp;name,
-                                        java.util.Collection&lt;<a href="../util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</pre>
+                                        java.util.List&lt;<a href="../util/ParserAttribute.html" title="class in org.nineml.coffeegrinder.util">ParserAttribute</a>&gt;&nbsp;attributes)</pre>
 <div class="block">Return the nonterminal symbol identified by name.
  <p>Nonterminal symbols are uniquely identified by their name.</p>
  <p>Any string can be used as a name.</p></div>
@@ -709,9 +709,7 @@ extends <a href="Grammar.html" title="class in org.nineml.coffeegrinder.parser">
                                 java.lang.String&nbsp;value)</pre>
 <div class="block">Sets a metadata property.
  <p>Metadata properties exist solely for annotations by an application. They have
- no bearing on the function of the grammar. The <a href="../util/GrammarCompiler.html" title="class in org.nineml.coffeegrinder.util"><code>GrammarCompiler</code></a>
- stores metadata properties in the compiled grammar and they are restored when a parsed
- grammar is loaded.</p></div>
+ no bearing on the function of the grammar.</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>name</code> - the name of the property</dd>

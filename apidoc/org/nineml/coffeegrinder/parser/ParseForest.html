@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -205,9 +205,8 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#constructTree(org.nineml.coffeegrinder.parser.TreeBuilder,org.nineml.coffeegrinder.parser.ForestNode)">constructTree</a></span>&#8203;(<a href="TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a>&nbsp;builder,
-             <a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;root)</code></th>
+<td class="colFirst"><code>java.util.List&lt;<a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAmbiguousNodes()">getAmbiguousNodes</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -225,58 +224,63 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRoots()">getRoots</a></span>()</code></th>
+<td class="colFirst"><code>int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getParseTreeCount()">getParseTreeCount</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Get the root nodes in the graph.</div>
+<div class="block">How many parse trees are there in this forest?</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code><a href="ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTree()">getTree</a></span>()</code></th>
+<td class="colFirst"><code><a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRoot()">getRoot</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTree(org.nineml.coffeegrinder.parser.TreeBuilder)">getTree</a></span>&#8203;(<a href="TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a>&nbsp;builder)</code></th>
+<td class="colFirst"><code><a href="ForestWalker.html" title="class in org.nineml.coffeegrinder.parser">ForestWalker</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getWalker()">getWalker</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
+<td class="colFirst"><code><a href="ForestWalker.html" title="class in org.nineml.coffeegrinder.parser">ForestWalker</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getWalker(org.nineml.coffeegrinder.trees.TreeSelector)">getWalker</a></span>&#8203;(<a href="../trees/TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a>&nbsp;treeSelector)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isAmbiguous()">isAmbiguous</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Is the grammar represented by this graph ambiguous?</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isInfinitelyAmbiguous()">isInfinitelyAmbiguous</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Is the grammar represented by this graph infinitely ambiguous?</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#serialize()">serialize</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Serialize the graph as XML.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#serialize(java.io.PrintStream)">serialize</a></span>&#8203;(java.io.PrintStream&nbsp;stream)</code></th>
 <td class="colLast">
 <div class="block">Serialize the graph as XML.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#serialize(java.lang.String)">serialize</a></span>&#8203;(java.lang.String&nbsp;filename)</code></th>
 <td class="colLast">
 <div class="block">Serialize the graph as XML.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#size()">size</a></span>()</code></th>
 <td class="colLast">
@@ -349,6 +353,24 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a id="getWalker()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getWalker</h4>
+<pre class="methodSignature">public&nbsp;<a href="ForestWalker.html" title="class in org.nineml.coffeegrinder.parser">ForestWalker</a>&nbsp;getWalker()</pre>
+</li>
+</ul>
+<a id="getWalker(org.nineml.coffeegrinder.trees.TreeSelector)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getWalker</h4>
+<pre class="methodSignature">public&nbsp;<a href="ForestWalker.html" title="class in org.nineml.coffeegrinder.parser">ForestWalker</a>&nbsp;getWalker&#8203;(<a href="../trees/TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a>&nbsp;treeSelector)</pre>
+</li>
+</ul>
 <a id="isAmbiguous()">
 <!--   -->
 </a>
@@ -382,6 +404,32 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
+<a id="getParseTreeCount()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getParseTreeCount</h4>
+<pre class="methodSignature">public&nbsp;int&nbsp;getParseTreeCount()</pre>
+<div class="block">How many parse trees are there in this forest?
+ <p>In an infinitely ambiguous graph, there are an infinite number of parse trees. However,
+ CoffeeGrinder will never follow the same edge twice when constructing a tree, it won't loop.
+ So the number of available trees is always a finite number.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the parse tree count</dd>
+</dl>
+</li>
+</ul>
+<a id="getAmbiguousNodes()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAmbiguousNodes</h4>
+<pre class="methodSignature">public&nbsp;java.util.List&lt;<a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&gt;&nbsp;getAmbiguousNodes()</pre>
+</li>
+</ul>
 <a id="size()">
 <!--   -->
 </a>
@@ -410,18 +458,13 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a id="getRoots()">
+<a id="getRoot()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getRoots</h4>
-<pre class="methodSignature">public&nbsp;java.util.List&lt;<a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&gt;&nbsp;getRoots()</pre>
-<div class="block">Get the root nodes in the graph.</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the nodes in the graph.</dd>
-</dl>
+<h4>getRoot</h4>
+<pre class="methodSignature">public&nbsp;<a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;getRoot()</pre>
 </li>
 </ul>
 <a id="getOptions()">
@@ -436,34 +479,6 @@ extends java.lang.Object</pre>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the options.</dd>
 </dl>
-</li>
-</ul>
-<a id="getTree()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getTree</h4>
-<pre class="methodSignature">public&nbsp;<a href="ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a>&nbsp;getTree()</pre>
-</li>
-</ul>
-<a id="getTree(org.nineml.coffeegrinder.parser.TreeBuilder)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getTree</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;getTree&#8203;(<a href="TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a>&nbsp;builder)</pre>
-</li>
-</ul>
-<a id="constructTree(org.nineml.coffeegrinder.parser.TreeBuilder,org.nineml.coffeegrinder.parser.ForestNode)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>constructTree</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;constructTree&#8203;(<a href="TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a>&nbsp;builder,
-                          <a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a>&nbsp;root)</pre>
 </li>
 </ul>
 <a id="serialize()">

@@ -110,7 +110,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
      <li>Parse a sequence of input tokens to obtain an <a href="EarleyResult.html" title="class in org.nineml.coffeegrinder.parser"><code>EarleyResult</code></a>.</li>
      <li>From the result, you can get information about the success or failure of the parse, and possibly continue parsing.</li>
      <li>If the parse was successful, get the <a href="ParseForest.html" title="class in org.nineml.coffeegrinder.parser"><code>ParseForest</code></a> (a shared packed parse forest) from the parse.</li>
-     <li>Use the forest to get <a href="ParseTree.html" title="class in org.nineml.coffeegrinder.parser"><code>ParseTree</code></a> parse tree(s).</li>
+     <li>Use the forest to get <a href="../trees/ParseTree.html" title="class in org.nineml.coffeegrinder.trees"><code>ParseTree</code></a> parse tree(s).</li>
      <li>The forest will also tell you about the ambiguity of the result, the number of parse trees available, etc.</li>
  </ul></div>
 </section>
@@ -143,10 +143,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">The ProgressMonitor allows you to track the progress of a parse.</div>
 </td>
 </tr>
-<tr class="altColor">
-<th class="colFirst" scope="row"><a href="RuleChoice.html" title="interface in org.nineml.coffeegrinder.parser">RuleChoice</a></th>
-<td class="colLast">&nbsp;</td>
-</tr>
 </tbody>
 </table>
 </li>
@@ -159,47 +155,55 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
+<th class="colFirst" scope="row"><a href="AmbiguityReport.html" title="class in org.nineml.coffeegrinder.parser">AmbiguityReport</a></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="EarleyChart.html" title="class in org.nineml.coffeegrinder.parser">EarleyChart</a></th>
 <td class="colLast">
 <div class="block">The chart used for Earley parsing.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="EarleyItem.html" title="class in org.nineml.coffeegrinder.parser">EarleyItem</a></th>
 <td class="colLast">
 <div class="block">An Earley item.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="EarleyParser.html" title="class in org.nineml.coffeegrinder.parser">EarleyParser</a></th>
 <td class="colLast">
 <div class="block">The Earley parser.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="EarleyResult.html" title="class in org.nineml.coffeegrinder.parser">EarleyResult</a></th>
 <td class="colLast">
 <div class="block">The results of an Earley parse.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a></th>
 <td class="colLast">
 <div class="block">An internal class representing a family of nodes in the SPPF.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="ForestNode.html" title="class in org.nineml.coffeegrinder.parser">ForestNode</a></th>
 <td class="colLast">
 <div class="block">A node in the SPPF.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="ForestNodeGLL.html" title="class in org.nineml.coffeegrinder.parser">ForestNodeGLL</a></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="ForestNodeSet.html" title="class in org.nineml.coffeegrinder.parser">ForestNodeSet</a></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="ForestWalker.html" title="class in org.nineml.coffeegrinder.parser">ForestWalker</a></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="altColor">
@@ -241,24 +245,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colFirst" scope="row"><a href="ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a></th>
-<td class="colLast">
-<div class="block">A single parse of the input against the grammar.</div>
-</td>
-</tr>
-<tr class="altColor">
 <th class="colFirst" scope="row"><a href="RightHandSide.html" title="class in org.nineml.coffeegrinder.parser">RightHandSide</a></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a></th>
 <td class="colLast">
 <div class="block">A grammar rule.</div>
 </td>
-</tr>
-<tr class="altColor">
-<th class="colFirst" scope="row"><a href="RuleChoiceImpl.html" title="class in org.nineml.coffeegrinder.parser">RuleChoiceImpl</a></th>
-<td class="colLast">&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="SourceGrammar.html" title="class in org.nineml.coffeegrinder.parser">SourceGrammar</a></th>
@@ -283,10 +277,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colFirst" scope="row"><a href="TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr class="altColor">
 <th class="colFirst" scope="row"><a href="XEarleyParser.html" title="class in org.nineml.coffeegrinder.parser">XEarleyParser</a></th>
 <td class="colLast">&nbsp;</td>
 </tr>

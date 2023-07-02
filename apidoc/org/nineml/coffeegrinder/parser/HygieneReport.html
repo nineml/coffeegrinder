@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -181,45 +181,83 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ambiguityChecked()">ambiguityChecked</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Did the dk.brics.grammar.ambiguity analyzer run successfully?</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#checkAmbiguity()">checkAmbiguity</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#checkGrammar()">checkGrammar</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAmbiguityReport()">getAmbiguityReport</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Get the dk.brics.grammar.ambiguity analyzer report.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser">ParserGrammar</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCompiledGrammar()">getCompiledGrammar</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the grammar associated with this report.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getUndefinedSymbols()">getUndefinedSymbols</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the unreachable symbols.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="Rule.html" title="class in org.nineml.coffeegrinder.parser">Rule</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getUnproductiveRules()">getUnproductiveRules</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the unproductive rules.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getUnproductiveSymbols()">getUnproductiveSymbols</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the unproductive symbols.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getUnreachableSymbols()">getUnreachableSymbols</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Get the unreachable symbols.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isClean()">isClean</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Is this grammar "clean"?</div>
+</td>
+</tr>
+<tr id="i10" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#provablyUnambiguous()">provablyUnambiguous</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Did the dk.brics.grammar.ambiguity analyzer report the grammar unambigous?</div>
+</td>
+</tr>
+<tr id="i11" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#reliablyUnambiguous()">reliablyUnambiguous</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Did the dk.brics.grammar.ambiguity analyzer run reliably?</div>
 </td>
 </tr>
 </table>
@@ -269,6 +307,24 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a id="checkGrammar()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>checkGrammar</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;checkGrammar()</pre>
+</li>
+</ul>
+<a id="checkAmbiguity()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>checkAmbiguity</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;checkAmbiguity()</pre>
+</li>
+</ul>
 <a id="isClean()">
 <!--   -->
 </a>
@@ -344,7 +400,7 @@ extends java.lang.Object</pre>
 <a id="getUndefinedSymbols()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getUndefinedSymbols</h4>
 <pre class="methodSignature">public&nbsp;java.util.Set&lt;<a href="NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&gt;&nbsp;getUndefinedSymbols()</pre>
@@ -352,6 +408,62 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the unreachable symbols.</dd>
+</dl>
+</li>
+</ul>
+<a id="ambiguityChecked()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ambiguityChecked</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;ambiguityChecked()</pre>
+<div class="block">Did the dk.brics.grammar.ambiguity analyzer run successfully?</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true, if the analyzer ran successfully</dd>
+</dl>
+</li>
+</ul>
+<a id="provablyUnambiguous()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>provablyUnambiguous</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;provablyUnambiguous()</pre>
+<div class="block">Did the dk.brics.grammar.ambiguity analyzer report the grammar unambigous?</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true, if the grammar is unambiguous</dd>
+</dl>
+</li>
+</ul>
+<a id="reliablyUnambiguous()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>reliablyUnambiguous</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;reliablyUnambiguous()</pre>
+<div class="block">Did the dk.brics.grammar.ambiguity analyzer run reliably?</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true, if the analyzer detected no uncheckable characters or character classes</dd>
+</dl>
+</li>
+</ul>
+<a id="getAmbiguityReport()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getAmbiguityReport</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getAmbiguityReport()</pre>
+<div class="block">Get the dk.brics.grammar.ambiguity analyzer report.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the report, or null if no report is available</dd>
 </dl>
 </li>
 </ul>

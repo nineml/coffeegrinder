@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -232,35 +232,55 @@ implements <a href="GearleyResult.html" title="interface in org.nineml.coffeegri
 </td>
 </tr>
 <tr id="i12" class="altColor">
-<td class="colFirst"><code><a href="ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a></code></td>
+<td class="colFirst"><code><a href="../trees/ParseTree.html" title="class in org.nineml.coffeegrinder.trees">ParseTree</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTree()">getTree</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTree(org.nineml.coffeegrinder.parser.TreeBuilder)">getTree</a></span>&#8203;(<a href="TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a>&nbsp;builder)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTree(org.nineml.coffeegrinder.trees.TreeBuilder)">getTree</a></span>&#8203;(<a href="../trees/TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a>&nbsp;builder)</code></th>
 <td class="colLast">
 <div class="block">Get a tree.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isAmbiguous()">isAmbiguous</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasMoreTrees()">hasMoreTrees</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isInfinitelyAmbiguous()">isInfinitelyAmbiguous</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isAmbiguous()">isAmbiguous</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i16" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isInfinitelyAmbiguous()">isInfinitelyAmbiguous</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i17" class="rowColor">
+<td class="colFirst"><code>java.util.Set&lt;java.lang.Integer&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lastSelectedNodes()">lastSelectedNodes</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#prefixSucceeded()">prefixSucceeded</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Did the parse match the beginning of the input?</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i19" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resetTrees()">resetTrees</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i20" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setTreeSelector(org.nineml.coffeegrinder.trees.TreeSelector)">setTreeSelector</a></span>&#8203;(<a href="../trees/TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a>&nbsp;selector)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#succeeded()">succeeded</a></span>()</code></th>
 <td class="colLast">
@@ -354,30 +374,82 @@ implements <a href="GearleyResult.html" title="interface in org.nineml.coffeegri
 </dl>
 </li>
 </ul>
+<a id="hasMoreTrees()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>hasMoreTrees</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;hasMoreTrees()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="GearleyResult.html#hasMoreTrees()">hasMoreTrees</a></code>&nbsp;in interface&nbsp;<code><a href="GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+</dl>
+</li>
+</ul>
+<a id="resetTrees()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>resetTrees</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;resetTrees()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="GearleyResult.html#resetTrees()">resetTrees</a></code>&nbsp;in interface&nbsp;<code><a href="GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+</dl>
+</li>
+</ul>
+<a id="setTreeSelector(org.nineml.coffeegrinder.trees.TreeSelector)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setTreeSelector</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setTreeSelector&#8203;(<a href="../trees/TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a>&nbsp;selector)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="GearleyResult.html#setTreeSelector(org.nineml.coffeegrinder.trees.TreeSelector)">setTreeSelector</a></code>&nbsp;in interface&nbsp;<code><a href="GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+</dl>
+</li>
+</ul>
 <a id="getTree()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getTree</h4>
-<pre class="methodSignature">public&nbsp;<a href="ParseTree.html" title="class in org.nineml.coffeegrinder.parser">ParseTree</a>&nbsp;getTree()</pre>
+<pre class="methodSignature">public&nbsp;<a href="../trees/ParseTree.html" title="class in org.nineml.coffeegrinder.trees">ParseTree</a>&nbsp;getTree()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="GearleyResult.html#getTree()">getTree</a></code>&nbsp;in interface&nbsp;<code><a href="GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 </dl>
 </li>
 </ul>
-<a id="getTree(org.nineml.coffeegrinder.parser.TreeBuilder)">
+<a id="getTree(org.nineml.coffeegrinder.trees.TreeBuilder)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getTree</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;getTree&#8203;(<a href="TreeBuilder.html" title="class in org.nineml.coffeegrinder.parser">TreeBuilder</a>&nbsp;builder)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;getTree&#8203;(<a href="../trees/TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a>&nbsp;builder)</pre>
 <div class="block">Get a tree.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="GearleyResult.html#getTree(org.nineml.coffeegrinder.parser.TreeBuilder)">getTree</a></code>&nbsp;in interface&nbsp;<code><a href="GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+<dd><code><a href="GearleyResult.html#getTree(org.nineml.coffeegrinder.trees.TreeBuilder)">getTree</a></code>&nbsp;in interface&nbsp;<code><a href="GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+</dl>
+</li>
+</ul>
+<a id="lastSelectedNodes()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>lastSelectedNodes</h4>
+<pre class="methodSignature">public&nbsp;java.util.Set&lt;java.lang.Integer&gt;&nbsp;lastSelectedNodes()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="GearleyResult.html#lastSelectedNodes()">lastSelectedNodes</a></code>&nbsp;in interface&nbsp;<code><a href="GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 </dl>
 </li>
 </ul>
