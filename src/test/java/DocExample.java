@@ -1,12 +1,6 @@
-import org.nineml.coffeegrinder.gll.GllParser;
-import org.nineml.coffeegrinder.gll.GllResult;
+import org.nineml.coffeegrinder.trees.ParseTree;
+import org.nineml.coffeegrinder.trees.ParseTreeBuilder;
 import org.nineml.coffeegrinder.parser.*;
-import org.nineml.coffeegrinder.util.ParseTreeBuilder;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Calendar;
 
 import static org.junit.Assert.fail;
 
@@ -51,15 +45,15 @@ public class DocExample {
         GearleyResult result = parser.parse("bx");
 
         if (result.succeeded()) {
+            ParseTreeBuilder builder = new ParseTreeBuilder();
             ParseForest forest = result.getForest();
-            ParseTree tree = forest.getTree();
+            forest.getWalker().getNextTree(builder);
+            ParseTree tree = builder.getTree();
 
             // TODO: do something with the tree.
 
             if (forest.isAmbiguous()) {
-                ParseTreeBuilder builder = new ParseTreeBuilder();
-                forest.getTree(builder);
-                long totalParses = builder.getParseCount();
+                long totalParses = forest.getParseTreeCount();
                 // TODO: deal with multiple parses
             }
         } else {

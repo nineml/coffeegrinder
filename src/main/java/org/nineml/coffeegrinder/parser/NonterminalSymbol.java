@@ -3,7 +3,7 @@ package org.nineml.coffeegrinder.parser;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * A nonterminal symbol in the grammar.
@@ -11,11 +11,11 @@ import java.util.Collection;
  * {@link ParserGrammar Grammar}.</p>
  */
 public class NonterminalSymbol extends Symbol {
-    /* package private */ final String name;
+    public final String symbolName;
     /* package private */ String realName;
     private final Grammar grammar;
 
-    protected NonterminalSymbol(Grammar grammar, String name, Collection<ParserAttribute> attributes) {
+    protected NonterminalSymbol(Grammar grammar, String name, List<ParserAttribute> attributes) {
         super(attributes);
 
         if (name == null) {
@@ -23,7 +23,7 @@ public class NonterminalSymbol extends Symbol {
         }
 
         this.grammar = grammar;
-        this.name = name;
+        this.symbolName = name;
         realName = name;
     }
 
@@ -70,7 +70,7 @@ public class NonterminalSymbol extends Symbol {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof NonterminalSymbol) {
-            return name.equals(((NonterminalSymbol) obj).name);
+            return symbolName.equals(((NonterminalSymbol) obj).symbolName);
         }
         return false;
     }
@@ -81,7 +81,7 @@ public class NonterminalSymbol extends Symbol {
      */
     @Override
     public int hashCode() {
-        return 7 * name.hashCode();
+        return 7 * symbolName.hashCode();
     }
 
     /**
@@ -91,8 +91,8 @@ public class NonterminalSymbol extends Symbol {
     @Override
     public String toString() {
         if (grammar.isNullable(this)) {
-            return name + "ⁿ";
+            return symbolName + "ⁿ";
         }
-        return name;
+        return symbolName;
     }
 }

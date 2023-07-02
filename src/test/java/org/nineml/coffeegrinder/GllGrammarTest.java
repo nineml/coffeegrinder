@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.nineml.coffeegrinder.trees.ParseTree;
+import org.nineml.coffeegrinder.trees.ParseTreeBuilder;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.CharacterSet;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
@@ -433,7 +435,9 @@ public class GllGrammarTest {
 
         Assert.assertTrue(result.succeeded());
 
-        ParseTree tree = result.getForest().getTree();
+        ParseTreeBuilder builder = new ParseTreeBuilder();
+        result.getForest().getWalker().getNextTree(builder);
+        ParseTree tree = builder.getTree();
 
         ParseTree s_insertion = tree.getChildren().get(1);
 

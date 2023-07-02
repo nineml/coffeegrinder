@@ -1,19 +1,28 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ParseException;
+import org.nineml.coffeegrinder.tokens.Token;
+import org.nineml.coffeegrinder.util.ParserAttribute;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * An internal class representing a family of nodes in the SPPF.
  * <p>This has no public use, but it's shared between two classes so it can't be private to either of them.</p>
  */
-public class Family implements RuleChoice {
+public class Family {
+    private static int nextId = 0;
+    public final int id;
     // if v is null, this family represents epsilon
-    public ForestNode v;
-    public ForestNode w;
-    public final State state;
+    protected ForestNode v;
+    protected ForestNode w;
+    protected final State state;
     private Symbol[] combinedRHS = null;
 
     protected Family(ForestNode v, State state) {
+        this.id = Family.nextId++;
         this.v = v;
         this.w = null;
         this.state = state;
@@ -23,12 +32,12 @@ public class Family implements RuleChoice {
         if (w == null) {
             throw ParseException.internalError("Attempt to create family with null 'w'");
         }
+        this.id = Family.nextId++;
         this.w = w;
         this.v = v;
         this.state = state;
     }
 
-    @Override
     public Symbol getSymbol() {
         if (v == null) {
             return TerminalSymbol.EPSILON;
@@ -45,7 +54,6 @@ public class Family implements RuleChoice {
         return w.symbol;
     }
 
-    @Override
     public Symbol[] getRightHandSide() {
         // Work out what the combined right hand side for this family is. If there's only
         // one choice, it's that choice. If there are two choices, it's the concatenation
@@ -98,14 +106,70 @@ public class Family implements RuleChoice {
         return combinedRHS;
     }
 
-    @Override
+    public List<ParserAttribute> getLeftAttributes() {
+        if (w == null || state == null) {
+            return Collections.emptyList();
+        }
+
+        return getAttributes(w.getSymbol(), state.rhs.get(state.position - 2));
+    }
+
+    public List<ParserAttribute> getRightAttributes() {
+        if (v == null || state == null) {
+            return Collections.emptyList();
+        }
+
+        return getAttributes(v.getSymbol(), state.rhs.get(state.position - 1));
+    }
+
+    private List<ParserAttribute> getAttributes(Symbol symbol, Symbol rhsSymbol) {
+        Token token = symbol instanceof TerminalSymbol ? ((TerminalSymbol) symbol).getToken() : null;
+        Token rhsToken = rhsSymbol instanceof TerminalSymbol ? ((TerminalSymbol) rhsSymbol).getToken() : null;
+
+        if (rhsSymbol.getAttributes().isEmpty()
+                && (token == null || token.getAttributes().isEmpty())
+                && (rhsToken == null || rhsToken.getAttributes().isEmpty())) {
+            return Collections.emptyList();
+        }
+
+        ArrayList<ParserAttribute> list = new ArrayList<>();
+        if (token != null) {
+            list.addAll(token.getAttributes());
+        }
+        list.addAll(rhsSymbol.getAttributes());
+        if (rhsToken != null) {
+            list.addAll(rhsToken.getAttributes());
+        }
+        return list;
+    }
+
     public ForestNode getLeftNode() {
         return w;
     }
 
-    @Override
     public ForestNode getRightNode() {
         return v;
+    }
+
+    public int getPriority() {
+        int left = 0;
+        int right = 0;
+        boolean max = false;
+
+        if (v != null) {
+            left = v.getPriority();
+            max = "max".equals(v.getPriorityStyle());
+        }
+        if (w != null) {
+            right = w.getPriority();
+            max = "max".equals(w.getPriorityStyle());
+        }
+
+        if (max) {
+            return Math.max(left, right);
+        }
+
+        return left+right;
     }
 
     @Override

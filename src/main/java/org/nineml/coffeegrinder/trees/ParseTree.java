@@ -1,8 +1,11 @@
-package org.nineml.coffeegrinder.parser;
+package org.nineml.coffeegrinder.trees;
 
 import org.nineml.coffeegrinder.exceptions.ForestException;
+import org.nineml.coffeegrinder.parser.NonterminalSymbol;
+import org.nineml.coffeegrinder.parser.ParserOptions;
+import org.nineml.coffeegrinder.parser.Symbol;
+import org.nineml.coffeegrinder.parser.TerminalSymbol;
 import org.nineml.coffeegrinder.tokens.Token;
-import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.io.*;
 import java.util.*;
@@ -13,32 +16,67 @@ import java.util.*;
 public class ParseTree {
     private final NonterminalSymbol symbol;
     private final Token token;
-    public ArrayList<ParseTree> children = null;
+    private final ArrayList<ParseTree> children = new ArrayList<>();
     private ParseTree parent = null;
-    private HashMap<String,String> attributes = null;
+    private final Map<String,String> attributes;
+    public final int leftExtent;
+    public final int rightExtent;
 
-    public ParseTree(NonterminalSymbol symbol, Map<String,String> attrs) {
+    protected boolean ambiguous = false;
+    protected boolean infinitelyAmbiguous = false;
+    protected boolean madeAmbiguousChoice = false;
+
+    public boolean isAmbiguous() {
+        if (parent == null) {
+            return ambiguous;
+        }
+        return parent.ambiguous;
+    }
+
+    public boolean isInfinitelyAmbiguous() {
+        if (parent == null) {
+            return infinitelyAmbiguous;
+        }
+        return parent.infinitelyAmbiguous;
+    }
+
+    public boolean getMadeAmbiguousChoice() {
+        if (parent == null) {
+            return madeAmbiguousChoice;
+        }
+        return parent.madeAmbiguousChoice;
+    }
+
+    public ParseTree(NonterminalSymbol symbol, Map<String,String> attrs, int leftExtent, int rightExtent) {
         this.symbol = symbol;
         this.token = null;
-        if (!attrs.isEmpty()) {
-            this.attributes = new HashMap<>(attrs);
+        if (attrs.isEmpty()) {
+            attributes = Collections.emptyMap();
+        } else {
+            attributes = new HashMap<>(attrs);
         }
+        this.leftExtent = leftExtent;
+        this.rightExtent = rightExtent;
     }
 
-    public ParseTree(Token token, Map<String,String> attrs) {
+    public ParseTree(Token token, Map<String,String> attrs, int leftExtent, int rightExtent) {
         this.symbol = null;
         this.token = token;
-        if (!attrs.isEmpty()) {
-            this.attributes = new HashMap<>(attrs);
+        if (attrs.isEmpty()) {
+            attributes = Collections.emptyMap();
+        } else {
+            attributes = new HashMap<>(attrs);
         }
+        this.leftExtent = leftExtent;
+        this.rightExtent = rightExtent;
     }
 
-    public ParseTree addChild(NonterminalSymbol symbol, Map<String,String> attrs) {
-        return addChild(new ParseTree(symbol, attrs));
+    public ParseTree addChild(NonterminalSymbol symbol, Map<String,String> attrs, int leftExtent, int rightExtent) {
+        return addChild(new ParseTree(symbol, attrs, leftExtent, rightExtent));
     }
 
-    public void addChild(Token token, Map<String,String> attrs) {
-        addChild(new ParseTree(token, attrs));
+    public void addChild(Token token, Map<String,String> attrs, int leftExtent, int rightExtent) {
+        addChild(new ParseTree(token, attrs, leftExtent, rightExtent));
     }
 
     private ParseTree addChild(ParseTree child) {
@@ -46,9 +84,6 @@ public class ParseTree {
             throw new IllegalStateException("Cannot add children to a leaf node.");
         }
         child.parent = this;
-        if (children == null) {
-            children = new ArrayList<>();
-        }
         children.add(child);
         return child;
     }
@@ -130,7 +165,7 @@ public class ParseTree {
             String xml = getSymbol().toString().replace("&", "&amp;");
             xml = xml.replace("<", "&lt;").replace("\"", "&quot;");
             stream.printf("<symbol label=\"%s\"", xml);
-            if (children == null) {
+            if (children.isEmpty()) {
                 stream.printf("><epsilon/></symbol>%n");
             } else {
                 stream.print(">");

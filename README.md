@@ -43,3 +43,10 @@ The following, no doubt incomplete, references influenced my thinking about this
 * [Earley Parsing Explained](https://loup-vaillant.fr/tutorials/earley-parsing/parser)
 * [Advanced Parsing Techniques](https://web.stanford.edu/class/archive/cs/cs143/cs143.1128/lectures/07/Slides07.pdf)
 * [SPPF-Style Parsing From Earley Recognizers](http://dinhe.net/~aredridel/.notmine/PDFs/Parsing/SCOTT,%20Elizabeth%20-%20SPPF-Style%20Parsing%20From%20Earley%20Recognizers.pdf)
+* [Brabrand et. al 2010] Brabrand, Claus, Robert
+Giegerich, and Anders Möller. “Analyzing Ambiguity of Context-Free Grammars.”
+<em>Science of Computer Programming</em>, volume 75, number 3.
+Elsevier. (2010). https://cs.au.dk/~amoeller/papers/ambiguity/
+
+CoffeeGrinder includes a copy of Anders Møller’s
+[ambiguity analyzer](https://www.brics.dk/grammar/).

@@ -70,11 +70,11 @@ public abstract class Decoratable {
      *
      * @return the attributes.
      */
-    public final Collection<ParserAttribute> getAttributes() {
+    public final List<ParserAttribute> getAttributes() {
         if (attributes == null) {
             return Collections.emptyList();
         }
-        return attributes.values();
+        return new ArrayList<>(attributes.values());
     }
 
     /**

@@ -47,18 +47,18 @@ Individual parse trees can be obtained from the forest.</para>
 <area xml:id="ex_r1b" coords="11 35"/>
 <area xml:id="ex_r2" coords="13 55"/>
 <area xml:id="ex_term" coords="14 55"/>
-<area xml:id="ex_pgram" coords="20 60"/>
+<area xml:id="ex_pgram" coords="20 65"/>
 <area xml:id="ex_hyg" coords="22 55"/>
 <area xml:id="ex_parser" coords="27 55"/>
 <area xml:id="ex_result" coords="29 55"/>
 <area xml:id="ex_success" coords="31 55"/>
-<area xml:id="ex_forest" coords="32 55"/>
-<area xml:id="ex_tree" coords="33 55"/>
-<area xml:id="ex_amb" coords="37 55"/>
+<area xml:id="ex_forest" coords="33 55"/>
+<area xml:id="ex_tree" coords="35 55"/>
+<area xml:id="ex_amb" coords="39 55"/>
 </areaspec>
 <programlisting language="java"
 ><xi:include href="../../test/java/DocExample.java"
-             fragid="text(line=23,67;md5=135b35933056ba8d06e8d3f5f4ecd318)" parse="text"
+             fragid="text(line=16,61;md5=fc5911022faf50842063a713ba4eaa31)" parse="text"
 /></programlisting>
 <calloutlist>
 <callout arearefs="ex_opt">

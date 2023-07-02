@@ -48,10 +48,7 @@ public abstract class Grammar {
 
     /**
      * Gets a metadata property.
-     * <p>Metadata properties exist solely for annotations by an application. They have
-     * no bearing on the function of the grammar. The {@link org.nineml.coffeegrinder.util.GrammarCompiler GrammarCompiler}
-     * stores metadata properties in the compiled grammar and they are restored when a parsed
-     * grammar is loaded.</p>
+     * <p>Metadata properties exist solely for annotations by an application.</p>
      * @param name the name of the property
      * @return the value of the property, or null if no such property exists
      * @throws NullPointerException if the name is null
@@ -65,10 +62,7 @@ public abstract class Grammar {
 
     /**
      * Gets the metadata properties.
-     * <p>Metadata properties exist solely for annotations by an application. They have
-     * no bearing on the function of the grammar. The {@link org.nineml.coffeegrinder.util.GrammarCompiler GrammarCompiler}
-     * stores metadata properties in the compiled grammar and they are restored when a parsed
-     * grammar is loaded.</p>
+     * <p>Metadata properties exist solely for annotations by an application.</p>
      * @return the metadata properties
      */
     public Map<String,String> getMetadataProperies() {

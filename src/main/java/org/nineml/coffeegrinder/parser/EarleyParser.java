@@ -294,7 +294,7 @@ public class EarleyParser implements GearleyParser {
                                 consumedInput = true;
 
                                 Symbol symbol = item.state.nextSymbol();
-                                greedy = symbol.getAttributeValue("regex", null);
+                                greedy = symbol.getAttributeValue(ParserAttribute.REGEX_NAME, null);
                             }
                         }
                     }

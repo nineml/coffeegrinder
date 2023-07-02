@@ -1,9 +1,8 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ForestException;
-import org.nineml.coffeegrinder.tokens.Token;
-import org.nineml.coffeegrinder.util.NopTreeBuilder;
-import org.nineml.coffeegrinder.util.ParseTreeBuilder;
+import org.nineml.coffeegrinder.trees.SequentialTreeSelector;
+import org.nineml.coffeegrinder.trees.TreeSelector;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 import org.nineml.coffeegrinder.util.StopWatch;
 
@@ -20,19 +19,27 @@ import static java.lang.Math.abs;
 public class ParseForest {
     public static final String logcategory = "Forest";
 
-    private enum PendingType { START, END, TREE, END_ALTERNATIVES };
-
     protected final ArrayList<ForestNode> graph = new ArrayList<>();
     protected final ArrayList<ForestNode> roots = new ArrayList<>();
     protected final HashSet<Integer> graphIds = new HashSet<>();
     protected final HashSet<Integer> rootIds = new HashSet<>();
+    protected final ArrayList<ForestNode> ambiguousNodes = new ArrayList<>();
+
     protected final ParserOptions options;
-    protected Boolean ambiguous = null;
-    protected Boolean infinitelyAmbiguous = null;
-    private Stack<PendingAction> pendingActions = null;
+    protected boolean ambiguous = false;
+    protected boolean infinitelyAmbiguous = false;
+    protected int parseTreeCount = 0;
 
     public ParseForest(ParserOptions options) {
         this.options = options;
+    }
+
+    public ForestWalker getWalker() {
+        return getWalker(new SequentialTreeSelector());
+    }
+
+    public ForestWalker getWalker(TreeSelector treeSelector) {
+        return new ForestWalker(this, treeSelector);
     }
 
     /**
@@ -42,13 +49,6 @@ public class ParseForest {
      * @return true if the grammar is ambiguous
      */
     public boolean isAmbiguous() {
-        if (ambiguous == null) {
-            ambiguous = roots.size() > 1;
-            NopTreeBuilder builder = new NopTreeBuilder();
-            getTree(builder);
-            ambiguous = ambiguous || builder.isAmbiguous();
-            infinitelyAmbiguous = builder.isInfinitelyAmbiguous();
-        }
         return ambiguous;
     }
 
@@ -63,6 +63,22 @@ public class ParseForest {
      */
     public boolean isInfinitelyAmbiguous() {
         return infinitelyAmbiguous;
+    }
+
+    /**
+     * How many parse trees are there in this forest?
+     * <p>In an infinitely ambiguous graph, there are an infinite number of parse trees. However,
+     * CoffeeGrinder will never follow the same edge twice when constructing a tree, it won't loop.
+     * So the number of available trees is always a finite number.</p>
+     *
+     * @return the parse tree count
+     */
+    public int getParseTreeCount() {
+        return parseTreeCount;
+    }
+
+    public List<ForestNode> getAmbiguousNodes() {
+        return ambiguousNodes;
     }
 
     /**
@@ -83,13 +99,17 @@ public class ParseForest {
         return graph;
     }
 
-    /**
-     * Get the root nodes in the graph.
-     *
-     * @return the nodes in the graph.
-     */
-    public List<ForestNode> getRoots() {
+    private List<ForestNode> getRoots() {
+        // When the graph is first constructed, there can be multiple roots. But
+        // after we prune the forest, there can be only one.
+        if (roots.size() > 1) {
+            throw new IllegalStateException("Graph has more than one root node");
+        }
         return roots;
+    }
+
+    public ForestNode getRoot() {
+        return roots.size() > 0 ? getRoots().get(0) : null;
     }
 
     /**
@@ -99,323 +119,6 @@ public class ParseForest {
      */
     public ParserOptions getOptions() {
         return options;
-    }
-
-    public ParseTree getTree() {
-        ParseTreeBuilder parseTreeBuilder = new ParseTreeBuilder();
-        getTree(parseTreeBuilder);
-        return parseTreeBuilder.getParseTree();
-    }
-
-    public void getTree(TreeBuilder builder) {
-        if (roots.isEmpty()) {
-            return;
-        }
-
-        builder.startTree();
-
-        ArrayList<RuleChoice> rootChoice = new ArrayList<>(roots);
-        final ForestNode root;
-        if (roots.size() > 1) {
-            int idx = builder.startAlternative(null, rootChoice);
-            if (idx < 0 || idx >= roots.size()) {
-                throw new IllegalStateException("Invalid alternative selected");
-            }
-            root = roots.get(idx);
-        } else {
-            root = roots.get(0);
-        }
-
-        constructTree(builder, root);
-
-        if (roots.size() > 1) {
-            builder.endAlternative(root);
-        }
-
-        builder.endTree();
-
-        ambiguous = builder.isAmbiguous();
-        infinitelyAmbiguous = builder.isInfinitelyAmbiguous();
-    }
-
-    public void constructTree(TreeBuilder builder, ForestNode root) {
-        pendingActions = new Stack<>();
-        pendingActions.push(new PendingTree(root, null));
-        HashSet<Family> seen = new HashSet<>();
-        while (!pendingActions.isEmpty()) {
-            PendingAction top = pendingActions.pop();
-            switch (top.action) {
-                case START:
-                    PendingStart start = (PendingStart) top;
-                    builder.startNonterminal(start.symbol, start.attributes, start.leftExtent, start.rightExtent);
-                    break;
-                case END:
-                    PendingEnd end = (PendingEnd) top;
-                    builder.endNonterminal(end.symbol, end.attributes, end.leftExtent, end.rightExtent);
-                    break;
-                case TREE:
-                    PendingTree tree = (PendingTree) top;
-                    constructTree(builder, tree.tree, tree.xsymbol, seen);
-                    break;
-                case END_ALTERNATIVES:
-                    builder.endAlternative(((PendingEndAlternatives) top).selectedAlternative);
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected pending action: " + top.action);
-
-            }
-        }
-    }
-
-    //private int depth = 0;
-    private void constructTree(TreeBuilder builder, ForestNode tree, Symbol xsymbol, HashSet<Family> selected) {
-        //System.err.printf("IN  %4d %s%n", depth, tree);
-        //depth++;
-
-        ForestNode child0 = null;
-        Symbol child0Symbol = null;
-        ForestNode child1 = null;
-        Symbol child1Symbol = null;
-
-        assert tree != null;
-        State state = tree.getState();
-
-        int index = 0;
-        boolean alternatives = false;
-        int lowest = Integer.MAX_VALUE;
-        RuleChoice selectedAlternative = null;
-        final ArrayList<Family> families;
-        final HashMap<Family,Integer> edgeCounts;
-        switch (tree.families.size()) {
-            case 0:
-            case 1:
-                edgeCounts = null;
-                families = tree.families;
-                break;
-            default:
-                edgeCounts = builder.getEdgeCounts(tree);
-                for (Integer count : edgeCounts.values()) {
-                    if (count < lowest) {
-                        lowest = count;
-                    }
-                }
-
-                families = new ArrayList<>();
-                for (Family family : tree.families) {
-                    // Don't rule out epsilon transitions; they all compare the same so testing
-                    // selected doesn't help. But they don't have descendants, so they can't loop.
-                    if ((family.v==null && family.w==null)) {
-                        families.add(family);
-                    } else {
-                        if (selected.contains(family)) {
-                            builder.loop(family.v);
-                        }
-                        if (edgeCounts.get(family) == lowest) {
-                            families.add(family);
-                        }
-                    }
-                }
-
-                if (families.size() > 1) {
-                    // We need to find the actual symbols in the right hand sides of the rules
-                    // and copy those for use in making choices because they may have different
-                    // properties (marks, pragmas, etc.) than the "ordinary" versions on the
-                    // left hand side.
-                    ArrayList<RuleChoice> choices = new ArrayList<>();
-                    for (Family fam : families) {
-                        if (tree.getSymbol() == null || tree.getSymbol().equals(fam.state.getSymbol())) {
-                            ForestNode c0, c1;
-                            if (fam.w == null) {
-                                c0 = fam.v;
-                                c1 = null;
-                            } else {
-                                c0 = fam.w;
-                                c1 = fam.v;
-                            }
-
-                            Symbol c0symbol = c0 != null ? c0.getSymbol() : null;
-                            Symbol c1symbol = c1 != null ? c1.getSymbol() : null;
-                            int c0pos = -1;
-                            int c1pos = -1;
-
-                            if (c1 != null) {
-                                c1pos = getSymbol(c1.getSymbol(), fam.state, fam.state.getPosition());
-                                if (c1pos >= 0) {
-                                    c1symbol = fam.state.getRhs().get(c1pos);
-                                } else {
-                                    c1pos = fam.state.getPosition();
-                                }
-
-                                c0pos = getSymbol(c0.getSymbol(), fam.state, c1pos); // don't "pass" the second symbol
-                                if (c0pos >= 0) {
-                                    c0symbol = fam.state.getRhs().get(c0pos);
-                                }
-                            } else {
-                                if (c0 != null) {
-                                    c0pos = getSymbol(c0.getSymbol(), fam.state, fam.state.getPosition());
-                                    if (c0pos >= 0) {
-                                        c0symbol = fam.state.getRhs().get(c0pos);
-                                    }
-                                }
-                            }
-
-                            ArrayList<Symbol> rhs = new ArrayList<>();
-                            for (int pos = 0; pos < fam.state.getRhs().length; pos++) {
-                                if (pos == c0pos) {
-                                    rhs.add(c0symbol);
-                                    // And patch c0...
-                                    c0 = new ForestNode(c0.graph, c0symbol, c0.leftExtent, c0.rightExtent);
-                                } else if (pos == c1pos) {
-                                    rhs.add(c1symbol);
-                                    // And patch c1...
-                                    c1 = new ForestNode(c1.graph, c1symbol, c1.leftExtent, c1.rightExtent);
-                                } else {
-                                    rhs.add(fam.state.getRhs().get(pos));
-                                }
-                            }
-
-                            choices.add(new RuleChoiceImpl(fam.getSymbol(), rhs, c1, c0));
-                        } else {
-                            choices.add(new RuleChoiceImpl(fam));
-                        }
-                    }
-
-                    index = builder.startAlternative(tree, choices);
-                    if (index < 0 || index >= choices.size()) {
-                        throw new IllegalStateException("Invalid alternative selected");
-                    }
-                    selectedAlternative = families.get(index);
-                    alternatives = true;
-                }
-        }
-
-        State selectedState = state;
-        if (!families.isEmpty()) {
-            Family family = families.get(index);
-
-            // The GLL parser and the Earley parser build the forest differently. During construction,
-            // we need to work out which symbols on the RHS were matched (so that we can get any
-            // attributes they might have). For the GLL parser, the state from the tree is correct.
-            // For the Earley parser, the state from the selected family is correct.
-            if ("Earley".equals(options.getParserType())) {
-                selectedState = family.state;
-            }
-
-            // Don't advance an epsilon edge, leave it as an escape hatch.
-            if (edgeCounts != null && (family.v != null || family.w != null)) {
-                edgeCounts.put(family, lowest+1);
-            }
-            selected.add(family);
-            if (family.w == null) {
-                child0 = family.v;
-            } else {
-                child0 = family.w;
-                child1 = family.v;
-            }
-        }
-
-        // When the GLL parser builds the forest, the states associated with nodes in the tree
-        // are sometimes associated with the node's parent symbol. This doesn't seem to occur
-        // in circumstances where it matters. (But I could be wrong). Nevertheless, if the
-        // state symbol isn't the same as the tree symbol, don't go looking at its RHS.
-        if (tree.getSymbol() == null || (selectedState != null && tree.getSymbol().equals(selectedState.getSymbol()))) {
-            if (child1 != null) {
-                int pos = getSymbol(child1.getSymbol(), selectedState, selectedState.getPosition());
-                if (pos >= 0) {
-                    child1Symbol = selectedState.getRhs().get(pos);
-                } else {
-                    pos = selectedState.getPosition();
-                }
-
-                pos = getSymbol(child0.getSymbol(), selectedState, pos); // don't "pass" the second symbol
-                if (pos >= 0) {
-                    child0Symbol = selectedState.getRhs().get(pos);
-                }
-            } else {
-                if (child0 != null) {
-                    int pos = getSymbol(child0.getSymbol(), selectedState, selectedState.getPosition());
-                    if (pos >= 0) {
-                        child0Symbol = selectedState.getRhs().get(pos);
-                    }
-                }
-            }
-        }
-
-        Symbol symbol = tree.getSymbol();
-        if (symbol == null) {
-            assert child0 != null;
-
-            if (alternatives) {
-                pendingActions.push(new PendingEndAlternatives(selectedAlternative));
-            }
-
-            if (child1 != null) {
-                pendingActions.push(new PendingTree(child1, child1Symbol));
-            }
-
-            pendingActions.push(new PendingTree(child0, child0Symbol));
-
-            return;
-        }
-
-        final Map<String,String> atts;
-        if (symbol.getAttributes().isEmpty() && (xsymbol == null || xsymbol.getAttributes().isEmpty())) {
-            atts = Collections.emptyMap();
-        } else {
-            HashMap<String,String> xatts = new HashMap<>(symbol.getAttributesMap());
-            if (xsymbol != null) {
-                xatts.putAll(xsymbol.getAttributesMap());
-            }
-            atts = xatts;
-        }
-
-        if (symbol instanceof TerminalSymbol) {
-            Token token = ((TerminalSymbol) symbol).getToken();
-            builder.token(token, atts);
-        } else {
-            if (alternatives) {
-                pendingActions.push(new PendingEndAlternatives(selectedAlternative));
-            }
-
-            pendingActions.push(new PendingEnd((NonterminalSymbol) symbol, atts, tree.leftExtent, tree.rightExtent));
-
-            if (child1 != null) {
-                pendingActions.push(new PendingTree(child1, child1Symbol));
-            }
-
-            if (child0 != null) {
-                pendingActions.push(new PendingTree(child0, child0Symbol));
-            }
-
-            pendingActions.push(new PendingStart((NonterminalSymbol) symbol, atts, tree.leftExtent, tree.rightExtent));
-        }
-
-        //depth--;
-        //System.err.printf("OUT %4d %s%n", depth, tree);
-    }
-
-    private int getSymbol(Symbol seek, State state, int maxPos) {
-        // Because some nonterminals can go to epsilon, we can't always find them
-        // by position. If there's only one symbol, then we want the last one before
-        // the position. But if there are two, then the *second* symbol has to come
-        // after the first!
-        int found = -1;
-        if (seek instanceof TerminalSymbol) {
-            Token token = ((TerminalSymbol) seek).getToken();
-            for (int pos = 0; pos < maxPos; pos++) {
-                if (state.getRhs().get(pos).matches(token)) {
-                    found = pos;
-                }
-            }
-        } else {
-            for (int pos = 0; pos < maxPos; pos++) {
-                if (state.getRhs().get(pos).equals(seek)) {
-                    found = pos;
-                }
-            }
-        }
-
-        return found;
     }
 
     /**
@@ -443,7 +146,7 @@ public class ParseForest {
         stream.println("<sppf>");
         int count = 0;
         for (ForestNode node : graph) {
-            stream.printf("  <u%d id='%s'", count, id(node.hashCode()));
+            stream.printf("  <u%d id='%s'", count, id(node.id));
 
             String symstr = null;
             String stastr = null;
@@ -479,9 +182,9 @@ public class ParseForest {
 
                 Collection<ParserAttribute> pattrs;
                 if (node.symbol instanceof TerminalSymbol) {
-                     pattrs = ((TerminalSymbol) node.symbol).getToken().getAttributes();
+                    pattrs = ((TerminalSymbol) node.symbol).getToken().getAttributes();
                 } else {
-                     pattrs = node.symbol.getAttributes();
+                    pattrs = node.symbol.getAttributes();
                 }
                 for (ParserAttribute attr : pattrs) {
                     attrs.append("    <attr name=\"").append(attr.getName());
@@ -489,12 +192,13 @@ public class ParseForest {
                 }
             }
             stream.printf(" leftExtent='%d' rightExtent='%d'", node.leftExtent, node.rightExtent);
+            stream.printf(" priority='%d'", node.priority);
             if (!node.families.isEmpty()) {
                 stream.printf(" trees='%d'", node.families.size());
             }
 
             if (node.families.isEmpty()) {
-                if ("".equals(attrs.toString())) {
+                if ("".contentEquals(attrs)) {
                     stream.println("/>");
                 } else {
                     stream.println(">");
@@ -506,18 +210,18 @@ public class ParseForest {
                 for (Family family : node.families) {
                     if (family.w != null) {
                         if (family.v != null) {
-                            stream.println("    <pair>");
-                            stream.printf("      <link target='%s'/>\n", id(family.w.hashCode()));
-                            stream.printf("      <link target='%s'/>\n", id(family.v.hashCode()));
+                            stream.printf("    <pair priority='%d'>%n", family.getPriority());
+                            stream.printf("      <link target='%s'/>%n", id(family.w.id));
+                            stream.printf("      <link target='%s'/>%n", id(family.v.id));
                             stream.println("    </pair>");
                         } else {
-                            stream.printf("      <link target='%s'/>\n", id(family.w.hashCode()));
+                            stream.printf("      <link target='%s'/>%n", id(family.w.id));
                         }
                     } else {
                         if (family.v == null) {
                             stream.println("    <epsilon/>");
                         } else {
-                            stream.printf("    <link target='%s'/>\n", id(family.v.hashCode()));
+                            stream.printf("    <link target='%s'/>\n", id(family.v.id));
                         }
                     }
                 }
@@ -590,25 +294,15 @@ public class ParseForest {
     protected void prune() {
         StopWatch timer = new StopWatch();
 
-        /*
-        options.getLogger().debug(logcategory, "Pruning forest of %,d nodes with %,d roots", graph.size(), roots.size());
-        // Step 1. Trim epsilon twigs
-        for (ForestNode node : roots) {
-            node.trimEpsilon();
-        }
-        options.getLogger().debug(logcategory, "Trimmed ε twigs: %,d nodes remain", graph.size());
-         */
-
-        // Step 2. Find all the reachable nodes
         for (ForestNode root : roots) {
-            root.reach();
+            root.reach(roots.size());
         }
 
         int count = 0;
         ArrayList<ForestNode> prunedGraph = new ArrayList<>();
         HashSet<Integer> prunedMap = new HashSet<>();
         for (ForestNode node : graph) {
-            if (node.reachable) {
+            if (node.reachable > 0) {
                 prunedGraph.add(node);
                 prunedMap.add(node.id);
             } else {
@@ -644,58 +338,4 @@ public class ParseForest {
             rootIds.remove(node.id);
         }
     }
-
-    private abstract static class PendingAction {
-        private final PendingType action;
-        public PendingAction(PendingType action) {
-            this.action = action;
-        }
-    }
-
-    private static class PendingStart extends PendingAction {
-        public final NonterminalSymbol symbol;
-        public final Map<String,String> attributes;
-        public final int leftExtent;
-        public final int rightExtent;
-        public PendingStart(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
-            super(PendingType.START);
-            this.symbol = symbol;
-            this.attributes = attributes;
-            this.leftExtent = leftExtent;
-            this.rightExtent = rightExtent;
-        }
-    }
-
-    private static class PendingEnd extends PendingAction {
-        public final NonterminalSymbol symbol;
-        public final Map<String,String> attributes;
-        public final int leftExtent;
-        public final int rightExtent;
-        public PendingEnd(NonterminalSymbol symbol, Map<String,String> attributes, int leftExtent, int rightExtent) {
-            super(PendingType.END);
-            this.symbol = symbol;
-            this.attributes = attributes;
-            this.leftExtent = leftExtent;
-            this.rightExtent = rightExtent;
-        }
-    }
-
-    private static class PendingTree extends PendingAction {
-        public final ForestNode tree;
-        public final Symbol xsymbol;
-        public PendingTree(ForestNode tree, Symbol xsymbol) {
-            super(PendingType.TREE);
-            this.tree = tree;
-            this.xsymbol = xsymbol;
-        }
-    }
-
-    private static class PendingEndAlternatives extends PendingAction {
-        public final RuleChoice selectedAlternative;
-        public PendingEndAlternatives(RuleChoice selectedAlternative) {
-            super(PendingType.END_ALTERNATIVES);
-            this.selectedAlternative = selectedAlternative;
-        }
-    }
-
 }

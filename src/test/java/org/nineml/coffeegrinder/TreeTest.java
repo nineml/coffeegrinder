@@ -2,10 +2,10 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.nineml.coffeegrinder.parser.ForestWalker;
+import org.nineml.coffeegrinder.trees.StringTreeBuilder;
 import org.nineml.coffeegrinder.parser.*;
-import org.nineml.coffeegrinder.util.GrammarCompiler;
-import org.nineml.coffeegrinder.util.Iterators;
-import org.nineml.coffeegrinder.util.NopTreeBuilder;
+import org.nineml.coffeegrinder.util.*;
 
 import java.io.File;
 
@@ -41,53 +41,7 @@ public class TreeTest {
 
         Assert.assertTrue(result.succeeded());
 
-        TreeBuilder builder = new NopTreeBuilder();
-        result.getTree(builder);
-
-        Assert.assertEquals(2, builder.getRevealedParses());
-    }
-
-    @Test
-    public void test1() {
-        try {
-            GrammarCompiler compiler = new GrammarCompiler();
-            SourceGrammar grammar = compiler.parse(new File("src/test/resources/ixml.cxml"));
-            GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("$$"));
-
-            String input = "S:'x',e. e:.";
-            GearleyResult result = parser.parse(Iterators.characterIterator(input));
-
-
-            result.getForest().serialize("/tmp/graph.xml");
-            //ParseTree tree = result.getForest().parse();
-            //tree.serialize("tree.xml");
-
-            Assert.assertTrue(result.succeeded());
-
-            TreeBuilder builder = new NopTreeBuilder();
-            result.getTree(builder);
-            Assert.assertEquals(1, builder.getRevealedParses());
-        } catch (Exception ex) {
-            fail();
-        }
-    }
-
-    @Test
-    public void walker1() {
-        try {
-            // This example caused an error in the tree walker. It attempted to find a choice
-            // for a node that had nothing but loops. Since loops are ignored, it attempted to
-            // setup a choice when there were not choices.
-            GrammarCompiler compiler = new GrammarCompiler();
-            SourceGrammar grammar = compiler.parse(new File("src/test/resources/property-file.cxml"));
-
-            GearleyParser parser = grammar.getParser(options, "$$");
-            GearleyResult result = parser.parse(Iterators.fileIterator("src/test/resources/short-example.properties"));
-
-            Assert.assertTrue(result.isAmbiguous());
-        } catch (Exception ex) {
-            fail();
-        }
+        Assert.assertEquals(2, result.getForest().getParseTreeCount());
     }
 
     @Test
@@ -115,11 +69,47 @@ public class TreeTest {
         GearleyResult result = parser.parse(Iterators.characterIterator(""));
         Assert.assertTrue(result.succeeded());
 
-        TreeBuilder builder = new NopTreeBuilder();
-        result.getForest().getTree(builder);
-
-        Assert.assertEquals(2, builder.getRevealedParses());
+        Assert.assertEquals(2, result.getForest().getParseTreeCount());
     }
 
+    @Test
+    public void testSymbols() {
+        SourceGrammar grammar = new SourceGrammar();
+
+        /*
+        S = "a", B1, "c", B2, D, "e".
+        B1 = "b".
+        B2 = "b".
+        D = .
+         */
+
+        NonterminalSymbol S = grammar.getNonterminal("S");
+        NonterminalSymbol B1 = grammar.getNonterminal("B");
+        NonterminalSymbol B2 = grammar.getNonterminal("B", new ParserAttribute("name", "value"));
+        NonterminalSymbol D = grammar.getNonterminal("D");
+
+        TerminalSymbol _a = TerminalSymbol.ch('a');
+        TerminalSymbol _b = TerminalSymbol.ch('b');
+        TerminalSymbol _c = TerminalSymbol.ch('c');
+        TerminalSymbol _e = TerminalSymbol.ch('e');
+
+        grammar.addRule(S, _a, B1, _c, B2, D, _e);
+        grammar.addRule(B1, _b);
+        grammar.addRule(B2, _b);
+        grammar.addRule(D);
+
+        GearleyParser parser = grammar.getParser(options, S);
+        GearleyResult result = parser.parse(Iterators.characterIterator("abcbe"));
+        Assert.assertTrue(result.succeeded());
+
+        //result.getForest().serialize("testsymbols.xml");
+
+        Assert.assertEquals(1, result.getForest().getParseTreeCount());
+
+        StringTreeBuilder builder = new StringTreeBuilder();
+        ForestWalker xxx = result.getForest().getWalker();
+        xxx.getNextTree(builder);
+        //System.err.println(builder.getTree());
+    }
 
 }

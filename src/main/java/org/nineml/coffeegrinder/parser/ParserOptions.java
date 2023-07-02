@@ -14,6 +14,7 @@ public class ParserOptions {
     private String parserType = "Earley";
     private boolean returnChart = false;
     private boolean prefixParsing = false;
+    private String priorityStyle = "max";
     private ProgressMonitor monitor = null;
 
     /**
@@ -161,4 +162,31 @@ public class ParserOptions {
     public void setProgressMonitor(ProgressMonitor monitor) {
         this.monitor = monitor;
     }
+
+    /**
+     * The priority style.
+     * <p>Priorities can be computed on one of two styles: "<code>max</code>" or "<code>sum</code>".</p>
+     * <p>If the priority style is "<code>max</code>", the priority of any given node is the highest priority
+     * value in the subgraph rooted at the current node.</p>
+     * <p>If the priority style is "<code>sum</code>", the priority of any given node is the sum of the priorities
+     * of the nodes in the subgraph rooted at the current node.</p>
+     * @return the priority style
+     */
+    public String getPriorityStyle() {
+        return priorityStyle;
+    }
+
+    /**
+     * Set the priority style.
+     * <p>The style can be "<code>max</code>" or "<code>sum</code>". The default is "<code>max</code>".</p>
+     * @param style the priority style.
+     */
+    public void setPriorityStyle(String style) {
+        if ("max".equals(style) || "sum".equals(style)) {
+            this.priorityStyle = style;
+        } else {
+            throw new IllegalArgumentException("Unrecognized priority style: " + style);
+        }
+    }
+
 }

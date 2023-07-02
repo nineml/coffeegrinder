@@ -6,13 +6,72 @@
 
 <revhistory>
 <revision>
-<revnumber>2.2.2</revnumber>
-<date>2023-06-15</date>
+<revnumber>3.0.0a</revnumber>
+<date>2023-07-02</date>
 <revdescription>
-<para>Small tweaks to the stylesheet that generates GraphViz DOT output from parse forests.
-Added options to suppress the <literal>$$</literal> root, set the rank direction, set the
-shape of terminals, and set the color of subgraphs. Removed the node hash field; it is no
-longer used.</para>
+<para>This is a beta release for version 3.0.0. There are a lot of
+changes in this release and many of them impact the public APIs. The JavaDoc
+has not yet been updated.</para>
+
+<orderedlist>
+<listitem><para>Added an option to analyze the grammar for ambiguity
+with Anders Møller’s <link
+xlink:href="https://www.brics.dk/grammar/">ambiguity analyzer</link>.
+(Note that thie analyzer jar file is included in the repository, but
+it isn’t bundled with CoffeeGrinder, you need to add it to your class
+path. It is bundled with CoffeePot.) </para></listitem>
+<listitem><para>Completely reworked how trees are constructed from the parse forest.
+The new code divides tree building and tree selection (choosing among ambiguous alternatives)
+into different classes. The result is much, much simpler.
+</para></listitem>
+<listitem><para>The parser attributes are available to the tree builder. The parser attributes
+used by NineML have been renamed to URIs.
+</para></listitem>
+<listitem><para>The <classname>RuleChoice</classname> class has been removed. Tree selection
+can be done directly from the <classname>Family</classname> objects. A unique ID has been added
+to each family.
+</para></listitem>
+<listitem><para>The parser supports a priority attribute for guiding
+the selection between ambiguous alternatives. If a particular family
+does not have an assigned priority, it’s priority can be computed as
+either the highest priority of any of its descendants or the sum of
+the priorities of its descendants.
+</para></listitem>
+<listitem><para>Priorities are now integers, not floats. The parser option “priority style” controls
+whether computed priorities are maximum values or sums.
+</para></listitem>
+<listitem><para>Priorities (and other parser attributes) may cause new
+nonterminals to be created when the parser is constructed. The <classname>NonterminalSymbol</classname>
+field <varname>symbolName</varname> can be used to distingiush between them (as can
+the symbol ID, of course). The <methodname>getName()</methodname> method always returns the canonical name.
+</para></listitem>
+<listitem><para>The parse forest no longer exposes multiple root nodes. They can only exist
+before the forest is pruned.
+</para></listitem>
+</orderedlist>
+
+<para>The default “sequential” tree selector will choose every node
+and ever edge at least once. For graphs without loops, this matches
+the number of parses reported. Tree construction from graphs that
+contain loops is challenging. The total number of parses reported does
+not take loops into consideration. (Graphs with loops have an infinite
+number of parse trees.) The tree selector tries to follow all of the paths once, but
+it may fail for pernicously looped graphs:</para>
+
+<figure>
+<title>A perniciously looped graph</title>
+<mediaobject>
+<imageobject>
+  <imagedata fileref="images/pernicious.svg"/>
+</imageobject>
+<caption><para>A graph where X⇔Y, X⇔Z, Y⇔Z, X→’x’|ε, Y→’x’|ε, Z→’x’|ε, </para></caption>
+</mediaobject>
+</figure>
+
+<para>It will get many, but not necessarily all of the possible paths. The priority tree
+selector will always choose the path with the highest priority (if there is one). If all choices
+are made by a uniquely highest priority in each case, this fact is recorded. CoffeeFilter can use this
+when calculating whether or not to mark a parse as ambiguous.</para>
 </revdescription>
 </revision>
 
