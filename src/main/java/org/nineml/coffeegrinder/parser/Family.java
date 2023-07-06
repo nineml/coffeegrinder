@@ -13,7 +13,6 @@ import java.util.List;
  * <p>This has no public use, but it's shared between two classes so it can't be private to either of them.</p>
  */
 public class Family {
-    private static int nextId = 0;
     public final int id;
     // if v is null, this family represents epsilon
     protected ForestNode v;
@@ -21,18 +20,18 @@ public class Family {
     protected final State state;
     private Symbol[] combinedRHS = null;
 
-    protected Family(ForestNode v, State state) {
-        this.id = Family.nextId++;
+    protected Family(ParseForest forest, ForestNode v, State state) {
+        this.id = forest.nextFamilyId++;
         this.v = v;
         this.w = null;
         this.state = state;
     }
 
-    protected Family(ForestNode w, ForestNode v, State state) {
+    protected Family(ParseForest forest, ForestNode w, ForestNode v, State state) {
         if (w == null) {
             throw ParseException.internalError("Attempt to create family with null 'w'");
         }
-        this.id = Family.nextId++;
+        this.id = forest.nextFamilyId++;
         this.w = w;
         this.v = v;
         this.state = state;

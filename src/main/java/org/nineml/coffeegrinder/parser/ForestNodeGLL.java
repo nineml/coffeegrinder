@@ -36,7 +36,7 @@ public class ForestNodeGLL extends ForestNode {
 
         if (intermediate) {
             if (families.isEmpty()) {
-                families.add(new Family(node, node.state));
+                families.add(new Family(graph, node, node.state));
             } else {
                 assert families.size() == 1;
                 assert families.get(0).w == null;
@@ -50,7 +50,7 @@ public class ForestNodeGLL extends ForestNode {
             assert node.families.size() == 1;
             fam = node.families.get(0);
         } else {
-            fam = new Family(node, node.state);
+            fam = new Family(graph, node, node.state);
         }
 
         // Don't add a duplicate...
