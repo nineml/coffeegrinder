@@ -8,6 +8,9 @@ import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.TokenRegex;
 import org.nineml.coffeegrinder.trees.StringTreeBuilder;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class RegexTest extends CoffeeGrinderTest {
     @ParameterizedTest
     @ValueSource(strings = {"Earley", "GLL"})
@@ -229,4 +232,74 @@ public class RegexTest extends CoffeeGrinderTest {
                 "</nl></lineb></line><lines><line><linea><chars>ghi</chars>;<nl>\n" +
                 "</nl></linea></line><lines></lines></lines></lines></lines></file>", builder.getTree());
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void regexZeroOrMore_selectnone(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        //options.getLogger().setDefaultLogLevel("trace");
+        options.setParserType(parserType);
+
+        SourceGrammar grammar = new SourceGrammar();
+        /*
+        S: A, D, A
+        A: 'a'
+        D: ['0'-'9']*
+         */
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _D = grammar.getNonterminal("D");
+
+        grammar.addRule(_S, _A, _D, _A);
+        grammar.addRule(_A, TerminalSymbol.ch('a'));
+        grammar.addRule(_D, TerminalSymbol.regex("[0-9]*"));
+        //grammar.addRule(_D);
+
+        String input = "aa";
+
+        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyResult result = parser.parse(input);
+        Assertions.assertTrue(result.succeeded());
+
+        StringTreeBuilder builder = new StringTreeBuilder();
+        result.getTree(builder);
+        Assertions.assertEquals("<S><A>a</A><D></D><A>a</A></S>", builder.getTree());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void regexZeroOrMore_selectsome(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        //options.getLogger().setDefaultLogLevel("trace");
+        options.setParserType(parserType);
+
+        SourceGrammar grammar = new SourceGrammar();
+        /*
+        S: A, D, A
+        A: 'a'
+        D: ['0'-'9']*
+         */
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _D = grammar.getNonterminal("D");
+
+        grammar.addRule(_S, _A, _D, _A);
+        grammar.addRule(_A, TerminalSymbol.ch('a'));
+        grammar.addRule(_D, TerminalSymbol.regex("[0-9]*"));
+        //grammar.addRule(_D);
+
+        String input = "a123a";
+
+        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyResult result = parser.parse(input);
+        Assertions.assertTrue(result.succeeded());
+
+        StringTreeBuilder builder = new StringTreeBuilder();
+        result.getTree(builder);
+        Assertions.assertEquals("<S><A>a</A><D>123</D><A>a</A></S>", builder.getTree());
+    }
+
+
 }
