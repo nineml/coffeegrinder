@@ -1,22 +1,22 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.TokenRegex;
 import org.nineml.coffeegrinder.util.Iterators;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import static org.junit.Assert.fail;
+public class FailedParseTest extends CoffeeGrinderTest {
 
-public class FailedParseTest {
-    private final ParserOptions options = new ParserOptions();
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void testFailEEE(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
 
-    @Test
-    public void testFailEEE() {
         SourceGrammar grammar = new SourceGrammar(options);
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
@@ -29,9 +29,9 @@ public class FailedParseTest {
 
         GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse(Iterators.characterIterator("1+2-3"));
-        Assert.assertFalse(result.succeeded());
-        Assert.assertEquals(4, result.getTokenCount());
-        Assert.assertEquals("-", result.getLastToken().getValue());
+        Assertions.assertFalse(result.succeeded());
+        Assertions.assertEquals(4, result.getTokenCount());
+        Assertions.assertEquals("-", result.getLastToken().getValue());
     }
 
     private TerminalSymbol[] stringToChars(String str) {
@@ -44,7 +44,7 @@ public class FailedParseTest {
         return symbols.toArray(new TerminalSymbol[0]);
     }
 
-    private SourceGrammar monthsGrammar() {
+    private SourceGrammar monthsGrammar(ParserOptions options) {
         SourceGrammar grammar = new SourceGrammar(options);
         NonterminalSymbol _month = grammar.getNonterminal("month");
         grammar.addRule(_month, stringToChars("January"));
@@ -62,10 +62,14 @@ public class FailedParseTest {
         return grammar;
     }
 
-    @Test
-    public void testMonths_March() {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void testMonths_March(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
         try {
-            SourceGrammar grammar = monthsGrammar();
+            SourceGrammar grammar = monthsGrammar(options);
             NonterminalSymbol start = grammar.getNonterminal("month");
             GearleyParser parser = grammar.getParser(options, start);
             GearleyResult result = parser.parse("March");
@@ -76,14 +80,18 @@ public class FailedParseTest {
             }
 
         } catch (Exception ex) {
-            fail();
+            Assertions.fail();
         }
     }
 
-    @Test
-    public void testMonths_Max() {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void testMonths_Max(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
         try {
-            SourceGrammar grammar = monthsGrammar();
+            SourceGrammar grammar = monthsGrammar(options);
             NonterminalSymbol start = grammar.getNonterminal("month");
             GearleyParser parser = grammar.getParser(options, start);
             GearleyResult result = parser.parse("Max");
@@ -97,14 +105,18 @@ public class FailedParseTest {
                 }
             }
         } catch (Exception ex) {
-            fail();
+            Assertions.fail();
         }
     }
 
-    @Test
-    public void testMonths_Marsh() {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void testMonths_Marsh(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
         try {
-            SourceGrammar grammar = monthsGrammar();
+            SourceGrammar grammar = monthsGrammar(options);
             NonterminalSymbol start = grammar.getNonterminal("month");
             GearleyParser parser = grammar.getParser(options, start);
             GearleyResult result = parser.parse("Marsh");
@@ -117,7 +129,7 @@ public class FailedParseTest {
                 }
             }
         } catch (Exception ex) {
-            fail();
+            Assertions.fail();
         }
     }
 

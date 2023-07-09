@@ -2,14 +2,10 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.nineml.coffeegrinder.parser.ForestWalker;
-import org.nineml.coffeegrinder.trees.StringTreeBuilder;
 import org.nineml.coffeegrinder.parser.*;
-import org.nineml.coffeegrinder.util.*;
-
-import java.io.File;
-
-import static junit.framework.TestCase.fail;
+import org.nineml.coffeegrinder.trees.StringTreeBuilder;
+import org.nineml.coffeegrinder.util.Iterators;
+import org.nineml.coffeegrinder.util.ParserAttribute;
 
 public class TreeTest {
     private final ParserOptions options = new ParserOptions();

@@ -1,18 +1,18 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.logging.Logger;
 
-import static org.junit.Assert.fail;
+public class GrammarTest extends CoffeeGrinderTest {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void undefinedUnusedNonterminal(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
 
-public class GrammarTest {
-    private final ParserOptions options = new ParserOptions();
-
-    @Test
-    public void undefinedUnusedNonterminal() {
         SourceGrammar grammar = new SourceGrammar(options);
 
         /*
@@ -44,15 +44,19 @@ public class GrammarTest {
 
         GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse(input);
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
         input = "by";
         result = parser.parse(input);
-        Assert.assertFalse(result.succeeded());
+        Assertions.assertFalse(result.succeeded());
     }
 
-    @Test
-    public void undefinedReferencedRequiredNonterminal() {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void undefinedReferencedRequiredNonterminal(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
         SourceGrammar grammar = new SourceGrammar();
 
         /*
@@ -85,11 +89,15 @@ public class GrammarTest {
 
         GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse(input);
-        Assert.assertFalse(result.succeeded());
+        Assertions.assertFalse(result.succeeded());
     }
 
-    @Test
-    public void undefinedReferencedUnnecessaryNonterminal() {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void undefinedReferencedUnnecessaryNonterminal(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
         SourceGrammar grammar = new SourceGrammar();
 
         /*
@@ -124,11 +132,15 @@ public class GrammarTest {
 
         GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse(input);
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
-    @Test
-    public void unusedNonterminal() {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void unusedNonterminal(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
         SourceGrammar grammar = new SourceGrammar();
 
         /*
@@ -147,14 +159,18 @@ public class GrammarTest {
 
         HygieneReport report = grammar.getHygieneReport(_S);
 
-        Assert.assertFalse(report.isClean());
-        Assert.assertEquals(0, report.getUnproductiveRules().size());
-        Assert.assertEquals(1, report.getUnreachableSymbols().size());
-        Assert.assertTrue(report.getUnreachableSymbols().contains(_B));
+        Assertions.assertFalse(report.isClean());
+        Assertions.assertEquals(0, report.getUnproductiveRules().size());
+        Assertions.assertEquals(1, report.getUnreachableSymbols().size());
+        Assertions.assertTrue(report.getUnreachableSymbols().contains(_B));
     }
 
-    @Test
-    public void unproductiveNonterminals() {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void unproductiveNonterminals(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
         // https://zerobone.net/blog/cs/non-productive-cfg-rules/
         /*
          S → H∣C∣XE∣XEGb
@@ -204,17 +220,21 @@ public class GrammarTest {
 
         HygieneReport report = grammar.getHygieneReport(_S);
 
-        Assert.assertFalse(report.isClean());
-        Assert.assertEquals(8, report.getUnproductiveRules().size());
-        Assert.assertTrue(report.getUnproductiveSymbols().contains(_F));
-        Assert.assertTrue(report.getUnproductiveSymbols().contains(_G));
-        Assert.assertTrue(report.getUnproductiveSymbols().contains(_H));
-        Assert.assertEquals(3, report.getUnproductiveSymbols().size());
-        Assert.assertTrue(report.getUnreachableSymbols().isEmpty());
+        Assertions.assertFalse(report.isClean());
+        Assertions.assertEquals(8, report.getUnproductiveRules().size());
+        Assertions.assertTrue(report.getUnproductiveSymbols().contains(_F));
+        Assertions.assertTrue(report.getUnproductiveSymbols().contains(_G));
+        Assertions.assertTrue(report.getUnproductiveSymbols().contains(_H));
+        Assertions.assertEquals(3, report.getUnproductiveSymbols().size());
+        Assertions.assertTrue(report.getUnreachableSymbols().isEmpty());
     }
 
-    @Test
-    public void unproductiveNonterminals2() {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void unproductiveNonterminals2(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
         // https://slidetodoc.com/how-to-find-and-remove-unproductive-rules-in/
         /*
          S → A B | D E
@@ -252,16 +272,20 @@ public class GrammarTest {
 
         HygieneReport report = grammar.getHygieneReport(_S);
 
-        Assert.assertFalse(report.isClean());
-        Assert.assertEquals(3, report.getUnproductiveRules().size());
-        Assert.assertTrue(report.getUnproductiveSymbols().contains(_F));
-        Assert.assertTrue(report.getUnproductiveSymbols().contains(_D));
-        Assert.assertEquals(2, report.getUnproductiveSymbols().size());
-        Assert.assertTrue(report.getUnreachableSymbols().isEmpty());
+        Assertions.assertFalse(report.isClean());
+        Assertions.assertEquals(3, report.getUnproductiveRules().size());
+        Assertions.assertTrue(report.getUnproductiveSymbols().contains(_F));
+        Assertions.assertTrue(report.getUnproductiveSymbols().contains(_D));
+        Assertions.assertEquals(2, report.getUnproductiveSymbols().size());
+        Assertions.assertTrue(report.getUnreachableSymbols().isEmpty());
     }
 
-    @Test
-    public void checkMessages() {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void checkMessages(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
         SourceGrammar grammar = new SourceGrammar();
 
         /*
@@ -282,13 +306,13 @@ public class GrammarTest {
         grammar.getParserOptions().setLogger(logger);
 
         HygieneReport report = grammar.getHygieneReport(_S);
-        Assert.assertEquals(0, logger.warncount);
+        Assertions.assertEquals(0, logger.warncount);
 
         ParserGrammar cgrammar = grammar.getCompiledGrammar(_S);
         report = cgrammar.getHygieneReport();
-        Assert.assertEquals(1, logger.warncount);
+        Assertions.assertEquals(1, logger.warncount);
 
-        Assert.assertFalse(report.isClean());
+        Assertions.assertFalse(report.isClean());
     }
 
     private static class TestLogger extends Logger {

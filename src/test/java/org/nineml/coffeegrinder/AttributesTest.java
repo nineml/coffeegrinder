@@ -1,13 +1,17 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.nineml.coffeegrinder.trees.ParseTree;
-import org.nineml.coffeegrinder.trees.ParseTreeBuilder;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenString;
-import org.nineml.coffeegrinder.util.*;
+import org.nineml.coffeegrinder.trees.ParseTree;
+import org.nineml.coffeegrinder.trees.ParseTreeBuilder;
+import org.nineml.coffeegrinder.util.GrammarParser;
+import org.nineml.coffeegrinder.util.Iterators;
+import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,10 +20,12 @@ import java.util.Objects;
 import static org.junit.Assert.fail;
 
 public class AttributesTest extends CoffeeGrinderTest {
-    private final ParserOptions options = new ParserOptions();
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void ifThenElseTest(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
 
-    @Test
-    public void ifThenElseTest() {
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol _statement = grammar.getNonterminal("statement");
@@ -27,7 +33,7 @@ public class AttributesTest extends CoffeeGrinderTest {
         TerminalSymbol _if = new TerminalSymbol(TokenString.get("if"));
         TerminalSymbol _then = TerminalSymbol.s("then");
         TerminalSymbol _else = TerminalSymbol.s("else");
-        TerminalSymbol _variable = TerminalSymbol.regex("[a-z]+");
+        NonterminalSymbol _variable = grammar.getNonterminal("variable");
         TerminalSymbol _eqeq = TerminalSymbol.s("==");
         TerminalSymbol _eq = TerminalSymbol.s("=");
         TerminalSymbol _op = new TerminalSymbol(TokenString.get("("), new ParserAttribute("open", "op"));
@@ -37,6 +43,10 @@ public class AttributesTest extends CoffeeGrinderTest {
         grammar.addRule(_statement, _if, _condition, _then, _statement, _else, _statement);
         grammar.addRule(_statement, _variable, _eq, _variable);
         grammar.addRule(_condition, _op, _variable, _eqeq, _variable, _cp);
+        grammar.addRule(_variable, new TerminalSymbol(TokenString.get("a")));
+        grammar.addRule(_variable, new TerminalSymbol(TokenString.get("b")));
+        grammar.addRule(_variable, new TerminalSymbol(TokenString.get("c")));
+        grammar.addRule(_variable, new TerminalSymbol(TokenString.get("d")));
 
         GearleyParser parser = grammar.getParser(options, _statement);
 
@@ -57,8 +67,19 @@ public class AttributesTest extends CoffeeGrinderTest {
                 TokenString.get("d")
         };
 
-        GearleyResult result = parser.parse(inputTokens);
-        Assert.assertTrue(result.succeeded());
+        final GearleyResult result;
+        if ("GLL".equals(parserType)) {
+            try {
+                result = parser.parse(inputTokens);
+                fail();
+            } catch (ParseException ex) {
+                Assertions.assertEquals("P004", ex.getCode());
+                return;
+            }
+        } else {
+            result = parser.parse(inputTokens);
+            Assertions.assertTrue(result.succeeded());
+        }
 
         ForestWalker walker = result.getForest().getWalker();
         ParseTreeBuilder builder = new ParseTreeBuilder();
@@ -66,21 +87,25 @@ public class AttributesTest extends CoffeeGrinderTest {
         ParseTree tree = builder.getTree();
 
         Token t_if = tree.getChildren().get(0).getToken();
-        Assert.assertEquals("if", t_if.getValue());
-        Assert.assertEquals("1", Objects.requireNonNull(t_if.getAttribute("line").getValue()));
-        Assert.assertEquals("5", Objects.requireNonNull(t_if.getAttribute("column").getValue()));
+        Assertions.assertEquals("if", t_if.getValue());
+        Assertions.assertEquals("1", Objects.requireNonNull(t_if.getAttribute("line").getValue()));
+        Assertions.assertEquals("5", Objects.requireNonNull(t_if.getAttribute("column").getValue()));
 
         ParseTree nt_condition = tree.getChildren().get(1);
-        Assert.assertEquals(grammar.getNonterminal("condition"), nt_condition.getSymbol());
-        Assert.assertEquals("this", Objects.requireNonNull(nt_condition.getSymbol().getAttribute("test")).getValue());
+        Assertions.assertEquals(grammar.getNonterminal("condition"), nt_condition.getSymbol());
+        Assertions.assertEquals("this", Objects.requireNonNull(nt_condition.getSymbol().getAttribute("test")).getValue());
 
         ParseTree s_paren = nt_condition.getChildren().get(0);
-        Assert.assertEquals("(", s_paren.getToken().getValue());
-        Assert.assertEquals("op", Objects.requireNonNull(s_paren.getAttribute("open", "fail")));
+        Assertions.assertEquals("(", s_paren.getToken().getValue());
+        Assertions.assertEquals("op", Objects.requireNonNull(s_paren.getAttribute("open", "fail")));
     }
 
-    @Test
-    public void testChoice() {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void testChoice(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
         GrammarParser gparser = new GrammarParser();
         SourceGrammar grammar = gparser.parse(
                 "start => X\n" +
@@ -95,15 +120,19 @@ public class AttributesTest extends CoffeeGrinderTest {
 
         GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("start"));
         GearleyResult result = parser.parse(Iterators.characterIterator("ab"));
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
         //result.getForest().serialize("testchoice.xml");
 
-        Assert.assertEquals(1, result.getForest().getParseTreeCount());
+        Assertions.assertEquals(1, result.getForest().getParseTreeCount());
     }
 
-    @Test
-    public void testRHSAttributes() {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void testRHSAttributes(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
@@ -125,9 +154,9 @@ public class AttributesTest extends CoffeeGrinderTest {
 
         GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse(Iterators.characterIterator("abc"));
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
-        Assert.assertEquals(2, result.getForest().getParseTreeCount());
+        Assertions.assertEquals(2, result.getForest().getParseTreeCount());
 
         expectTrees(result.getForest().getWalker(), Arrays.asList(
                 "<S><A>a</A><B N='1'>b</B><C>c</C></S>",
