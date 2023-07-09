@@ -1,5 +1,6 @@
 E001: There is no rule for the nonterminal symbol ‘%1’.
 E002: The Unicode character class ‘%1’ is invalid.
+E003: Regular expression must be the only symbol on the right hand side.
 C001: Compiler unable to create %1 hashes: %2.
 C002: Unexpected character set in grammar: %1.
 C003: Unexpected terminal token class: %1.
@@ -25,5 +26,9 @@ T003: Internal error in tree walk.
 P001: Seed not in grammar: %1.
 P002: Attempt to continue an invalid parse.
 P003: Internal error: %1.
+P004: The GLL parser can only operate on a sequence of characters.
+P005: Regular expressions can only operation on a sequence of characters.
+P006: Multiple regular expressions matched symbol: %1.
+P007: Regular expressions are not (currently) supported with the Earley parser.
 F001: Failed to write ‘%1’: %2.
 F002: Internal error: node not in forest: %1

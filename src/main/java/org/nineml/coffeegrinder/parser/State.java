@@ -4,6 +4,7 @@ import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.gll.Descriptor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -58,6 +59,15 @@ public class State {
         this.symbol = rule.symbol;
         this.rhs = rule.rhs;
         this.position = position;
+        label = nextStateId++;
+        descriptors = new HashSet<>();
+    }
+
+    protected State(NonterminalSymbol symbol, int pos, List<Symbol> rhs) {
+        this.rule = new Rule(symbol, rhs);
+        this.symbol = symbol;
+        this.rhs = rule.getRhs();
+        this.position = pos;
         label = nextStateId++;
         descriptors = new HashSet<>();
     }
@@ -232,21 +242,29 @@ public class State {
         sb.append(symbol);
         sb.append(" ⇒ ");
         int count = 0;
-        for (Symbol symbol : rhs.symbols) {
-            if (count > 0) {
-                sb.append(" ");
+        if (rhs.symbols == null) {
+            sb.append("<<null>>");
+        } else {
+            for (Symbol symbol : rhs.symbols) {
+                if (count > 0) {
+                    sb.append(" ");
+                }
+                if (count == position) {
+                    sb.append("• ");
+                }
+                if (symbol == null) {
+                    sb.append("<null>");
+                } else {
+                    sb.append(symbol.toString());
+                }
+                count += 1;
             }
             if (count == position) {
-                sb.append("• ");
+                if (count > 0) {
+                    sb.append(" ");
+                }
+                sb.append("•");
             }
-            sb.append(symbol.toString());
-            count += 1;
-        }
-        if (count == position) {
-            if (count > 0) {
-                sb.append(" ");
-            }
-            sb.append("•");
         }
         return sb.toString();
     }

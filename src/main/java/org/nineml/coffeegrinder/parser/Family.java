@@ -110,7 +110,12 @@ public class Family {
             return Collections.emptyList();
         }
 
-        return getAttributes(w.getSymbol(), state.rhs.get(state.position - 2));
+        // The GLL parser makes slightly different states. Sometimes there isn't a position - 2,
+        // so I'm just guessing for the moment that it's position - 1 and the balance is different.
+        if (state.position > 1) {
+            return getAttributes(w.getSymbol(), state.rhs.get(state.position - 2));
+        }
+        return getAttributes(w.getSymbol(), state.rhs.get(state.position - 1));
     }
 
     public List<ParserAttribute> getRightAttributes() {

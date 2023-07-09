@@ -1,6 +1,10 @@
 package org.nineml.coffeegrinder.parser;
 
+import org.nineml.coffeegrinder.exceptions.GrammarException;
+import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.gll.GllParser;
+import org.nineml.coffeegrinder.tokens.Token;
+import org.nineml.coffeegrinder.tokens.TokenRegex;
 import org.nineml.coffeegrinder.util.RegexCompiler;
 
 import java.util.*;
@@ -15,6 +19,7 @@ import java.util.*;
  * further changes to the grammar.</p>
  */
 public class ParserGrammar extends Grammar {
+    public final boolean usesRegex;
     private final ParserType parserType;
     private final NonterminalSymbol seed;
     private final HashSet<Symbol> nullable;
@@ -26,6 +31,23 @@ public class ParserGrammar extends Grammar {
     protected ParserGrammar(SourceGrammar grammar, ParserType parserType, NonterminalSymbol seed) {
         this.parserType = parserType;
         this.seed = seed;
+
+        boolean sawRegex = false;
+        for (Rule rule : grammar.getRules()) {
+            if (!sawRegex) {
+                for (Symbol symbol : rule.getRhs().symbols) {
+                    Token token = (symbol instanceof TerminalSymbol) ? ((TerminalSymbol) symbol).getToken() : null;
+                    if (token instanceof TokenRegex) {
+                        sawRegex = true;
+                        if (rule.getRhs().length != 1) {
+                            throw GrammarException.invalidGrammarRegex();
+                        }
+                    }
+
+                }
+            }
+        }
+        usesRegex = sawRegex;
 
         this.rules.addAll(grammar.getRules());
         /*

@@ -3,12 +3,12 @@ package org.nineml.coffeegrinder.parser;
 import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
+import org.nineml.coffeegrinder.tokens.TokenRegex;
 import org.nineml.coffeegrinder.tokens.TokenString;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 import org.nineml.coffeegrinder.util.StopWatch;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 /** The Earley parser.
  *
@@ -40,6 +40,7 @@ public class EarleyParser implements GearleyParser {
     protected ProgressMonitor monitor = null;
     protected int progressSize = 0;
     protected int progressCount = 0;
+    private String stringInput = null;
 
     protected EarleyParser(ParserGrammar grammar, ParserOptions options) {
         this.grammar = grammar;
@@ -145,6 +146,9 @@ public class EarleyParser implements GearleyParser {
      * @return a parse result
      */
     public EarleyResult parse(String input) {
+        if (grammar.usesRegex) {
+            stringInput = input;
+        }
         int[] codepoints = input.codePoints().toArray();
         this.input = new Token[codepoints.length];
         for (int pos = 0; pos < codepoints.length; pos++) {
@@ -160,6 +164,18 @@ public class EarleyParser implements GearleyParser {
      * @return a parse result
      */
     public EarleyResult parse(Token[] input) {
+        if (grammar.usesRegex) {
+            StringBuilder sb = new StringBuilder();
+            for (Token token : input) {
+                if (token instanceof TokenCharacter) {
+                    sb.append(token.getValue());
+                } else {
+                    throw ParseException.invalidInputForRegex();
+                }
+            }
+            stringInput = sb.toString();
+        }
+
         this.input = input;
         return parseInput();
     }
@@ -171,16 +187,25 @@ public class EarleyParser implements GearleyParser {
      * @return a parse result
      */
     public EarleyResult parse(Iterator<Token> input) {
+        StringBuilder sb = grammar.usesRegex ? new StringBuilder() : null;
         ArrayList<Token> list = new ArrayList<>();
         while (input.hasNext()) {
-            list.add(input.next());
+            Token token = input.next();
+            if (grammar.usesRegex) {
+                if (token instanceof TokenCharacter) {
+                    sb.append(token.getValue());
+                } else {
+                    throw ParseException.invalidInputForRegex();
+                }
+            }
+            list.add(token);
         }
+        stringInput = grammar.usesRegex ? sb.toString() : null;
         this.input = new Token[list.size()];
         for (int pos = 0; pos < list.size(); pos++) {
             this.input[pos] = list.get(pos);
         }
         return parseInput();
-
     }
 
     private EarleyResult parseInput() {
@@ -188,6 +213,12 @@ public class EarleyParser implements GearleyParser {
     }
 
     private EarleyResult parseInput(int startPos) {
+        /*
+        if (grammar.usesRegex) {
+            throw ParseException.regexUnsupported();
+        }
+        */
+
         inputPos = startPos;
         restartable = false;
 
@@ -213,12 +244,12 @@ public class EarleyParser implements GearleyParser {
 
             if (alpha == null || alpha instanceof NonterminalSymbol) {
                 State state = new State(rule);
-                chart.add(0, new EarleyItem(state, 0, null));
+                chart.add(0, new EarleyItem(state, 0));
             }
 
             if (alpha instanceof TerminalSymbol && alpha.matches(currentToken)) {
                 State state = new State(rule);
-                Qprime.add(new EarleyItem(state, 0, null));
+                Qprime.add(new EarleyItem(state, 0));
             }
         }
 
@@ -236,7 +267,6 @@ public class EarleyParser implements GearleyParser {
         ArrayList<Hitem> H = new ArrayList<>();
         ArrayList<ForestNode> localRoots = new ArrayList<>();
 
-        String greedy = null;
         while (!done) {
             currentToken = nextToken;
 
@@ -245,7 +275,7 @@ public class EarleyParser implements GearleyParser {
             // Whether we consumed the input or not matters during the process
             // and also at the end. If there are no more tokens, make sure that
             // consumedInput is true so that we don't think we missed one at the end.
-            // (Conversely, if we did just get a token, then we haven't consumed it yet
+            // (Conversely, if we did just get a token, then we haven't consumed it yet,
             // and we want to keep track of that fact so that if we exit the loop, we
             // know there was a token left over.)
             consumedInput = currentToken == null;
@@ -278,23 +308,56 @@ public class EarleyParser implements GearleyParser {
                 EarleyItem Lambda = R.remove(0);
                 if (Lambda.state != null && Lambda.state.nextSymbol() instanceof NonterminalSymbol) {
                     NonterminalSymbol C = (NonterminalSymbol) Lambda.state.nextSymbol();
+                    String greedyMatch = null;
+                    EarleyItem regexItem = null;
                     for (Rule rule : Rho.get(C)) {
                         final Symbol delta = rule.getRhs().getFirst();
                         if (delta == null || delta instanceof NonterminalSymbol) {
-                            EarleyItem item = new EarleyItem(new State(rule), i, null);
+                            EarleyItem item = new EarleyItem(new State(rule), i);
                             if (!chart.contains(i, item)) {
                                 chart.add(i, item);
                                 R.add(item);
                             }
                         }
-                        if (delta instanceof TerminalSymbol && delta.matches(currentToken)) {
-                            EarleyItem item = new EarleyItem(new State(rule), i, null);
+
+                        boolean matches = false;
+                        if (delta instanceof TerminalSymbol) {
+                            TerminalSymbol ts = (TerminalSymbol) delta;
+                            if (ts.token instanceof TokenRegex) {
+                                String thisMatch = ((TokenRegex) ts.token).matches(stringInput.substring(i));
+                                if (thisMatch != null && greedyMatch != null) {
+                                    throw ParseException.invalidRegex(C.toString());
+                                }
+                                greedyMatch = thisMatch;
+
+                                if (greedyMatch != null && !"".equals(greedyMatch)) {
+                                    ArrayList<Symbol> newRHS = new ArrayList<>();
+                                    for (int pos = 0; pos < Lambda.state.position; pos++) {
+                                        newRHS.add(Lambda.state.rhs.get(pos));
+                                    }
+                                    for (int pos = 0; pos < greedyMatch.length(); pos++) {
+                                        newRHS.add(TerminalSymbol.ch(greedyMatch.charAt(pos)));
+                                    }
+
+                                    regexItem = new EarleyItem(new State(C, Lambda.state.position, newRHS), i);
+                                    matches = true;
+                                }
+                            } else {
+                                matches = delta.matches(currentToken);
+                            }
+
+                        }
+
+                        if (matches) {
+                            final EarleyItem item;
+                            if (regexItem == null) {
+                                item = new EarleyItem(new State(rule), i);
+                            } else {
+                                item = regexItem;
+                            }
                             if (!Q.contains(item)) {
                                 Q.add(item);
                                 consumedInput = true;
-
-                                Symbol symbol = item.state.nextSymbol();
-                                greedy = symbol.getAttributeValue(ParserAttribute.REGEX_NAME, null);
                             }
                         }
                     }
@@ -382,34 +445,15 @@ public class EarleyParser implements GearleyParser {
                 }
             }
 
-            Token peek = null;
             V.clear();
             ForestNode v = null;
             if (currentToken != null) {
-                if (greedy != null) {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(currentToken.getValue());
-                    Pattern patn = Pattern.compile(greedy);
-                    while (inputPos < input.length) {
-                        nextToken = input[inputPos++];
-                        String s = nextToken.getValue();
-                        if (patn.matcher(s).matches()) {
-                            sb.append(s);
-                        } else {
-                            peek = nextToken;
-                            break;
-                        }
-                    }
-                    currentToken = TokenString.get(sb.toString());
-                    options.getLogger().trace(logcategory, "Regex matched: " + sb.toString());
-                }
-
                 v = graph.createNode(new TerminalSymbol(currentToken), i, i+1);
             }
 
             done = lastToken;
-            if (peek != null || inputPos+1 < input.length) {
-                nextToken = peek == null ? input[++inputPos] : peek;
+            if (inputPos+1 < input.length) {
+                nextToken = input[++inputPos];
             } else {
                 nextToken = null;
                 lastToken = true;
@@ -419,6 +463,7 @@ public class EarleyParser implements GearleyParser {
                 //options.getLogger().trace(logcategory, "Processing Q: %d", Q.size());
                 EarleyItem Lambda = Q.remove(0);
                 State nextState = Lambda.state.advance();
+
                 ForestNode y = make_node(nextState, Lambda.j, i+1, Lambda.w, v);
                 Symbol Beta = nextState.nextSymbol();
                 if (Beta == null || Beta instanceof NonterminalSymbol) {
@@ -428,7 +473,8 @@ public class EarleyParser implements GearleyParser {
                     }
                 }
                 if (Beta instanceof TerminalSymbol && Beta.matches(nextToken)) {
-                    Qprime.add(new EarleyItem(nextState, Lambda.j, y));
+                    EarleyItem nextItem = new EarleyItem(nextState, Lambda.j, y);
+                    Qprime.add(nextItem);
                 }
             }
 
