@@ -9,13 +9,27 @@
 
 <revhistory>
 <revision>
-<revnumber>3.0.0a</revnumber>
-<date>2023-07-02</date>
+<revnumber>3.0.0b</revnumber>
+<date>2023-07-09</date>
 <revdescription>
 <para>This is a beta release for version 3.0.0. There are a lot of
 changes in this release and many of them impact the public APIs. The JavaDoc
 has not yet been updated.</para>
-
+<orderedlist>
+<listitem><para>Fixed bugs in the “regex” pragma. It’s now supported and tested
+in both parsers.</para>
+</listitem>
+<listitem><para>Improved node and family IDs (they’re now local to the forest).
+Extended and improved the <filename>forest2dot.xsl</filename> graph stylesheet.
+</para>
+</listitem>
+</orderedlist>
+</revdescription>
+</revision>
+<revision>
+<revnumber>3.0.0a</revnumber>
+<date>2023-07-02</date>
+<revdescription>
 <orderedlist>
 <listitem><para>Added an option to analyze the grammar for ambiguity
 with Anders Møller’s <link
