@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9};
+var data = {"i0":9,"i1":9,"i2":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -234,6 +234,13 @@ extends <a href="CoffeeGrinderException.html" title="class in org.nineml.coffeeg
 <div class="block">Raised if an invalid Unicode character class is specified.</div>
 </td>
 </tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>static <a href="GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invalidGrammarRegex()">invalidGrammarRegex</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Raised if a regular expression is used incorrectly.</div>
+</td>
+</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.org.nineml.coffeegrinder.exceptions.CoffeeGrinderException">
@@ -333,7 +340,7 @@ extends <a href="CoffeeGrinderException.html" title="class in org.nineml.coffeeg
 <a id="invalidCharacterClass(java.lang.String)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>invalidCharacterClass</h4>
 <pre class="methodSignature">public static&nbsp;<a href="GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a>&nbsp;invalidCharacterClass&#8203;(java.lang.String&nbsp;name)</pre>
@@ -341,6 +348,21 @@ extends <a href="CoffeeGrinderException.html" title="class in org.nineml.coffeeg
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>name</code> - the Unicode character class</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a GrammarException.</dd>
+</dl>
+</li>
+</ul>
+<a id="invalidGrammarRegex()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>invalidGrammarRegex</h4>
+<pre class="methodSignature">public static&nbsp;<a href="GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a>&nbsp;invalidGrammarRegex()</pre>
+<div class="block">Raised if a regular expression is used incorrectly.
+ <p>Regular expressions must be the only symbol on the right hand side of a rule.</p></div>
+<dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a GrammarException.</dd>
 </dl>

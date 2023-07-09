@@ -1341,7 +1341,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Raised if the grammar is invalid.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/ParseException.html#invalidInput(java.lang.String)">invalidInput(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></dt>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/GrammarException.html#invalidGrammarRegex()">invalidGrammarRegex()</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/GrammarException.html" title="class in org.nineml.coffeegrinder.exceptions">GrammarException</a></dt>
+<dd>
+<div class="block">Raised if a regular expression is used incorrectly.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/ParseException.html#invalidInputForGLL()">invalidInputForGLL()</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></dt>
+<dd>
+<div class="block">Raised if an attempt is made to parse an invalid input.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/ParseException.html#invalidInputForRegex()">invalidInputForRegex()</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></dt>
 <dd>
 <div class="block">Raised if an attempt is made to parse an invalid input.</div>
 </dd>
@@ -1352,6 +1360,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/AttributeException.html#invalidOPTIONAL(java.lang.String)">invalidOPTIONAL(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/AttributeException.html" title="class in org.nineml.coffeegrinder.exceptions">AttributeException</a></dt>
 <dd>
 <div class="block">Raised if an attempt is made to set an invalid option value.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/ParseException.html#invalidRegex(java.lang.String)">invalidRegex(String)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></dt>
+<dd>
+<div class="block">Raised if multiple regular expression matches occur.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/ForestException.html#ioError(java.lang.String,java.lang.Exception)">ioError(String, Exception)</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/ForestException.html" title="class in org.nineml.coffeegrinder.exceptions">ForestException</a></dt>
 <dd>
@@ -1913,6 +1925,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/RegexCompiler.html#%3Cinit%3E(java.util.List)">RegexCompiler(List&lt;Rule&gt;)</a></span> - Constructor for class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/RegexCompiler.html" title="class in org.nineml.coffeegrinder.util">RegexCompiler</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/exceptions/ParseException.html#regexUnsupported()">regexUnsupported()</a></span> - Static method in exception org.nineml.coffeegrinder.exceptions.<a href="org/nineml/coffeegrinder/exceptions/ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></dt>
+<dd>
+<div class="block">Raised if you attempt to use regular expressions with the Earley parser.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/HygieneReport.html#reliablyUnambiguous()">reliablyUnambiguous()</a></span> - Method in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/HygieneReport.html" title="class in org.nineml.coffeegrinder.parser">HygieneReport</a></dt>
 <dd>
 <div class="block">Did the dk.brics.grammar.ambiguity analyzer run reliably?</div>
@@ -2448,6 +2464,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/CodepointToString.html#uppercase">uppercase</a></span> - Static variable in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/CodepointToString.html" title="class in org.nineml.coffeegrinder.util">CodepointToString</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/util/CodepointToString.html#useHex">useHex</a></span> - Static variable in class org.nineml.coffeegrinder.util.<a href="org/nineml/coffeegrinder/util/CodepointToString.html" title="class in org.nineml.coffeegrinder.util">CodepointToString</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/nineml/coffeegrinder/parser/ParserGrammar.html#usesRegex">usesRegex</a></span> - Variable in class org.nineml.coffeegrinder.parser.<a href="org/nineml/coffeegrinder/parser/ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser">ParserGrammar</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <a id="I:V">
