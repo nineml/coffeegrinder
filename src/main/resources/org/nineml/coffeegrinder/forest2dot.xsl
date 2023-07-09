@@ -12,11 +12,13 @@
 <xsl:output method="text" encoding="utf-8" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:key name="id" match="*" use="@id"/>
+<xsl:key name="id" match="sppf/*" use="@id"/>
+<xsl:key name="target" match="*" use="@target"/>
+<xsl:key name="label" match="sppf/*" use="@label"/>
 
 <xsl:param name="label-color" select="'none'"/>
 <xsl:param name="show-states" select="'false'"/>
-<xsl:param name="elide-root" select="'false'"/>
+<xsl:param name="show-real-root" select="'true'"/>
 <xsl:param name="rankdir" select="'TB'"/>
 <xsl:param name="subgraph-color" select="'white'"/>
 
@@ -24,6 +26,7 @@
 <xsl:param name="state-shape" select="'box'"/>
 <xsl:param name="nonterminal-shape" select="'oval'"/>
 
+<xsl:param name="show-ranges" select="'true'"/>
 <xsl:param name="show-priority" select="'false'"/>
 <xsl:param name="priority-color" select="'#56b4e9'"/>
 <xsl:param name="priority-size" select="'10pt'"/>
@@ -52,8 +55,42 @@
 <xsl:param name="selected-root" select="()"/>
 <xsl:param name="selected-depth" select="'INF'"/>
 
-<xsl:variable name="root-node" select="//*[@id = $selected-root]"/>
-<xsl:variable name="graph-root" select="sppf/*[last()]"/>
+<!-- The root is the node that isn't a link target of any other node -->
+<xsl:variable name="real-graph-root" select="sppf/*[empty(key('target', @id))]"/>
+
+<xsl:variable name="root-node" as="element()?">
+  <xsl:choose>
+    <xsl:when test="empty($selected-root)">
+      <xsl:sequence select="()"/>
+    </xsl:when>
+    <xsl:when test="count(key('label', $selected-root)) = 1">
+      <xsl:sequence select="key('label', $selected-root)"/>
+    </xsl:when>
+    <xsl:when test="count(key('id', $selected-root)) = 1">
+      <xsl:sequence select="key('id', $selected-root)"/>
+    </xsl:when>
+    <xsl:when test="count(key('label', $selected-root)) gt 1">
+      <xsl:message select="'The $selected-root doesn''t uniquely identify a node:', $selected-root"/>
+      <xsl:sequence select="()"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:message select="'The $selected-root doesn''t identify a node:', $selected-root"/>
+      <xsl:sequence select="()"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:variable>
+
+<xsl:variable name="graph-root" as="element()">
+  <xsl:choose>
+    <xsl:when test="$show-real-root = 'true'">
+      <xsl:sequence select="$real-graph-root"/> 
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:variable name="id" select="$real-graph-root/link/@target/string()"/>
+      <xsl:sequence select="key('id', $id)"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:variable>
 
 <xsl:variable name="selected-node-ids" as="xs:string*"
               select="tokenize($selected-nodes, '\s*,\s*')"/>
@@ -67,6 +104,12 @@
   <xsl:param name="context" as="element()"/>
   <xsl:param name="seen" as="xs:string*"/>
   <xsl:param name="depth" as="xs:integer"/>
+
+<!--
+  <xsl:message select="'DESC:', $context"/>
+  <xsl:message select="'    :', $seen"/>
+  <xsl:message select="'    :', $depth"/>
+-->
 
   <xsl:variable name="max-depth" as="xs:integer">
     <xsl:choose>
@@ -101,6 +144,8 @@
 
 <!--
   <xsl:message select="local-name($node), $target/@id/string()"/>
+  <xsl:message select="'  r:', $selected-root"/>
+  <xsl:message select="'   :', $root-node"/>
   <xsl:message select="'  t:', f:descendants($target)"/>
   <xsl:message select="'  d:', f:descendants($root-node)"/>
 -->
@@ -136,11 +181,11 @@
 <xsl:template match="sppf">
   <xsl:text>digraph SPPF {{&#10;</xsl:text>
   <xsl:text>rankdir={$rankdir}&#10;</xsl:text>
-  <xsl:apply-templates select="*[$elide-root = 'false' or not(@label = '$$')]"/>
+  <xsl:apply-templates select="*[$show-real-root = 'true' or not(@label = '$$')]"/>
 
   <xsl:if test="$root-node and not($root-node is $graph-root)">
     <xsl:text>fakeroot [ style=invis ]&#10;</xsl:text>
-    <xsl:text>fakeroot -> node{$selected-root} </xsl:text>
+    <xsl:text>fakeroot -> node{$root-node/@id} </xsl:text>
     <xsl:text>[color="{$alt-edge-color}" penwidth={$edge-pen-width} </xsl:text>
     <xsl:text>style={$alt-edge-style} ];&#10;</xsl:text>
   </xsl:if>
@@ -191,7 +236,7 @@
         </xsl:if>
       </xsl:variable>
 
-      <xsl:if test="$extent != 'ε' or $ambig != ''">
+      <xsl:if test="$show-ranges = 'true' and ($extent != 'ε' or $ambig != '')">
         <xsl:sequence select="'« ' || $extent || ' »' || $ambig"/>
       </xsl:if>
     </xsl:if>
@@ -243,6 +288,12 @@
   </xsl:choose>
 
   <xsl:text>]&#10;</xsl:text>
+</xsl:template>
+
+<xsl:template match="sppf/*[last()]" priority="10">
+  <xsl:if test="$show-real-root='true'">
+    <xsl:next-match/>
+  </xsl:if>
 </xsl:template>
 
 <xsl:template match="sppf/*">

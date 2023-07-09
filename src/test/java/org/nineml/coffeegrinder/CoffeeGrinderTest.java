@@ -1,7 +1,6 @@
 package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
-import org.nineml.coffeegrinder.trees.PrintStreamTreeBuilder;
 import org.nineml.coffeegrinder.parser.ForestWalker;
 import org.nineml.coffeegrinder.parser.ParseForest;
 import org.nineml.coffeegrinder.parser.ParserOptions;
@@ -13,13 +12,14 @@ import java.util.List;
 import static junit.framework.TestCase.fail;
 
 public class CoffeeGrinderTest {
-    protected final ParserOptions options = new ParserOptions();
+    protected final ParserOptions globalOptions = new ParserOptions();
 
     protected void expectForestCount(ParseForest forest, int expected) {
         int count = 0;
         ForestWalker xxx = forest.getWalker();
         while (xxx.hasMoreTrees()) {
-            xxx.getNextTree(new PrintStreamTreeBuilder(System.err));
+            StringTreeBuilder builder = new StringTreeBuilder();
+            xxx.getNextTree(builder);
             count++;
         }
         Assert.assertEquals(expected, count);

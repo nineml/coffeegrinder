@@ -49,4 +49,11 @@ public class GrammarException extends CoffeeGrinderException {
      * @return a GrammarException.
      */
     public static GrammarException invalidCharacterClass(String name) { return getException("E002", name); }
+
+    /**
+     * Raised if a regular expression is used incorrectly.
+     * <p>Regular expressions must be the only symbol on the right hand side of a rule.</p>
+     * @return a GrammarException.
+     */
+    public static GrammarException invalidGrammarRegex() { return getException("E003"); }
 }

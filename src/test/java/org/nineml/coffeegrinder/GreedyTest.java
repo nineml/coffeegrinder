@@ -3,11 +3,10 @@ package org.nineml.coffeegrinder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
-import org.nineml.coffeegrinder.trees.StdoutTreeBuilder;
-import org.nineml.coffeegrinder.trees.TreeBuilder;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
-import org.nineml.coffeegrinder.util.ParserAttribute;
+import org.nineml.coffeegrinder.trees.StdoutTreeBuilder;
+import org.nineml.coffeegrinder.trees.TreeBuilder;
 
 public class GreedyTest {
     private final ParserOptions options = new ParserOptions();

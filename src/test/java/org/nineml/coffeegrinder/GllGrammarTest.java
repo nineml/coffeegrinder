@@ -4,13 +4,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.nineml.coffeegrinder.trees.ParseTree;
-import org.nineml.coffeegrinder.trees.ParseTreeBuilder;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.CharacterSet;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.tokens.TokenCharacterSet;
 import org.nineml.coffeegrinder.tokens.TokenRegex;
+import org.nineml.coffeegrinder.trees.ParseTree;
+import org.nineml.coffeegrinder.trees.ParseTreeBuilder;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.io.BufferedReader;

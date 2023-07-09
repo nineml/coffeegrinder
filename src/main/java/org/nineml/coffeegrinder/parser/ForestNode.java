@@ -16,8 +16,8 @@ import java.util.Objects;
 public class ForestNode {
     public static final String logcategory = "ForestNode";
     public static final String PRIORITY_ATTRIBUTE = "https://coffeegrinder.nineml.org/attr/priority";
+
     private final TreeInfo emptyTree = new TreeInfo(0, 1);
-    private static int nextNodeId = 0;
 
     protected final ParseForest graph;
     public final Symbol symbol;
@@ -45,7 +45,7 @@ public class ForestNode {
         this.state = null;
         this.rightExtent = rightExtent;
         this.leftExtent = leftExtent;
-        id = nextNodeId++;
+        id = graph.nextForestNodeId++;
     }
 
     protected ForestNode(ParseForest graph, State state, int leftExtent, int rightExtent) {
@@ -54,7 +54,7 @@ public class ForestNode {
         this.state = state;
         this.rightExtent = rightExtent;
         this.leftExtent = leftExtent;
-        id = nextNodeId++;
+        id = graph.nextForestNodeId++;
     }
 
     // N.B. This is a *symbol* node, the state is just being carried along so that we can tell
@@ -65,7 +65,7 @@ public class ForestNode {
         this.state = state;
         this.rightExtent = rightExtent;
         this.leftExtent = leftExtent;
-        id = nextNodeId++;
+        id = graph.nextForestNodeId++;
     }
 
     /**
@@ -109,7 +109,7 @@ public class ForestNode {
             }
         }
 
-        families.add(new Family(v, state));
+        families.add(new Family(graph, v, state));
     }
 
     public void addFamily(ForestNode w, ForestNode v, State state) {
@@ -120,7 +120,7 @@ public class ForestNode {
             }
         }
 
-        families.add(new Family(w, v, state));
+        families.add(new Family(graph, w, v, state));
     }
 
     protected void reach(int roots) {

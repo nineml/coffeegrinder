@@ -8,8 +8,6 @@ import org.nineml.coffeegrinder.util.Iterators;
 
 import java.util.Iterator;
 
-import static junit.framework.TestCase.fail;
-
 public class PrefixTest {
     private final ParserOptions options = new ParserOptions();
 

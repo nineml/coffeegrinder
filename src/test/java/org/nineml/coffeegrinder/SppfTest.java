@@ -2,10 +2,10 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.nineml.coffeegrinder.parser.GearleyParser;
 import org.nineml.coffeegrinder.parser.GearleyResult;
 import org.nineml.coffeegrinder.parser.ParserOptions;
 import org.nineml.coffeegrinder.parser.SourceGrammar;
-import org.nineml.coffeegrinder.parser.GearleyParser;
 import org.nineml.coffeegrinder.util.GrammarParser;
 
 // N.B. THESE TESTS ARE CAKE! (These tests are a lie.)

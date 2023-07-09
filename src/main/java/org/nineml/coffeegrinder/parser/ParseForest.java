@@ -18,7 +18,8 @@ import static java.lang.Math.abs;
  */
 public class ParseForest {
     public static final String logcategory = "Forest";
-
+    protected int nextForestNodeId = 0;
+    protected int nextFamilyId = 0;
     protected final ArrayList<ForestNode> graph = new ArrayList<>();
     protected final ArrayList<ForestNode> roots = new ArrayList<>();
     protected final HashSet<Integer> graphIds = new HashSet<>();

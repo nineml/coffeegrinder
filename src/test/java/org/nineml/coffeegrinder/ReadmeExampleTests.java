@@ -2,10 +2,10 @@ package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.nineml.coffeegrinder.trees.NopTreeBuilder;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.CharacterSet;
 import org.nineml.coffeegrinder.tokens.TokenCharacterSet;
+import org.nineml.coffeegrinder.trees.NopTreeBuilder;
 import org.nineml.coffeegrinder.util.GrammarParser;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 

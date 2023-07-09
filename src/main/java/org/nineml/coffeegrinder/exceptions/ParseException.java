@@ -64,11 +64,38 @@ public class ParseException extends CoffeeGrinderException {
      * Raised if an attempt is made to parse an invalid input.
      *
      * <p>The GLL parser can only parse characters, this exception is raised if it is used to
-     * parse a sequence of string tokens.</p>
+     * parse any other kind of tokens.</p>
      *
-     * @param message a detail message
      * @return a ParseException
      */
-    public static ParseException invalidInput(String message) { return getException("P004", message); }
+    public static ParseException invalidInputForGLL() { return getException("P004"); }
 
+    /**
+     * Raised if an attempt is made to parse an invalid input.
+     *
+     * <p>Regular expressions are only supported over a sequence of tokens.</p>
+     *
+     * @return a ParseException
+     */
+    public static ParseException invalidInputForRegex() { return getException("P005"); }
+
+    /**
+     * Raised if multiple regular expression matches occur.
+     *
+     * <p>When regular expressions are used, there must not be multiple regular expressions
+     * that match the same input for the same token.</p>
+     *
+     * @param symbol a detail symbol
+     * @return a ParseException
+     */
+    public static ParseException invalidRegex(String symbol) { return getException("P006", symbol); }
+
+    /**
+     * Raised if you attempt to use regular expressions with the Earley parser.
+     *
+     * <p>Regular expression support hasn't been implemented in the Earley parser yet.</p>
+     *
+     * @return a ParseException
+     */
+    public static ParseException regexUnsupported() { return getException("P007"); }
 }

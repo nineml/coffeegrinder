@@ -107,7 +107,11 @@ public class Rule {
             if (count > 0) {
                 sb.append(", ");
             }
-            sb.append(symbol.toString());
+            if (symbol == null) {
+                sb.append("<null>");
+            } else {
+                sb.append(symbol.toString());
+            }
             count += 1;
         }
         return sb.toString();

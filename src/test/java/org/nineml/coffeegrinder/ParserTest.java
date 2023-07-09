@@ -1,14 +1,15 @@
 package org.nineml.coffeegrinder;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.nineml.coffeegrinder.trees.*;
-import org.nineml.coffeegrinder.parser.ForestWalker;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.*;
-import org.nineml.coffeegrinder.trees.TreeBuilder;
-import org.nineml.coffeegrinder.util.*;
+import org.nineml.coffeegrinder.trees.*;
+import org.nineml.coffeegrinder.util.GrammarParser;
+import org.nineml.coffeegrinder.util.Iterators;
+import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,14 +21,14 @@ import static org.junit.Assert.fail;
 public class ParserTest extends CoffeeGrinderTest {
     @Test
     public void ifThenElseTest() {
-        SourceGrammar grammar = new SourceGrammar(options);
+        SourceGrammar grammar = new SourceGrammar(globalOptions);
 
         NonterminalSymbol _statement = grammar.getNonterminal("statement");
         NonterminalSymbol _condition = grammar.getNonterminal("condition");
         TerminalSymbol _if = TerminalSymbol.s("if");
         TerminalSymbol _then = TerminalSymbol.s("then");
         TerminalSymbol _else = TerminalSymbol.s("else");
-        TerminalSymbol _variable = TerminalSymbol.regex("[a-z]+");
+        NonterminalSymbol _variable = grammar.getNonterminal("variable");
         TerminalSymbol _eqeq = TerminalSymbol.s("==");
         TerminalSymbol _eq = TerminalSymbol.s("=");
         TerminalSymbol _op = TerminalSymbol.s("(");
@@ -37,7 +38,14 @@ public class ParserTest extends CoffeeGrinderTest {
         grammar.addRule(_statement, _if, _condition, _then, _statement, _else, _statement);
         grammar.addRule(_statement, _variable, _eq, _variable);
         grammar.addRule(_condition, _op, _variable, _eqeq, _variable, _cp);
-        GearleyParser parser = grammar.getParser(options, _statement);
+        grammar.addRule(_variable, new TerminalSymbol(TokenString.get("a")));
+        grammar.addRule(_variable, new TerminalSymbol(TokenString.get("b")));
+        grammar.addRule(_variable, new TerminalSymbol(TokenString.get("c")));
+        grammar.addRule(_variable, new TerminalSymbol(TokenString.get("d")));
+        grammar.addRule(_variable, new TerminalSymbol(TokenString.get("e")));
+        grammar.addRule(_variable, new TerminalSymbol(TokenString.get("f")));
+
+        GearleyParser parser = grammar.getParser(globalOptions, _statement);
 
         // N.B. this is the sequence of tokens, not characters.
         Iterator<Token> input = Iterators.stringIterator(
@@ -53,7 +61,7 @@ public class ParserTest extends CoffeeGrinderTest {
     @Test
     public void testExpression() {
         // https://loup-vaillant.fr/tutorials/earley-parsing/parser
-        SourceGrammar grammar = new SourceGrammar(options);
+        SourceGrammar grammar = new SourceGrammar(globalOptions);
 
         NonterminalSymbol _Sum = grammar.getNonterminal("Sum");
         NonterminalSymbol _Product = grammar.getNonterminal("Product");
@@ -63,18 +71,26 @@ public class ParserTest extends CoffeeGrinderTest {
         TerminalSymbol _op = TerminalSymbol.ch('(');
         TerminalSymbol _cp = TerminalSymbol.ch(')');
 
-        grammar.addRule(_Sum, _Sum, TerminalSymbol.regex("[+-]"), _Product);
+        grammar.addRule(_Sum, _Sum, TerminalSymbol.ch('+'), _Product);
+        grammar.addRule(_Sum, _Sum, TerminalSymbol.ch('-'), _Product);
         grammar.addRule(_Sum, _Product);
-        grammar.addRule(_Product, _Product, TerminalSymbol.regex("[\\*/]"), _Factor);
+        grammar.addRule(_Product, _Product, TerminalSymbol.ch('*'), _Factor);
+        grammar.addRule(_Product, _Product, TerminalSymbol.ch('/'), _Factor);
         grammar.addRule(_Product, _Factor);
         grammar.addRule(_Factor, _op, _Sum, _cp);
         grammar.addRule(_Factor, _Number);
-        grammar.addRule(_Number, TerminalSymbol.regex("[0-9]"), _Number);
-        grammar.addRule(_Number, TerminalSymbol.regex("[0-9]"));
+        grammar.addRule(_Number, TerminalSymbol.ch('1'), _Number);
+        grammar.addRule(_Number, TerminalSymbol.ch('2'), _Number);
+        grammar.addRule(_Number, TerminalSymbol.ch('3'), _Number);
+        grammar.addRule(_Number, TerminalSymbol.ch('4'), _Number);
+        grammar.addRule(_Number, TerminalSymbol.ch('1'));
+        grammar.addRule(_Number, TerminalSymbol.ch('2'));
+        grammar.addRule(_Number, TerminalSymbol.ch('3'));
+        grammar.addRule(_Number, TerminalSymbol.ch('4'));
 
         String input = "1+(2*3-4)";
 
-        ParserOptions earleyOptions = new ParserOptions(options);
+        ParserOptions earleyOptions = new ParserOptions(globalOptions);
         earleyOptions.setParserType("Earley");
 
         GearleyParser parser = grammar.getParser(earleyOptions, _Sum);
@@ -83,7 +99,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         //result.getForest().serialize("/tmp/earley.xml");
 
-        ParserOptions gllOptions = new ParserOptions(options);
+        ParserOptions gllOptions = new ParserOptions(globalOptions);
         gllOptions.setParserType("GLL");
 
         GearleyParser gparser = grammar.getParser(gllOptions, _Sum);
@@ -117,7 +133,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         String input = "1+(1*1+1)";
 
-        ParserOptions earleyOptions = new ParserOptions(options);
+        ParserOptions earleyOptions = new ParserOptions(globalOptions);
         earleyOptions.setParserType("Earley");
 
         GearleyParser parser = grammar.getParser(earleyOptions, _Sum);
@@ -127,7 +143,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         Assert.assertTrue(result.succeeded());
 
-        ParserOptions gllOptions = new ParserOptions(options);
+        ParserOptions gllOptions = new ParserOptions(globalOptions);
         gllOptions.setParserType("GLL");
 
         GearleyParser gparser = grammar.getParser(gllOptions, _Sum);
@@ -136,9 +152,13 @@ public class ParserTest extends CoffeeGrinderTest {
         Assert.assertTrue(gresult.succeeded());
     }
 
-    @Test
+    @Ignore
+    // It's now an error for two different regular expressions to match at the same time.
     public void testLetterDigitLetter() {
-        SourceGrammar grammar = new SourceGrammar(options);
+        ParserOptions newOptions = new ParserOptions(globalOptions);
+        newOptions.setParserType("GLL");
+
+        SourceGrammar grammar = new SourceGrammar(newOptions);
 
         NonterminalSymbol _letter = grammar.getNonterminal("letter");
         NonterminalSymbol _letterOrNumber = grammar.getNonterminal("letterOrNumber");
@@ -151,7 +171,7 @@ public class ParserTest extends CoffeeGrinderTest {
         grammar.addRule(_letterOrNumber, _letter);
         grammar.addRule(_letterOrNumber, _number);
 
-        GearleyParser parser = grammar.getParser(options, _expr);
+        GearleyParser parser = grammar.getParser(newOptions, _expr);
         GearleyResult result = parser.parse(Iterators.characterIterator("aab"));
         Assert.assertTrue(result.succeeded());
     }
@@ -167,14 +187,14 @@ public class ParserTest extends CoffeeGrinderTest {
                         "digit => digit");
         // grammar.getParseListener().setMessageLevel(ParseListener.DEBUG);
 
-        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("number"));
+        GearleyParser parser = grammar.getParser(globalOptions, grammar.getNonterminal("number"));
         GearleyResult result = parser.parse(Iterators.characterIterator("b101"));
         Assert.assertTrue(result.succeeded());
     }
 
     @Test
     public void testLongNumber() {
-        SourceGrammar grammar = new SourceGrammar(options);
+        SourceGrammar grammar = new SourceGrammar(globalOptions);
 
         NonterminalSymbol _digit = grammar.getNonterminal("digit");
         NonterminalSymbol _number = grammar.getNonterminal("number");
@@ -187,7 +207,7 @@ public class ParserTest extends CoffeeGrinderTest {
         grammar.addRule(_digit, _digit, _digit);
         grammar.addRule(_digit);
 
-        GearleyParser parser = grammar.getParser(options, _number);
+        GearleyParser parser = grammar.getParser(globalOptions, _number);
         GearleyResult result = parser.parse(Iterators.characterIterator("123123123"));
         Assert.assertTrue(result.succeeded());
     }
@@ -195,7 +215,7 @@ public class ParserTest extends CoffeeGrinderTest {
     @Test
     public void testExample() {
         // https://web.stanford.edu/class/archive/cs/cs143/cs143.1128/lectures/07/Slides07.pdf
-        SourceGrammar grammar = new SourceGrammar(options);
+        SourceGrammar grammar = new SourceGrammar(globalOptions);
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
         NonterminalSymbol _A = grammar.getNonterminal("A");
@@ -214,7 +234,7 @@ public class ParserTest extends CoffeeGrinderTest {
         grammar.addRule(_B, _a);
         grammar.addRule(_C, _a);
 
-        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyParser parser = grammar.getParser(globalOptions, _S);
         GearleyResult result = parser.parse(Iterators.characterIterator("aad"));
 
         Assert.assertTrue(result.succeeded());
@@ -222,7 +242,10 @@ public class ParserTest extends CoffeeGrinderTest {
 
     @Test
     public void testEEE() {
-        SourceGrammar grammar = new SourceGrammar(options);
+        ParserOptions newOptions = new ParserOptions(globalOptions);
+        newOptions.setParserType("GLL");
+
+        SourceGrammar grammar = new SourceGrammar(globalOptions);
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
         NonterminalSymbol _E = grammar.getNonterminal("E");
@@ -232,18 +255,24 @@ public class ParserTest extends CoffeeGrinderTest {
         grammar.addRule(_E, _E, _plus, _E);
         grammar.addRule(_E, TerminalSymbol.regex("[0-9]"));
 
-        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyParser parser = grammar.getParser(newOptions, _S);
         GearleyResult result = parser.parse(Iterators.characterIterator("1+2"));
         //result.getForest().serialize("/tmp/testEEE.xml");
         Assert.assertTrue(result.succeeded());
+        StringTreeBuilder builder = new StringTreeBuilder();
+        result.getTree(builder);
+        Assert.assertEquals("<S><E><E>1</E>+<E>2</E></E></S>", builder.getTree());
 
-        ParserOptions gllOptions = new ParserOptions(options);
+        ParserOptions gllOptions = new ParserOptions(newOptions);
         gllOptions.setParserType("GLL");
 
         GearleyParser gllParser = grammar.getParser(gllOptions, _S);
         Token[] tokens = new Token[]{ TokenCharacter.get('1') , TokenCharacter.get('+'), TokenCharacter.get('2') };
 
         GearleyResult gresult = gllParser.parse(tokens);
+        builder = new StringTreeBuilder();
+        gresult.getTree(builder);
+        Assert.assertEquals("<S><E><E>1</E>+<E>2</E></E></S>", builder.getTree());
     }
 
     @Test
@@ -256,14 +285,14 @@ public class ParserTest extends CoffeeGrinderTest {
         grammar.addRule(_X, _X, _X);
         grammar.addRule(_X, _a);
 
-        ParserOptions earleyOptions = new ParserOptions(options);
+        ParserOptions earleyOptions = new ParserOptions(globalOptions);
         earleyOptions.setParserType("Earley");
 
         GearleyParser parser = grammar.getParser(earleyOptions, _X);
         GearleyResult result = parser.parse(Iterators.characterIterator("aaaaa"));
         Assert.assertTrue(result.succeeded());
 
-        ParserOptions gllOptions = new ParserOptions(options);
+        ParserOptions gllOptions = new ParserOptions(globalOptions);
         gllOptions.setParserType("GLL");
 
         //result.getForest().serialize("/tmp/ambig.xml");
@@ -288,7 +317,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         String input = "abaa";
 
-        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("S"));
+        GearleyParser parser = grammar.getParser(globalOptions, grammar.getNonterminal("S"));
         GearleyResult result = parser.parse(Iterators.characterIterator(input));
         Assert.assertTrue(result.succeeded());
     }
@@ -303,13 +332,16 @@ public class ParserTest extends CoffeeGrinderTest {
 
         String input = "";
 
-        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("S"));
+        GearleyParser parser = grammar.getParser(globalOptions, grammar.getNonterminal("S"));
         GearleyResult result = parser.parse(Iterators.characterIterator(input));
         Assert.assertTrue(result.succeeded());
     }
 
     @Test
     public void hash() {
+        ParserOptions newOptions = new ParserOptions(globalOptions);
+        newOptions.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol _expr = grammar.getNonterminal("expr");
@@ -327,7 +359,7 @@ public class ParserTest extends CoffeeGrinderTest {
         grammar.addRule(_letterOrNumber, _letter);
         grammar.addRule(_letterOrNumber, _number);
 
-        GearleyParser parser = grammar.getParser(options, _expr);
+        GearleyParser parser = grammar.getParser(newOptions, _expr);
         GearleyResult result = parser.parse(Iterators.characterIterator("xx"));
 
         Assert.assertTrue(result.succeeded());
@@ -337,7 +369,7 @@ public class ParserTest extends CoffeeGrinderTest {
     public void hashGrammar() {
         // See also loadInputGrammar in CompilerTest
 
-        SourceGrammar grammar = new SourceGrammar(options);
+        SourceGrammar grammar = new SourceGrammar(globalOptions);
 
         // hashes: hash*S, ".".
         NonterminalSymbol hashes = grammar.getNonterminal("hashes");
@@ -372,7 +404,7 @@ public class ParserTest extends CoffeeGrinderTest {
         grammar.addRule(_s, space, _s);
         grammar.addRule(_s);
 
-        GearleyParser parser = grammar.getParser(options, hashes);
+        GearleyParser parser = grammar.getParser(globalOptions, hashes);
         String input = "#12  #1234.";
 
         GearleyResult result = parser.parse(input);
@@ -400,7 +432,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         String input = "why";
 
-        GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("Word"));
+        GearleyParser parser = grammar.getParser(globalOptions, grammar.getNonterminal("Word"));
         GearleyResult result = parser.parse(Iterators.characterIterator(input));
         Assert.assertTrue(result.succeeded());
     }
@@ -430,7 +462,7 @@ public class ParserTest extends CoffeeGrinderTest {
             // TODO: deal with undefined, unused, and unproductive items
         }
 
-        GearleyParser parser = grammar.getParser(options, S);
+        GearleyParser parser = grammar.getParser(globalOptions, S);
 
         GearleyResult result = parser.parse("bx");
 
@@ -456,7 +488,10 @@ public class ParserTest extends CoffeeGrinderTest {
 
     @Test
     public void lettersAndNumbers() {
-        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
+        ParserOptions newOptions = new ParserOptions();
+        newOptions.setParserType("GLL");
+
+        SourceGrammar grammar = new SourceGrammar(newOptions);
 
         ParserAttribute greedyLetters = new ParserAttribute(ParserAttribute.REGEX_NAME, "[^0-9]");
         ParserAttribute greedyNumbers = new ParserAttribute(ParserAttribute.REGEX_NAME, "[0-9]");
@@ -473,9 +508,7 @@ public class ParserTest extends CoffeeGrinderTest {
         grammar.addRule(_String, _Numbers);
         grammar.addRule(_String, _Letters);
 
-        grammar.addRule(_Numbers, _number, _Numbers);
         grammar.addRule(_Numbers, _number);
-        grammar.addRule(_Letters, _letter, _Letters);
         grammar.addRule(_Letters, _letter);
 
         long last = 0;
@@ -489,7 +522,7 @@ public class ParserTest extends CoffeeGrinderTest {
             String input = sb.toString();
 
             long start = Calendar.getInstance().getTimeInMillis();
-            GearleyParser parser = grammar.getParser(options, _String);
+            GearleyParser parser = grammar.getParser(newOptions, _String);
             GearleyResult result = parser.parse(input);
             long dur = Calendar.getInstance().getTimeInMillis() - start;
 
@@ -534,7 +567,7 @@ M: 'm'; LDOE .
         grammar.addRule(_M, _m);
         grammar.addRule(_M, _LDOE);
 
-        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyParser parser = grammar.getParser(globalOptions, _S);
         GearleyResult result = parser.parse("amalx");
 
         Assertions.assertTrue(result.getForest().isAmbiguous());
@@ -589,7 +622,7 @@ M: 'm'; LDOE .
         grammar.addRule(_Z);
 
         try {
-            GearleyParser parser = grammar.getParser(options, _S);
+            GearleyParser parser = grammar.getParser(globalOptions, _S);
             GearleyResult result = parser.parse("a");
 
             result.getForest().serialize("longloop.xml");
@@ -668,7 +701,7 @@ M: 'm'; LDOE .
         grammar.addRule(_B, _b);
         grammar.addRule(_C, _c);
 
-        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyParser parser = grammar.getParser(globalOptions, _S);
         GearleyResult result = parser.parse("abd");
         Assert.assertTrue(result.succeeded());
     }
@@ -709,14 +742,17 @@ C = i.
         grammar.addRule(_C, _h, _i);
         grammar.addRule(_C, _i);
 
-        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyParser parser = grammar.getParser(globalOptions, _S);
         GearleyResult result = parser.parse("defxghi");
         Assert.assertTrue(result.succeeded());
     }
 
     @Test
     public void records() {
-        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
+        ParserOptions newOptions = new ParserOptions();
+        newOptions.setParserType("GLL");
+
+        SourceGrammar grammar = new SourceGrammar(newOptions);
 
         NonterminalSymbol file = grammar.getNonterminal("file");
         NonterminalSymbol rep_record = grammar.getNonterminal("rep_record");
@@ -743,7 +779,7 @@ C = i.
         grammar.addRule(namefollower_option);
         grammar.addRule(namefollower_option, namefollower, namefollower_star);
 
-        GearleyParser parser = grammar.getParser(options, file);
+        GearleyParser parser = grammar.getParser(newOptions, file);
 
         String input = "Abc;Def\n" +
                 "Ghi;KLM\n" +
@@ -765,7 +801,7 @@ C = i.
 
         grammar.addRule(S, a, b, c, d);
 
-        ParserOptions gllOptions = new ParserOptions(options);
+        ParserOptions gllOptions = new ParserOptions(globalOptions);
         gllOptions.setParserType("GLL");
 
         GearleyParser parser = grammar.getParser(gllOptions, S);
@@ -789,7 +825,7 @@ C = i.
         grammar.addRule(B, C);
         grammar.addRule(C);
 
-        ParserOptions gllOptions = new ParserOptions(options);
+        ParserOptions gllOptions = new ParserOptions(globalOptions);
         gllOptions.setParserType("GLL");
 
         GearleyParser parser = grammar.getParser(gllOptions, S);
@@ -817,7 +853,7 @@ C = i.
         grammar.addRule(B, C);
         grammar.addRule(C);
 
-        ParserOptions gllOptions = new ParserOptions(options);
+        ParserOptions gllOptions = new ParserOptions(globalOptions);
         GearleyParser parser = grammar.getParser(gllOptions, S);
 
         String input = "";

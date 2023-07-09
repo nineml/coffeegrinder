@@ -4,6 +4,7 @@ import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -16,7 +17,10 @@ public class TokenRegex extends Token {
     private TokenRegex(String expr, Collection<ParserAttribute> attributes) {
         super(attributes);
         if (expr == null) {
-            throw new NullPointerException("TokenString value must not be null");
+            throw new NullPointerException("TokenRegex expression must not be null");
+        }
+        if (expr.startsWith("^") || expr.endsWith("$")) {
+            throw new IllegalArgumentException("TokenRegex must not be anchored");
         }
         this.expr = expr;
         regex = Pattern.compile(expr);
@@ -72,7 +76,7 @@ public class TokenRegex extends Token {
      */
     public final boolean matches(Token input) {
         if (input instanceof TokenCharacter) {
-            return regex.matcher("" + input.getValue()).matches();
+            return regex.matcher(input.getValue()).matches();
         }
         if (input instanceof TokenString) {
             return regex.matcher(input.getValue()).matches();
@@ -80,8 +84,12 @@ public class TokenRegex extends Token {
         return false;
     }
 
-    public final boolean matches(String input) {
-        return regex.matcher(input).matches();
+    public final String matches(String input) {
+        Matcher matcher = regex.matcher(input);
+        if (matcher.lookingAt()) {
+            return input.substring(0, matcher.end());
+        }
+        return null;
     }
 
     @Override
