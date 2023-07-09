@@ -8,6 +8,8 @@ import org.nineml.coffeegrinder.tokens.TokenRegex;
 import org.nineml.coffeegrinder.util.RegexCompiler;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A grammar for the parser.
@@ -49,18 +51,27 @@ public class ParserGrammar extends Grammar {
         }
         usesRegex = sawRegex;
 
-        this.rules.addAll(grammar.getRules());
-        /*
-        for (Rule rule : grammar.getRules()) {
-            if (rule.getSymbol().hasAttribute(ParserAttribute.TOKEN_NAME)) {
-                String regex = compileRegex(rule.getSymbol(), grammar.getRules());
-                //this.rules.add(new Rule(rule.symbol, new TerminalSymbol(TokenRegex.get(regex))));
-                this.rules.add(rule);
-            } else {
-                this.rules.add(rule);
+        rules.addAll(grammar.getRules());
+
+        if (parserType == ParserType.GLL) {
+            // If there is a TokenRegex in the grammar, and if that regex can match
+            // the empty string, add a rule for Symbol => ε to handle that case.
+            ArrayList<Rule> epsilonRules = new ArrayList<>();
+            for (Rule rule : rules) {
+                if (rule.getRhs().length == 1 && rule.getRhs().get(0) instanceof TerminalSymbol) {
+                    Token token = ((TerminalSymbol) rule.getRhs().get(0)).getToken();
+                    if (token instanceof TokenRegex) {
+                        String expr = token.getValue();
+                        Pattern regex = Pattern.compile(expr);
+                        Matcher matcher = regex.matcher("");
+                        if (matcher.lookingAt()) {
+                            epsilonRules.add(new Rule(rule.getSymbol()));
+                        }
+                    }
+                }
             }
+            rules.addAll(epsilonRules);
         }
-         */
 
         this.metadata.putAll(grammar.getMetadataProperies());
         for (Rule rule : rules) {

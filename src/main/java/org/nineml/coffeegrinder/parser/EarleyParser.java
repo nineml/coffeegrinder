@@ -330,17 +330,23 @@ public class EarleyParser implements GearleyParser {
                                 }
                                 greedyMatch = thisMatch;
 
-                                if (greedyMatch != null && !"".equals(greedyMatch)) {
+                                if (greedyMatch != null) {
                                     ArrayList<Symbol> newRHS = new ArrayList<>();
-                                    for (int pos = 0; pos < Lambda.state.position; pos++) {
-                                        newRHS.add(Lambda.state.rhs.get(pos));
-                                    }
-                                    for (int pos = 0; pos < greedyMatch.length(); pos++) {
-                                        newRHS.add(TerminalSymbol.ch(greedyMatch.charAt(pos)));
-                                    }
+                                    if ("".equals(greedyMatch)) {
+                                        regexItem = new EarleyItem(new State(C, 0, newRHS), i);
+                                        chart.add(i, regexItem);
+                                        R.add(regexItem);
+                                    } else {
+                                        for (int pos = 0; pos < Lambda.state.position; pos++) {
+                                            newRHS.add(Lambda.state.rhs.get(pos));
+                                        }
+                                        for (int pos = 0; pos < greedyMatch.length(); pos++) {
+                                            newRHS.add(TerminalSymbol.ch(greedyMatch.charAt(pos)));
+                                        }
 
-                                    regexItem = new EarleyItem(new State(C, Lambda.state.position, newRHS), i);
-                                    matches = true;
+                                        regexItem = new EarleyItem(new State(C, Lambda.state.position, newRHS), i);
+                                        matches = true;
+                                    }
                                 }
                             } else {
                                 matches = delta.matches(currentToken);
