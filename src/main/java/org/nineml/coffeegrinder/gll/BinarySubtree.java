@@ -10,7 +10,6 @@ public class BinarySubtree {
     public static final String logcategory = "GllParser";
     public final HashMap<Integer, HashSet<BinarySubtreePrefix>> bsrPrefixes;
     public final HashMap<Integer, HashSet<BinarySubtreeSlot>> bsrSlots;
-    protected final HashMap<Integer,String> regexMatches;
     private final ParserOptions options;
     private ArrayList<BinarySubtreeSlot> roots = null;
     public final NonterminalSymbol seed;
@@ -20,7 +19,6 @@ public class BinarySubtree {
     public BinarySubtree(NonterminalSymbol seed, ParserOptions options) {
         bsrPrefixes = new HashMap<>();
         bsrSlots = new HashMap<>();
-        regexMatches = new HashMap<>();
         this.options = options;
         this.seed = seed;
         rightExtent = 0;
@@ -107,7 +105,7 @@ public class BinarySubtree {
     }
 
     protected ParseForest extractSPPF(ParserGrammar grammar, Token[] inputTokens) {
-        ParseForestGLL G = new ParseForestGLL(options, grammar, rightExtent, inputTokens, regexMatches);
+        ParseForestGLL G = new ParseForestGLL(options, grammar, rightExtent, inputTokens);
         int n = rightExtent;
 
         if (getRoots().isEmpty()) {
@@ -374,7 +372,5 @@ public class BinarySubtree {
             return true;
         }
     }
-
      */
-
 }

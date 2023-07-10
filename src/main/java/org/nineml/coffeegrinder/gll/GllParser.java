@@ -529,10 +529,6 @@ public class GllParser implements GearleyParser {
                 if (matched != null) {
                     c_I += (matched.length() - 1);
                     rightExtent += (matched.length() - 1);
-                    if (bsr.regexMatches.containsKey(i)) {
-                        throw ParseException.invalidRegex(L.symbol.toString());
-                    }
-                    bsr.regexMatches.put(i, matched);
                 }
             }
         }

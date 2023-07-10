@@ -625,7 +625,7 @@ M: 'm'; LDOE .
             GearleyParser parser = grammar.getParser(globalOptions, _S);
             GearleyResult result = parser.parse("a");
 
-            result.getForest().serialize("longloop.xml");
+            //result.getForest().serialize("longloop.xml");
 
             StringTreeBuilder builder = new StringTreeBuilder();
             ForestWalker walker = result.getForest().getWalker();

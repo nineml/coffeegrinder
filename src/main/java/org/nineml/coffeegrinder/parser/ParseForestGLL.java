@@ -20,14 +20,12 @@ public class ParseForestGLL extends ParseForest {
     private final ParserGrammar grammar;
     private final int rightExtent;
     private final Token[] inputTokens;
-    private final Map<Integer,String> regexMatches;
 
-    public ParseForestGLL(ParserOptions options, ParserGrammar grammar, int rightExtent, Token[] inputTokens, Map<Integer,String> regexMatches) {
+    public ParseForestGLL(ParserOptions options, ParserGrammar grammar, int rightExtent, Token[] inputTokens) {
         super(options);
         this.grammar = grammar;
         this.rightExtent = rightExtent;
         this.inputTokens = inputTokens;
-        this.regexMatches = regexMatches;
         intermediate = new HashMap<>();
         slotPrefixes = new HashMap<>();
         nodes = new HashMap<>();
@@ -45,14 +43,16 @@ public class ParseForestGLL extends ParseForest {
         // and sometimes the symbol in the input has attributes. Combine them.
         // Also deal with regex matches
         if (symbol instanceof TerminalSymbol) {
-            if (((TerminalSymbol) symbol).getToken() instanceof TokenRegex) {
-                ArrayList<ParserAttribute> attr = new ArrayList<>(symbol.getAttributes());
-                attr.addAll(inputTokens[leftExtent].getAttributes());
-                symbol = new TerminalSymbol(TokenString.get(regexMatches.get(leftExtent)), attr);
-            } else if (leftExtent + 1 == rightExtent) {
-                ArrayList<ParserAttribute> attr = new ArrayList<>(symbol.getAttributes());
-                attr.addAll(inputTokens[leftExtent].getAttributes());
+            ArrayList<ParserAttribute> attr = new ArrayList<>(symbol.getAttributes());
+            attr.addAll(inputTokens[leftExtent].getAttributes());
+            if (leftExtent + 1 == rightExtent) {
                 symbol = new TerminalSymbol(inputTokens[leftExtent], attr);
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (int pos = leftExtent; pos < rightExtent; pos++) {
+                    sb.append(inputTokens[pos].getValue());
+                }
+                symbol = new TerminalSymbol(TokenString.get(sb.toString()), attr);
             }
         }
 

@@ -1,7 +1,6 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.GrammarException;
-import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.gll.GllParser;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenRegex;
@@ -56,7 +55,8 @@ public class ParserGrammar extends Grammar {
         if (parserType == ParserType.GLL) {
             // If there is a TokenRegex in the grammar, and if that regex can match
             // the empty string, add a rule for Symbol => ε to handle that case.
-            ArrayList<Rule> epsilonRules = new ArrayList<>();
+            // But only once!
+            HashMap<NonterminalSymbol, Rule> epsilonRules = new HashMap<>();
             for (Rule rule : rules) {
                 if (rule.getRhs().length == 1 && rule.getRhs().get(0) instanceof TerminalSymbol) {
                     Token token = ((TerminalSymbol) rule.getRhs().get(0)).getToken();
@@ -64,13 +64,13 @@ public class ParserGrammar extends Grammar {
                         String expr = token.getValue();
                         Pattern regex = Pattern.compile(expr);
                         Matcher matcher = regex.matcher("");
-                        if (matcher.lookingAt()) {
-                            epsilonRules.add(new Rule(rule.getSymbol()));
+                        if (matcher.lookingAt() && !epsilonRules.containsKey(rule.getSymbol())) {
+                            epsilonRules.put(rule.getSymbol(), new Rule(rule.getSymbol()));
                         }
                     }
                 }
             }
-            rules.addAll(epsilonRules);
+            rules.addAll(epsilonRules.values());
         }
 
         this.metadata.putAll(grammar.getMetadataProperies());
