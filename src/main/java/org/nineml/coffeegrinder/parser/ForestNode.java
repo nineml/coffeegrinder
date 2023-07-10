@@ -169,6 +169,7 @@ public class ForestNode {
                 if (ancestors.contains(family.v) || ancestors.contains(family.w)) {
                     graph.ambiguous = true;
                     graph.infinitelyAmbiguous = true;
+                    graph.loops.add(family);
                 }
 
                 if (family.v != null && !ancestors.contains(family.v)) {

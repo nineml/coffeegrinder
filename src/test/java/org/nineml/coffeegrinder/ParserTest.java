@@ -635,46 +635,8 @@ M: 'm'; LDOE .
             Assertions.assertEquals(242, result.getForest().getParseTreeCount());
 
             expectTrees(result.getForest().getWalker(), Arrays.asList(
-                    "<S><Sp><A><X></X><Y><X><Z priority='5'><X><Y></Y></X></Z></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X></X><Y><X><Z priority='5'></Z></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X></X><Y><X><Z priority='5'><Y><X></X></Y></Z></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X></X><Y><Z priority='5'><X></X></Z></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X></X><Y><Z priority='5'></Z></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X></X><Y><Z priority='5'><Y><X></X></Y></Z></Y>a</A></Sp></S>",
                     "<S><Sp><A><X></X><Y></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'><X></X></Z></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'><X></X></Z></X><Y><Z priority='5'><X></X></Z></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'><X></X></Z></X><Y></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'></Z></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'></Z></X><Y><Z priority='5'><X></X></Z></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'></Z></X><Y></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'><Y><X></X></Y></Z></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'><Y><Z priority='5'><X></X></Z></Y></Z></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'><Y></Y></Z></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Y><X></X></Y></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Y><Z priority='5'><X></X></Z></Y></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Y><Z priority='5'></Z></Y></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Y><Z priority='5'><Y><X></X></Y></Z></Y></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Y></Y></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><X></X></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><X><Z priority='5'><X></X></Z></X></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><X><Y><X></X></Y></X></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><X><Y><Z priority='5'><X></X></Z></Y></X></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><X><Y></Y></X></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'></Z><X><Z priority='5'><X></X></Z></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'></Z><X><Y><X></X></Y></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'></Z><X><Y><Z priority='5'><X></X></Z></Y></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'></Z><X><Y></Y></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y><X></X></Y></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y><X><Z priority='5'><X></X></Z></X></Y></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y><X><Y><X></X></Y></X></Y></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y><Z priority='5'><X></X></Z></Y></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y><Z priority='5'><X><Z priority='5'><X></X></Z></X></Z></Y></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y><Z priority='5'><X><Y><X></X></Y></X></Z></Y></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y></Y></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y></Y></Z><X><Z priority='5'><X></X></Z></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y></Y></Z><X><Y><X></X></Y></X>a</B></Sp></S>"));
+                    "<S><Sp><B><Z priority='5'></Z><X></X>a</B></Sp></S>"));
 
         } catch (Exception ex) {
             fail();

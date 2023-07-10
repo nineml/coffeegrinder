@@ -25,6 +25,7 @@ public class ParseForest {
     protected final HashSet<Integer> graphIds = new HashSet<>();
     protected final HashSet<Integer> rootIds = new HashSet<>();
     protected final ArrayList<ForestNode> ambiguousNodes = new ArrayList<>();
+    protected final HashSet<Family> loops = new HashSet<>();
 
     protected final ParserOptions options;
     protected boolean ambiguous = false;

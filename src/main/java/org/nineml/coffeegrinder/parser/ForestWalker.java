@@ -65,6 +65,7 @@ public class ForestWalker {
         curPath.clear();
 
         builder.startTree(graph.ambiguous, graph.infinitelyAmbiguous);
+        assert graph.getRoot().symbol != null;
         traverse(graph.getRoot(), graph.getRoot().symbol.getAttributes());
         builder.endTree(treeSelector.getMadeAmbiguousChoice());
 
@@ -137,17 +138,29 @@ public class ForestWalker {
             }
 
             if (loop == null) {
-                pathNode = new PathNode(node, node.getFamilies());
+                // Never knowingly follow a looping path
+                ArrayList<Family> noloops = new ArrayList<>();
+                for (Family family : node.getFamilies()) {
+                    if (!graph.loops.contains(family)) {
+                        noloops.add(family);
+                    }
+                }
+
+                pathNode = new PathNode(node, noloops);
             } else {
-                // We've hit a loop, escape!
+                // If we've wandered down a looping path, find a way out.
                 Family select = null;
+
+                // If we know how to get somewhere productive from here, go that way.
                 for (Family family : node.getFamilies()) {
                     if (productiveEdges.contains(family)) {
                         select = family;
                         break;
                     }
                 }
+
                 if (select == null) {
+                    // If there's some choice we haven't previously made, try that.
                     for (Family family : node.getFamilies()) {
                         if (!selectedEdges.contains(family)) {
                             select = family;
@@ -155,7 +168,9 @@ public class ForestWalker {
                         }
                     }
                 }
+
                 if (select == null) {
+                    // If there's an epsilon edge, try that.
                     for (Family family : node.getFamilies()) {
                         // Take the epsilon edge, if it's available
                         if (family.getLeftNode() == null && family.getRightNode() == null) {
@@ -165,10 +180,12 @@ public class ForestWalker {
                     }
                 }
 
+                // When we used to try to find loops, we could "get stuck", but
+                // I don't think we can have failed to find an exit by now given
+                // that we never willingly follow a path that loops.
                 assert select != null;
                 pathNode = new PathNode(node, node.getFamilies(), select);
             }
-
         }
 
         if (pathNode.chosen == null) {

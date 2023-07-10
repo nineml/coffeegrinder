@@ -131,38 +131,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         Assertions.assertEquals(6, result.getForest().getParseTreeCount());
 
         expectTrees(result.getForest().getWalker(), Arrays.asList(
-                "<expr><word><letter>w</letter><word><letter>o</letter><word><letter>r</letter><word><letter>d</letter><word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter>o</letter><word><letter>r</letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter>o</letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter>o</letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter>d</letter><word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter>r</letter><word><letter>d</letter><word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter>r</letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter>d</letter><word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter>o</letter><word><letter>r</letter><word><letter>d</letter><word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter>o</letter><word><letter>r</letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter>o</letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter>o</letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter>d</letter><word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter>r</letter><word><letter>d</letter><word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter>r</letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter>d</letter><word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word></word></word></word></word></word></word></word></word></word></expr>",
-                "<expr><word><letter></letter><word><letter>w</letter><word><letter></letter><word><letter>o</letter><word><letter></letter><word><letter>r</letter><word><letter></letter><word><letter>d</letter><word><letter></letter><word></word></word></word></word></word></word></word></word></word></word></expr>"));
+                "<expr><word><letter>w</letter><word><letter>o</letter><word><letter>r</letter><word><letter>d</letter><word></word></word></word></word></word></expr>"));
     }
 
     @ParameterizedTest
@@ -545,12 +514,11 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         Assertions.assertEquals(3, result.getForest().getParseTreeCount());
 
         //result.getForest().serialize("loop.xml");
+        //showTrees(result.getForest().getWalker());
 
         expectTrees(result.getForest().getWalker(), Arrays.asList(
                 "<S><A>a</A></S>",
-                "<S><A><X><Y><Z>a</Z></Y></X></A></S>",
-                "<S><A><X><Y><Z><A>a</A></Z></Y></X></A></S>"
-        ));
+                "<S><A><X><Y><Z>a</Z></Y></X></A></S>"));
     }
 
     @ParameterizedTest
@@ -870,50 +838,17 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         Assertions.assertTrue(result.succeeded());
         Assertions.assertEquals(10, result.getForest().getParseTreeCount());
 
-        //result.getForest().serialize("horror.xml");
+        //result.getForest().serialize(String.format("horror-%s.xml", parserType));
 
-        if ("GLL".equals(parserType)) {
-            // FIXME: why does the GLL forest fail to enumerate all of the trees?
-        } else {
-            expectTrees(result.getForest().getWalker(), Arrays.asList(
-                    "<S><A><B><E><I>t</I></E></B></A></S>",
-                    "<S><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></S>",
-                    "<S><A><B><D><A><B><E><I>t</I></E></B></A></D></B></A></S>",
-                    "<S><A><B><D><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></D></B></A></S>",
-                    "<S><A><B><D><H><D><A><B><E><I>t</I></E></B></A></D></H></D></B></A></S>",
-                    "<S><A><B><D><H><D><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></D></H></D></B></A></S>",
-                    "<S><A><B><D><H><K><A><B><E><I>t</I></E></B></A></K></H></D></B></A></S>",
-                    "<S><A><B><D><H><K><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></K></H></D></B></A></S>",
-                    "<S><A><C><F><I>t</I></F></C></A></S>",
-                    "<S><A><C><F><I><K><A><B><E><I>t</I></E></B></A></K></I></F></C></A></S>",
-                    "<S><A><C><F><I><K><A><B><D><A><B><E><I>t</I></E></B></A></D></B></A></K></I></F></C></A></S>",
-                    "<S><A><C><F><I><K><A><B><D><H><D><A><B><E><I>t</I></E></B></A></D></H></D></B></A></K></I></F></C></A></S>",
-                    "<S><A><C><F><I><K><A><B><D><H><K><A><B><E><I>t</I></E></B></A></K></H></D></B></A></K></I></F></C></A></S>",
-                    "<S><A><C><A><B><E><I>t</I></E></B></A></C></A></S>",
-                    "<S><A><C><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></C></A></S>",
-                    "<S><A><C><A><B><D><A><B><E><I>t</I></E></B></A></D></B></A></C></A></S>",
-                    "<S><A><C><A><B><D><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></D></B></A></C></A></S>",
-                    "<S><A><C><A><B><D><H><D><A><B><E><I>t</I></E></B></A></D></H></D></B></A></C></A></S>",
-                    "<S><A><C><A><B><D><H><D><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></D></H></D></B></A></C></A></S>",
-                    "<S><A><C><A><B><D><H><K><A><B><E><I>t</I></E></B></A></K></H></D></B></A></C></A></S>",
-                    "<S><A><C><A><B><D><H><K><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></K></H></D></B></A></C></A></S>",
-                    "<S><A><C><G><A><B><E><I>t</I></E></B></A></G></C></A></S>",
-                    "<S><A><C><G><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></G></C></A></S>",
-                    "<S><A><C><G><A><B><D><A><B><E><I>t</I></E></B></A></D></B></A></G></C></A></S>",
-                    "<S><A><C><G><A><B><D><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></D></B></A></G></C></A></S>",
-                    "<S><A><C><G><A><B><D><H><D><A><B><E><I>t</I></E></B></A></D></H></D></B></A></G></C></A></S>",
-                    "<S><A><C><G><A><B><D><H><D><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></D></H></D></B></A></G></C></A></S>",
-                    "<S><A><C><G><A><B><D><H><K><A><B><E><I>t</I></E></B></A></K></H></D></B></A></G></C></A></S>",
-                    "<S><A><C><G><A><B><D><H><K><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></K></H></D></B></A></G></C></A></S>",
-                    "<S><A><X><A><B><E><I>t</I></E></B></A></X></A></S>",
-                    "<S><A><X><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></X></A></S>",
-                    "<S><A><X><A><B><D><A><B><E><I>t</I></E></B></A></D></B></A></X></A></S>",
-                    "<S><A><X><A><B><D><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></D></B></A></X></A></S>",
-                    "<S><A><X><A><B><D><H><D><A><B><E><I>t</I></E></B></A></D></H></D></B></A></X></A></S>",
-                    "<S><A><X><A><B><D><H><D><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></D></H></D></B></A></X></A></S>",
-                    "<S><A><X><A><B><D><H><K><A><B><E><I>t</I></E></B></A></K></H></D></B></A></X></A></S>",
-                    "<S><A><X><A><B><D><H><K><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></K></H></D></B></A></X></A></S>"));
-        }
+        expectTrees(result.getForest().getWalker(), Arrays.asList(
+                "<S><A><B><E><I>t</I></E></B></A></S>",
+                "<S><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></S>",
+                "<S><A><C><F><I>t</I></F></C></A></S>",
+                "<S><A><C><F><I><K><A><B><E><I>t</I></E></B></A></K></I></F></C></A></S>",
+                "<S><A><C><G><A><B><E><I>t</I></E></B></A></G></C></A></S>",
+                "<S><A><C><G><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></G></C></A></S>",
+                "<S><A><X><A><B><E><I>t</I></E></B></A></X></A></S>",
+                "<S><A><X><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></X></A></S>"));
     }
 
     @ParameterizedTest
@@ -957,12 +892,11 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         Assertions.assertEquals(4, result.getForest().getParseTreeCount());
 
         //result.getForest().serialize("smaller.xml");
+        //showTrees(result.getForest().getWalker());
 
         expectTrees(result.getForest().getWalker(), Arrays.asList(
                 "<S><A><B><D>t</D></B></A></S>",
-                "<S><A><B><D><A><B><D>t</D></B></A></D></B></A></S>",
-                "<S><A><C><D>t</D></C></A></S>",
-                "<S><A><C><D><A><B><D>t</D></B></A></D></C></A></S>"));
+                "<S><A><C><D>t</D></C></A></S>"));
     }
 
     @ParameterizedTest
@@ -1011,27 +945,11 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         Assertions.assertTrue(result.succeeded());
         Assertions.assertEquals(9, result.getForest().getParseTreeCount());
 
-        //result.getForest().serialize("medium.xml");
-
+        //result.getForest().serialize(String.format("medium-%s.xml", parserType));
         //showTrees(result.getForest().getWalker());
 
-        if ("GLL".equals(parserType)) {
-            // FIXME: why does the GLL forest give repeated trees?
-            // Cruder test: GLL parser sometimes gives duplicate parses
-            expectForestCount(result.getForest(), 9);
-        } else {
-            expectTrees(result.getForest().getWalker(), Arrays.asList(
-                    "<S><A>t</A></S>",
-                    "<S><A><B><D>t</D></B></A></S>",
-                    "<S><A><B><D><A>t</A></D></B></A></S>",
-                    "<S><A><C><D>t</D></C></A></S>",
-                    "<S><A><C><D><A>t</A></D></C></A></S>",
-                    "<S><X><D>t</D></X></S>",
-                    "<S><X><D><A>t</A></D></X></S>",
-                    "<S><X><D><A><B><D>t</D></B></A></D></X></S>",
-                    "<S><X><D><A><C><D>t</D></C></A></D></X></S>"));
-        }
-
+        expectTrees(result.getForest().getWalker(), Arrays.asList(
+                "<S><X><D>t</D></X></S>"));
     }
 
     @ParameterizedTest
@@ -1064,6 +982,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         Assertions.assertEquals(2, result.getForest().getParseTreeCount());
 
         //result.getForest().serialize("tinyloop.xml");
+        //showTrees(result.getForest().getWalker());
 
         expectTrees(result.getForest().getWalker(), Arrays.asList(
                 "<S><A>t</A></S>",
