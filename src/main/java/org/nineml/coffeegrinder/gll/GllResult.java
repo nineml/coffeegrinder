@@ -1,10 +1,10 @@
 package org.nineml.coffeegrinder.gll;
 
+import org.nineml.coffeegrinder.parser.*;
+import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.trees.ParseTree;
 import org.nineml.coffeegrinder.trees.ParseTreeBuilder;
 import org.nineml.coffeegrinder.trees.TreeBuilder;
-import org.nineml.coffeegrinder.parser.*;
-import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.trees.TreeSelector;
 
 import java.util.Collections;

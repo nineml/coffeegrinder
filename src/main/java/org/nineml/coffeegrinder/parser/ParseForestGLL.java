@@ -1,14 +1,12 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.tokens.Token;
-import org.nineml.coffeegrinder.tokens.TokenRegex;
 import org.nineml.coffeegrinder.tokens.TokenString;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 public class ParseForestGLL extends ParseForest {
     private final HashSet<ForestNodeGLL> extendedLeaves;

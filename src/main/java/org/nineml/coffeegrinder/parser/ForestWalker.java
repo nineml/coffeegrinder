@@ -1,9 +1,9 @@
 package org.nineml.coffeegrinder.parser;
 
-import org.nineml.coffeegrinder.trees.SequentialTreeSelector;
-import org.nineml.coffeegrinder.trees.TreeSelector;
-import org.nineml.coffeegrinder.trees.TreeBuilder;
 import org.nineml.coffeegrinder.tokens.Token;
+import org.nineml.coffeegrinder.trees.SequentialTreeSelector;
+import org.nineml.coffeegrinder.trees.TreeBuilder;
+import org.nineml.coffeegrinder.trees.TreeSelector;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.*;
