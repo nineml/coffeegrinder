@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.*;
 import org.nineml.coffeegrinder.trees.*;
@@ -447,8 +449,7 @@ public class ParserTest extends CoffeeGrinderTest {
         NonterminalSymbol X = grammar.getNonterminal("X");
         NonterminalSymbol Y = grammar.getNonterminal("Y");
 
-        Rule s1 = new Rule(S, A);
-        grammar.addRule(s1);
+        grammar.addRule(S, A);
 
         grammar.addRule(S, B);
         grammar.addRule(A, TerminalSymbol.ch('a'), X);
@@ -643,8 +644,13 @@ M: 'm'; LDOE .
         }
     }
 
-    @Test
-    public void simpleTest() {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void simpleTest(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+        //options.getLogger().setDefaultLogLevel("trace");
+
         SourceGrammar grammar = new SourceGrammar(new ParserOptions());
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
@@ -663,7 +669,7 @@ M: 'm'; LDOE .
         grammar.addRule(_B, _b);
         grammar.addRule(_C, _c);
 
-        GearleyParser parser = grammar.getParser(globalOptions, _S);
+        GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse("abd");
         Assert.assertTrue(result.succeeded());
     }

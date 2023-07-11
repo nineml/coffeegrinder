@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class AmbiguityTest extends CoffeeGrinderTest {
-
     @ParameterizedTest
     @ValueSource(strings = {"Earley", "GLL"})
     public void testAmbiguity(String parserType) {

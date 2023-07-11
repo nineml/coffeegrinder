@@ -12,7 +12,7 @@ public class SourceGrammar extends Grammar {
 
     private static int nextGrammarId = 0;
     private NonterminalSymbol seed = null;
-    private ParserOptions options;
+    private final ParserOptions options;
     protected final int id;
     protected final ParserType defaultParserType;
 
