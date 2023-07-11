@@ -2,6 +2,9 @@ package org.nineml.coffeegrinder.gll;
 
 import org.nineml.coffeegrinder.parser.State;
 
+/**
+ * A node in a {@link BinarySubtree}.
+ */
 public abstract class BinarySubtreeNode {
     private static int nextNodeId = 0;
 

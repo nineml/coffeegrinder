@@ -7,7 +7,10 @@ import org.nineml.coffeegrinder.util.ParserAttribute;
 import org.nineml.coffeegrinder.util.StopWatch;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 import static java.lang.Math.abs;
 
@@ -25,6 +28,7 @@ public class ParseForest {
     protected final HashSet<Integer> graphIds = new HashSet<>();
     protected final HashSet<Integer> rootIds = new HashSet<>();
     protected final ArrayList<ForestNode> ambiguousNodes = new ArrayList<>();
+    protected final HashSet<Family> loops = new HashSet<>();
 
     protected final ParserOptions options;
     protected boolean ambiguous = false;

@@ -2,6 +2,9 @@ package org.nineml.coffeegrinder.gll;
 
 import org.nineml.coffeegrinder.parser.NonterminalSymbol;
 
+/**
+ * A cluster node.
+ */
 public class ClusterNode {
     public final NonterminalSymbol symbol;
     public final int k;

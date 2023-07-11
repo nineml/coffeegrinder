@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
+/**
+ * A tree builder that returns the serialized tree as a string.
+ */
 public class StringTreeBuilder implements TreeBuilder {
     protected ByteArrayOutputStream buffer = null;
     protected PrintStreamTreeBuilder builder = null;

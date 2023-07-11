@@ -2,6 +2,9 @@ package org.nineml.coffeegrinder.gll;
 
 import org.nineml.coffeegrinder.parser.State;
 
+/**
+ * A CRF node.
+ */
 public class CrfNode {
     public final State slot;
     public final int i;

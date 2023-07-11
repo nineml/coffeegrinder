@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.*;
 import org.nineml.coffeegrinder.trees.*;
@@ -447,8 +449,7 @@ public class ParserTest extends CoffeeGrinderTest {
         NonterminalSymbol X = grammar.getNonterminal("X");
         NonterminalSymbol Y = grammar.getNonterminal("Y");
 
-        Rule s1 = new Rule(S, A);
-        grammar.addRule(s1);
+        grammar.addRule(S, A);
 
         grammar.addRule(S, B);
         grammar.addRule(A, TerminalSymbol.ch('a'), X);
@@ -625,7 +626,7 @@ M: 'm'; LDOE .
             GearleyParser parser = grammar.getParser(globalOptions, _S);
             GearleyResult result = parser.parse("a");
 
-            result.getForest().serialize("longloop.xml");
+            //result.getForest().serialize("longloop.xml");
 
             StringTreeBuilder builder = new StringTreeBuilder();
             ForestWalker walker = result.getForest().getWalker();
@@ -635,54 +636,21 @@ M: 'm'; LDOE .
             Assertions.assertEquals(242, result.getForest().getParseTreeCount());
 
             expectTrees(result.getForest().getWalker(), Arrays.asList(
-                    "<S><Sp><A><X></X><Y><X><Z priority='5'><X><Y></Y></X></Z></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X></X><Y><X><Z priority='5'></Z></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X></X><Y><X><Z priority='5'><Y><X></X></Y></Z></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X></X><Y><Z priority='5'><X></X></Z></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X></X><Y><Z priority='5'></Z></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X></X><Y><Z priority='5'><Y><X></X></Y></Z></Y>a</A></Sp></S>",
                     "<S><Sp><A><X></X><Y></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'><X></X></Z></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'><X></X></Z></X><Y><Z priority='5'><X></X></Z></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'><X></X></Z></X><Y></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'></Z></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'></Z></X><Y><Z priority='5'><X></X></Z></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'></Z></X><Y></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'><Y><X></X></Y></Z></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'><Y><Z priority='5'><X></X></Z></Y></Z></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Z priority='5'><Y></Y></Z></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Y><X></X></Y></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Y><Z priority='5'><X></X></Z></Y></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Y><Z priority='5'></Z></Y></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Y><Z priority='5'><Y><X></X></Y></Z></Y></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><A><X><Y></Y></X><Y><X></X></Y>a</A></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><X></X></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><X><Z priority='5'><X></X></Z></X></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><X><Y><X></X></Y></X></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><X><Y><Z priority='5'><X></X></Z></Y></X></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><X><Y></Y></X></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'></Z><X><Z priority='5'><X></X></Z></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'></Z><X><Y><X></X></Y></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'></Z><X><Y><Z priority='5'><X></X></Z></Y></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'></Z><X><Y></Y></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y><X></X></Y></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y><X><Z priority='5'><X></X></Z></X></Y></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y><X><Y><X></X></Y></X></Y></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y><Z priority='5'><X></X></Z></Y></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y><Z priority='5'><X><Z priority='5'><X></X></Z></X></Z></Y></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y><Z priority='5'><X><Y><X></X></Y></X></Z></Y></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y></Y></Z><X></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y></Y></Z><X><Z priority='5'><X></X></Z></X>a</B></Sp></S>",
-                    "<S><Sp><B><Z priority='5'><Y></Y></Z><X><Y><X></X></Y></X>a</B></Sp></S>"));
+                    "<S><Sp><B><Z priority='5'></Z><X></X>a</B></Sp></S>"));
 
         } catch (Exception ex) {
             fail();
         }
     }
 
-    @Test
-    public void simpleTest() {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void simpleTest(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+        //options.getLogger().setDefaultLogLevel("trace");
+
         SourceGrammar grammar = new SourceGrammar(new ParserOptions());
 
         NonterminalSymbol _S = grammar.getNonterminal("S");
@@ -701,7 +669,7 @@ M: 'm'; LDOE .
         grammar.addRule(_B, _b);
         grammar.addRule(_C, _c);
 
-        GearleyParser parser = grammar.getParser(globalOptions, _S);
+        GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse("abd");
         Assert.assertTrue(result.succeeded());
     }

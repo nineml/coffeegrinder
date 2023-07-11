@@ -3,13 +3,9 @@ package org.nineml.coffeegrinder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.TokenRegex;
 import org.nineml.coffeegrinder.trees.StringTreeBuilder;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class RegexTest extends CoffeeGrinderTest {
     @ParameterizedTest
@@ -108,13 +104,12 @@ public class RegexTest extends CoffeeGrinderTest {
 
         String input = "a02468a";
 
-        try {
-            GearleyParser parser = grammar.getParser(options, _S);
-            GearleyResult result = parser.parse(input);
-            Assertions.fail();
-        } catch (ParseException ex) {
-            Assertions.assertEquals("P006", ex.getCode());
-        }
+        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyResult result = parser.parse(input);
+        Assertions.assertEquals(1, result.getForest().getParseTreeCount());
+        StringTreeBuilder builder = new StringTreeBuilder();
+        result.getTree(builder);
+        Assertions.assertEquals("<S><A>a</A><digits><D>0</D><digits><D>2</D><digits><D>4</D><digits><D>6</D><digits><D>8</D></digits></digits></digits></digits></digits><A>a</A></S>", builder.getTree());
     }
 
     @ParameterizedTest
@@ -301,5 +296,97 @@ public class RegexTest extends CoffeeGrinderTest {
         Assertions.assertEquals("<S><A>a</A><D>123</D><A>a</A></S>", builder.getTree());
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void regexOverlap1(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        //options.getLogger().setDefaultLogLevel("trace");
+        options.setParserType(parserType);
 
+        SourceGrammar grammar = new SourceGrammar();
+        /*
+        S: A, D, A
+        A: 'a'
+        D: D1 | D2
+        D1: [0-9]*
+        D2: [0,2,4,6,8]*
+         */
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _D = grammar.getNonterminal("D");
+        NonterminalSymbol _D1 = grammar.getNonterminal("D1");
+        NonterminalSymbol _D2 = grammar.getNonterminal("D2");
+
+        grammar.addRule(_S, _A, _D, _A);
+        grammar.addRule(_A, TerminalSymbol.ch('a'));
+        grammar.addRule(_D, _D1);
+        grammar.addRule(_D, _D2);
+        grammar.addRule(_D1, TerminalSymbol.regex("[0-9]*"));
+        grammar.addRule(_D2, TerminalSymbol.regex("[0,2,4,6,8]*"));
+
+        String input = "a246a";
+
+        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyResult result = parser.parse(input);
+        Assertions.assertTrue(result.succeeded());
+
+        StringTreeBuilder builder = new StringTreeBuilder();
+        result.getTree(builder);
+
+        Assertions.assertEquals(2, result.getForest().getParseTreeCount());
+
+        String xml1 = builder.getTree();
+
+        Assertions.assertTrue("<S><A>a</A><D><D1>246</D1></D><A>a</A></S>".equals(xml1)
+                || "<S><A>a</A><D><D2>246</D2></D><A>a</A></S>".equals(xml1));
+
+        builder = new StringTreeBuilder();
+        result.getTree(builder);
+        String xml2 = builder.getTree();
+
+        Assertions.assertTrue("<S><A>a</A><D><D1>246</D1></D><A>a</A></S>".equals(xml2)
+                || "<S><A>a</A><D><D2>246</D2></D><A>a</A></S>".equals(xml2));
+
+        Assertions.assertNotEquals(xml1, xml2);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void regexOverlap2(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        //options.getLogger().setDefaultLogLevel("trace");
+        options.setParserType(parserType);
+
+        SourceGrammar grammar = new SourceGrammar();
+        /*
+        S: A, D, A
+        A: 'a'
+        D: [0-9]*
+        D: [0,2,4,6,8]*
+         */
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _D = grammar.getNonterminal("D");
+
+        grammar.addRule(_S, _A, _D, _A);
+        grammar.addRule(_A, TerminalSymbol.ch('a'));
+        grammar.addRule(_D, TerminalSymbol.regex("[0-9]*"));
+        grammar.addRule(_D, TerminalSymbol.regex("[0,2,4,6,8]*"));
+
+        String input = "a246a";
+
+        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyResult result = parser.parse(input);
+        Assertions.assertTrue(result.succeeded());
+
+        StringTreeBuilder builder = new StringTreeBuilder();
+        result.getTree(builder);
+
+        Assertions.assertEquals(1, result.getForest().getParseTreeCount());
+        String xml = builder.getTree();
+
+        Assertions.assertEquals("<S><A>a</A><D>246</D><A>a</A></S>", xml);
+    }
 }

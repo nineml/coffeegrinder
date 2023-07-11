@@ -40,25 +40,23 @@ Individual parse trees can be obtained from the forest.</para>
 
 <programlistingco>
 <areaspec>
-<area xml:id="ex_opt" coords="1 55"/>
-<area xml:id="ex_g" coords="2 55"/>
-<area xml:id="ex_ntg" coords="4 55"/>
+<area xml:id="ex_opt" coords="1 65"/>
+<area xml:id="ex_g" coords="2 65"/>
+<area xml:id="ex_ntg" coords="4 65"/>
 <area xml:id="ex_r1a" coords="10 35"/>
-<area xml:id="ex_r1b" coords="11 35"/>
-<area xml:id="ex_r2" coords="13 55"/>
-<area xml:id="ex_term" coords="14 55"/>
+<area xml:id="ex_term" coords="12 55"/>
 <area xml:id="ex_pgram" coords="20 65"/>
 <area xml:id="ex_hyg" coords="22 55"/>
-<area xml:id="ex_parser" coords="27 55"/>
-<area xml:id="ex_result" coords="29 55"/>
-<area xml:id="ex_success" coords="31 55"/>
-<area xml:id="ex_forest" coords="33 55"/>
-<area xml:id="ex_tree" coords="35 55"/>
-<area xml:id="ex_amb" coords="39 55"/>
+<area xml:id="ex_parser" coords="25 65"/>
+<area xml:id="ex_result" coords="27 55"/>
+<area xml:id="ex_success" coords="29 55"/>
+<area xml:id="ex_forest" coords="31 55"/>
+<area xml:id="ex_tree" coords="33 55"/>
+<area xml:id="ex_amb" coords="37 55"/>
 </areaspec>
 <programlisting language="java"
 ><xi:include href="../../test/java/DocExample.java"
-             fragid="text(line=16,61;md5=fc5911022faf50842063a713ba4eaa31)" parse="text"
+             fragid="text(line=16,60;md5=61a64f740c9d9a3a17497a1698f6d656)" parse="text"
 /></programlisting>
 <calloutlist>
 <callout arearefs="ex_opt">
@@ -77,15 +75,6 @@ Individual parse trees can be obtained from the forest.</para>
 </callout>
 <callout arearefs="ex_r1a">
 <para>Create rules mapping each nonterminal symbol to zero or more other symbols.
-</para>
-</callout>
-<callout arearefs="ex_r1b">
-<para>Add the rules to the grammar.
-</para>
-</callout>
-<callout arearefs="ex_r2">
-<para>You can also just use the <methodname>addRule</methodname> method to add
-the symbols and their mappings directly.
 </para>
 </callout>
 <callout arearefs="ex_term">

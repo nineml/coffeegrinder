@@ -1,15 +1,19 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.tokens.Token;
-import org.nineml.coffeegrinder.tokens.TokenRegex;
 import org.nineml.coffeegrinder.tokens.TokenString;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
+/**
+ * An SPPF is a shared packed parse forest.
+ * <p>The SPPF is a graph representation of all the (possibly infinite) parses that can be used
+ * to recognize the input sequence as a sentence in the grammar. This forest is created by the GLL
+ * parser.</p>
+ */
 public class ParseForestGLL extends ParseForest {
     private final HashSet<ForestNodeGLL> extendedLeaves;
     private final ArrayList<ForestNodeGLL> candidateLeaves;
@@ -20,14 +24,12 @@ public class ParseForestGLL extends ParseForest {
     private final ParserGrammar grammar;
     private final int rightExtent;
     private final Token[] inputTokens;
-    private final Map<Integer,String> regexMatches;
 
-    public ParseForestGLL(ParserOptions options, ParserGrammar grammar, int rightExtent, Token[] inputTokens, Map<Integer,String> regexMatches) {
+    public ParseForestGLL(ParserOptions options, ParserGrammar grammar, int rightExtent, Token[] inputTokens) {
         super(options);
         this.grammar = grammar;
         this.rightExtent = rightExtent;
         this.inputTokens = inputTokens;
-        this.regexMatches = regexMatches;
         intermediate = new HashMap<>();
         slotPrefixes = new HashMap<>();
         nodes = new HashMap<>();
@@ -45,14 +47,16 @@ public class ParseForestGLL extends ParseForest {
         // and sometimes the symbol in the input has attributes. Combine them.
         // Also deal with regex matches
         if (symbol instanceof TerminalSymbol) {
-            if (((TerminalSymbol) symbol).getToken() instanceof TokenRegex) {
-                ArrayList<ParserAttribute> attr = new ArrayList<>(symbol.getAttributes());
-                attr.addAll(inputTokens[leftExtent].getAttributes());
-                symbol = new TerminalSymbol(TokenString.get(regexMatches.get(leftExtent)), attr);
-            } else if (leftExtent + 1 == rightExtent) {
-                ArrayList<ParserAttribute> attr = new ArrayList<>(symbol.getAttributes());
-                attr.addAll(inputTokens[leftExtent].getAttributes());
+            ArrayList<ParserAttribute> attr = new ArrayList<>(symbol.getAttributes());
+            attr.addAll(inputTokens[leftExtent].getAttributes());
+            if (leftExtent + 1 == rightExtent) {
                 symbol = new TerminalSymbol(inputTokens[leftExtent], attr);
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (int pos = leftExtent; pos < rightExtent; pos++) {
+                    sb.append(inputTokens[pos].getValue());
+                }
+                symbol = new TerminalSymbol(TokenString.get(sb.toString()), attr);
             }
         }
 

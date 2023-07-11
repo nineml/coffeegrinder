@@ -4,7 +4,6 @@ import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.tokens.TokenRegex;
-import org.nineml.coffeegrinder.tokens.TokenString;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 import org.nineml.coffeegrinder.util.StopWatch;
 
@@ -308,7 +307,6 @@ public class EarleyParser implements GearleyParser {
                 EarleyItem Lambda = R.remove(0);
                 if (Lambda.state != null && Lambda.state.nextSymbol() instanceof NonterminalSymbol) {
                     NonterminalSymbol C = (NonterminalSymbol) Lambda.state.nextSymbol();
-                    String greedyMatch = null;
                     EarleyItem regexItem = null;
                     for (Rule rule : Rho.get(C)) {
                         final Symbol delta = rule.getRhs().getFirst();
@@ -324,12 +322,7 @@ public class EarleyParser implements GearleyParser {
                         if (delta instanceof TerminalSymbol) {
                             TerminalSymbol ts = (TerminalSymbol) delta;
                             if (ts.token instanceof TokenRegex) {
-                                String thisMatch = ((TokenRegex) ts.token).matches(stringInput.substring(i));
-                                if (thisMatch != null && greedyMatch != null) {
-                                    throw ParseException.invalidRegex(C.toString());
-                                }
-                                greedyMatch = thisMatch;
-
+                                String greedyMatch = ((TokenRegex) ts.token).matches(stringInput.substring(i));
                                 if (greedyMatch != null) {
                                     ArrayList<Symbol> newRHS = new ArrayList<>();
                                     if ("".equals(greedyMatch)) {

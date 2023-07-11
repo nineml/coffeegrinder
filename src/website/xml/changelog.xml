@@ -9,12 +9,32 @@
 
 <revhistory>
 <revision>
+<revnumber>3.0.0d</revnumber>
+<date>2023-07-11</date>
+<revdescription>
+<para>This is a beta release for version 3.0.0. There are a lot of
+changes in this release and many of them impact the public APIs.</para>
+<orderedlist>
+<listitem><para>Reworked tree construction. I’ve abandoned the efforts to
+return (some of) the infinitely many trees that result when there are loops in the
+grammar. Loops are never followed when there are other options.</para>
+</listitem>
+<listitem><para>Reworked the GLL parser. Removed a whole lot of cruft by using
+lambdas directly for the instructions.</para>
+</listitem>
+<listitem><para>Removed some arbitrary limitations on regular expression matches.
+Tested that they work for both the Earley and GLL parsers.</para>
+</listitem>
+<listitem><para>Removed some dead code, simplified some APIs, tidied up and
+improved the JavaDoc.</para>
+</listitem>
+</orderedlist>
+</revdescription>
+</revision>
+<revision>
 <revnumber>3.0.0c</revnumber>
 <date>2023-07-09</date>
 <revdescription>
-<para>This is a beta release for version 3.0.0. There are a lot of
-changes in this release and many of them impact the public APIs. The JavaDoc
-has not yet been updated.</para>
 <para>Version 3.0.0c fixes a bug where a regular expression pragma would not
 successfully parse when the regular expression matched the empty string.</para>
 </revdescription>

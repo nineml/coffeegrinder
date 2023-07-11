@@ -1,10 +1,10 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ParseException;
+import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.trees.ParseTree;
 import org.nineml.coffeegrinder.trees.ParseTreeBuilder;
 import org.nineml.coffeegrinder.trees.TreeBuilder;
-import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.trees.TreeSelector;
 
 import java.util.*;
@@ -97,15 +97,6 @@ public class EarleyResult implements GearleyResult {
             walker = graph.getWalker();
         }
         return walker.hasMoreTrees();
-    }
-
-    @Override
-    public void resetTrees() {
-        if (walker == null) {
-            walker = graph.getWalker();
-            return;
-        }
-        walker.reset();
     }
 
     @Override

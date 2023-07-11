@@ -119,7 +119,7 @@ public class Family {
     }
 
     public List<ParserAttribute> getRightAttributes() {
-        if (v == null || state == null) {
+        if (v == null || state == null || state.position == 0) {
             return Collections.emptyList();
         }
 

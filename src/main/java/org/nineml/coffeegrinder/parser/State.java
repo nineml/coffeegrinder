@@ -13,54 +13,41 @@ import java.util.Set;
  * FIXME: this API is in flux.
  */
 public class State {
-    public static final State L0 = new State(0);
+    public static final State L0 = new State();
 
-    private static int nextStateId = 0;
-    public final int label;
     public final Rule rule;
     public final NonterminalSymbol symbol;
     public final int position;
     public final RightHandSide rhs;
-    private final HashSet<Descriptor> descriptors;
-    private int instructionPointer = -1;
     private Integer cachedCode = null;
     private HashSet<Symbol> firstSet = null;
 
-    private State(int num) {
+    private State() {
         symbol = null;
         rule = null;
         position = 0;
         rhs = new RightHandSide(new Symbol[0]);
-        label = num;
-        nextStateId = num+1;
-        descriptors = null;
     }
 
-    public State(Rule rule) {
+    protected State(Rule rule) {
         this.rule = rule;
         this.symbol = rule.getSymbol();
         this.rhs = rule.getRhs();
         this.position = 0;
-        label = nextStateId++;
-        descriptors = new HashSet<>();
     }
 
-    public State(State other, int position) {
+    protected State(State other, int position) {
         this.rule = other.rule;
         this.symbol = other.symbol;
         this.rhs = other.rhs;
         this.position = position;
-        label = nextStateId++;
-        descriptors = new HashSet<>();
     }
 
-    public State(Rule rule, int position) {
+    protected State(Rule rule, int position) {
         this.rule = rule;
         this.symbol = rule.symbol;
         this.rhs = rule.rhs;
         this.position = position;
-        label = nextStateId++;
-        descriptors = new HashSet<>();
     }
 
     protected State(NonterminalSymbol symbol, int pos, List<Symbol> rhs) {
@@ -68,8 +55,6 @@ public class State {
         this.symbol = symbol;
         this.rhs = rule.getRhs();
         this.position = pos;
-        label = nextStateId++;
-        descriptors = new HashSet<>();
     }
 
     /**
@@ -93,43 +78,8 @@ public class State {
         return rhs.get(position - 1);
     }
 
-    public void setInstructionPointer(int ip) {
-        if (ip < 0) {
-            throw new IllegalArgumentException("Instruction pointer must be non-negative");
-        }
-        if (instructionPointer >= 0) {
-            throw new IllegalStateException("Cannot move the instruction pointer");
-        }
-        instructionPointer = ip;
-    }
-
-    public int getInstructionPointer() {
-        return instructionPointer;
-    }
-
     public Descriptor getDescriptor(int k, int i) {
         return new Descriptor(this, k, i);
-        /*
-        boolean found = true;
-        if (!descriptors.containsKey(k)) {
-            descriptors.put(k, new HashMap<>());
-            found = false;
-        }
-        if (!descriptors.get(k).containsKey(i)) {
-            descriptors.get(k).put(i, new Descriptor(this, k, i));
-            found = false;
-        }
-
-        if (found) {
-            fcount++;
-            System.err.printf("Found descriptor %d, %d: %d/%d%n", k, i, fcount, nfcount);
-        } else {
-            nfcount++;
-        }
-
-        return descriptors.get(k).get(i);
-
-         */
     }
 
     /**

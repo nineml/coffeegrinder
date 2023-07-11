@@ -2,6 +2,12 @@ package org.nineml.coffeegrinder.parser;
 
 import java.util.Objects;
 
+/**
+ * A node in the SPPF constructed by the GLL parser.
+ *
+ * <p>When walking the graph, for example to extract parses, these nodes represent what's
+ * available in the graph.</p>
+ */
 public class ForestNodeGLL extends ForestNode {
     public final boolean intermediate;
     public final int pivot;

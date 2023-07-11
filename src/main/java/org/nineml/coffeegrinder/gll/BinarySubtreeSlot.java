@@ -1,9 +1,10 @@
 package org.nineml.coffeegrinder.gll;
 
-import org.nineml.coffeegrinder.parser.NonterminalSymbol;
 import org.nineml.coffeegrinder.parser.State;
-import org.nineml.coffeegrinder.parser.Symbol;
 
+/**
+ * A slot (state) in a {@link BinarySubtree}.
+ */
 public class BinarySubtreeSlot extends BinarySubtreeNode {
     protected BinarySubtreeSlot(State slot, int left, int pivot, int right) {
         super(slot, left, pivot, right);

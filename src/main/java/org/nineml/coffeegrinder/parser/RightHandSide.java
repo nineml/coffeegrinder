@@ -3,6 +3,9 @@ package org.nineml.coffeegrinder.parser;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A utility class for what appears on the "right hand side" of a production in a grammar.
+ */
 public class RightHandSide {
     public final Symbol[] symbols;
     private final int hcode;

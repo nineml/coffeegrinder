@@ -2,6 +2,9 @@ package org.nineml.coffeegrinder.gll;
 
 import org.nineml.coffeegrinder.parser.State;
 
+/**
+ * A descriptor is a slot (a state) with it's position in the input.
+ */
 public class Descriptor {
     public final State slot;
     public final int k;

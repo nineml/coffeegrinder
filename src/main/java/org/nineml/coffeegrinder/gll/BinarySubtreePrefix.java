@@ -6,6 +6,9 @@ import org.nineml.coffeegrinder.parser.Symbol;
 
 import java.util.Arrays;
 
+/**
+ * A "prefix subtree" in a {@link BinarySubtree}.
+ */
 public class BinarySubtreePrefix extends BinarySubtreeNode {
     protected BinarySubtreePrefix(State slot, int left, int pivot, int right) {
         super(slot, left, pivot, right);

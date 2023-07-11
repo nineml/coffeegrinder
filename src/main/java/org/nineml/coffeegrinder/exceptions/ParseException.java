@@ -78,24 +78,4 @@ public class ParseException extends CoffeeGrinderException {
      * @return a ParseException
      */
     public static ParseException invalidInputForRegex() { return getException("P005"); }
-
-    /**
-     * Raised if multiple regular expression matches occur.
-     *
-     * <p>When regular expressions are used, there must not be multiple regular expressions
-     * that match the same input for the same token.</p>
-     *
-     * @param symbol a detail symbol
-     * @return a ParseException
-     */
-    public static ParseException invalidRegex(String symbol) { return getException("P006", symbol); }
-
-    /**
-     * Raised if you attempt to use regular expressions with the Earley parser.
-     *
-     * <p>Regular expression support hasn't been implemented in the Earley parser yet.</p>
-     *
-     * @return a ParseException
-     */
-    public static ParseException regexUnsupported() { return getException("P007"); }
 }
