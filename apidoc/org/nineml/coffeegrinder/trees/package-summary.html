@@ -96,6 +96,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <h1 title="Package" class="title">Package&nbsp;org.nineml.coffeegrinder.trees</h1>
 </div>
 <div class="contentContainer">
+<section><a id="package.description">
+<!--   -->
+</a>
+<div class="block">The tree classes.
+
+ <p>These classes are related to constructing trees from the forest.</p></div>
+</section>
 <ul class="blockList">
 <li class="blockList">
 <table class="typeSummary">
@@ -107,11 +114,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tbody>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">The tree builder interface.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">The tree selector is responsible for choosing among ambiguous parses.</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -126,7 +137,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tbody>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="NopTreeBuilder.html" title="class in org.nineml.coffeegrinder.trees">NopTreeBuilder</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">This class implements the <a href="TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees"><code>TreeBuilder</code></a> interface, but discards all the output.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="ParseTree.html" title="class in org.nineml.coffeegrinder.trees">ParseTree</a></th>
@@ -136,27 +149,40 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="ParseTreeBuilder.html" title="class in org.nineml.coffeegrinder.trees">ParseTreeBuilder</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">A tree builder that constructs a <a href="ParseTree.html" title="class in org.nineml.coffeegrinder.trees"><code>ParseTree</code></a>.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="PrintStreamTreeBuilder.html" title="class in org.nineml.coffeegrinder.trees">PrintStreamTreeBuilder</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">A tree builder that sends serialized results to a print stream.</div>
+</td>
 </tr>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="PriorityTreeSelector.html" title="class in org.nineml.coffeegrinder.trees">PriorityTreeSelector</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">A <a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees"><code>TreeSelector</code></a> that uses the <a href="../parser/ForestNode.html#PRIORITY_ATTRIBUTE"><code>ForestNode.PRIORITY_ATTRIBUTE</code></a>
+ to manage priorities.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="SequentialTreeSelector.html" title="class in org.nineml.coffeegrinder.trees">SequentialTreeSelector</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">A <a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees"><code>TreeSelector</code></a> that returns each tree in the forest successively.</div>
+</td>
 </tr>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="StdoutTreeBuilder.html" title="class in org.nineml.coffeegrinder.trees">StdoutTreeBuilder</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">A tree builder that sends serialized output to <code>System.out</code>.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="StringTreeBuilder.html" title="class in org.nineml.coffeegrinder.trees">StringTreeBuilder</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">A tree builder that returns the serialized tree as a string.</div>
+</td>
 </tr>
 </tbody>
 </table>

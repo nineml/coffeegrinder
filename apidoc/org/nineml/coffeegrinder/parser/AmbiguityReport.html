@@ -133,6 +133,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">AmbiguityReport</span>
 extends java.lang.Object</pre>
+<div class="block">An ambiguity report.
+ <p>This is a report derived from the
+ <a href="https://www.brics.dk/grammar.html">dk.brics.grammar</a> ambiguity analyzer.</p></div>
 </li>
 </ul>
 </div>
@@ -156,27 +159,37 @@ extends java.lang.Object</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#check()">check</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Run the checker.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAmbiguityReport()">getAmbiguityReport</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Get the report.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCheckSucceeded()">getCheckSucceeded</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Did the check succeed?</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getReliable()">getReliable</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Is the report reliable?</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getUnambiguous()">getUnambiguous</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Is the grammar unambiguous?</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -209,6 +222,12 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getReliable</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;getReliable()</pre>
+<div class="block">Is the report reliable?
+ <p>Some grammars cannot be reliably analyzed.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if the report is reliable.</dd>
+</dl>
 </li>
 </ul>
 <a id="getUnambiguous()">
@@ -218,6 +237,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getUnambiguous</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;getUnambiguous()</pre>
+<div class="block">Is the grammar unambiguous?</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>True if the grammar is unambiguous.</dd>
+</dl>
 </li>
 </ul>
 <a id="getCheckSucceeded()">
@@ -227,6 +251,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getCheckSucceeded</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;getCheckSucceeded()</pre>
+<div class="block">Did the check succeed?</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if the check was successful.</dd>
+</dl>
 </li>
 </ul>
 <a id="getAmbiguityReport()">
@@ -236,6 +265,12 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getAmbiguityReport</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getAmbiguityReport()</pre>
+<div class="block">Get the report.
+ <p>The report is the text output from the brics analyzer.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The report.</dd>
+</dl>
 </li>
 </ul>
 <a id="check()">
@@ -245,6 +280,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>check</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;check()</pre>
+<div class="block">Run the checker.</div>
 </li>
 </ul>
 </li>

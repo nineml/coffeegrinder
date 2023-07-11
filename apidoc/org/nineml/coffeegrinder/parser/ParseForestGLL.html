@@ -138,6 +138,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">ParseForestGLL</span>
 extends <a href="ParseForest.html" title="class in org.nineml.coffeegrinder.parser">ParseForest</a></pre>
+<div class="block">An SPPF is a shared packed parse forest.
+ <p>The SPPF is a graph representation of all the (possibly infinite) parses that can be used
+ to recognize the input sequence as a sentence in the grammar. This forest is created by the GLL
+ parser.</p></div>
 </li>
 </ul>
 </div>
@@ -175,11 +179,10 @@ extends <a href="ParseForest.html" title="class in org.nineml.coffeegrinder.pars
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.nineml.coffeegrinder.parser.ParserOptions,org.nineml.coffeegrinder.parser.ParserGrammar,int,org.nineml.coffeegrinder.tokens.Token%5B%5D,java.util.Map)">ParseForestGLL</a></span>&#8203;(<a href="ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a>&nbsp;options,
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.nineml.coffeegrinder.parser.ParserOptions,org.nineml.coffeegrinder.parser.ParserGrammar,int,org.nineml.coffeegrinder.tokens.Token%5B%5D)">ParseForestGLL</a></span>&#8203;(<a href="ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a>&nbsp;options,
               <a href="ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser">ParserGrammar</a>&nbsp;grammar,
               int&nbsp;rightExtent,
-              <a href="../tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]&nbsp;inputTokens,
-              java.util.Map&lt;java.lang.Integer,&#8203;java.lang.String&gt;&nbsp;regexMatches)</code></th>
+              <a href="../tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]&nbsp;inputTokens)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -257,7 +260,7 @@ extends <a href="ParseForest.html" title="class in org.nineml.coffeegrinder.pars
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a id="&lt;init&gt;(org.nineml.coffeegrinder.parser.ParserOptions,org.nineml.coffeegrinder.parser.ParserGrammar,int,org.nineml.coffeegrinder.tokens.Token[],java.util.Map)">
+<a id="&lt;init&gt;(org.nineml.coffeegrinder.parser.ParserOptions,org.nineml.coffeegrinder.parser.ParserGrammar,int,org.nineml.coffeegrinder.tokens.Token[])">
 <!--   -->
 </a>
 <ul class="blockListLast">
@@ -266,8 +269,7 @@ extends <a href="ParseForest.html" title="class in org.nineml.coffeegrinder.pars
 <pre>public&nbsp;ParseForestGLL&#8203;(<a href="ParserOptions.html" title="class in org.nineml.coffeegrinder.parser">ParserOptions</a>&nbsp;options,
                       <a href="ParserGrammar.html" title="class in org.nineml.coffeegrinder.parser">ParserGrammar</a>&nbsp;grammar,
                       int&nbsp;rightExtent,
-                      <a href="../tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]&nbsp;inputTokens,
-                      java.util.Map&lt;java.lang.Integer,&#8203;java.lang.String&gt;&nbsp;regexMatches)</pre>
+                      <a href="../tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>[]&nbsp;inputTokens)</pre>
 </li>
 </ul>
 </li>

@@ -138,6 +138,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre>public class <span class="typeNameLabel">PriorityTreeSelector</span>
 extends java.lang.Object
 implements <a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a></pre>
+<div class="block">A <a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees"><code>TreeSelector</code></a> that uses the <a href="../parser/ForestNode.html#PRIORITY_ATTRIBUTE"><code>ForestNode.PRIORITY_ATTRIBUTE</code></a>
+ to manage priorities.</div>
 </li>
 </ul>
 </div>
@@ -185,23 +187,31 @@ implements <a href="TreeSelector.html" title="interface in org.nineml.coffeegrin
               java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attributes,
               int&nbsp;leftExtent,
               int&nbsp;rightExtent)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Enda a nonterminal.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getMadeAmbiguousChoice()">getMadeAmbiguousChoice</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Did the tree selector make an arbitrary choice?</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#reset()">reset</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Reset the state of the tree selector.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#select(java.util.List,java.util.List)">select</a></span>&#8203;(java.util.List&lt;<a href="../parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>&gt;&nbsp;choices,
       java.util.List&lt;<a href="../parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>&gt;&nbsp;otherChoices)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Make a selection.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
@@ -209,7 +219,9 @@ implements <a href="TreeSelector.html" title="interface in org.nineml.coffeegrin
                 java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attributes,
                 int&nbsp;leftExtent,
                 int&nbsp;rightExtent)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Start a nonterminal.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -261,36 +273,15 @@ implements <a href="TreeSelector.html" title="interface in org.nineml.coffeegrin
 <li class="blockList">
 <h4>getMadeAmbiguousChoice</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;getMadeAmbiguousChoice()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TreeSelector.html#getMadeAmbiguousChoice()">TreeSelector</a></code></span></div>
+<div class="block">Did the tree selector make an arbitrary choice?
+ <p>A non-arbitrary choice, resolved by priority or some other mechanism does not necessarily
+ count as an ambiguous choice.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="TreeSelector.html#getMadeAmbiguousChoice()">getMadeAmbiguousChoice</a></code>&nbsp;in interface&nbsp;<code><a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a></code></dd>
-</dl>
-</li>
-</ul>
-<a id="select(java.util.List,java.util.List)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>select</h4>
-<pre class="methodSignature">public&nbsp;<a href="../parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>&nbsp;select&#8203;(java.util.List&lt;<a href="../parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>&gt;&nbsp;choices,
-                     java.util.List&lt;<a href="../parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>&gt;&nbsp;otherChoices)</pre>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="TreeSelector.html#select(java.util.List,java.util.List)">select</a></code>&nbsp;in interface&nbsp;<code><a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a></code></dd>
-</dl>
-</li>
-</ul>
-<a id="reset()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>reset</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;reset()</pre>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="TreeSelector.html#reset()">reset</a></code>&nbsp;in interface&nbsp;<code><a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>True if the selector made an arbitrary choice.</dd>
 </dl>
 </li>
 </ul>
@@ -304,25 +295,81 @@ implements <a href="TreeSelector.html" title="interface in org.nineml.coffeegrin
                              java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attributes,
                              int&nbsp;leftExtent,
                              int&nbsp;rightExtent)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TreeSelector.html#startNonterminal(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map,int,int)">TreeSelector</a></code></span></div>
+<div class="block">Start a nonterminal.
+ <p>The start and end nonterminal methods allow the tree selector to track what
+ choices have already been made.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="TreeSelector.html#startNonterminal(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map,int,int)">startNonterminal</a></code>&nbsp;in interface&nbsp;<code><a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>symbol</code> - The symbol.</dd>
+<dd><code>attributes</code> - Its attributes.</dd>
+<dd><code>leftExtent</code> - The starting position in the input.</dd>
+<dd><code>rightExtent</code> - The ending position in the input.</dd>
 </dl>
 </li>
 </ul>
 <a id="endNonterminal(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map,int,int)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>endNonterminal</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;endNonterminal&#8203;(<a href="../parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
                            java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attributes,
                            int&nbsp;leftExtent,
                            int&nbsp;rightExtent)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TreeSelector.html#endNonterminal(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map,int,int)">TreeSelector</a></code></span></div>
+<div class="block">Enda a nonterminal.
+ <p>The start and end nonterminal methods allow the tree selector to track what
+ choices have already been made.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="TreeSelector.html#endNonterminal(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map,int,int)">endNonterminal</a></code>&nbsp;in interface&nbsp;<code><a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>symbol</code> - The symbol.</dd>
+<dd><code>attributes</code> - Its attributes.</dd>
+<dd><code>leftExtent</code> - The starting position in the input.</dd>
+<dd><code>rightExtent</code> - The ending position in the input.</dd>
+</dl>
+</li>
+</ul>
+<a id="select(java.util.List,java.util.List)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>select</h4>
+<pre class="methodSignature">public&nbsp;<a href="../parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>&nbsp;select&#8203;(java.util.List&lt;<a href="../parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>&gt;&nbsp;choices,
+                     java.util.List&lt;<a href="../parser/Family.html" title="class in org.nineml.coffeegrinder.parser">Family</a>&gt;&nbsp;otherChoices)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TreeSelector.html#select(java.util.List,java.util.List)">TreeSelector</a></code></span></div>
+<div class="block">Make a selection.
+ <p>The list of choices will always contain at least one choice. The list of otherChoices will
+ include any choices previously made. The method must return a choice.</p></div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="TreeSelector.html#select(java.util.List,java.util.List)">select</a></code>&nbsp;in interface&nbsp;<code><a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>choices</code> - The available, unused choices.</dd>
+<dd><code>otherChoices</code> - The available, but previously selected choices.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The selected choice.</dd>
+</dl>
+</li>
+</ul>
+<a id="reset()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>reset</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;reset()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TreeSelector.html#reset()">TreeSelector</a></code></span></div>
+<div class="block">Reset the state of the tree selector.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="TreeSelector.html#reset()">reset</a></code>&nbsp;in interface&nbsp;<code><a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a></code></dd>
 </dl>
 </li>
 </ul>

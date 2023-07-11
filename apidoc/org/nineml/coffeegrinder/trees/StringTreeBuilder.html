@@ -138,6 +138,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre>public class <span class="typeNameLabel">StringTreeBuilder</span>
 extends java.lang.Object
 implements <a href="TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a></pre>
+<div class="block">A tree builder that returns the serialized tree as a string.</div>
 </li>
 </ul>
 </div>
@@ -189,12 +190,16 @@ implements <a href="TreeBuilder.html" title="interface in org.nineml.coffeegrind
               java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attributes,
               int&nbsp;leftExtent,
               int&nbsp;rightExtent)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Called when a nonterminal ends.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#endTree(boolean)">endTree</a></span>&#8203;(boolean&nbsp;madeAmbiguousChoice)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Called last, when construction finishes.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
@@ -207,13 +212,17 @@ implements <a href="TreeBuilder.html" title="interface in org.nineml.coffeegrind
                 java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attributes,
                 int&nbsp;leftExtent,
                 int&nbsp;rightExtent)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Called when a new nonterminal begins.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#startTree(boolean,boolean)">startTree</a></span>&#8203;(boolean&nbsp;ambiguous,
          boolean&nbsp;infinitelyAmbiguous)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Called first, when construction begins.</div>
+</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
@@ -221,7 +230,9 @@ implements <a href="TreeBuilder.html" title="interface in org.nineml.coffeegrind
      java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attributes,
      int&nbsp;leftExtent,
      int&nbsp;rightExtent)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Called when a terminal occurs.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -292,9 +303,14 @@ implements <a href="TreeBuilder.html" title="interface in org.nineml.coffeegrind
 <h4>startTree</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;startTree&#8203;(boolean&nbsp;ambiguous,
                       boolean&nbsp;infinitelyAmbiguous)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TreeBuilder.html#startTree(boolean,boolean)">TreeBuilder</a></code></span></div>
+<div class="block">Called first, when construction begins.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="TreeBuilder.html#startTree(boolean,boolean)">startTree</a></code>&nbsp;in interface&nbsp;<code><a href="TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>ambiguous</code> - is the parse ambiguous?</dd>
+<dd><code>infinitelyAmbiguous</code> - Is the parse infinitely ambiguous?</dd>
 </dl>
 </li>
 </ul>
@@ -305,9 +321,14 @@ implements <a href="TreeBuilder.html" title="interface in org.nineml.coffeegrind
 <li class="blockList">
 <h4>endTree</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;endTree&#8203;(boolean&nbsp;madeAmbiguousChoice)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TreeBuilder.html#endTree(boolean)">TreeBuilder</a></code></span></div>
+<div class="block">Called last, when construction finishes.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="TreeBuilder.html#endTree(boolean)">endTree</a></code>&nbsp;in interface&nbsp;<code><a href="TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>madeAmbiguousChoice</code> - is true if the tree selector reported that it made an arbitrary choice
+                            to resolve an ambiguous parse.</dd>
 </dl>
 </li>
 </ul>
@@ -321,9 +342,16 @@ implements <a href="TreeBuilder.html" title="interface in org.nineml.coffeegrind
                              java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attributes,
                              int&nbsp;leftExtent,
                              int&nbsp;rightExtent)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TreeBuilder.html#startNonterminal(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map,int,int)">TreeBuilder</a></code></span></div>
+<div class="block">Called when a new nonterminal begins.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="TreeBuilder.html#startNonterminal(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map,int,int)">startNonterminal</a></code>&nbsp;in interface&nbsp;<code><a href="TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>symbol</code> - The symbol.</dd>
+<dd><code>attributes</code> - Its attributes.</dd>
+<dd><code>leftExtent</code> - The starting position in the input.</dd>
+<dd><code>rightExtent</code> - The ending position in the input.</dd>
 </dl>
 </li>
 </ul>
@@ -337,9 +365,16 @@ implements <a href="TreeBuilder.html" title="interface in org.nineml.coffeegrind
                            java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attributes,
                            int&nbsp;leftExtent,
                            int&nbsp;rightExtent)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TreeBuilder.html#endNonterminal(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map,int,int)">TreeBuilder</a></code></span></div>
+<div class="block">Called when a nonterminal ends.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="TreeBuilder.html#endNonterminal(org.nineml.coffeegrinder.parser.NonterminalSymbol,java.util.Map,int,int)">endNonterminal</a></code>&nbsp;in interface&nbsp;<code><a href="TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>symbol</code> - The symbol.</dd>
+<dd><code>attributes</code> - Its attributes.</dd>
+<dd><code>leftExtent</code> - The starting position in the input.</dd>
+<dd><code>rightExtent</code> - The ending position in the input.</dd>
 </dl>
 </li>
 </ul>
@@ -353,9 +388,16 @@ implements <a href="TreeBuilder.html" title="interface in org.nineml.coffeegrind
                   java.util.Map&lt;java.lang.String,&#8203;java.lang.String&gt;&nbsp;attributes,
                   int&nbsp;leftExtent,
                   int&nbsp;rightExtent)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TreeBuilder.html#token(org.nineml.coffeegrinder.tokens.Token,java.util.Map,int,int)">TreeBuilder</a></code></span></div>
+<div class="block">Called when a terminal occurs.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="TreeBuilder.html#token(org.nineml.coffeegrinder.tokens.Token,java.util.Map,int,int)">token</a></code>&nbsp;in interface&nbsp;<code><a href="TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>token</code> - The terminal token.</dd>
+<dd><code>attributes</code> - Its attributes.</dd>
+<dd><code>leftExtent</code> - The starting position in the input.</dd>
+<dd><code>rightExtent</code> - The ending position in the input.</dd>
 </dl>
 </li>
 </ul>
