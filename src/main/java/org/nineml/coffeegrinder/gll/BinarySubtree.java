@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * The GLL parser constructs BinarySubtrees during parsing.
+ */
 public class BinarySubtree {
     public static final String logcategory = "GllParser";
     public final HashMap<Integer, HashSet<BinarySubtreePrefix>> bsrPrefixes;

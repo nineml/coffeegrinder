@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * An SPPF is a shared packed parse forest.
+ * <p>The SPPF is a graph representation of all the (possibly infinite) parses that can be used
+ * to recognize the input sequence as a sentence in the grammar. This forest is created by the GLL
+ * parser.</p>
+ */
 public class ParseForestGLL extends ParseForest {
     private final HashSet<ForestNodeGLL> extendedLeaves;
     private final ArrayList<ForestNodeGLL> candidateLeaves;

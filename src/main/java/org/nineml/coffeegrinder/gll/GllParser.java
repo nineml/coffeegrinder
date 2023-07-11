@@ -12,6 +12,16 @@ import org.nineml.logging.Logger;
 
 import java.util.*;
 
+/** The GLL parser.
+ *
+ * <p>The GLL parser compares an input sequence against a grammar and determines if the input
+ * is a sentence in the grammar.</p>
+ * <p>This is an attempt to implement the work described in
+ * <a href="https://pure.royalholloway.ac.uk/portal/en/publications/derivation-representation-using-binary-subtree-sets(d718368b-d4a4-49c8-b023-bdaae5feaece).html">Derivation
+ * representation using binary subtree sets</a> by Elizabeth Scott, Adrian Johnstone, and L. Thomas van Binsbergen.
+ * It returns the SPPF style forest derived from the binary subtrees. (There's some aspect of the description
+ * of how to extract trees directly from the BSR that I cannot grok.)</p>
+ */
 public class GllParser implements GearleyParser {
     public static final String logcategory = "Parser";
     public static final String gllexecution = "GLLExecution";

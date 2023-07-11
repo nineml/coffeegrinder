@@ -2,6 +2,9 @@ package org.nineml.coffeegrinder.gll;
 
 import org.nineml.coffeegrinder.parser.State;
 
+/**
+ * A slot (state) in a {@link BinarySubtree}.
+ */
 public class BinarySubtreeSlot extends BinarySubtreeNode {
     protected BinarySubtreeSlot(State slot, int left, int pivot, int right) {
         super(slot, left, pivot, right);

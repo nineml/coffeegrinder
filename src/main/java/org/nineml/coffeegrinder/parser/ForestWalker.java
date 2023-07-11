@@ -8,6 +8,10 @@ import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.*;
 
+/**
+ * The forest walker.
+ * <p>The forest walker extracts trees from a forest.</p>
+ */
 public class ForestWalker {
     private final ParseForest graph;
     private final Stack<PathNode> prevPath;
@@ -217,12 +221,10 @@ public class ForestWalker {
     }
 
     private void startNonterminal(NonterminalSymbol symbol, List<ParserAttribute> attributes, int leftExtent, int rightExtent) {
-        treeSelector.startNonterminal(symbol, attributeMap(attributes), leftExtent, rightExtent);
         builder.startNonterminal(symbol, attributeMap(attributes), leftExtent, rightExtent);
     }
 
     private void endNonterminal(NonterminalSymbol symbol, List<ParserAttribute> attributes, int leftExtent, int rightExtent) {
-        treeSelector.endNonterminal(symbol, attributeMap(attributes), leftExtent, rightExtent);
         builder.endNonterminal(symbol, attributeMap(attributes), leftExtent, rightExtent);
     }
 

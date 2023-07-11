@@ -2,6 +2,11 @@ package org.nineml.coffeegrinder.parser;
 
 import java.util.*;
 
+/**
+ * The grammar representation.
+ * <p>This is an abstract class with two implementations: {@link SourceGrammar} and {@link ParserGrammar}.
+ * The source grammar can be updated, the parser grammar is immutable.</p>
+ */
 public abstract class Grammar {
     public static final String logcategory = "Grammar";
 

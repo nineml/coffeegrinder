@@ -6,6 +6,14 @@ import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.util.*;
 
+/**
+ * A grammar for the parser.
+ *
+ * <p>A grammar is a list of rules. Each rule defines a non-terminal symbol as a sequence of zero or
+ * more symbols (terminal or nonterminal).</p>
+ *
+ * <p>A grammar can be used to create a parser for that grammar.</p>
+ */
 public class SourceGrammar extends Grammar {
     public static final String logcategory = "Grammar";
     private static final char[] subscripts = {'₀','₁','₂','₃','₄','₅','₆','₇','₈','₉'};

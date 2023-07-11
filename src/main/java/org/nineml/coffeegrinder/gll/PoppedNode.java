@@ -2,6 +2,9 @@ package org.nineml.coffeegrinder.gll;
 
 import org.nineml.coffeegrinder.parser.NonterminalSymbol;
 
+/**
+ * Popped nodes are used to keep track of partial parses.
+ */
 public class PoppedNode {
     protected final NonterminalSymbol symbol;
     protected final int k;

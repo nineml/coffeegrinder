@@ -10,7 +10,9 @@ import org.nineml.coffeegrinder.trees.TreeSelector;
 import java.util.Collections;
 import java.util.Set;
 
-public class GllResult implements GearleyResult {
+/**
+ * The results of a GLL parse.
+ */public class GllResult implements GearleyResult {
     private final GllParser parser;
     private final ParseForest graph;
     public final boolean success;
@@ -49,15 +51,6 @@ public class GllResult implements GearleyResult {
             walker = graph.getWalker();
         }
         return walker.hasMoreTrees();
-    }
-
-    @Override
-    public void resetTrees() {
-        if (walker == null) {
-            walker = graph.getWalker();
-            return;
-        }
-        walker.reset();
     }
 
     @Override

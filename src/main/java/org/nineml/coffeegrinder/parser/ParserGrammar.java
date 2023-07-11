@@ -16,8 +16,8 @@ import java.util.regex.Pattern;
  * <p>A grammar is a list of rules. Each rule defines a non-terminal symbol as a sequence of zero or
  * more symbols (terminal or nonterminal).</p>
  *
- * <p>A grammar can be used to create a parser for that grammar. After doing so, you cannot make any
- * further changes to the grammar.</p>
+ * <p>A grammar can be used to create a parser for that grammar. The ParserGrammar is derived from
+ * a {@link SourceGrammar}. The ParserGrammar is immutable.</p>
  */
 public class ParserGrammar extends Grammar {
     public final boolean usesRegex;

@@ -5,6 +5,9 @@ import org.nineml.coffeegrinder.tokens.Token;
 
 import java.util.Map;
 
+/**
+ * A tree builder that constructs a {@link ParseTree}.
+ */
 public class ParseTreeBuilder implements TreeBuilder {
     private ParseTree tree = null;
     private ParseTree root = null;

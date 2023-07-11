@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * A utility class for constructing forest nodes.
+ */
 public class ForestNodeSet {
     // These odd data structures are an attempt to avoid creating new ForestNode
     // objects when they aren't needed. Performance testing says that the API

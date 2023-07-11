@@ -7,6 +7,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class implements the {@link TreeBuilder} interface, but discards all the output.
+ * <p>It is a "no-op" tree builder.</p>
+ */
 public class NopTreeBuilder implements TreeBuilder {
     @Override
     public void startTree(boolean ambiguous, boolean infinitelyAmbiguous) {

@@ -6,6 +6,9 @@ import org.nineml.coffeegrinder.tokens.Token;
 import java.io.PrintStream;
 import java.util.Map;
 
+/**
+ * A tree builder that sends serialized results to a print stream.
+ */
 public class PrintStreamTreeBuilder implements TreeBuilder {
     protected final PrintStream stream;
     private boolean trailingnl = false;

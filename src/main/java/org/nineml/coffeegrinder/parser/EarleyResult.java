@@ -100,15 +100,6 @@ public class EarleyResult implements GearleyResult {
     }
 
     @Override
-    public void resetTrees() {
-        if (walker == null) {
-            walker = graph.getWalker();
-            return;
-        }
-        walker.reset();
-    }
-
-    @Override
     public void setTreeSelector(TreeSelector selector) {
         walker = graph.getWalker(selector);
     }
