@@ -23,9 +23,7 @@ public class DocExample {
         NonterminalSymbol X = grammar.getNonterminal("X");
         NonterminalSymbol Y = grammar.getNonterminal("Y");
 
-        Rule s1 = new Rule(S, A);
-        grammar.addRule(s1);
-
+        grammar.addRule(S, A);
         grammar.addRule(S, B);
         grammar.addRule(A, TerminalSymbol.ch('a'), X);
         grammar.addRule(A, TerminalSymbol.ch('b'), X);
