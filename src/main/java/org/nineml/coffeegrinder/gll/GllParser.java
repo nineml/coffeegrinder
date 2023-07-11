@@ -161,7 +161,7 @@ public class GllParser implements GearleyParser {
 
         ProgressMonitor monitor = options.getProgressMonitor();
         if (monitor != null) {
-            progressSize = monitor.starting(ParserType.GLL, I.length);
+            progressSize = monitor.starting(this, I.length);
             progressCount = progressSize;
         }
 
@@ -174,7 +174,7 @@ public class GllParser implements GearleyParser {
             if (monitor != null) {
                 progressCount--;
                 if (progressCount <= 0) {
-                    monitor.workingSet(R.size(), highwater);
+                    monitor.workingSet(this, R.size(), highwater);
                     progressCount = progressSize;
                 }
             }
@@ -188,7 +188,7 @@ public class GllParser implements GearleyParser {
         timer.stop();
 
         if (monitor != null) {
-            monitor.finished();
+            monitor.finished(this);
         }
 
         moreInput = bsr.getRightExtent()+1 < I.length;
