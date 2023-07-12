@@ -9,11 +9,31 @@
 
 <revhistory>
 <revision>
-<revnumber>3.0.0d</revnumber>
-<date>2023-07-11</date>
+<revnumber>3.0.0e</revnumber>
+<date>2023-07-12</date>
 <revdescription>
 <para>This is a beta release for version 3.0.0. There are a lot of
 changes in this release and many of them impact the public APIs.</para>
+<orderedlist>
+<listitem><para>Provide tree selectors with all the paths, even those that
+are loops. The looping paths are always “other choices”.</para>
+</listitem>
+<listitem><para>Revised what constitutes “making an ambiguous choice” in the tree selector.
+When a tree selector has only a single, non-looping choice, it is still making an
+ambiguous choice. The other choice <emphasis>could</emphasis> have been made.
+(It remains unambiguous in the priority selector if the priority selector would have
+unambiguously made the same choice from all the available choices.)</para>
+</listitem>
+<listitem><para>Tidied up some tests; removed references to JUnit 4 classes.</para>
+</listitem>
+</orderedlist>
+</revdescription>
+</revision>
+
+<revision>
+<revnumber>3.0.0d</revnumber>
+<date>2023-07-11</date>
+<revdescription>
 <orderedlist>
 <listitem><para>Reworked tree construction. I’ve abandoned the efforts to
 return (some of) the infinitely many trees that result when there are loops in the
