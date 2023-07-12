@@ -1,7 +1,7 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.nineml.coffeegrinder.util.CodepointToString;
 
 public class CodepointToStringTest {

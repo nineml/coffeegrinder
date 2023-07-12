@@ -1,10 +1,8 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.nineml.coffeegrinder.util.StopWatch;
-
-import static org.junit.Assert.fail;
 
 public class StopWatchTest {
     @Test
@@ -20,7 +18,7 @@ public class StopWatchTest {
             second = stopWatch.duration();
             Thread.sleep(250);
         } catch (InterruptedException ex) {
-            fail();
+            Assertions.fail();
         }
         Assertions.assertTrue(first > 200);
         Assertions.assertTrue(second > first);
@@ -34,7 +32,7 @@ public class StopWatchTest {
             Thread.sleep(500);
             stopWatch.stop();
         } catch (InterruptedException ex) {
-            fail();
+            Assertions.fail();
         }
 
         // I don't trust Thread.sleep to be that accurate...

@@ -1,7 +1,7 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.CharacterSet;
 import org.nineml.coffeegrinder.tokens.TokenCharacterSet;
@@ -25,11 +25,11 @@ public class ReadmeExampleTests {
                 "digit => [\"0\"-\"9\"; \"a\"-\"f\"; \"A\"-\"F\"]";
         GrammarParser grammarParser = new GrammarParser();
         SourceGrammar grammar = grammarParser.parse(input);
-        Assert.assertNotNull(grammar);
+        Assertions.assertNotNull(grammar);
 
         GearleyParser parser = grammar.getParser(options, "id");
         GearleyResult result = parser.parse("07f");
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
         //result.getForest().serialize("id07f-graph.xml");
         //result.getForest().parse().serialize("id07f-tree.xml");
@@ -64,7 +64,7 @@ public class ReadmeExampleTests {
 
         GearleyParser parser = grammar.getParser(options, "id");
         GearleyResult result = parser.parse("07f");
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
         result.getTree(new NopTreeBuilder());
     }
@@ -75,7 +75,7 @@ public class ReadmeExampleTests {
 
         GearleyParser parser = grammar.getParser(options, "id");
         GearleyResult result = parser.parse("fab");
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
         result.getTree(new NopTreeBuilder());
     }
@@ -94,11 +94,11 @@ public class ReadmeExampleTests {
                 "digit => [\"0\"-\"9\"; \"a\"-\"f\"; \"A\"-\"F\"]";
         GrammarParser grammarParser = new GrammarParser();
         SourceGrammar grammar = grammarParser.parse(input);
-        Assert.assertNotNull(grammar);
+        Assertions.assertNotNull(grammar);
 
         GearleyParser parser = grammar.getParser(options, "id");
         GearleyResult result = parser.parse("12345");
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
         //result.getForest().serialize("repeat-graph.xml");
         //result.getForest().parse().serialize("repeat-tree.xml");
@@ -133,11 +133,11 @@ public class ReadmeExampleTests {
         grammar.addRule(_digit, digit);
         grammar.addRule(_digit, digit, _digit);
 
-        Assert.assertNotNull(grammar);
+        Assertions.assertNotNull(grammar);
 
         GearleyParser parser = grammar.getParser(options, "id");
         GearleyResult result = parser.parse("12345");
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
         //result.getForest().serialize("repeat-graph.xml");
         //result.getForest().parse().serialize("repeat-tree.xml");
@@ -170,11 +170,11 @@ public class ReadmeExampleTests {
         grammar.addRule(_digit, digit, _digit);
         grammar.addRule(_digit);
 
-        Assert.assertNotNull(grammar);
+        Assertions.assertNotNull(grammar);
 
         GearleyParser parser = grammar.getParser(options, "id");
         GearleyResult result = parser.parse("12345");
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
         //result.getForest().serialize("repeat-graph.xml");
         //result.getForest().parse().serialize("repeat-tree.xml");
@@ -210,11 +210,11 @@ public class ReadmeExampleTests {
         grammar.addRule(_digit, digit, _digit);
         grammar.addRule(_digit);
 
-        Assert.assertNotNull(grammar);
+        Assertions.assertNotNull(grammar);
 
         GearleyParser parser = grammar.getParser(options, id);
         GearleyResult result = parser.parse("12345");
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
         //result.getForest().serialize("repeat-graph.xml");
         //result.getForest().parse().serialize("repeat-tree.xml");

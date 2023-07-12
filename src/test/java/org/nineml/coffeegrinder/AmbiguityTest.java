@@ -1,6 +1,5 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -608,8 +607,8 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         ));
     }
 
-    @Ignore
-    // Can't have overlapping regex patterns.
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
     public void wordhex(String parserType) {
         ParserOptions options = new ParserOptions(globalOptions);
         options.setParserType(parserType);

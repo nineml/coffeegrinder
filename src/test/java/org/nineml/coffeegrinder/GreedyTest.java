@@ -1,23 +1,21 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.trees.StdoutTreeBuilder;
 import org.nineml.coffeegrinder.trees.TreeBuilder;
 
-public class GreedyTest {
-    private final ParserOptions options = new ParserOptions();
+public class GreedyTest extends CoffeeGrinderTest {
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void testABC(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
 
-    @Before
-    public void before() {
-        options.setParserType("GLL");
-    }
-
-    @Ignore
-    public void testABC() {
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -48,43 +46,6 @@ public class GreedyTest {
         //options.getLogger().setDefaultLogLevel(99);
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("abbbbbc");
-        Assert.assertTrue(result.succeeded());
-
-        TreeBuilder builder = new StdoutTreeBuilder();
-        result.getTree(builder);
-    }
-
-    @Ignore
-    public void testABorC() {
-        SourceGrammar grammar = new SourceGrammar();
-
-        NonterminalSymbol S = grammar.getNonterminal("S");
-        NonterminalSymbol A = grammar.getNonterminal("A");
-        NonterminalSymbol B = grammar.getNonterminal("B");
-        NonterminalSymbol altplus = grammar.getNonterminal("altplus");
-        NonterminalSymbol alt = grammar.getNonterminal("alt");
-        NonterminalSymbol altstar = grammar.getNonterminal("altstar");
-        NonterminalSymbol altoption = grammar.getNonterminal("altoption");
-        TerminalSymbol a = new TerminalSymbol(TokenCharacter.get('a'));
-        TerminalSymbol b = new TerminalSymbol(TokenCharacter.get('b'));
-        TerminalSymbol c = new TerminalSymbol(TokenCharacter.get('c'));
-
-        grammar.addRule(S, A, B);
-        grammar.addRule(A, b, c);
-        grammar.addRule(B, altplus);
-        grammar.addRule(alt, b);
-        grammar.addRule(alt, c);
-        grammar.addRule(altplus, alt, altstar);
-        grammar.addRule(altstar, altoption);
-        grammar.addRule(altoption);
-        grammar.addRule(altoption, alt, altstar);
-
-        //options.getLogger().setDefaultLogLevel(99);
-        GearleyParser parser = grammar.getParser(options, S);
-        GearleyResult result = parser.parse("abbbbbc");
-        Assert.assertTrue(result.succeeded());
-
-        TreeBuilder builder = new StdoutTreeBuilder();
-        result.getTree(builder);
+        Assertions.assertTrue(result.succeeded());
     }
 }

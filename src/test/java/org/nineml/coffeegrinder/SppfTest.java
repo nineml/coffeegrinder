@@ -1,7 +1,7 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.nineml.coffeegrinder.parser.GearleyParser;
 import org.nineml.coffeegrinder.parser.GearleyResult;
 import org.nineml.coffeegrinder.parser.ParserOptions;
@@ -29,7 +29,7 @@ public class SppfTest {
         String input = "abcd";
         GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("S"));
         GearleyResult result = parser.parse("abcd");
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -47,7 +47,7 @@ public class SppfTest {
         String input = "abcd";
         GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("S"));
         GearleyResult result = parser.parse(input);
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -62,7 +62,7 @@ public class SppfTest {
 
         GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("S"));
         GearleyResult result = parser.parse(input);
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -74,15 +74,14 @@ public class SppfTest {
                         "A => 'a'\n" +
                         "A => B, A\n" +
                         "B => 'b'\n" +
-                        "T => 'b', 'b', 'b'\n" +
-                        "");
+                        "T => 'b', 'b', 'b'");
         // grammar.getParseListener().setMessageLevel(ParseListener.DEBUG);
 
         String input = "abbb";
 
         GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("S"));
         GearleyResult result = parser.parse(input);
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -95,6 +94,6 @@ public class SppfTest {
 
         GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("Sum"));
         GearleyResult result = parser.parse(input);
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 }

@@ -11,6 +11,8 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -64,7 +66,7 @@ public class GrammarParser {
     public SourceGrammar parseFile(String filename) {
         try {
             StringBuilder sb = new StringBuilder();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(filename))));
             String line = reader.readLine();
             while (line != null) {
                 sb.append(line);

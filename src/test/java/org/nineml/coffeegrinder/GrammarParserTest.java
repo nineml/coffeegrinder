@@ -1,7 +1,7 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.nineml.coffeegrinder.parser.GearleyParser;
 import org.nineml.coffeegrinder.parser.GearleyResult;
 import org.nineml.coffeegrinder.parser.ParserOptions;
@@ -33,17 +33,17 @@ public class GrammarParserTest {
                 "-_15 => [\"0\"-\"9\"; \"a\"-\"f\"; \"A\"-\"F\"], _16\n";
         GrammarParser parser = new GrammarParser();
         SourceGrammar grammar = parser.parse(input);
-        Assert.assertNotNull(grammar);
+        Assertions.assertNotNull(grammar);
     }
 
     @Test
     public void testParseExpression() {
         GrammarParser gparser = new GrammarParser();
         SourceGrammar grammar = gparser.parseFile("src/test/resources/expression.grammar");
-        Assert.assertNotNull(grammar);
+        Assertions.assertNotNull(grammar);
         GearleyParser parser = grammar.getParser(options, grammar.getNonterminal("Sum"));
         GearleyResult result = parser.parse(Iterators.characterIterator("1+(2*3-4)"));
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
 

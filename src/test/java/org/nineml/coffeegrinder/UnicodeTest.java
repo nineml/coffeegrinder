@@ -1,7 +1,7 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.util.Iterators;
@@ -18,22 +18,22 @@ public class UnicodeTest {
             TokenCharacter t = (TokenCharacter) chars.next();
             switch (count) {
                 case 0:
-                    Assert.assertEquals('a', t.getCodepoint());
+                    Assertions.assertEquals('a', t.getCodepoint());
                     break;
                 case 1:
-                    Assert.assertEquals('b', t.getCodepoint());
+                    Assertions.assertEquals('b', t.getCodepoint());
                     break;
                 case 2:
-                    Assert.assertEquals('c', t.getCodepoint());
+                    Assertions.assertEquals('c', t.getCodepoint());
                     break;
                 case 3:
-                    Assert.assertEquals(0x1F63A, t.getCodepoint());
+                    Assertions.assertEquals(0x1F63A, t.getCodepoint());
                     break;
                 default:
                     break;
             }
             count++;
         }
-        Assert.assertEquals(4, count);
+        Assertions.assertEquals(4, count);
     }
 }

@@ -1,7 +1,7 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.util.Iterators;
@@ -38,14 +38,14 @@ public class PrefixTest {
         Iterator<Token> input = Iterators.characterIterator("abbabbbba");
 
         GearleyResult result = parser.parse(input);
-        Assert.assertFalse(result.succeeded());
-        Assert.assertTrue(result.prefixSucceeded());
+        Assertions.assertFalse(result.succeeded());
+        Assertions.assertTrue(result.prefixSucceeded());
 
         result = result.continueParsing();
-        Assert.assertFalse(result.succeeded());
+        Assertions.assertFalse(result.succeeded());
 
         result = result.continueParsing();
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -75,7 +75,7 @@ public class PrefixTest {
         Iterator<Token> input = Iterators.characterIterator("(b))");
 
         GearleyResult result = parser.parse(input);
-        Assert.assertFalse(result.succeeded());
-        Assert.assertTrue(result.prefixSucceeded());
+        Assertions.assertFalse(result.succeeded());
+        Assertions.assertTrue(result.prefixSucceeded());
     }
 }
