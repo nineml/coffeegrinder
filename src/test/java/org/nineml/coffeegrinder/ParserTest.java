@@ -550,7 +550,7 @@ M: 'm'; LDOE .
         TerminalSymbol _b = TerminalSymbol.ch('b');
         TerminalSymbol _x = TerminalSymbol.ch('x');
         TerminalSymbol _l = TerminalSymbol.ch('l');
-        TerminalSymbol _m = TerminalSymbol.ch('m');
+        TerminalSymbol _m = new TerminalSymbol(TokenCharacter.get('m', new ParserAttribute(ForestNode.PRIORITY_ATTRIBUTE, "10")));
 
         grammar.addRule(_S, _A);
         grammar.addRule(_A, _a, _B);
@@ -574,12 +574,14 @@ M: 'm'; LDOE .
         walker.getNextTree(builder);
         Assertions.assertTrue(selector.getMadeAmbiguousChoice());
 
-        //result.getForest().serialize("ldoe.xml");
-
         selector = new PriorityTreeSelector();
         walker = result.getForest().getWalker(selector);
         walker.getNextTree(builder);
-        Assertions.assertFalse(selector.getMadeAmbiguousChoice());
+
+        // N.B. Prior to 3.0.0e, this was not an ambiguous choice because "forced choices"
+        // to avoid a loop were considered unambiguous. But that's not true. You *could*
+        // go back around the loop, you're just choosing not to.
+        Assertions.assertTrue(selector.getMadeAmbiguousChoice());
 
         StringTreeBuilder sbuilder = new StringTreeBuilder();
         walker.reset();
