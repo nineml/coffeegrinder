@@ -1,9 +1,8 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.CharacterSet;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
@@ -18,18 +17,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Calendar;
 
-import static org.junit.Assert.fail;
-
-public class GllGrammarTest {
-    private final ParserOptions options = new ParserOptions();
-    
-    @Before
-    public void before() {
-        options.setParserType("GLL");
-    }
-
+public class GllGrammarTest extends CoffeeGrinderTest {
     @Test
     public void testBsrExample54() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+        
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -51,11 +44,14 @@ public class GllGrammarTest {
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("abaa");
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
     public void testGrammar0() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -68,11 +64,14 @@ public class GllGrammarTest {
 
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("ab");
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
     public void testGrammar05() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -103,11 +102,14 @@ public class GllGrammarTest {
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("ab");
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
     public void testGrammar1() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -120,11 +122,14 @@ public class GllGrammarTest {
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("da");
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
     public void testGrammar2() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -159,11 +164,14 @@ public class GllGrammarTest {
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("abaa");
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
     public void testGrammar3() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -198,11 +206,14 @@ public class GllGrammarTest {
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("abaa");
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
     public void testGrammar4() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -227,11 +238,14 @@ public class GllGrammarTest {
         grammar.getParserOptions().getLogger().setDefaultLogLevel(99);
         ParseTree tree = result.getTree();
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
     public void testGrammar5() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -250,11 +264,14 @@ public class GllGrammarTest {
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("a;cc");
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
     public void testGrammar6() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -277,11 +294,14 @@ public class GllGrammarTest {
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("ac");
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
     public void testGrammar7() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -306,11 +326,14 @@ public class GllGrammarTest {
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("ac");
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
     public void testGrammar8() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -337,11 +360,14 @@ public class GllGrammarTest {
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("aaaxbbcxddd");
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
     public void testGrammar9() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -362,11 +388,14 @@ public class GllGrammarTest {
 
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("{}");
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
     public void testAttributes() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -385,11 +414,14 @@ public class GllGrammarTest {
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("ab");
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
     public void testFirstAndFollow() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -411,11 +443,14 @@ public class GllGrammarTest {
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("Ab");
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
     public void testInsertionNT() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
         NonterminalSymbol S = grammar.getNonterminal("S");
@@ -433,7 +468,7 @@ public class GllGrammarTest {
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse("ab");
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
         ParseTreeBuilder builder = new ParseTreeBuilder();
         result.getForest().getWalker().getNextTree(builder);
@@ -441,12 +476,15 @@ public class GllGrammarTest {
 
         ParseTree s_insertion = tree.getChildren().get(1);
 
-        Assert.assertEquals(s_insertion.getSymbol(), grammar.getNonterminal("INSERTION"));
-        Assert.assertEquals("text", s_insertion.getAttribute("insert", "failed"));
+        Assertions.assertEquals(s_insertion.getSymbol(), grammar.getNonterminal("INSERTION"));
+        Assertions.assertEquals("text", s_insertion.getAttribute("insert", "failed"));
     }
 
-    @Ignore
-    public void testParseUnicode() {
+    @Disabled
+    public void parseUnicodeTest() {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType("GLL");
+
         SourceGrammar grammar = new SourceGrammar();
 
 /*
@@ -593,9 +631,9 @@ value ⇒ notSemiStar
             double rate = (1.0 * lineCount) / duration;
 
             System.err.printf("%s: %dms (%5.2f lps)%n", gresult.succeeded(), duration, rate * 1000);
-            Assert.assertTrue(gresult.succeeded());
+            Assertions.assertTrue(gresult.succeeded());
         } catch (IOException ex) {
-            fail();
+            Assertions.fail();
         }
     }
 }

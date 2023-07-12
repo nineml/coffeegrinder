@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.nineml.coffeegrinder.parser.*;
+import org.nineml.coffeegrinder.trees.StringTreeBuilder;
 import org.nineml.logging.Logger;
 
 public class GrammarTest extends CoffeeGrinderTest {
@@ -49,6 +50,45 @@ public class GrammarTest extends CoffeeGrinderTest {
         input = "by";
         result = parser.parse(input);
         Assertions.assertFalse(result.succeeded());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void undefined3(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
+        SourceGrammar grammar = new SourceGrammar(options);
+
+        /*
+        S = A; B; '(', S, ')'.
+        A = 'a'; X, A.
+        B = 'b'; B, X*.
+         */
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _B = grammar.getNonterminal("B");
+        NonterminalSymbol _X = grammar.getNonterminal("X");
+        NonterminalSymbol _Xstar = grammar.getNonterminal("Xstar");
+        NonterminalSymbol _Xplus = grammar.getNonterminal("Xplus");
+
+        grammar.addRule(_S, _A);
+        grammar.addRule(_S, _B);
+        grammar.addRule(_S, TerminalSymbol.ch('('), _S, TerminalSymbol.ch(')'));
+        grammar.addRule(_A, TerminalSymbol.ch('a'));
+        grammar.addRule(_A, _X, _A);
+        grammar.addRule(_B, TerminalSymbol.ch('b'));
+        grammar.addRule(_B, _B, _Xstar);
+        grammar.addRule(_Xstar);
+        grammar.addRule(_Xstar, _Xplus);
+        grammar.addRule(_Xplus, _X, _Xstar);
+
+        String input = "b";
+
+        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyResult result = parser.parse(input);
+        Assertions.assertTrue(result.succeeded());
     }
 
     @ParameterizedTest

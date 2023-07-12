@@ -135,6 +135,28 @@ public class ForestWalker {
             pos++;
         } else {
             PathNode loop = null;
+            ArrayList<Family> loopingPaths = new ArrayList<>();
+            ArrayList<Family> nonLoopingPaths = new ArrayList<>();
+            for (Family family : node.getFamilies()) {
+                if (graph.loops.contains(family)) {
+                    loopingPaths.add(family);
+                } else {
+                    for (PathNode pnode : curPath) {
+                        if (pnode.node == family.getLeftNode() || pnode.node == family.getRightNode()) {
+                            loop = pnode;
+                            break;
+                        }
+                    }
+                    if (loop == null) {
+                        nonLoopingPaths.add(family);
+                    } else {
+                        loopingPaths.add(family);
+                    }
+                }
+            }
+
+
+            loop = null;
             for (PathNode pnode : curPath) {
                 if (pnode.node == node) {
                     loop = pnode;
@@ -142,15 +164,7 @@ public class ForestWalker {
             }
 
             if (loop == null) {
-                // Never knowingly follow a looping path
-                ArrayList<Family> noloops = new ArrayList<>();
-                for (Family family : node.getFamilies()) {
-                    if (!graph.loops.contains(family)) {
-                        noloops.add(family);
-                    }
-                }
-
-                pathNode = new PathNode(node, noloops);
+                pathNode = new PathNode(node, nonLoopingPaths, loopingPaths);
             } else {
                 // If we've wandered down a looping path, find a way out.
                 Family select = null;
@@ -188,7 +202,13 @@ public class ForestWalker {
                 // I don't think we can have failed to find an exit by now given
                 // that we never willingly follow a path that loops.
                 assert select != null;
-                pathNode = new PathNode(node, node.getFamilies(), select);
+
+                loopingPaths.addAll(nonLoopingPaths);
+                loopingPaths.remove(select);
+                nonLoopingPaths.clear();
+                nonLoopingPaths.add(select);
+
+                pathNode = new PathNode(node, nonLoopingPaths, loopingPaths);
             }
         }
 
@@ -229,7 +249,6 @@ public class ForestWalker {
     }
 
     private void token(Token token, List<ParserAttribute> attributes, int leftExtent, int rightExtent) {
-        //System.err.println(token.getValue());
         builder.token(token, attributeMap(attributes), leftExtent, rightExtent);
     }
 
@@ -253,23 +272,11 @@ public class ForestWalker {
         public final ArrayList<Family> choices;
         public Family chosen;
 
-        public PathNode(ForestNode node, List<Family> choices) {
-            this(node, choices, null);
-        }
-
-        public PathNode(ForestNode node, List<Family> choices, Family choose) {
+        public PathNode(ForestNode node, List<Family> goodChoices, List<Family> badChoices) {
             this.node = node;
 
-            if (choose == null) {
-                this.choices = new ArrayList<>(choices);
-                this.previousChoices = new ArrayList<>();
-            } else {
-                this.choices = new ArrayList<>();
-                this.previousChoices = new ArrayList<>(choices);
-                this.previousChoices.remove(choose);
-                this.choices.add(choose);
-            }
-
+            choices = new ArrayList<>(goodChoices);
+            previousChoices = new ArrayList<>(badChoices);
             this.chosen = null;
         }
 

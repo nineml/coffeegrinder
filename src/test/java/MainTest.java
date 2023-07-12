@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.nineml.coffeegrinder.gll.GllParser;
 import org.nineml.coffeegrinder.gll.GllResult;
 import org.nineml.coffeegrinder.parser.*;
@@ -6,8 +7,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Calendar;
-
-import static org.junit.Assert.fail;
 
 public class MainTest {
     public static void main(String[] args) {
@@ -159,7 +158,7 @@ value ⇒ notSemiStar
             System.err.printf("%s: %dms (%5.2f lps)%n", gresult.success, duration, rate * 1000);
 
         } catch (IOException ex) {
-            fail();
+            Assertions.fail();
         }
 
     }

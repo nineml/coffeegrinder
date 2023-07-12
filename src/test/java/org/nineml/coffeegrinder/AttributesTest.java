@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-import static org.junit.Assert.fail;
-
 public class AttributesTest extends CoffeeGrinderTest {
     @ParameterizedTest
     @ValueSource(strings = {"Earley", "GLL"})
@@ -71,7 +69,7 @@ public class AttributesTest extends CoffeeGrinderTest {
         if ("GLL".equals(parserType)) {
             try {
                 result = parser.parse(inputTokens);
-                fail();
+                Assertions.fail();
             } catch (ParseException ex) {
                 Assertions.assertEquals("P004", ex.getCode());
                 return;

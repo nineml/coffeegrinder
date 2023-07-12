@@ -1,14 +1,12 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.nineml.coffeegrinder.exceptions.GrammarException;
 import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.parser.ParserOptions;
 import org.nineml.coffeegrinder.parser.SourceGrammar;
 import org.nineml.coffeegrinder.util.GrammarParser;
-
-import static junit.framework.TestCase.fail;
 
 public class ErrorTest {
     private final ParserOptions options = new ParserOptions();
@@ -23,7 +21,7 @@ public class ErrorTest {
         try {
             grammar.getParser(options, grammar.getNonterminal("S"));
         } catch (ParseException ex) {
-            Assert.assertEquals("P001", ex.getCode());
+            Assertions.assertEquals("P001", ex.getCode());
         }
     }
 
@@ -35,9 +33,9 @@ public class ErrorTest {
                     "  S => A, B\n" +
                             "A => 'a'\n" +
                             "B => [Lq]");
-            fail();
+            Assertions.fail();
         } catch (GrammarException ex) {
-            Assert.assertEquals("E002", ex.getCode());
+            Assertions.assertEquals("E002", ex.getCode());
         }
     }
 }

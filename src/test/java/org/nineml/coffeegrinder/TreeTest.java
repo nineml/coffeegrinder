@@ -1,7 +1,7 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.trees.StringTreeBuilder;
 import org.nineml.coffeegrinder.util.Iterators;
@@ -35,9 +35,9 @@ public class TreeTest {
         //result.getForest().serialize("/tmp/graph.xml");
         //result.getForest().parse().serialize("tree.xml");
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
-        Assert.assertEquals(2, result.getForest().getParseTreeCount());
+        Assertions.assertEquals(2, result.getForest().getParseTreeCount());
     }
 
     @Test
@@ -63,9 +63,9 @@ public class TreeTest {
 
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse(Iterators.characterIterator(""));
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
-        Assert.assertEquals(2, result.getForest().getParseTreeCount());
+        Assertions.assertEquals(2, result.getForest().getParseTreeCount());
     }
 
     @Test
@@ -96,11 +96,11 @@ public class TreeTest {
 
         GearleyParser parser = grammar.getParser(options, S);
         GearleyResult result = parser.parse(Iterators.characterIterator("abcbe"));
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
         //result.getForest().serialize("testsymbols.xml");
 
-        Assert.assertEquals(1, result.getForest().getParseTreeCount());
+        Assertions.assertEquals(1, result.getForest().getParseTreeCount());
 
         StringTreeBuilder builder = new StringTreeBuilder();
         ForestWalker xxx = result.getForest().getWalker();

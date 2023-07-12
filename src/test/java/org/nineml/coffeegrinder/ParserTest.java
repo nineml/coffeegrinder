@@ -1,9 +1,7 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.nineml.coffeegrinder.parser.*;
@@ -17,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
-
-import static org.junit.Assert.fail;
 
 public class ParserTest extends CoffeeGrinderTest {
     @Test
@@ -57,7 +53,7 @@ public class ParserTest extends CoffeeGrinderTest {
                 "else", "e", "=", "f");
 
         GearleyResult result = parser.parse(input);
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -97,7 +93,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         GearleyParser parser = grammar.getParser(earleyOptions, _Sum);
         GearleyResult result = parser.parse(input);
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
         //result.getForest().serialize("/tmp/earley.xml");
 
@@ -106,7 +102,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         GearleyParser gparser = grammar.getParser(gllOptions, _Sum);
         GearleyResult gresult = parser.parse(input);
-        Assert.assertTrue(gresult.succeeded());
+        Assertions.assertTrue(gresult.succeeded());
     }
 
     @Test
@@ -143,7 +139,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         //result.getForest().serialize("/tmp/earley.xml");
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
         ParserOptions gllOptions = new ParserOptions(globalOptions);
         gllOptions.setParserType("GLL");
@@ -151,11 +147,9 @@ public class ParserTest extends CoffeeGrinderTest {
         GearleyParser gparser = grammar.getParser(gllOptions, _Sum);
         GearleyResult gresult = parser.parse(input);
 
-        Assert.assertTrue(gresult.succeeded());
+        Assertions.assertTrue(gresult.succeeded());
     }
 
-    @Ignore
-    // It's now an error for two different regular expressions to match at the same time.
     public void testLetterDigitLetter() {
         ParserOptions newOptions = new ParserOptions(globalOptions);
         newOptions.setParserType("GLL");
@@ -175,7 +169,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         GearleyParser parser = grammar.getParser(newOptions, _expr);
         GearleyResult result = parser.parse(Iterators.characterIterator("aab"));
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -191,7 +185,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         GearleyParser parser = grammar.getParser(globalOptions, grammar.getNonterminal("number"));
         GearleyResult result = parser.parse(Iterators.characterIterator("b101"));
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -211,7 +205,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         GearleyParser parser = grammar.getParser(globalOptions, _number);
         GearleyResult result = parser.parse(Iterators.characterIterator("123123123"));
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -239,7 +233,7 @@ public class ParserTest extends CoffeeGrinderTest {
         GearleyParser parser = grammar.getParser(globalOptions, _S);
         GearleyResult result = parser.parse(Iterators.characterIterator("aad"));
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -260,10 +254,10 @@ public class ParserTest extends CoffeeGrinderTest {
         GearleyParser parser = grammar.getParser(newOptions, _S);
         GearleyResult result = parser.parse(Iterators.characterIterator("1+2"));
         //result.getForest().serialize("/tmp/testEEE.xml");
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
         StringTreeBuilder builder = new StringTreeBuilder();
         result.getTree(builder);
-        Assert.assertEquals("<S><E><E>1</E>+<E>2</E></E></S>", builder.getTree());
+        Assertions.assertEquals("<S><E><E>1</E>+<E>2</E></E></S>", builder.getTree());
 
         ParserOptions gllOptions = new ParserOptions(newOptions);
         gllOptions.setParserType("GLL");
@@ -274,7 +268,7 @@ public class ParserTest extends CoffeeGrinderTest {
         GearleyResult gresult = gllParser.parse(tokens);
         builder = new StringTreeBuilder();
         gresult.getTree(builder);
-        Assert.assertEquals("<S><E><E>1</E>+<E>2</E></E></S>", builder.getTree());
+        Assertions.assertEquals("<S><E><E>1</E>+<E>2</E></E></S>", builder.getTree());
     }
 
     @Test
@@ -292,7 +286,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         GearleyParser parser = grammar.getParser(earleyOptions, _X);
         GearleyResult result = parser.parse(Iterators.characterIterator("aaaaa"));
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
 
         ParserOptions gllOptions = new ParserOptions(globalOptions);
         gllOptions.setParserType("GLL");
@@ -301,7 +295,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         parser = grammar.getParser(gllOptions, _X);
         result = parser.parse("aaaa");
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -321,7 +315,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         GearleyParser parser = grammar.getParser(globalOptions, grammar.getNonterminal("S"));
         GearleyResult result = parser.parse(Iterators.characterIterator(input));
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -336,7 +330,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         GearleyParser parser = grammar.getParser(globalOptions, grammar.getNonterminal("S"));
         GearleyResult result = parser.parse(Iterators.characterIterator(input));
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -364,7 +358,7 @@ public class ParserTest extends CoffeeGrinderTest {
         GearleyParser parser = grammar.getParser(newOptions, _expr);
         GearleyResult result = parser.parse(Iterators.characterIterator("xx"));
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -410,8 +404,8 @@ public class ParserTest extends CoffeeGrinderTest {
         String input = "#12  #1234.";
 
         GearleyResult result = parser.parse(input);
-        Assert.assertFalse(result.isAmbiguous());
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertFalse(result.isAmbiguous());
+        Assertions.assertTrue(result.succeeded());
 
         /*
         GrammarCompiler compiler = new GrammarCompiler();
@@ -436,7 +430,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         GearleyParser parser = grammar.getParser(globalOptions, grammar.getNonterminal("Word"));
         GearleyResult result = parser.parse(Iterators.characterIterator(input));
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -527,7 +521,7 @@ public class ParserTest extends CoffeeGrinderTest {
             GearleyResult result = parser.parse(input);
             long dur = Calendar.getInstance().getTimeInMillis() - start;
 
-            Assert.assertTrue(result.succeeded());
+            Assertions.assertTrue(result.succeeded());
 
             //System.out.printf("%d took %dms (%d) %n", input.length(), dur, dur - last);
             last = dur;
@@ -556,7 +550,7 @@ M: 'm'; LDOE .
         TerminalSymbol _b = TerminalSymbol.ch('b');
         TerminalSymbol _x = TerminalSymbol.ch('x');
         TerminalSymbol _l = TerminalSymbol.ch('l');
-        TerminalSymbol _m = TerminalSymbol.ch('m');
+        TerminalSymbol _m = new TerminalSymbol(TokenCharacter.get('m', new ParserAttribute(ForestNode.PRIORITY_ATTRIBUTE, "10")));
 
         grammar.addRule(_S, _A);
         grammar.addRule(_A, _a, _B);
@@ -580,12 +574,14 @@ M: 'm'; LDOE .
         walker.getNextTree(builder);
         Assertions.assertTrue(selector.getMadeAmbiguousChoice());
 
-        //result.getForest().serialize("ldoe.xml");
-
         selector = new PriorityTreeSelector();
         walker = result.getForest().getWalker(selector);
         walker.getNextTree(builder);
-        Assertions.assertFalse(selector.getMadeAmbiguousChoice());
+
+        // N.B. Prior to 3.0.0e, this was not an ambiguous choice because "forced choices"
+        // to avoid a loop were considered unambiguous. But that's not true. You *could*
+        // go back around the loop, you're just choosing not to.
+        Assertions.assertTrue(selector.getMadeAmbiguousChoice());
 
         StringTreeBuilder sbuilder = new StringTreeBuilder();
         walker.reset();
@@ -640,7 +636,7 @@ M: 'm'; LDOE .
                     "<S><Sp><B><Z priority='5'></Z><X></X>a</B></Sp></S>"));
 
         } catch (Exception ex) {
-            fail();
+            Assertions.fail();
         }
     }
 
@@ -671,7 +667,7 @@ M: 'm'; LDOE .
 
         GearleyParser parser = grammar.getParser(options, _S);
         GearleyResult result = parser.parse("abd");
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
 
@@ -712,7 +708,7 @@ C = i.
 
         GearleyParser parser = grammar.getParser(globalOptions, _S);
         GearleyResult result = parser.parse("defxghi");
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -754,7 +750,7 @@ C = i.
                 "Nop;Qrs\n";
 
         GearleyResult result = parser.parse(input);
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -777,7 +773,7 @@ C = i.
         String input = "abcd";
 
         GearleyResult result = parser.parse(input);
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -805,7 +801,7 @@ C = i.
         //StdoutTreeBuilder builder = new StdoutTreeBuilder();
         //result.getTree(builder);
 
-        Assert.assertTrue(result.succeeded());
+        Assertions.assertTrue(result.succeeded());
     }
 
     @Test
@@ -831,7 +827,7 @@ C = i.
         //StdoutTreeBuilder builder = new StdoutTreeBuilder();
         //result.getTree(builder);
 
-        Assert.assertFalse(result.succeeded());
+        Assertions.assertFalse(result.succeeded());
     }
 
 }

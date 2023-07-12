@@ -1,8 +1,7 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.nineml.logging.DefaultLogger;
 import org.nineml.logging.Logger;
 
@@ -14,26 +13,26 @@ public class LoggerTest {
     @Test
     public void testDefaults() {
         Logger logger = new DefaultLogger();
-        Assert.assertEquals(Logger.ERROR, logger.getDefaultLogLevel());
-        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("fribble-frabble"));
+        Assertions.assertEquals(Logger.ERROR, logger.getDefaultLogLevel());
+        Assertions.assertEquals(Logger.ERROR, logger.getLogLevel("fribble-frabble"));
     }
 
     @Test
     public void testSetters() {
         Logger logger = new DefaultLogger();
-        Assert.assertEquals(Logger.ERROR, logger.getDefaultLogLevel());
-        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("fribble-frabble"));
+        Assertions.assertEquals(Logger.ERROR, logger.getDefaultLogLevel());
+        Assertions.assertEquals(Logger.ERROR, logger.getLogLevel("fribble-frabble"));
 
         try {
             logger.setDefaultLogLevel(null);
-            fail();
+            Assertions.fail();
         } catch (NullPointerException ex) {
             // pass
         }
 
         try {
             logger.setLogLevel("testin", null);
-            fail();
+            Assertions.fail();
         } catch (NullPointerException ex) {
             // pass
         }
@@ -42,35 +41,35 @@ public class LoggerTest {
             logger.setLogLevels(null);
             // this one we just ignore...perhaps inconsistently.
         } catch (NullPointerException ex) {
-            fail();
+            Assertions.fail();
         }
 
         logger.setDefaultLogLevel("warning");
-        Assert.assertEquals(Logger.WARNING, logger.getDefaultLogLevel());
+        Assertions.assertEquals(Logger.WARNING, logger.getDefaultLogLevel());
 
         logger.setLogLevel("testing", "info");
-        Assert.assertEquals(Logger.INFO, logger.getLogLevel("testing"));
+        Assertions.assertEquals(Logger.INFO, logger.getLogLevel("testing"));
 
         logger.setDefaultLogLevel("fred");
-        Assert.assertEquals(Logger.ERROR, logger.getDefaultLogLevel());
+        Assertions.assertEquals(Logger.ERROR, logger.getDefaultLogLevel());
 
         logger.setLogLevel("testing", "spoon!");
-        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("testing"));
+        Assertions.assertEquals(Logger.ERROR, logger.getLogLevel("testing"));
 
         logger.setDefaultLogLevel(Logger.WARNING);
-        Assert.assertEquals(Logger.WARNING, logger.getDefaultLogLevel());
+        Assertions.assertEquals(Logger.WARNING, logger.getDefaultLogLevel());
 
         logger.setDefaultLogLevel(-5);
-        Assert.assertEquals(Logger.SILENT, logger.getDefaultLogLevel());
+        Assertions.assertEquals(Logger.SILENT, logger.getDefaultLogLevel());
 
         logger.setLogLevels("*:trace,a:silent,b:random c:debug");
-        Assert.assertEquals(Logger.TRACE, logger.getDefaultLogLevel());
-        Assert.assertEquals(Logger.SILENT, logger.getLogLevel("a"));
-        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("b"));
-        Assert.assertEquals(Logger.DEBUG, logger.getLogLevel("c"));
+        Assertions.assertEquals(Logger.TRACE, logger.getDefaultLogLevel());
+        Assertions.assertEquals(Logger.SILENT, logger.getLogLevel("a"));
+        Assertions.assertEquals(Logger.ERROR, logger.getLogLevel("b"));
+        Assertions.assertEquals(Logger.DEBUG, logger.getLogLevel("c"));
 
         logger.setLogLevel("TestTwo", "info");
-        Assert.assertEquals(Logger.INFO, logger.getLogLevel("testTWO"));
+        Assertions.assertEquals(Logger.INFO, logger.getLogLevel("testTWO"));
     }
 
     @Test
@@ -82,7 +81,7 @@ public class LoggerTest {
         Logger logger = new DefaultLogger();
         logger.readSystemProperties();
 
-        Assert.assertEquals(Logger.ERROR, logger.getDefaultLogLevel());
+        Assertions.assertEquals(Logger.ERROR, logger.getDefaultLogLevel());
 
         if (p1 == null) {
             System.clearProperty(Logger.defaultLogLevelProperty);
@@ -106,15 +105,15 @@ public class LoggerTest {
         Logger logger = new DefaultLogger();
         logger.readSystemProperties();
 
-        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("a"));
-        Assert.assertEquals(Logger.WARNING, logger.getLogLevel("b"));
-        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("c"));
-        Assert.assertEquals(Logger.INFO, logger.getLogLevel("d"));
-        Assert.assertEquals(Logger.WARNING, logger.getLogLevel("e"));
-        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("f"));
-        Assert.assertEquals(Logger.DEBUG, logger.getLogLevel("g"));
-        Assert.assertEquals(Logger.TRACE, logger.getLogLevel("h"));
-        Assert.assertEquals(Logger.SILENT, logger.getLogLevel("iii"));
+        Assertions.assertEquals(Logger.ERROR, logger.getLogLevel("a"));
+        Assertions.assertEquals(Logger.WARNING, logger.getLogLevel("b"));
+        Assertions.assertEquals(Logger.ERROR, logger.getLogLevel("c"));
+        Assertions.assertEquals(Logger.INFO, logger.getLogLevel("d"));
+        Assertions.assertEquals(Logger.WARNING, logger.getLogLevel("e"));
+        Assertions.assertEquals(Logger.ERROR, logger.getLogLevel("f"));
+        Assertions.assertEquals(Logger.DEBUG, logger.getLogLevel("g"));
+        Assertions.assertEquals(Logger.TRACE, logger.getLogLevel("h"));
+        Assertions.assertEquals(Logger.SILENT, logger.getLogLevel("iii"));
 
         if (p1 == null) {
             System.clearProperty(Logger.defaultLogLevelProperty);
@@ -133,10 +132,10 @@ public class LoggerTest {
         Logger logger = new DefaultLogger();
         logger.setLogLevels("a:1,b:2,c:info,d:warning");
 
-        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("a"));
-        Assert.assertEquals(Logger.WARNING, logger.getLogLevel("b"));
-        Assert.assertEquals(Logger.INFO, logger.getLogLevel("c"));
-        Assert.assertEquals(Logger.WARNING, logger.getLogLevel("d"));
+        Assertions.assertEquals(Logger.ERROR, logger.getLogLevel("a"));
+        Assertions.assertEquals(Logger.WARNING, logger.getLogLevel("b"));
+        Assertions.assertEquals(Logger.INFO, logger.getLogLevel("c"));
+        Assertions.assertEquals(Logger.WARNING, logger.getLogLevel("d"));
 
         Set<String> cats = logger.getLogCategories();
         Assertions.assertTrue(cats.contains("a"));
@@ -151,7 +150,7 @@ public class LoggerTest {
         Logger logger = new DefaultLogger();
         logger.setLogLevels("a:1,b:2,c:info,d:warning");
 
-        Assert.assertEquals(Logger.ERROR, logger.getLogLevel("a"));
+        Assertions.assertEquals(Logger.ERROR, logger.getLogLevel("a"));
 
         Set<String> cats = logger.getLogCategories();
         Assertions.assertTrue(cats.contains("a"));

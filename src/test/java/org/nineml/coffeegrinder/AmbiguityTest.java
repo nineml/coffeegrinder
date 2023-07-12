@@ -1,6 +1,5 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -8,6 +7,9 @@ import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.CharacterSet;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.tokens.TokenCharacterSet;
+import org.nineml.coffeegrinder.trees.PriorityTreeSelector;
+import org.nineml.coffeegrinder.trees.StringTreeBuilder;
+import org.nineml.coffeegrinder.trees.TreeSelector;
 import org.nineml.coffeegrinder.util.Iterators;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
@@ -608,8 +610,8 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         ));
     }
 
-    @Ignore
-    // Can't have overlapping regex patterns.
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
     public void wordhex(String parserType) {
         ParserOptions options = new ParserOptions(globalOptions);
         options.setParserType(parserType);
@@ -988,4 +990,75 @@ public class AmbiguityTest extends CoffeeGrinderTest {
                 "<S><A><B><A>t</A></B></A></S>"));
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void forcedChoiceWithoutPriority(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
+        SourceGrammar grammar = new SourceGrammar(options);
+
+        /*
+        S = A .
+        A = A ; B.
+        B = 'b'.
+         */
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _B = grammar.getNonterminal("B");
+
+        grammar.addRule(_S, _A);
+        grammar.addRule(_A, _A);
+        grammar.addRule(_A, _B);
+        grammar.addRule(_B, TerminalSymbol.ch('b'));
+
+        String input = "b";
+
+        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyResult result = parser.parse(input);
+        Assertions.assertTrue(result.succeeded());
+
+        PriorityTreeSelector selector = new PriorityTreeSelector();
+        StringTreeBuilder builder = new StringTreeBuilder();
+        result.getForest().getWalker(selector).getNextTree(builder);
+
+        Assertions.assertTrue(selector.getMadeAmbiguousChoice());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley"})
+    public void forcedChoiceWithPriority(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
+        SourceGrammar grammar = new SourceGrammar(options);
+
+        /*
+        S = A .
+        A = A ; B.
+        B = 'b'.
+         */
+
+        NonterminalSymbol _S = grammar.getNonterminal("S");
+        NonterminalSymbol _A = grammar.getNonterminal("A", new ParserAttribute(ForestNode.PRIORITY_ATTRIBUTE, "3"));
+        NonterminalSymbol _B = grammar.getNonterminal("B", new ParserAttribute(ForestNode.PRIORITY_ATTRIBUTE, "5"));
+
+        grammar.addRule(_S, _A);
+        grammar.addRule(_A, _A);
+        grammar.addRule(_A, _B);
+        grammar.addRule(_B, TerminalSymbol.ch('b'));
+
+        String input = "b";
+
+        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyResult result = parser.parse(input);
+        Assertions.assertTrue(result.succeeded());
+
+        PriorityTreeSelector selector = new PriorityTreeSelector();
+        StringTreeBuilder builder = new StringTreeBuilder();
+        result.getForest().getWalker(selector).getNextTree(builder);
+
+        Assertions.assertFalse(selector.getMadeAmbiguousChoice());
+    }
 }

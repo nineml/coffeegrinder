@@ -1,6 +1,6 @@
 package org.nineml.coffeegrinder;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.nineml.coffeegrinder.parser.ForestWalker;
 import org.nineml.coffeegrinder.parser.ParseForest;
 import org.nineml.coffeegrinder.parser.ParserOptions;
@@ -22,7 +22,7 @@ public class CoffeeGrinderTest {
             xxx.getNextTree(builder);
             count++;
         }
-        Assert.assertEquals(expected, count);
+        Assertions.assertEquals(expected, count);
     }
 
     protected void expectTrees(ForestWalker walker, List<String> trees) {
