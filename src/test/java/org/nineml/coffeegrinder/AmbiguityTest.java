@@ -7,9 +7,9 @@ import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.CharacterSet;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.tokens.TokenCharacterSet;
-import org.nineml.coffeegrinder.trees.PriorityTreeSelector;
+import org.nineml.coffeegrinder.trees.Arborist;
+import org.nineml.coffeegrinder.trees.PriorityAxe;
 import org.nineml.coffeegrinder.trees.StringTreeBuilder;
-import org.nineml.coffeegrinder.trees.TreeSelector;
 import org.nineml.coffeegrinder.util.Iterators;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
@@ -53,7 +53,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         Assertions.assertTrue(result.succeeded());
         Assertions.assertEquals(2, result.getForest().getParseTreeCount());
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<expr>x<letter L='1'>a</letter><letterOrNumber><letter L='2'>b</letter></letterOrNumber><letter L='1'>b</letter></expr>",
                 "<expr>x<letter L='1'>a</letter><letterOrNumber><number N='2'>b</number></letterOrNumber><letter L='1'>b</letter></expr>"));
     }
@@ -91,7 +91,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         Assertions.assertTrue(result.succeeded());
         Assertions.assertEquals(9, result.getForest().getParseTreeCount());
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<expr><letter>a</letter><letterOrNumber><letter>b</letter></letterOrNumber><letter>a</letter><letterOrNumber><letter>b</letter></letterOrNumber></expr>",
                 "<expr><letter>a</letter><letterOrNumber><letter>b</letter></letterOrNumber><letter>a</letter><letterOrNumber><number>b</number></letterOrNumber></expr>",
                 "<expr><letter>a</letter><letterOrNumber><letter>b</letter></letterOrNumber><letter>a</letter><letterOrNumber><other>b</other></letterOrNumber></expr>",
@@ -131,7 +131,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
 
         Assertions.assertEquals(6, result.getForest().getParseTreeCount());
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<expr><word><letter>w</letter><word><letter>o</letter><word><letter>r</letter><word><letter>d</letter><word></word></word></word></word></word></expr>"));
     }
 
@@ -164,7 +164,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
 
         //result.getForest().serialize("ambiguity4.xml");
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S><A>a</A><B N='1'>b</B><C>c</C></S>",
                 "<S><A>a</A><B N='2'>b</B><C>c</C></S>"));
     }
@@ -196,7 +196,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         Assertions.assertTrue(result.succeeded());
         Assertions.assertEquals(1, result.getForest().getParseTreeCount());
 
-        expectTrees(result.getForest().getWalker(), Collections.singletonList("<S><A>a</A><B>b</B><C>c</C></S>"));
+        expectTrees(Arborist.getArborist(result.getForest()), Collections.singletonList("<S><A>a</A><B>b</B><C>c</C></S>"));
     }
 
     @ParameterizedTest
@@ -235,7 +235,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
 
         //result.getForest().serialize("horiz1.xml");
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S><Z>x<A></A><B>ay</B></Z></S>",
                 "<S><Z>x<A>a</A><B>y</B></Z></S>"));
     }
@@ -283,7 +283,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         //result.getForest().serialize("ambigprop.xml");
 
         final String p = ForestNode.PRIORITY_ATTRIBUTE;
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 String.format("<S><A %s='1'>a</A><D %s='4'>d</D></S>", p, p),
                 String.format("<S><X %s='3'>a</X><Y><Z>d</Z></Y></S>", p)));
     }
@@ -325,7 +325,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
 
         //result.getForest().serialize("ambigcharclass.xml");
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S><A>a</A></S>",
                 "<S><B>a</B></S>"));
     }
@@ -366,7 +366,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
 
         //result.getForest().serialize("ambigproploop.xml");
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S><A>a</A></S>",
                 "<S><A><B><C><A>a</A></C></B></A></S>"));
     }
@@ -404,7 +404,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
 
         //result.getForest().serialize("simple.xml");
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S><A>a</A></S>",
                 "<S><B>a</B></S>"));
     }
@@ -414,6 +414,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
     public void deeperambiguity(String parserType) {
         ParserOptions options = new ParserOptions(globalOptions);
         options.setParserType(parserType);
+        options.getLogger().setLogLevel("Lumberjack", "trace");
 
         SourceGrammar grammar = new SourceGrammar();
 
@@ -463,8 +464,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         Assertions.assertEquals(8, result.getForest().getParseTreeCount());
 
         //result.getForest().serialize("deeper.xml");
-
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S><A><Q>a</Q></A><B><V><X>b</X></V></B></S>",
                 "<S><A><Q>a</Q></A><B><V><Y>b</Y></V></B></S>",
                 "<S><A><Q>a</Q></A><B><W><X>b</X></W></B></S>",
@@ -515,9 +515,9 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         Assertions.assertEquals(3, result.getForest().getParseTreeCount());
 
         //result.getForest().serialize("loop.xml");
-        //showTrees(result.getForest().getWalker());
+        //showTrees(Lumberjack.getLumberjack(result.getForest()));
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S><A>a</A></S>",
                 "<S><A><X><Y><Z>a</Z></Y></X></A></S>"));
     }
@@ -558,7 +558,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
 
         //result.getForest().serialize("fourparses.xml");
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S>x<A>a</A>y</S>",
                 "<S>x<A><B2><A>a</A></B2></A>y</S>",
                 "<S>x<B1><A>a</A></B1>y</S>",
@@ -602,7 +602,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
 
         //result.getForest().serialize("noloops.xml");
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S>x<A>a</A>y</S>",
                 "<S>x<A><B2>a</B2></A>y</S>",
                 "<S>x<B1><A>a</A></B1>y</S>",
@@ -647,7 +647,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
 
         //result.getForest().serialize("wordhex.xml");
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<id><word><letter>f</letter><letter>a</letter><letter>b</letter></word></id>",
                 "<id><hex><digit>f</digit><digit>a</digit><digit>b</digit></hex></id>"
         ));
@@ -682,7 +682,6 @@ public class AmbiguityTest extends CoffeeGrinderTest {
 
         grammar.addRule(_S, TerminalSymbol.ch('x'), _A, TerminalSymbol.ch('y'));
         grammar.addRule(_S, TerminalSymbol.ch('x'), _B, TerminalSymbol.ch('y'));
-        //grammar.addRule(_S, TerminalSymbol.ch('x'), _B, TerminalSymbol.ch('y'));
         grammar.addRule(_A, _A1);
         grammar.addRule(_A, _A2);
         grammar.addRule(_A, _A3);
@@ -702,7 +701,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
 
         //result.getForest().serialize("disjoint1.xml");
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S>x<A><A1>a</A1></A>y</S>",
                 "<S>x<A><A2>a</A2></A>y</S>",
                 "<S>x<A><A3>a</A3></A>y</S>",
@@ -758,7 +757,7 @@ public class AmbiguityTest extends CoffeeGrinderTest {
 
         //result.getForest().serialize("disjoint2.xml");
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S>x<A><A1>a</A1></A><B><B1>b</B1></B>y</S>",
                 "<S>x<A><A1>a</A1></A><B><B2>b</B2></B>y</S>",
                 "<S>x<A><A2>a</A2></A><B><B1>b</B1></B>y</S>",
@@ -841,15 +840,17 @@ public class AmbiguityTest extends CoffeeGrinderTest {
 
         //result.getForest().serialize(String.format("horror-%s.xml", parserType));
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S><A><B><E><I>t</I></E></B></A></S>",
-                "<S><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></S>",
                 "<S><A><C><F><I>t</I></F></C></A></S>",
-                "<S><A><C><F><I><K><A><B><E><I>t</I></E></B></A></K></I></F></C></A></S>",
-                "<S><A><C><G><A><B><E><I>t</I></E></B></A></G></C></A></S>",
-                "<S><A><C><G><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></G></C></A></S>",
                 "<S><A><X><A><B><E><I>t</I></E></B></A></X></A></S>",
-                "<S><A><X><A><B><E><I><K><A><B><E><I>t</I></E></B></A></K></I></E></B></A></X></A></S>"));
+                "<S><A><X><A><C><F><I>t</I></F></C></A></X></A></S>",
+                "<S><A><C><A><B><E><I>t</I></E></B></A></C></A></S>",
+                "<S><A><C><A><C><F><I>t</I></F></C></A></C></A></S>",
+                "<S><A><C><G><A><B><E><I>t</I></E></B></A></G></C></A></S>",
+                "<S><A><C><G><A><C><F><I>t</I></F></C></A></G></C></A></S>",
+                "<S><A><X><A><X><A><B><E><I>t</I></E></B></A></X></A></X></A></S>",
+                "<S><A><X><A><X><A><C><F><I>t</I></F></C></A></X></A></X></A></S>"));
     }
 
     @ParameterizedTest
@@ -893,9 +894,9 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         Assertions.assertEquals(4, result.getForest().getParseTreeCount());
 
         //result.getForest().serialize("smaller.xml");
-        //showTrees(result.getForest().getWalker());
+        //showTrees(Lumberjack.getLumberjack(result.getForest()));
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S><A><B><D>t</D></B></A></S>",
                 "<S><A><C><D>t</D></C></A></S>"));
     }
@@ -947,10 +948,18 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         Assertions.assertEquals(9, result.getForest().getParseTreeCount());
 
         //result.getForest().serialize(String.format("medium-%s.xml", parserType));
-        //showTrees(result.getForest().getWalker());
+        //showTrees(Arborist.getLumberjack(result.getForest()), true, 9);
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
-                "<S><X><D>t</D></X></S>"));
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
+                "<S><A>t</A></S>",
+                "<S><X><D>t</D></X></S>",
+                "<S><A><B><D>t</D></B></A></S>",
+                "<S><A><C><D>t</D></C></A></S>",
+                "<S><X><D><A>t</A></D></X></S>",
+                "<S><A><B><D><A>t</A></D></B></A></S>",
+                "<S><A><C><D><A>t</A></D></C></A></S>",
+                "<S><X><D><A><B><D>t</D></B></A></D></X></S>",
+                "<S><X><D><A><C><D>t</D></C></A></D></X></S>"));
     }
 
     @ParameterizedTest
@@ -982,10 +991,9 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         Assertions.assertTrue(result.succeeded());
         Assertions.assertEquals(2, result.getForest().getParseTreeCount());
 
-        //result.getForest().serialize("tinyloop.xml");
-        //showTrees(result.getForest().getWalker());
+        //result.getForest().serialize(String.format("tinyloop-%s.xml", parserType));
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S><A>t</A></S>",
                 "<S><A><B><A>t</A></B></A></S>"));
     }
@@ -1019,15 +1027,15 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         GearleyResult result = parser.parse(input);
         Assertions.assertTrue(result.succeeded());
 
-        PriorityTreeSelector selector = new PriorityTreeSelector();
+        Arborist walker = Arborist.getArborist(result.getForest(), new PriorityAxe());
         StringTreeBuilder builder = new StringTreeBuilder();
-        result.getForest().getWalker(selector).getNextTree(builder);
+        walker.getTree(builder);
 
-        Assertions.assertTrue(selector.getMadeAmbiguousChoice());
+        Assertions.assertTrue(walker.isAmbiguous());
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"Earley"})
+    @ValueSource(strings = {"Earley", "GLL"})
     public void forcedChoiceWithPriority(String parserType) {
         ParserOptions options = new ParserOptions(globalOptions);
         options.setParserType(parserType);
@@ -1055,10 +1063,195 @@ public class AmbiguityTest extends CoffeeGrinderTest {
         GearleyResult result = parser.parse(input);
         Assertions.assertTrue(result.succeeded());
 
-        PriorityTreeSelector selector = new PriorityTreeSelector();
+        Arborist walker = Arborist.getArborist(result.getForest(), new PriorityAxe());
         StringTreeBuilder builder = new StringTreeBuilder();
-        result.getForest().getWalker(selector).getNextTree(builder);
+        walker.getTree(builder);
 
-        Assertions.assertFalse(selector.getMadeAmbiguousChoice());
+        Assertions.assertFalse(walker.isAmbiguous());
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void shortCircuit(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
+        // Test that we avoid looking for new trees after the prefix is invalid
+
+        SourceGrammar grammar = new SourceGrammar(options);
+
+        /*
+        S = A, B, C, D .
+        A = A1 | A2 .
+        B = B1 | B2 | B3 .
+        C = C1 | C2 | C3 | C4 .
+        D = D1 | D2 .
+         */
+
+        NonterminalSymbol _S  = grammar.getNonterminal("S");
+        NonterminalSymbol _A  = grammar.getNonterminal("A");
+        NonterminalSymbol _A1 = grammar.getNonterminal("A1");
+        NonterminalSymbol _A2 = grammar.getNonterminal("A2");
+        NonterminalSymbol _B  = grammar.getNonterminal("B");
+        NonterminalSymbol _B1 = grammar.getNonterminal("B1");
+        NonterminalSymbol _B2 = grammar.getNonterminal("B2");
+        NonterminalSymbol _B3 = grammar.getNonterminal("B3");
+        NonterminalSymbol _C  = grammar.getNonterminal("C");
+        NonterminalSymbol _C1 = grammar.getNonterminal("C1");
+        NonterminalSymbol _C2 = grammar.getNonterminal("C2");
+        NonterminalSymbol _C3 = grammar.getNonterminal("C3");
+        NonterminalSymbol _C4 = grammar.getNonterminal("C4");
+        NonterminalSymbol _D  = grammar.getNonterminal("D");
+        NonterminalSymbol _D1  = grammar.getNonterminal("D1");
+        NonterminalSymbol _D2  = grammar.getNonterminal("D2");
+
+        TerminalSymbol _a = TerminalSymbol.ch('a');
+        TerminalSymbol _b = TerminalSymbol.ch('b');
+        TerminalSymbol _c = TerminalSymbol.ch('c');
+        TerminalSymbol _d = TerminalSymbol.ch('d');
+
+        grammar.addRule(_S, _A, _B, _C, _D);
+        grammar.addRule(_A, _A1);
+        grammar.addRule(_A, _A2);
+        grammar.addRule(_B, _B1);
+        grammar.addRule(_B, _B2);
+        grammar.addRule(_B, _B3);
+        grammar.addRule(_C, _C1);
+        grammar.addRule(_C, _C2);
+        grammar.addRule(_C, _C3);
+        grammar.addRule(_C, _C4);
+        grammar.addRule(_D, _D1);
+        grammar.addRule(_D, _D2);
+
+        grammar.addRule(_A1, _a);
+        grammar.addRule(_A2, _a);
+        grammar.addRule(_B1, _b);
+        grammar.addRule(_B2, _b);
+        grammar.addRule(_B3, _b);
+        grammar.addRule(_C1, _c);
+        grammar.addRule(_C2, _c);
+        grammar.addRule(_C3, _c);
+        grammar.addRule(_C4, _c);
+        grammar.addRule(_D1, _d);
+        grammar.addRule(_D2, _d);
+
+        String input = "abcd";
+
+        GearleyParser parser = grammar.getParser(options, _S);
+        GearleyResult result = parser.parse(input);
+        Assertions.assertTrue(result.succeeded());
+        Assertions.assertEquals(48, result.getForest().getParseTreeCount());
+
+        //result.getForest().serialize(String.format("shortcircuit-%s.xml", parserType));
+
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
+                "<S><A><A1>a</A1></A><B><B1>b</B1></B><C><C1>c</C1></C><D><D1>d</D1></D></S>",
+                "<S><A><A1>a</A1></A><B><B1>b</B1></B><C><C1>c</C1></C><D><D2>d</D2></D></S>",
+                "<S><A><A1>a</A1></A><B><B1>b</B1></B><C><C2>c</C2></C><D><D1>d</D1></D></S>",
+                "<S><A><A1>a</A1></A><B><B1>b</B1></B><C><C2>c</C2></C><D><D2>d</D2></D></S>",
+                "<S><A><A1>a</A1></A><B><B1>b</B1></B><C><C3>c</C3></C><D><D1>d</D1></D></S>",
+                "<S><A><A1>a</A1></A><B><B1>b</B1></B><C><C3>c</C3></C><D><D2>d</D2></D></S>",
+                "<S><A><A1>a</A1></A><B><B1>b</B1></B><C><C4>c</C4></C><D><D1>d</D1></D></S>",
+                "<S><A><A1>a</A1></A><B><B1>b</B1></B><C><C4>c</C4></C><D><D2>d</D2></D></S>",
+                "<S><A><A1>a</A1></A><B><B2>b</B2></B><C><C1>c</C1></C><D><D1>d</D1></D></S>",
+                "<S><A><A1>a</A1></A><B><B2>b</B2></B><C><C1>c</C1></C><D><D2>d</D2></D></S>",
+                "<S><A><A1>a</A1></A><B><B2>b</B2></B><C><C2>c</C2></C><D><D1>d</D1></D></S>",
+                "<S><A><A1>a</A1></A><B><B2>b</B2></B><C><C2>c</C2></C><D><D2>d</D2></D></S>",
+                "<S><A><A1>a</A1></A><B><B2>b</B2></B><C><C3>c</C3></C><D><D1>d</D1></D></S>",
+                "<S><A><A1>a</A1></A><B><B2>b</B2></B><C><C3>c</C3></C><D><D2>d</D2></D></S>",
+                "<S><A><A1>a</A1></A><B><B2>b</B2></B><C><C4>c</C4></C><D><D1>d</D1></D></S>",
+                "<S><A><A1>a</A1></A><B><B2>b</B2></B><C><C4>c</C4></C><D><D2>d</D2></D></S>",
+                "<S><A><A1>a</A1></A><B><B3>b</B3></B><C><C1>c</C1></C><D><D1>d</D1></D></S>",
+                "<S><A><A1>a</A1></A><B><B3>b</B3></B><C><C1>c</C1></C><D><D2>d</D2></D></S>",
+                "<S><A><A1>a</A1></A><B><B3>b</B3></B><C><C2>c</C2></C><D><D1>d</D1></D></S>",
+                "<S><A><A1>a</A1></A><B><B3>b</B3></B><C><C2>c</C2></C><D><D2>d</D2></D></S>",
+                "<S><A><A1>a</A1></A><B><B3>b</B3></B><C><C3>c</C3></C><D><D1>d</D1></D></S>",
+                "<S><A><A1>a</A1></A><B><B3>b</B3></B><C><C3>c</C3></C><D><D2>d</D2></D></S>",
+                "<S><A><A1>a</A1></A><B><B3>b</B3></B><C><C4>c</C4></C><D><D1>d</D1></D></S>",
+                "<S><A><A1>a</A1></A><B><B3>b</B3></B><C><C4>c</C4></C><D><D2>d</D2></D></S>",
+                "<S><A><A2>a</A2></A><B><B1>b</B1></B><C><C1>c</C1></C><D><D1>d</D1></D></S>",
+                "<S><A><A2>a</A2></A><B><B1>b</B1></B><C><C1>c</C1></C><D><D2>d</D2></D></S>",
+                "<S><A><A2>a</A2></A><B><B1>b</B1></B><C><C2>c</C2></C><D><D1>d</D1></D></S>",
+                "<S><A><A2>a</A2></A><B><B1>b</B1></B><C><C2>c</C2></C><D><D2>d</D2></D></S>",
+                "<S><A><A2>a</A2></A><B><B1>b</B1></B><C><C3>c</C3></C><D><D1>d</D1></D></S>",
+                "<S><A><A2>a</A2></A><B><B1>b</B1></B><C><C3>c</C3></C><D><D2>d</D2></D></S>",
+                "<S><A><A2>a</A2></A><B><B1>b</B1></B><C><C4>c</C4></C><D><D1>d</D1></D></S>",
+                "<S><A><A2>a</A2></A><B><B1>b</B1></B><C><C4>c</C4></C><D><D2>d</D2></D></S>",
+                "<S><A><A2>a</A2></A><B><B2>b</B2></B><C><C1>c</C1></C><D><D1>d</D1></D></S>",
+                "<S><A><A2>a</A2></A><B><B2>b</B2></B><C><C1>c</C1></C><D><D2>d</D2></D></S>",
+                "<S><A><A2>a</A2></A><B><B2>b</B2></B><C><C2>c</C2></C><D><D1>d</D1></D></S>",
+                "<S><A><A2>a</A2></A><B><B2>b</B2></B><C><C2>c</C2></C><D><D2>d</D2></D></S>",
+                "<S><A><A2>a</A2></A><B><B2>b</B2></B><C><C3>c</C3></C><D><D1>d</D1></D></S>",
+                "<S><A><A2>a</A2></A><B><B2>b</B2></B><C><C3>c</C3></C><D><D2>d</D2></D></S>",
+                "<S><A><A2>a</A2></A><B><B2>b</B2></B><C><C4>c</C4></C><D><D1>d</D1></D></S>",
+                "<S><A><A2>a</A2></A><B><B2>b</B2></B><C><C4>c</C4></C><D><D2>d</D2></D></S>",
+                "<S><A><A2>a</A2></A><B><B3>b</B3></B><C><C1>c</C1></C><D><D1>d</D1></D></S>",
+                "<S><A><A2>a</A2></A><B><B3>b</B3></B><C><C1>c</C1></C><D><D2>d</D2></D></S>",
+                "<S><A><A2>a</A2></A><B><B3>b</B3></B><C><C2>c</C2></C><D><D1>d</D1></D></S>",
+                "<S><A><A2>a</A2></A><B><B3>b</B3></B><C><C2>c</C2></C><D><D2>d</D2></D></S>",
+                "<S><A><A2>a</A2></A><B><B3>b</B3></B><C><C3>c</C3></C><D><D1>d</D1></D></S>",
+                "<S><A><A2>a</A2></A><B><B3>b</B3></B><C><C3>c</C3></C><D><D2>d</D2></D></S>",
+                "<S><A><A2>a</A2></A><B><B3>b</B3></B><C><C4>c</C4></C><D><D1>d</D1></D></S>",
+                "<S><A><A2>a</A2></A><B><B3>b</B3></B><C><C4>c</C4></C><D><D2>d</D2></D></S>"));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Earley", "GLL"})
+    public void multipleChoices(String parserType) {
+        ParserOptions options = new ParserOptions(globalOptions);
+        options.setParserType(parserType);
+
+        SourceGrammar grammar = new SourceGrammar(options);
+
+        /*
+         A = B, C .
+         B = B1 | B2 .
+         B1 = 'b' .
+         B2 = B3 | B4 .
+         B3 = 'b' .
+         B4 = 'b' .
+         C = C1 | C2 .
+         C1 = 'c' .
+         C2 = 'c' .
+         */
+
+        NonterminalSymbol _A = grammar.getNonterminal("A");
+        NonterminalSymbol _B = grammar.getNonterminal("B");
+        NonterminalSymbol _B1 = grammar.getNonterminal("B1");
+        NonterminalSymbol _B2 = grammar.getNonterminal("B2");
+        NonterminalSymbol _B3 = grammar.getNonterminal("B3");
+        NonterminalSymbol _B4 = grammar.getNonterminal("B4");
+        NonterminalSymbol _C = grammar.getNonterminal("C");
+        NonterminalSymbol _C1 = grammar.getNonterminal("C1");
+        NonterminalSymbol _C2 = grammar.getNonterminal("C2");
+
+        grammar.addRule(_A, _B, _C);
+        grammar.addRule(_B, _B1);
+        grammar.addRule(_B, _B2);
+        grammar.addRule(_B1, TerminalSymbol.ch('b'));
+        grammar.addRule(_B2, _B3);
+        grammar.addRule(_B2, _B4);
+        grammar.addRule(_B3, TerminalSymbol.ch('b'));
+        grammar.addRule(_B4, TerminalSymbol.ch('b'));
+        grammar.addRule(_C, _C1);
+        grammar.addRule(_C, _C2);
+        grammar.addRule(_C1, TerminalSymbol.ch('c'));
+        grammar.addRule(_C2, TerminalSymbol.ch('c'));
+
+        String input = "bc";
+
+        GearleyParser parser = grammar.getParser(options, _A);
+        GearleyResult result = parser.parse(input);
+        Assertions.assertTrue(result.succeeded());
+        Assertions.assertEquals(6, result.getForest().getParseTreeCount());
+
+        //result.getForest().serialize("multiple.xml");
+
+        Arborist walker = Arborist.getArborist(result.getForest(), new PriorityAxe());
+        while (walker.hasMoreTrees()) {
+            StringTreeBuilder builder = new StringTreeBuilder();
+            walker.getTree(builder);
+        }
+    }
+
 }

@@ -1,6 +1,5 @@
-import org.nineml.coffeegrinder.trees.ParseTree;
-import org.nineml.coffeegrinder.trees.ParseTreeBuilder;
 import org.nineml.coffeegrinder.parser.*;
+import org.nineml.coffeegrinder.trees.*;
 
 import static org.junit.Assert.fail;
 
@@ -43,10 +42,10 @@ public class DocExample {
         GearleyResult result = parser.parse("bx");
 
         if (result.succeeded()) {
-            ParseTreeBuilder builder = new ParseTreeBuilder();
+            GenericTreeBuilder builder = new GenericTreeBuilder();
             ParseForest forest = result.getForest();
-            forest.getWalker().getNextTree(builder);
-            ParseTree tree = builder.getTree();
+            Arborist.getArborist(forest).getTree(builder);
+            GenericTree tree = builder.getTree();
 
             // TODO: do something with the tree.
 

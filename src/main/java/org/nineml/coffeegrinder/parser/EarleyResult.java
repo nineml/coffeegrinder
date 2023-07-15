@@ -2,10 +2,8 @@ package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.tokens.Token;
-import org.nineml.coffeegrinder.trees.ParseTree;
-import org.nineml.coffeegrinder.trees.ParseTreeBuilder;
-import org.nineml.coffeegrinder.trees.TreeBuilder;
-import org.nineml.coffeegrinder.trees.TreeSelector;
+import org.nineml.coffeegrinder.tokens.TokenCharacter;
+import org.nineml.coffeegrinder.trees.*;
 
 import java.util.*;
 
@@ -24,7 +22,7 @@ public class EarleyResult implements GearleyResult {
     private final int columnNumber;
     private final ParserOptions options;
     private final HashSet<TerminalSymbol> predicted = new HashSet<>();
-    private ForestWalker walker = null;
+    private Arborist walker = null;
     private long parseTime = -1;
 
     protected EarleyResult(EarleyParser parser, EarleyChart chart, ParseForest graph, boolean success, int tokenCount, Token lastToken) {
@@ -92,44 +90,13 @@ public class EarleyResult implements GearleyResult {
     }
 
     @Override
-    public boolean hasMoreTrees() {
-        if (walker == null) {
-            walker = graph.getWalker();
-        }
-        return walker.hasMoreTrees();
+    public Arborist getArborist() {
+        return Arborist.getArborist(graph);
     }
 
     @Override
-    public void setTreeSelector(TreeSelector selector) {
-        walker = graph.getWalker(selector);
-    }
-
-    @Override
-    public ParseTree getTree() {
-        if (hasMoreTrees()) {
-            ParseTreeBuilder builder = new ParseTreeBuilder();
-            walker.getNextTree(builder);
-            return builder.getTree();
-        }
-        return null;
-    }
-
-    /**
-     * Get a tree.
-     */
-    @Override
-    public void getTree(TreeBuilder builder) {
-        if (hasMoreTrees()) {
-            walker.getNextTree(builder);
-        }
-    }
-
-    @Override
-    public Set<Integer> lastSelectedNodes() {
-        if (walker == null) {
-            return Collections.emptySet();
-        }
-        return walker.selectedNodes();
+    public Arborist getArborist(Axe axe) {
+        return Arborist.getArborist(graph, axe);
     }
 
     @Override
@@ -197,8 +164,27 @@ public class EarleyResult implements GearleyResult {
         if (!prefixSucceeded()) {
             throw ParseException.attemptToContinueInvalidParse();
         }
-
         EarleyParser newParser = (EarleyParser) parser.getGrammar().getParser(options);
+        return parser.continueParsing(newParser);
+    }
+
+    /**
+     * Continue parsing from the last successfully matched prefix with a new parser.
+     * <p>If prefix parsing is enabled, and a prefix was identified, this method will attempt to continue
+     * parsing from the next token after the previous prefix parse.</p>
+     * @return a parse result
+     * @throws ParseException if this result doesn't indicate that a prefix parse was successful
+     */
+    @Override
+    public EarleyResult continueParsing(GearleyParser newParser) {
+        if (!prefixSucceeded()) {
+            throw ParseException.attemptToContinueInvalidParse();
+        }
+
+        if (newParser.getGrammar().usesRegex && !parser.getGrammar().usesRegex) {
+            throw ParseException.attemptToContinueWithIncompatibleParser();
+        }
+
         return parser.continueParsing(newParser);
     }
 

@@ -7,8 +7,7 @@ import org.nineml.coffeegrinder.exceptions.ParseException;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenString;
-import org.nineml.coffeegrinder.trees.ParseTree;
-import org.nineml.coffeegrinder.trees.ParseTreeBuilder;
+import org.nineml.coffeegrinder.trees.*;
 import org.nineml.coffeegrinder.util.GrammarParser;
 import org.nineml.coffeegrinder.util.Iterators;
 import org.nineml.coffeegrinder.util.ParserAttribute;
@@ -79,22 +78,22 @@ public class AttributesTest extends CoffeeGrinderTest {
             Assertions.assertTrue(result.succeeded());
         }
 
-        ForestWalker walker = result.getForest().getWalker();
-        ParseTreeBuilder builder = new ParseTreeBuilder();
-        walker.getNextTree(builder);
-        ParseTree tree = builder.getTree();
+        Arborist walker = Arborist.getArborist(result.getForest());
+        GenericTreeBuilder builder = new GenericTreeBuilder();
+        walker.getTree(builder);
+        GenericBranch tree = builder.getTree();
 
-        Token t_if = tree.getChildren().get(0).getToken();
+        Token t_if = ((GenericLeaf) tree.getChildren().get(0)).token;
         Assertions.assertEquals("if", t_if.getValue());
         Assertions.assertEquals("1", Objects.requireNonNull(t_if.getAttribute("line").getValue()));
         Assertions.assertEquals("5", Objects.requireNonNull(t_if.getAttribute("column").getValue()));
 
-        ParseTree nt_condition = tree.getChildren().get(1);
-        Assertions.assertEquals(grammar.getNonterminal("condition"), nt_condition.getSymbol());
-        Assertions.assertEquals("this", Objects.requireNonNull(nt_condition.getSymbol().getAttribute("test")).getValue());
+        GenericBranch nt_condition = (GenericBranch) tree.getChildren().get(1);
+        Assertions.assertEquals(grammar.getNonterminal("condition"), nt_condition.symbol);
+        Assertions.assertEquals("this", Objects.requireNonNull(nt_condition.symbol.getAttribute("test")).getValue());
 
-        ParseTree s_paren = nt_condition.getChildren().get(0);
-        Assertions.assertEquals("(", s_paren.getToken().getValue());
+        GenericLeaf s_paren = (GenericLeaf) nt_condition.getChildren().get(0);
+        Assertions.assertEquals("(", s_paren.token.getValue());
         Assertions.assertEquals("op", Objects.requireNonNull(s_paren.getAttribute("open", "fail")));
     }
 
@@ -156,7 +155,7 @@ public class AttributesTest extends CoffeeGrinderTest {
 
         Assertions.assertEquals(2, result.getForest().getParseTreeCount());
 
-        expectTrees(result.getForest().getWalker(), Arrays.asList(
+        expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                 "<S><A>a</A><B N='1'>b</B><C>c</C></S>",
                 "<S><A>a</A><B N='2'>b</B><D>c</D></S>"));
     }

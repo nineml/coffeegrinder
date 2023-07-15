@@ -41,18 +41,19 @@ public class StringTreeBuilder implements TreeBuilder {
     }
 
     @Override
-    public void startTree(boolean ambiguous, boolean infinitelyAmbiguous) {
+    public void startTree() {
         buffer = new ByteArrayOutputStream();
-        builder = new PrintStreamTreeBuilder(new PrintStream(buffer));
-        builder.startTree(ambiguous, infinitelyAmbiguous);
+        builder = new PrintStreamTreeBuilder(new PrintStream(buffer), false);
+        builder.startTree();
         tree = null;
         ran = false;
     }
 
     @Override
-    public void endTree(boolean madeAmbiguousChoice) {
+    public void endTree(boolean ambiguous, boolean absolutelyAmbiguous, boolean infinitelyAmbiguous) {
         // ignore the trailing newline from the supertype
         ran = true;
+        builder.endTree(ambiguous, absolutelyAmbiguous, infinitelyAmbiguous);
     }
 
     @Override

@@ -13,12 +13,12 @@ import java.util.Set;
  */
 public class NopTreeBuilder implements TreeBuilder {
     @Override
-    public void startTree(boolean ambiguous, boolean infinitelyAmbiguous) {
+    public void startTree() {
         // nop
     }
 
     @Override
-    public void endTree(boolean madeAmbiguousChoice) {
+    public void endTree(boolean ambiguous, boolean absolutelyAmbiguous, boolean infinitelyAmbiguous) {
         // nop
     }
 

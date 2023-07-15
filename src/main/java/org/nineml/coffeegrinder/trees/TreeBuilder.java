@@ -12,18 +12,17 @@ import java.util.Set;
 public interface TreeBuilder {
     /**
      * Called first, when construction begins.
-     * @param ambiguous is the parse ambiguous?
-     * @param infinitelyAmbiguous Is the parse infinitely ambiguous?
      */
-    void startTree(boolean ambiguous, boolean infinitelyAmbiguous);
+    void startTree();
 
     /**
      * Called last, when construction finishes.
      *
-     * @param madeAmbiguousChoice is true if the tree selector reported that it made an arbitrary choice
-     *                            to resolve an ambiguous parse.
+     * @param ambiguous was the parse ambiguous?
+     * @param absolutelyAmbiguous is the graph ambiguous?
+     * @param infinitelyAmbiguous is the graph infinitely ambiguous?
      */
-    void endTree(boolean madeAmbiguousChoice);
+    void endTree(boolean ambiguous, boolean absolutelyAmbiguous, boolean infinitelyAmbiguous);
 
     /**
      * Called when a new nonterminal begins.
