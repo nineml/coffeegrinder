@@ -113,12 +113,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
+<th class="colFirst" scope="row"><a href="Axe.html" title="interface in org.nineml.coffeegrinder.trees">Axe</a></th>
+<td class="colLast">
+<div class="block">An axe is a tool an Arborist might use to extract trees from a forest.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a></th>
 <td class="colLast">
 <div class="block">The tree builder interface.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a></th>
 <td class="colLast">
 <div class="block">The tree selector is responsible for choosing among ambiguous parses.</div>
@@ -136,6 +142,42 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </tr>
 <tbody>
 <tr class="altColor">
+<th class="colFirst" scope="row"><a href="Arborist.html" title="class in org.nineml.coffeegrinder.trees">Arborist</a></th>
+<td class="colLast">
+<div class="block">One who might be employed to extract trees from a forest.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="GenericBranch.html" title="class in org.nineml.coffeegrinder.trees">GenericBranch</a></th>
+<td class="colLast">
+<div class="block">A branch (nonterminal) in a generic tree.</div>
+</td>
+</tr>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="GenericLeaf.html" title="class in org.nineml.coffeegrinder.trees">GenericLeaf</a></th>
+<td class="colLast">
+<div class="block">A leaf (terminal) in a generic tree.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="GenericTree.html" title="class in org.nineml.coffeegrinder.trees">GenericTree</a></th>
+<td class="colLast">
+<div class="block">A generic tree representation of a parse.</div>
+</td>
+</tr>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="GenericTreeBuilder.html" title="class in org.nineml.coffeegrinder.trees">GenericTreeBuilder</a></th>
+<td class="colLast">
+<div class="block">A tree builder that constructs a <a href="GenericTree.html" title="class in org.nineml.coffeegrinder.trees"><code>GenericTree</code></a>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="Lumberjack.html" title="class in org.nineml.coffeegrinder.trees">Lumberjack</a></th>
+<td class="colLast">
+<div class="block">An "unspecialist" Arborist.</div>
+</td>
+</tr>
+<tr class="altColor">
 <th class="colFirst" scope="row"><a href="NopTreeBuilder.html" title="class in org.nineml.coffeegrinder.trees">NopTreeBuilder</a></th>
 <td class="colLast">
 <div class="block">This class implements the <a href="TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees"><code>TreeBuilder</code></a> interface, but discards all the output.</div>
@@ -144,32 +186,31 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="ParseTree.html" title="class in org.nineml.coffeegrinder.trees">ParseTree</a></th>
 <td class="colLast">
-<div class="block">A single parse of the input against the grammar.</div>
+<div class="block">A parse tree used when finding trees in the forest.</div>
 </td>
 </tr>
 <tr class="altColor">
-<th class="colFirst" scope="row"><a href="ParseTreeBuilder.html" title="class in org.nineml.coffeegrinder.trees">ParseTreeBuilder</a></th>
-<td class="colLast">
-<div class="block">A tree builder that constructs a <a href="ParseTree.html" title="class in org.nineml.coffeegrinder.trees"><code>ParseTree</code></a>.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <th class="colFirst" scope="row"><a href="PrintStreamTreeBuilder.html" title="class in org.nineml.coffeegrinder.trees">PrintStreamTreeBuilder</a></th>
 <td class="colLast">
 <div class="block">A tree builder that sends serialized results to a print stream.</div>
 </td>
 </tr>
-<tr class="altColor">
-<th class="colFirst" scope="row"><a href="PriorityTreeSelector.html" title="class in org.nineml.coffeegrinder.trees">PriorityTreeSelector</a></th>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="PriorityAxe.html" title="class in org.nineml.coffeegrinder.trees">PriorityAxe</a></th>
 <td class="colLast">
-<div class="block">A <a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees"><code>TreeSelector</code></a> that uses the <a href="../parser/ForestNode.html#PRIORITY_ATTRIBUTE"><code>ForestNode.PRIORITY_ATTRIBUTE</code></a>
- to manage priorities.</div>
+<div class="block">An Axe that returns the highest priority trees first.</div>
+</td>
+</tr>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="RandomAxe.html" title="class in org.nineml.coffeegrinder.trees">RandomAxe</a></th>
+<td class="colLast">
+<div class="block">An Axe that returns random trees.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colFirst" scope="row"><a href="SequentialTreeSelector.html" title="class in org.nineml.coffeegrinder.trees">SequentialTreeSelector</a></th>
+<th class="colFirst" scope="row"><a href="SequentialAxe.html" title="class in org.nineml.coffeegrinder.trees">SequentialAxe</a></th>
 <td class="colLast">
-<div class="block">A <a href="TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees"><code>TreeSelector</code></a> that returns each tree in the forest successively.</div>
+<div class="block">An Axe that returns ever tree in the forest.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -183,6 +224,22 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <td class="colLast">
 <div class="block">A tree builder that returns the serialized tree as a string.</div>
 </td>
+</tr>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="TreeNumber.html" title="class in org.nineml.coffeegrinder.trees">TreeNumber</a></th>
+<td class="colLast">
+<div class="block">A numbering of potential trees.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colFirst" scope="row"><a href="TreeSurgeon.html" title="class in org.nineml.coffeegrinder.trees">TreeSurgeon</a></th>
+<td class="colLast">
+<div class="block">A specialist Arborist.</div>
+</td>
+</tr>
+<tr class="altColor">
+<th class="colFirst" scope="row"><a href="Vertex.html" title="class in org.nineml.coffeegrinder.trees">Vertex</a></th>
+<td class="colLast">&nbsp;</td>
 </tr>
 </tbody>
 </table>

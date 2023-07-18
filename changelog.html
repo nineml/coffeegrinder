@@ -1,6 +1,28 @@
-<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" class="no-js"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><script>(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement)</script><title>Appendix C. Change log</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link href="https://purl.org/dc/elements/1.1/" rel="schema.dc"/><meta name="dc.modified" content="2023-07-12T09:16:57Z"/><meta name="generator" content="DocBook xslTNG version 2.1.6 / cf0b935 / SAXON HE 12.3"/><link href="/css/docbook-toc.css" rel="stylesheet"/><link href="/css/docbook.css" rel="stylesheet" media="screen"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><script src="https://kit.fontawesome.com/498b6706f0.js" type="text/javascript" crossorigin="anonymous"></script><link href="icon/CoffeeGrinder.png" rel="shortcut icon"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link href="css/nineml.css" rel="stylesheet"/><link href="css/coffeegrinder.css" rel="stylesheet"/><link rel="prev" href="appb.html"/><link rel="up" href="index.html"/><link rel="home" href="index.html"/><script src="/js/persistent-toc.js" defer="defer"></script><script src="/js/chunk-nav.js" defer="defer"></script></head><body><nav class="top"><span class="nav"><a title="CoffeeGrinder" href="index.html"><i class="fas fa-home"></i></a> <a href="appb.html" title="Appendix  B .  GLL Parser"><i class="fas fa-arrow-left"></i></a> <a title="CoffeeGrinder" href="index.html"><i class="fas fa-arrow-up"></i></a> <span class="inactive"><i class="fas fa-arrow-right"></i></span></span><span class="title"><i class="title">CoffeeGrinder</i></span></nav><main><section id="changelog" db-chunk="changelog.html" db-id="d93e159" class="appendix component"><header><h2>Appendix <span class="label">C</span><span class="sep">. </span>Change log</h2></header><div class="revhistory"><header><div class="title">Revision History</div></header><ul><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0e</span>, <span class="date" time="2023-07-12">12 Jul 2023</span></div><div class="description"><div class="revdescription">
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" class="no-js"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><script>(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement)</script><title>Appendix C. Change log</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link href="https://purl.org/dc/elements/1.1/" rel="schema.dc"/><meta name="dc.modified" content="2023-07-18T16:51:23Z"/><meta name="generator" content="DocBook xslTNG version 2.1.6 / cf0b935 / SAXON HE 12.3"/><link href="/css/docbook-toc.css" rel="stylesheet"/><link href="/css/docbook.css" rel="stylesheet" media="screen"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><script src="https://kit.fontawesome.com/498b6706f0.js" type="text/javascript" crossorigin="anonymous"></script><link href="icon/CoffeeGrinder.png" rel="shortcut icon"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link href="css/nineml.css" rel="stylesheet"/><link href="css/coffeegrinder.css" rel="stylesheet"/><link rel="prev" href="appb.html"/><link rel="up" href="index.html"/><link rel="home" href="index.html"/><script src="/js/persistent-toc.js" defer="defer"></script><script src="/js/chunk-nav.js" defer="defer"></script></head><body><nav class="top"><span class="nav"><a title="CoffeeGrinder" href="index.html"><i class="fas fa-home"></i></a> <a href="appb.html" title="Appendix  B .  GLL Parser"><i class="fas fa-arrow-left"></i></a> <a title="CoffeeGrinder" href="index.html"><i class="fas fa-arrow-up"></i></a> <span class="inactive"><i class="fas fa-arrow-right"></i></span></span><span class="title"><i class="title">CoffeeGrinder</i></span></nav><main><section id="changelog" db-chunk="changelog.html" db-id="d93e159" class="appendix component"><header><h2>Appendix <span class="label">C</span><span class="sep">. </span>Change log</h2></header><div class="revhistory"><header><div class="title">Revision History</div></header><ul><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0f</span>, <span class="date" time="2023-07-18">18 Jul 2023</span></div><div class="description"><div class="revdescription">
 <p>This is a beta release for version 3.0.0. There are a lot of
 changes in this release and many of them impact the public APIs.</p>
+<ol class="orderedlist" type="1"><li><p>Another complete refactor of tree walking. With new
+metaphors this time. There are no more tree selectors or
+<code class="classname">ForestWalker</code>s, instead we have
+<a href="/apidoc/org/nineml/coffeegrinder/trees/Arborist.html"><code class="classname">Arborist</code></a>s, either
+<a href="/apidoc/org/nineml/coffeegrinder/trees/Lumberjack.html"><code class="classname">Lumberjack</code></a>s or
+<a href="/apidoc/org/nineml/coffeegrinder/trees/TreeSurgeon.html"><code class="classname">TreeSurgeon</code></a>s, armed with
+<a href="/apidoc/org/nineml/coffeegrinder/trees/Axe.html"><code class="classname">Axe</code></a>s. The idea is that a
+<a href="/apidoc/org/nineml/coffeegrinder/trees/Lumberjack.html"><code class="classname">Lumberjack</code></a> clears a forest. The lumberjack
+walks through the forest sequentially returning all of the applicable
+trees. For example, armed with a <a href="/apidoc/org/nineml/coffeegrinder/trees/SequentialAxe.html"><code class="classname">SequentialAxe</code></a>,
+the lumberjack returns all the trees. Armed with a
+<a href="/apidoc/org/nineml/coffeegrinder/trees/PriorityAxe.html"><code class="classname">PriorityAxe</code></a>, the lumberjack returns the highest
+priority tree(s). A <a href="/apidoc/org/nineml/coffeegrinder/trees/TreeSurgeon.html"><code class="classname">TreeSurgeon</code></a>, on the other
+hand, extracts specific trees with no attempt to be sequential. The
+<a href="/apidoc/org/nineml/coffeegrinder/trees/RandomAxe.html"><code class="classname">RandomAxe</code></a>, for example, just makes random
+choices until a tree is found.</p><p>In the best case, where the parse is unambiguous, none of this matters, there is only
+one tree in the forest and it doesn’t matter who attempts to get it or how.</p></li><li><p>Presented with an infinitely ambiguous forest (one where the graph contains one
+or more loops), the lumberjack will return an unbounded number of trees.</p></li><li><p>When the prefix parsing feature is enabled, it is now possible to resume parsing
+with a different parser.</p></li><li><p>The <a href="/apidoc/org/nineml/coffeegrinder/trees/ParseTree.html"><code class="classname">ParseTree</code></a> has been renamed <a href="/apidoc/org/nineml/coffeegrinder/trees/GenericTree.html"><code class="classname">GenericTree</code></a> and
+refactored a bit. The <em>new</em> <a href="/apidoc/org/nineml/coffeegrinder/trees/ParseTree.html"><code class="classname">ParseTree</code></a> class is only
+used during the search for a tree.</p></li></ol>
+</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0e</span>, <span class="date" time="2023-07-12">12 Jul 2023</span></div><div class="description"><div class="revdescription">
 <ol class="orderedlist" type="1"><li><p>Provide tree selectors with all the paths, even those that
 are loops. The looping paths are always “other choices”.</p></li><li><p>Revised what constitutes “making an ambiguous choice” in the tree selector.
 When a tree selector has only a single, non-looping choice, it is still making an
@@ -33,7 +55,7 @@ into different classes. The result is much, much simpler.
 </p></li><li><p>The parser attributes are available to the tree builder. The parser attributes
 used by NineML have been renamed to URIs.
 </p></li><li><p>The <code class="classname">RuleChoice</code> class has been removed. Tree selection
-can be done directly from the <code class="classname">Family</code> objects. A unique ID has been added
+can be done directly from the <a href="/apidoc/org/nineml/coffeegrinder/parser/Family.html"><code class="classname">Family</code></a> objects. A unique ID has been added
 to each family.
 </p></li><li><p>The parser supports a priority attribute for guiding
 the selection between ambiguous alternatives. If a particular family
@@ -43,7 +65,7 @@ the priorities of its descendants.
 </p></li><li><p>Priorities are now integers, not floats. The parser option “priority style” controls
 whether computed priorities are maximum values or sums.
 </p></li><li><p>Priorities (and other parser attributes) may cause new
-nonterminals to be created when the parser is constructed. The <code class="classname">NonterminalSymbol</code>
+nonterminals to be created when the parser is constructed. The <a href="/apidoc/org/nineml/coffeegrinder/parser/NonterminalSymbol.html"><code class="classname">NonterminalSymbol</code></a>
 field <code class="varname">symbolName</code> can be used to distingiush between them (as can
 the symbol ID, of course). The <code class="methodname">getName()</code> method always returns the canonical name.
 </p></li><li><p>The parse forest no longer exposes multiple root nodes. They can only exist
@@ -58,7 +80,7 @@ not take loops into consideration. (Graphs with loops have an infinite
 number of parse trees.) The tree selector tries to follow all of the paths once, but
 it may fail for pernicously looped graphs:</p>
 
-<div id="changelog_revhistory1_revision5_revdescription1_fig1" class="figure formalobject"><header><div class="title">Figure <span class="label">C<span class="sep">.</span>1</span><span class="sep">. </span>A perniciously looped graph</div></header><div class="mediaobject"><div class="media image"><picture class="imageobject"><img src="/images/pernicious.svg"/></picture></div><div class="caption"><p>A graph where X⇔Y, X⇔Z, Y⇔Z, X→’x’|ε, Y→’x’|ε, Z→’x’|ε, </p></div></div></div>
+<div id="changelog_revhistory1_revision6_revdescription1_fig1" class="figure formalobject"><header><div class="title">Figure <span class="label">C<span class="sep">.</span>1</span><span class="sep">. </span>A perniciously looped graph</div></header><div class="mediaobject"><div class="media image"><picture class="imageobject"><img src="/images/pernicious.svg"/></picture></div><div class="caption"><p>A graph where X⇔Y, X⇔Z, Y⇔Z, X→’x’|ε, Y→’x’|ε, Z→’x’|ε, </p></div></div></div>
 
 <p>It will get many, but not necessarily all of the possible paths. The priority tree
 selector will always choose the path with the highest priority (if there is one). If all choices
@@ -73,7 +95,7 @@ not necessarily have the correct attributes.</p>
 with different attributes. This introduces new nonterminals into
 the grammar. These can be examined by calling
 <code class="methodname">resolveDuplicates</code> on the
-<code class="classname">SourceGrammar</code>.</p><p>If, for example, you have two instances of a nonterminal
+<a href="/apidoc/org/nineml/coffeegrinder/parser/SourceGrammar.html"><code class="classname">SourceGrammar</code></a>.</p><p>If, for example, you have two instances of a nonterminal
 “B” in the grammar, where one has a mark attribute of “^” and the
 other a mark attribute of “@”, after resolving duplicates there
 will be two nonterminals in the grammar, “B” and “B₁”. They will

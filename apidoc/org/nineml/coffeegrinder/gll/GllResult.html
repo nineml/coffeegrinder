@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -212,87 +212,87 @@ implements <a href="../parser/GearleyResult.html" title="interface in org.nineml
 </td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code><a href="../parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#continueParsing(org.nineml.coffeegrinder.parser.GearleyParser)">continueParsing</a></span>&#8203;(<a href="../parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser)</code></th>
+<td class="colLast">
+<div class="block">After a successful prefix parse, this method continues parsing with a new parser.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code><a href="../trees/Arborist.html" title="class in org.nineml.coffeegrinder.trees">Arborist</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getArborist()">getArborist</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Get an arborist to extract trees from the forest.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code><a href="../trees/Arborist.html" title="class in org.nineml.coffeegrinder.trees">Arborist</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getArborist(org.nineml.coffeegrinder.trees.Axe)">getArborist</a></span>&#8203;(<a href="../trees/Axe.html" title="interface in org.nineml.coffeegrinder.trees">Axe</a>&nbsp;axe)</code></th>
+<td class="colLast">
+<div class="block">Get an arborist to extract trees from the forest.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getColumnNumber()">getColumnNumber</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the column number of the last character on the last line read by the parser.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="../parser/ParseForest.html" title="class in org.nineml.coffeegrinder.parser">ParseForest</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getForest()">getForest</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Return the parse forest created by the parser.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="../tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLastToken()">getLastToken</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Return the last token parsed.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLineNumber()">getLineNumber</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the line number of the last line read by the parser.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOffset()">getOffset</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the last offset read by the parser.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="../parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getParser()">getParser</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The parser used.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>long</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getParseTime()">getParseTime</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the number of milliseconds spent parsing.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../parser/TerminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">TerminalSymbol</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPredictedTerminals()">getPredictedTerminals</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns the symbols predicted as possibly next in the case where a parse fails.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTokenCount()">getTokenCount</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Return the number of tokens parsed.</div>
-</td>
-</tr>
-<tr id="i10" class="altColor">
-<td class="colFirst"><code><a href="../trees/ParseTree.html" title="class in org.nineml.coffeegrinder.trees">ParseTree</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTree()">getTree</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Return the (next) parse tree.</div>
-</td>
-</tr>
-<tr id="i11" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTree(org.nineml.coffeegrinder.trees.TreeBuilder)">getTree</a></span>&#8203;(<a href="../trees/TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a>&nbsp;builder)</code></th>
-<td class="colLast">
-<div class="block">Get a tree.</div>
-</td>
-</tr>
-<tr id="i12" class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasMoreTrees()">hasMoreTrees</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns true if there are more trees that can be returned.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
@@ -310,27 +310,13 @@ implements <a href="../parser/GearleyResult.html" title="interface in org.nineml
 </td>
 </tr>
 <tr id="i15" class="rowColor">
-<td class="colFirst"><code>java.util.Set&lt;java.lang.Integer&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lastSelectedNodes()">lastSelectedNodes</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Returns the set of (ids of) the nodes selected in the last tree returned.</div>
-</td>
-</tr>
-<tr id="i16" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#prefixSucceeded()">prefixSucceeded</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Returns true if the parser successfully processed a prefix of the input.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setTreeSelector(org.nineml.coffeegrinder.trees.TreeSelector)">setTreeSelector</a></span>&#8203;(<a href="../trees/TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a>&nbsp;selector)</code></th>
-<td class="colLast">
-<div class="block">Set the tree selector to be used when walking the forest.</div>
-</td>
-</tr>
-<tr id="i18" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#succeeded()">succeeded</a></span>()</code></th>
 <td class="colLast">
@@ -417,6 +403,25 @@ implements <a href="../parser/GearleyResult.html" title="interface in org.nineml
 </dl>
 </li>
 </ul>
+<a id="continueParsing(org.nineml.coffeegrinder.parser.GearleyParser)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>continueParsing</h4>
+<pre class="methodSignature">public&nbsp;<a href="../parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a>&nbsp;continueParsing&#8203;(<a href="../parser/GearleyParser.html" title="interface in org.nineml.coffeegrinder.parser">GearleyParser</a>&nbsp;parser)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../parser/GearleyResult.html#continueParsing(org.nineml.coffeegrinder.parser.GearleyParser)">GearleyResult</a></code></span></div>
+<div class="block">After a successful prefix parse, this method continues parsing with a new parser.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../parser/GearleyResult.html#continueParsing(org.nineml.coffeegrinder.parser.GearleyParser)">continueParsing</a></code>&nbsp;in interface&nbsp;<code><a href="../parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>parser</code> - The (next) parser.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The (next) parse result.</dd>
+</dl>
+</li>
+</ul>
 <a id="getForest()">
 <!--   -->
 </a>
@@ -435,88 +440,41 @@ implements <a href="../parser/GearleyResult.html" title="interface in org.nineml
 </dl>
 </li>
 </ul>
-<a id="hasMoreTrees()">
+<a id="getArborist()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>hasMoreTrees</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;hasMoreTrees()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../parser/GearleyResult.html#hasMoreTrees()">GearleyResult</a></code></span></div>
-<div class="block">Returns true if there are more trees that can be returned.
- <p>This arises in the case of ambiguous parses.</p></div>
+<h4>getArborist</h4>
+<pre class="methodSignature">public&nbsp;<a href="../trees/Arborist.html" title="class in org.nineml.coffeegrinder.trees">Arborist</a>&nbsp;getArborist()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../parser/GearleyResult.html#getArborist()">GearleyResult</a></code></span></div>
+<div class="block">Get an arborist to extract trees from the forest.
+ <p>The default arborist is created with <a href="../trees/Arborist.html#getArborist(org.nineml.coffeegrinder.parser.ParseForest)"><code>Arborist.getArborist(ParseForest)</code></a>.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../parser/GearleyResult.html#hasMoreTrees()">hasMoreTrees</a></code>&nbsp;in interface&nbsp;<code><a href="../parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+<dd><code><a href="../parser/GearleyResult.html#getArborist()">getArborist</a></code>&nbsp;in interface&nbsp;<code><a href="../parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>true if there are more trees.</dd>
+<dd>the arborist</dd>
 </dl>
 </li>
 </ul>
-<a id="setTreeSelector(org.nineml.coffeegrinder.trees.TreeSelector)">
+<a id="getArborist(org.nineml.coffeegrinder.trees.Axe)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>setTreeSelector</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;setTreeSelector&#8203;(<a href="../trees/TreeSelector.html" title="interface in org.nineml.coffeegrinder.trees">TreeSelector</a>&nbsp;selector)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../parser/GearleyResult.html#setTreeSelector(org.nineml.coffeegrinder.trees.TreeSelector)">GearleyResult</a></code></span></div>
-<div class="block">Set the tree selector to be used when walking the forest.</div>
+<h4>getArborist</h4>
+<pre class="methodSignature">public&nbsp;<a href="../trees/Arborist.html" title="class in org.nineml.coffeegrinder.trees">Arborist</a>&nbsp;getArborist&#8203;(<a href="../trees/Axe.html" title="interface in org.nineml.coffeegrinder.trees">Axe</a>&nbsp;axe)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../parser/GearleyResult.html#getArborist(org.nineml.coffeegrinder.trees.Axe)">GearleyResult</a></code></span></div>
+<div class="block">Get an arborist to extract trees from the forest.
+ <p>The arborist is created with <a href="../trees/Arborist.html#getArborist(org.nineml.coffeegrinder.parser.ParseForest,org.nineml.coffeegrinder.trees.Axe)"><code>Arborist.getArborist(ParseForest, Axe)</code></a>.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../parser/GearleyResult.html#setTreeSelector(org.nineml.coffeegrinder.trees.TreeSelector)">setTreeSelector</a></code>&nbsp;in interface&nbsp;<code><a href="../parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+<dd><code><a href="../parser/GearleyResult.html#getArborist(org.nineml.coffeegrinder.trees.Axe)">getArborist</a></code>&nbsp;in interface&nbsp;<code><a href="../parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>selector</code> - The tree selector to use.</dd>
-</dl>
-</li>
-</ul>
-<a id="getTree()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getTree</h4>
-<pre class="methodSignature">public&nbsp;<a href="../trees/ParseTree.html" title="class in org.nineml.coffeegrinder.trees">ParseTree</a>&nbsp;getTree()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../parser/GearleyResult.html#getTree()">GearleyResult</a></code></span></div>
-<div class="block">Return the (next) parse tree.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../parser/GearleyResult.html#getTree()">getTree</a></code>&nbsp;in interface&nbsp;<code><a href="../parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
+<dd><code>axe</code> - the arborists axe</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>The tree.</dd>
-</dl>
-</li>
-</ul>
-<a id="getTree(org.nineml.coffeegrinder.trees.TreeBuilder)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getTree</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;getTree&#8203;(<a href="../trees/TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a>&nbsp;builder)</pre>
-<div class="block">Get a tree.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../parser/GearleyResult.html#getTree(org.nineml.coffeegrinder.trees.TreeBuilder)">getTree</a></code>&nbsp;in interface&nbsp;<code><a href="../parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>builder</code> - The tree builder to use.</dd>
-</dl>
-</li>
-</ul>
-<a id="lastSelectedNodes()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>lastSelectedNodes</h4>
-<pre class="methodSignature">public&nbsp;java.util.Set&lt;java.lang.Integer&gt;&nbsp;lastSelectedNodes()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../parser/GearleyResult.html#lastSelectedNodes()">GearleyResult</a></code></span></div>
-<div class="block">Returns the set of (ids of) the nodes selected in the last tree returned.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../parser/GearleyResult.html#lastSelectedNodes()">lastSelectedNodes</a></code>&nbsp;in interface&nbsp;<code><a href="../parser/GearleyResult.html" title="interface in org.nineml.coffeegrinder.parser">GearleyResult</a></code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>THe set of node ids.</dd>
+<dd>the arborist</dd>
 </dl>
 </li>
 </ul>

@@ -196,7 +196,9 @@ implements <a href="TreeBuilder.html" title="interface in org.nineml.coffeegrind
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#endTree(boolean)">endTree</a></span>&#8203;(boolean&nbsp;madeAmbiguousChoice)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#endTree(boolean,boolean,boolean)">endTree</a></span>&#8203;(boolean&nbsp;ambiguous,
+       boolean&nbsp;absolutelyAmbiguous,
+       boolean&nbsp;infinitelyAmbiguous)</code></th>
 <td class="colLast">
 <div class="block">Called last, when construction finishes.</div>
 </td>
@@ -218,8 +220,7 @@ implements <a href="TreeBuilder.html" title="interface in org.nineml.coffeegrind
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#startTree(boolean,boolean)">startTree</a></span>&#8203;(boolean&nbsp;ambiguous,
-         boolean&nbsp;infinitelyAmbiguous)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#startTree()">startTree</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Called first, when construction begins.</div>
 </td>
@@ -295,40 +296,39 @@ implements <a href="TreeBuilder.html" title="interface in org.nineml.coffeegrind
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getTree()</pre>
 </li>
 </ul>
-<a id="startTree(boolean,boolean)">
+<a id="startTree()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>startTree</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;startTree&#8203;(boolean&nbsp;ambiguous,
-                      boolean&nbsp;infinitelyAmbiguous)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TreeBuilder.html#startTree(boolean,boolean)">TreeBuilder</a></code></span></div>
+<pre class="methodSignature">public&nbsp;void&nbsp;startTree()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TreeBuilder.html#startTree()">TreeBuilder</a></code></span></div>
 <div class="block">Called first, when construction begins.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="TreeBuilder.html#startTree(boolean,boolean)">startTree</a></code>&nbsp;in interface&nbsp;<code><a href="TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a></code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>ambiguous</code> - is the parse ambiguous?</dd>
-<dd><code>infinitelyAmbiguous</code> - Is the parse infinitely ambiguous?</dd>
+<dd><code><a href="TreeBuilder.html#startTree()">startTree</a></code>&nbsp;in interface&nbsp;<code><a href="TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a></code></dd>
 </dl>
 </li>
 </ul>
-<a id="endTree(boolean)">
+<a id="endTree(boolean,boolean,boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>endTree</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;endTree&#8203;(boolean&nbsp;madeAmbiguousChoice)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TreeBuilder.html#endTree(boolean)">TreeBuilder</a></code></span></div>
+<pre class="methodSignature">public&nbsp;void&nbsp;endTree&#8203;(boolean&nbsp;ambiguous,
+                    boolean&nbsp;absolutelyAmbiguous,
+                    boolean&nbsp;infinitelyAmbiguous)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="TreeBuilder.html#endTree(boolean,boolean,boolean)">TreeBuilder</a></code></span></div>
 <div class="block">Called last, when construction finishes.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="TreeBuilder.html#endTree(boolean)">endTree</a></code>&nbsp;in interface&nbsp;<code><a href="TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a></code></dd>
+<dd><code><a href="TreeBuilder.html#endTree(boolean,boolean,boolean)">endTree</a></code>&nbsp;in interface&nbsp;<code><a href="TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>madeAmbiguousChoice</code> - is true if the tree selector reported that it made an arbitrary choice
-                            to resolve an ambiguous parse.</dd>
+<dd><code>ambiguous</code> - was the parse ambiguous?</dd>
+<dd><code>absolutelyAmbiguous</code> - is the graph ambiguous?</dd>
+<dd><code>infinitelyAmbiguous</code> - is the graph infinitely ambiguous?</dd>
 </dl>
 </li>
 </ul>

@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":9};
+var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -224,16 +224,33 @@ extends <a href="CoffeeGrinderException.html" title="class in org.nineml.coffeeg
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invalidChoiceSelected()">invalidChoiceSelected</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Raised if a <a href="../trees/Axe.html#select(org.nineml.coffeegrinder.trees.ParseTree,org.nineml.coffeegrinder.parser.ForestNode,int,java.util.List)"><code>Axe.select(org.nineml.coffeegrinder.trees.ParseTree, org.nineml.coffeegrinder.parser.ForestNode, int, java.util.List&lt;org.nineml.coffeegrinder.parser.Family&gt;)</code></a> function returns an
+ any elements not taken from the list of choices offered or any duplicates in the list of
+ potential future choices.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>static <a href="TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#noChoiceSelected()">noChoiceSelected</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Raised if a <a href="../trees/Axe.html#select(org.nineml.coffeegrinder.trees.ParseTree,org.nineml.coffeegrinder.parser.ForestNode,int,java.util.List)"><code>Axe.select(org.nineml.coffeegrinder.trees.ParseTree, org.nineml.coffeegrinder.parser.ForestNode, int, java.util.List&lt;org.nineml.coffeegrinder.parser.Family&gt;)</code></a> function returns an
+ empty list.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>static <a href="TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#noMoreTrees()">noMoreTrees</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Raised if an attempt is made to walk a tree when there are no more trees.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static <a href="TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#noTreesSelected()">noTreesSelected</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#noTrees()">noTrees</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Raised if an attempt is made to walk a tree when none has been selected.</div>
+<div class="block">Raised if an attempt is made to walk a tree when there are no trees.</div>
 </td>
 </tr>
 </table>
@@ -318,14 +335,15 @@ extends <a href="CoffeeGrinderException.html" title="class in org.nineml.coffeeg
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="noTreesSelected()">
+<a id="noChoiceSelected()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>noTreesSelected</h4>
-<pre class="methodSignature">public static&nbsp;<a href="TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a>&nbsp;noTreesSelected()</pre>
-<div class="block">Raised if an attempt is made to walk a tree when none has been selected.</div>
+<h4>noChoiceSelected</h4>
+<pre class="methodSignature">public static&nbsp;<a href="TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a>&nbsp;noChoiceSelected()</pre>
+<div class="block">Raised if a <a href="../trees/Axe.html#select(org.nineml.coffeegrinder.trees.ParseTree,org.nineml.coffeegrinder.parser.ForestNode,int,java.util.List)"><code>Axe.select(org.nineml.coffeegrinder.trees.ParseTree, org.nineml.coffeegrinder.parser.ForestNode, int, java.util.List&lt;org.nineml.coffeegrinder.parser.Family&gt;)</code></a> function returns an
+ empty list.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a TreeWalkerException</dd>
@@ -349,11 +367,41 @@ extends <a href="CoffeeGrinderException.html" title="class in org.nineml.coffeeg
 <a id="internalError()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>internalError</h4>
 <pre class="methodSignature">public static&nbsp;<a href="TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a>&nbsp;internalError()</pre>
 <div class="block">Raised if an internal error occurs.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a TreeWalkerException</dd>
+</dl>
+</li>
+</ul>
+<a id="invalidChoiceSelected()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>invalidChoiceSelected</h4>
+<pre class="methodSignature">public static&nbsp;<a href="TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a>&nbsp;invalidChoiceSelected()</pre>
+<div class="block">Raised if a <a href="../trees/Axe.html#select(org.nineml.coffeegrinder.trees.ParseTree,org.nineml.coffeegrinder.parser.ForestNode,int,java.util.List)"><code>Axe.select(org.nineml.coffeegrinder.trees.ParseTree, org.nineml.coffeegrinder.parser.ForestNode, int, java.util.List&lt;org.nineml.coffeegrinder.parser.Family&gt;)</code></a> function returns an
+ any elements not taken from the list of choices offered or any duplicates in the list of
+ potential future choices.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a TreeWalkerException</dd>
+</dl>
+</li>
+</ul>
+<a id="noTrees()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>noTrees</h4>
+<pre class="methodSignature">public static&nbsp;<a href="TreeWalkerException.html" title="class in org.nineml.coffeegrinder.exceptions">TreeWalkerException</a>&nbsp;noTrees()</pre>
+<div class="block">Raised if an attempt is made to walk a tree when there are no trees. (The parse failed.)</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a TreeWalkerException</dd>

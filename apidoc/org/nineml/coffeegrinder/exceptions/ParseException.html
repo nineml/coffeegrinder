@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9};
+var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -224,26 +224,33 @@ extends <a href="CoffeeGrinderException.html" title="class in org.nineml.coffeeg
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#attemptToContinueWithIncompatibleParser()">attemptToContinueWithIncompatibleParser</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Raised if an attempt is made to continue with an incompatible parser.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>static <a href="ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#internalError(java.lang.String)">internalError</a></span>&#8203;(java.lang.String&nbsp;reason)</code></th>
 <td class="colLast">
 <div class="block">Raised if an internal error occurs.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>static <a href="ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invalidInputForGLL()">invalidInputForGLL</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Raised if an attempt is made to parse an invalid input.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static <a href="ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#invalidInputForRegex()">invalidInputForRegex</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Raised if an attempt is made to parse an invalid input.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static <a href="ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#seedNotInGrammar(java.lang.String)">seedNotInGrammar</a></span>&#8203;(java.lang.String&nbsp;seed)</code></th>
 <td class="colLast">
@@ -398,13 +405,27 @@ extends <a href="CoffeeGrinderException.html" title="class in org.nineml.coffeeg
 <a id="invalidInputForRegex()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>invalidInputForRegex</h4>
 <pre class="methodSignature">public static&nbsp;<a href="ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a>&nbsp;invalidInputForRegex()</pre>
 <div class="block">Raised if an attempt is made to parse an invalid input.
 
  <p>Regular expressions are only supported over a sequence of tokens.</p></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a ParseException</dd>
+</dl>
+</li>
+</ul>
+<a id="attemptToContinueWithIncompatibleParser()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>attemptToContinueWithIncompatibleParser</h4>
+<pre class="methodSignature">public static&nbsp;<a href="ParseException.html" title="class in org.nineml.coffeegrinder.exceptions">ParseException</a>&nbsp;attemptToContinueWithIncompatibleParser()</pre>
+<div class="block">Raised if an attempt is made to continue with an incompatible parser.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a ParseException</dd>
