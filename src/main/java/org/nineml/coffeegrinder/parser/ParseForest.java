@@ -1,8 +1,7 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.exceptions.ForestException;
-import org.nineml.coffeegrinder.trees.SequentialTreeSelector;
-import org.nineml.coffeegrinder.trees.TreeSelector;
+import org.nineml.coffeegrinder.trees.*;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 import org.nineml.coffeegrinder.util.StopWatch;
 
@@ -37,14 +36,6 @@ public class ParseForest {
 
     public ParseForest(ParserOptions options) {
         this.options = options;
-    }
-
-    public ForestWalker getWalker() {
-        return getWalker(new SequentialTreeSelector());
-    }
-
-    public ForestWalker getWalker(TreeSelector treeSelector) {
-        return new ForestWalker(this, treeSelector);
     }
 
     /**

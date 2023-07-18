@@ -3,6 +3,7 @@ package org.nineml.coffeegrinder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.nineml.coffeegrinder.parser.*;
+import org.nineml.coffeegrinder.trees.Arborist;
 import org.nineml.coffeegrinder.trees.StringTreeBuilder;
 import org.nineml.coffeegrinder.util.Iterators;
 import org.nineml.coffeegrinder.util.ParserAttribute;
@@ -103,8 +104,8 @@ public class TreeTest {
         Assertions.assertEquals(1, result.getForest().getParseTreeCount());
 
         StringTreeBuilder builder = new StringTreeBuilder();
-        ForestWalker xxx = result.getForest().getWalker();
-        xxx.getNextTree(builder);
+        Arborist xxx = Arborist.getArborist(result.getForest());
+        xxx.getTree(builder);
         //System.err.println(builder.getTree());
     }
 

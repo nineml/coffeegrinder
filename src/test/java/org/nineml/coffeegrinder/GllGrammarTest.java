@@ -8,8 +8,7 @@ import org.nineml.coffeegrinder.tokens.CharacterSet;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.tokens.TokenCharacterSet;
 import org.nineml.coffeegrinder.tokens.TokenRegex;
-import org.nineml.coffeegrinder.trees.ParseTree;
-import org.nineml.coffeegrinder.trees.ParseTreeBuilder;
+import org.nineml.coffeegrinder.trees.*;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 
 import java.io.BufferedReader;
@@ -236,7 +235,8 @@ public class GllGrammarTest extends CoffeeGrinderTest {
         GearleyResult result = parser.parse("aab");
 
         grammar.getParserOptions().getLogger().setDefaultLogLevel(99);
-        ParseTree tree = result.getTree();
+        StringTreeBuilder builder = new StringTreeBuilder();
+        result.getArborist().getTree(builder);
 
         Assertions.assertTrue(result.succeeded());
     }
@@ -470,13 +470,14 @@ public class GllGrammarTest extends CoffeeGrinderTest {
 
         Assertions.assertTrue(result.succeeded());
 
-        ParseTreeBuilder builder = new ParseTreeBuilder();
-        result.getForest().getWalker().getNextTree(builder);
-        ParseTree tree = builder.getTree();
+        Arborist walker = Arborist.getArborist(result.getForest());
+        GenericTreeBuilder builder = new GenericTreeBuilder();
+        walker.getTree(builder);
+        GenericTree tree = builder.getTree();
 
-        ParseTree s_insertion = tree.getChildren().get(1);
+        GenericBranch s_insertion = (GenericBranch) tree.getChildren().get(1);
 
-        Assertions.assertEquals(s_insertion.getSymbol(), grammar.getNonterminal("INSERTION"));
+        Assertions.assertEquals(s_insertion.symbol, grammar.getNonterminal("INSERTION"));
         Assertions.assertEquals("text", s_insertion.getAttribute("insert", "failed"));
     }
 

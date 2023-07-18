@@ -9,11 +9,51 @@
 
 <revhistory>
 <revision>
-<revnumber>3.0.0e</revnumber>
-<date>2023-07-12</date>
+<revnumber>3.0.0f</revnumber>
+<date>2023-07-18</date>
 <revdescription>
 <para>This is a beta release for version 3.0.0. There are a lot of
 changes in this release and many of them impact the public APIs.</para>
+<orderedlist>
+<listitem><para>Another complete refactor of tree walking. With new
+metaphors this time. There are no more tree selectors or
+<classname>ForestWalker</classname>s, instead we have
+<classname>Arborist</classname>s, either
+<classname>org.nineml.coffeegrinder.trees.Lumberjack</classname>s or
+<classname>TreeSurgeon</classname>s, armed with
+<classname>Axe</classname>s. The idea is that a
+<classname>Lumberjack</classname> clears a forest. The lumberjack
+walks through the forest sequentially returning all of the applicable
+trees. For example, armed with a <classname>SequentialAxe</classname>,
+the lumberjack returns all the trees. Armed with a
+<classname>PriorityAxe</classname>, the lumberjack returns the highest
+priority tree(s). A <classname>TreeSurgeon</classname>, on the other
+hand, extracts specific trees with no attempt to be sequential. The
+<classname>RandomAxe</classname>, for example, just makes random
+choices until a tree is found.</para>
+<para>In the best case, where the parse is unambiguous, none of this matters, there is only
+one tree in the forest and it doesn’t matter who attempts to get it or how.</para>
+</listitem>
+<listitem><para>Presented with an infinitely ambiguous forest (one where the graph contains one
+or more loops), the lumberjack will return an unbounded number of trees.</para>
+</listitem>
+<listitem>
+<para>When the prefix parsing feature is enabled, it is now possible to resume parsing
+with a different parser.</para>
+</listitem>
+<listitem>
+<para>The <classname>ParseTree</classname> has been renamed <classname>GenericTree</classname> and
+refactored a bit. The <emphasis>new</emphasis> <classname>ParseTree</classname> class is only
+used during the search for a tree.</para>
+</listitem>
+</orderedlist>
+</revdescription>
+</revision>
+
+<revision>
+<revnumber>3.0.0e</revnumber>
+<date>2023-07-12</date>
+<revdescription>
 <orderedlist>
 <listitem><para>Provide tree selectors with all the paths, even those that
 are loops. The looping paths are always “other choices”.</para>
@@ -29,7 +69,6 @@ unambiguously made the same choice from all the available choices.)</para>
 </orderedlist>
 </revdescription>
 </revision>
-
 <revision>
 <revnumber>3.0.0d</revnumber>
 <date>2023-07-11</date>

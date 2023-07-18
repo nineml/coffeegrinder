@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.TokenRegex;
+import org.nineml.coffeegrinder.trees.Arborist;
 import org.nineml.coffeegrinder.trees.StringTreeBuilder;
 
 public class RegexTest extends CoffeeGrinderTest {
@@ -39,7 +40,7 @@ public class RegexTest extends CoffeeGrinderTest {
         Assertions.assertTrue(result.succeeded());
 
         StringTreeBuilder builder = new StringTreeBuilder();
-        result.getTree(builder);
+        result.getArborist().getTree(builder);
         Assertions.assertEquals("<S><A>a</A><B><X>b</X></B><A>a</A></S>", builder.getTree());
     }
 
@@ -71,7 +72,7 @@ public class RegexTest extends CoffeeGrinderTest {
         Assertions.assertTrue(result.succeeded());
 
         StringTreeBuilder builder = new StringTreeBuilder();
-        result.getTree(builder);
+        result.getArborist().getTree(builder);
         Assertions.assertEquals("<S><A>a</A><D>012333</D><A>a</A></S>", builder.getTree());
     }
 
@@ -108,7 +109,7 @@ public class RegexTest extends CoffeeGrinderTest {
         GearleyResult result = parser.parse(input);
         Assertions.assertEquals(1, result.getForest().getParseTreeCount());
         StringTreeBuilder builder = new StringTreeBuilder();
-        result.getTree(builder);
+        result.getArborist().getTree(builder);
         Assertions.assertEquals("<S><A>a</A><digits><D>0</D><digits><D>2</D><digits><D>4</D><digits><D>6</D><digits><D>8</D></digits></digits></digits></digits></digits><A>a</A></S>", builder.getTree());
     }
 
@@ -141,7 +142,7 @@ public class RegexTest extends CoffeeGrinderTest {
         Assertions.assertTrue(result.succeeded());
 
         StringTreeBuilder builder = new StringTreeBuilder();
-        result.getTree(builder);
+        result.getArborist().getTree(builder);
         Assertions.assertEquals("<S>a<L>bcd...wxy</L>z</S>", builder.getTree());
     }
 
@@ -174,7 +175,7 @@ public class RegexTest extends CoffeeGrinderTest {
         Assertions.assertTrue(result.succeeded());
 
         StringTreeBuilder builder = new StringTreeBuilder();
-        result.getTree(builder);
+        result.getArborist().getTree(builder);
         Assertions.assertEquals("<S>a<L>X</L>z</S>", builder.getTree());
     }
 
@@ -220,7 +221,7 @@ public class RegexTest extends CoffeeGrinderTest {
         GearleyParser parser = grammar.getParser(options, _file);
         GearleyResult result = parser.parse(input);
         StringTreeBuilder builder = new StringTreeBuilder();
-        result.getTree(builder);
+        result.getArborist().getTree(builder);
         //System.err.println(builder.getTree());
         Assertions.assertEquals("<file><lines><line><linea><chars>abc</chars>;<nl>\n" +
                 "</nl></linea></line><lines><line><lineb><chars>def</chars>:<nl>\n" +
@@ -258,7 +259,7 @@ public class RegexTest extends CoffeeGrinderTest {
         Assertions.assertTrue(result.succeeded());
 
         StringTreeBuilder builder = new StringTreeBuilder();
-        result.getTree(builder);
+        result.getArborist().getTree(builder);
         Assertions.assertEquals("<S><A>a</A><D></D><A>a</A></S>", builder.getTree());
     }
 
@@ -292,7 +293,7 @@ public class RegexTest extends CoffeeGrinderTest {
         Assertions.assertTrue(result.succeeded());
 
         StringTreeBuilder builder = new StringTreeBuilder();
-        result.getTree(builder);
+        result.getArborist().getTree(builder);
         Assertions.assertEquals("<S><A>a</A><D>123</D><A>a</A></S>", builder.getTree());
     }
 
@@ -332,7 +333,8 @@ public class RegexTest extends CoffeeGrinderTest {
         Assertions.assertTrue(result.succeeded());
 
         StringTreeBuilder builder = new StringTreeBuilder();
-        result.getTree(builder);
+        Arborist walker = result.getArborist();
+        walker.getTree(builder);
 
         Assertions.assertEquals(2, result.getForest().getParseTreeCount());
 
@@ -342,7 +344,7 @@ public class RegexTest extends CoffeeGrinderTest {
                 || "<S><A>a</A><D><D2>246</D2></D><A>a</A></S>".equals(xml1));
 
         builder = new StringTreeBuilder();
-        result.getTree(builder);
+        walker.getTree(builder);
         String xml2 = builder.getTree();
 
         Assertions.assertTrue("<S><A>a</A><D><D1>246</D1></D><A>a</A></S>".equals(xml2)
@@ -382,7 +384,7 @@ public class RegexTest extends CoffeeGrinderTest {
         Assertions.assertTrue(result.succeeded());
 
         StringTreeBuilder builder = new StringTreeBuilder();
-        result.getTree(builder);
+        result.getArborist().getTree(builder);
 
         Assertions.assertEquals(1, result.getForest().getParseTreeCount());
         String xml = builder.getTree();

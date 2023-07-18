@@ -50,4 +50,12 @@ public class ForestException extends CoffeeGrinderException {
      * @return A ForestException
      */
     public static ForestException noSuchNode(String node) { return getException("F002", node); }
+
+    /**
+     * A cannot-add-child exception.
+     * <p>This is an internal error.</p>
+     * @param node The node.
+     * @return A ForestException
+     */
+    public static ForestException cannotAddChild(String node) { return getException("F003", node); }
 }

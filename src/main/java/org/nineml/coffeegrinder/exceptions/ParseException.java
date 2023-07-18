@@ -78,4 +78,12 @@ public class ParseException extends CoffeeGrinderException {
      * @return a ParseException
      */
     public static ParseException invalidInputForRegex() { return getException("P005"); }
+
+    /**
+     * Raised if an attempt is made to continue with an incompatible parser.
+     * @return a ParseException
+     */
+    public static ParseException attemptToContinueWithIncompatibleParser() { return getException("P006"); }
+
+
 }

@@ -1,9 +1,7 @@
 package org.nineml.coffeegrinder.parser;
 
 import org.nineml.coffeegrinder.tokens.Token;
-import org.nineml.coffeegrinder.trees.ParseTree;
-import org.nineml.coffeegrinder.trees.TreeBuilder;
-import org.nineml.coffeegrinder.trees.TreeSelector;
+import org.nineml.coffeegrinder.trees.*;
 
 import java.util.Set;
 
@@ -42,6 +40,13 @@ public interface GearleyResult {
      */
     GearleyResult continueParsing();
 
+    /** After a successful prefix parse, this method continues parsing with a new parser.
+     *
+     * @param parser The (next) parser.
+     * @return The (next) parse result.
+     */
+    GearleyResult continueParsing(GearleyParser parser);
+
     /** Return the parse forest created by the parser.
      * <p>This method returns <code>null</code> if the parse was unsuccessful.</p>
      *
@@ -49,35 +54,18 @@ public interface GearleyResult {
      */
     ParseForest getForest();
 
-    /** Returns true if there are more trees that can be returned.
-     * <p>This arises in the case of ambiguous parses.</p>
-     *
-     * @return true if there are more trees.
+    /** Get an arborist to extract trees from the forest.
+     * <p>The default arborist is created with {@link Arborist#getArborist(ParseForest)}.</p>
+     * @return the arborist
      */
-    boolean hasMoreTrees();
+    Arborist getArborist();
 
-    /** Set the tree selector to be used when walking the forest.
-     * @param selector The tree selector to use.
+    /** Get an arborist to extract trees from the forest.
+     * <p>The arborist is created with {@link Arborist#getArborist(ParseForest, Axe)}.</p>
+     * @param axe the arborists axe
+     * @return the arborist
      */
-    void setTreeSelector(TreeSelector selector);
-
-    /** Return the (next) parse tree.
-     *
-     * @return The tree.
-     */
-    ParseTree getTree();
-
-    /** Return the (next) parse tree using the specified builder.
-     *
-     * @param builder The tree builder to use.
-     */
-    void getTree(TreeBuilder builder);
-
-    /** Returns the set of (ids of) the nodes selected in the last tree returned.
-     *
-     * @return THe set of node ids.
-     */
-    Set<Integer> lastSelectedNodes();
+    Arborist getArborist(Axe axe);
 
     /** Returns true if the parse was ambiguous.
      *

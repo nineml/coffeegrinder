@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.nineml.coffeegrinder.parser.*;
 import org.nineml.coffeegrinder.tokens.CharacterSet;
 import org.nineml.coffeegrinder.tokens.TokenCharacterSet;
+import org.nineml.coffeegrinder.trees.Arborist;
 import org.nineml.coffeegrinder.trees.NopTreeBuilder;
 import org.nineml.coffeegrinder.util.GrammarParser;
 import org.nineml.coffeegrinder.util.ParserAttribute;
@@ -66,7 +67,8 @@ public class ReadmeExampleTests {
         GearleyResult result = parser.parse("07f");
         Assertions.assertTrue(result.succeeded());
 
-        result.getTree(new NopTreeBuilder());
+        Arborist walker = result.getArborist();
+        walker.getTree(new NopTreeBuilder());
     }
 
     @Test
@@ -77,7 +79,8 @@ public class ReadmeExampleTests {
         GearleyResult result = parser.parse("fab");
         Assertions.assertTrue(result.succeeded());
 
-        result.getTree(new NopTreeBuilder());
+        Arborist walker = result.getArborist();
+        walker.getTree(new NopTreeBuilder());
     }
 
     @Test

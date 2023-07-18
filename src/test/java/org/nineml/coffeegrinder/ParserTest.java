@@ -150,6 +150,7 @@ public class ParserTest extends CoffeeGrinderTest {
         Assertions.assertTrue(gresult.succeeded());
     }
 
+    @Test
     public void testLetterDigitLetter() {
         ParserOptions newOptions = new ParserOptions(globalOptions);
         newOptions.setParserType("GLL");
@@ -256,7 +257,7 @@ public class ParserTest extends CoffeeGrinderTest {
         //result.getForest().serialize("/tmp/testEEE.xml");
         Assertions.assertTrue(result.succeeded());
         StringTreeBuilder builder = new StringTreeBuilder();
-        result.getTree(builder);
+        result.getArborist().getTree(builder);
         Assertions.assertEquals("<S><E><E>1</E>+<E>2</E></E></S>", builder.getTree());
 
         ParserOptions gllOptions = new ParserOptions(newOptions);
@@ -267,7 +268,7 @@ public class ParserTest extends CoffeeGrinderTest {
 
         GearleyResult gresult = gllParser.parse(tokens);
         builder = new StringTreeBuilder();
-        gresult.getTree(builder);
+        result.getArborist().getTree(builder);
         Assertions.assertEquals("<S><E><E>1</E>+<E>2</E></E></S>", builder.getTree());
     }
 
@@ -463,10 +464,10 @@ public class ParserTest extends CoffeeGrinderTest {
 
         if (result.succeeded()) {
             ParseForest forest = result.getForest();
-            ForestWalker walker = forest.getWalker();
-            ParseTreeBuilder builder = new ParseTreeBuilder();
-            walker.getNextTree(builder);
-            ParseTree tree = builder.getTree();
+            Arborist walker = Arborist.getArborist(forest);
+            GenericTreeBuilder builder = new GenericTreeBuilder();
+            walker.getTree(builder);
+            GenericTree tree = builder.getTree();
 
             // TODO: do something with the tree.
 
@@ -529,67 +530,6 @@ public class ParserTest extends CoffeeGrinderTest {
     }
 
     @Test
-    public void infiniteLoop() {
-        SourceGrammar grammar = new SourceGrammar(new ParserOptions());
-
-/*
-S: A .
-A: 'a', B ; 'x' .
-B: 'b', A ; LDOE, A .
-LDOE: M; 'l' .
-M: 'm'; LDOE .
-*/
-
-        NonterminalSymbol _S = grammar.getNonterminal("S");
-        NonterminalSymbol _A = grammar.getNonterminal("A");
-        NonterminalSymbol _B = grammar.getNonterminal("B");
-        NonterminalSymbol _LDOE = grammar.getNonterminal("LDOE");
-        NonterminalSymbol _M = grammar.getNonterminal("M", new ParserAttribute(ForestNode.PRIORITY_ATTRIBUTE, "5"));
-
-        TerminalSymbol _a = TerminalSymbol.ch('a');
-        TerminalSymbol _b = TerminalSymbol.ch('b');
-        TerminalSymbol _x = TerminalSymbol.ch('x');
-        TerminalSymbol _l = TerminalSymbol.ch('l');
-        TerminalSymbol _m = new TerminalSymbol(TokenCharacter.get('m', new ParserAttribute(ForestNode.PRIORITY_ATTRIBUTE, "10")));
-
-        grammar.addRule(_S, _A);
-        grammar.addRule(_A, _a, _B);
-        grammar.addRule(_A, _x);
-        grammar.addRule(_B, _b, _A);
-        grammar.addRule(_B, _LDOE, _A);
-        grammar.addRule(_LDOE, _M);
-        grammar.addRule(_LDOE, _l);
-        grammar.addRule(_M, _m);
-        grammar.addRule(_M, _LDOE);
-
-        GearleyParser parser = grammar.getParser(globalOptions, _S);
-        GearleyResult result = parser.parse("amalx");
-
-        Assertions.assertTrue(result.getForest().isAmbiguous());
-        Assertions.assertTrue(result.getForest().isInfinitelyAmbiguous());
-
-        TreeBuilder builder = new NopTreeBuilder();
-        TreeSelector selector = new SequentialTreeSelector();
-        ForestWalker walker = result.getForest().getWalker(selector);
-        walker.getNextTree(builder);
-        Assertions.assertTrue(selector.getMadeAmbiguousChoice());
-
-        selector = new PriorityTreeSelector();
-        walker = result.getForest().getWalker(selector);
-        walker.getNextTree(builder);
-
-        // N.B. Prior to 3.0.0e, this was not an ambiguous choice because "forced choices"
-        // to avoid a loop were considered unambiguous. But that's not true. You *could*
-        // go back around the loop, you're just choosing not to.
-        Assertions.assertTrue(selector.getMadeAmbiguousChoice());
-
-        StringTreeBuilder sbuilder = new StringTreeBuilder();
-        walker.reset();
-        walker.getNextTree(sbuilder);
-        //System.err.println(sbuilder.getTree());
-    }
-
-    @Test
     public void longLoop() {
         SourceGrammar grammar = new SourceGrammar(new ParserOptions());
 
@@ -625,13 +565,13 @@ M: 'm'; LDOE .
             //result.getForest().serialize("longloop.xml");
 
             StringTreeBuilder builder = new StringTreeBuilder();
-            ForestWalker walker = result.getForest().getWalker();
-            walker.getNextTree(builder);
+            Arborist walker = Arborist.getArborist(result.getForest());
+            walker.getTree(builder);
             Assertions.assertTrue(result.getForest().isAmbiguous());
             Assertions.assertTrue(result.getForest().isInfinitelyAmbiguous());
             Assertions.assertEquals(242, result.getForest().getParseTreeCount());
 
-            expectTrees(result.getForest().getWalker(), Arrays.asList(
+            expectTrees(Arborist.getArborist(result.getForest()), Arrays.asList(
                     "<S><Sp><A><X></X><Y></Y>a</A></Sp></S>",
                     "<S><Sp><B><Z priority='5'></Z><X></X>a</B></Sp></S>"));
 

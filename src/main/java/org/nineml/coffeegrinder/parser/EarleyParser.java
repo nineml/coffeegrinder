@@ -565,8 +565,13 @@ public class EarleyParser implements GearleyParser {
         return result;
     }
 
-    protected EarleyResult continueParsing(EarleyParser parser) {
+    protected EarleyResult continueParsing(GearleyParser newParser) {
+        if (!(newParser instanceof EarleyParser)) {
+            throw new UnsupportedOperationException("Cannot continue parsing with a GLL parser");
+        }
+        EarleyParser parser = (EarleyParser) newParser;
         parser.input = input;
+        parser.stringInput = stringInput;
         return parser.parseInput(restartPos);
     }
 

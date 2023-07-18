@@ -11,20 +11,26 @@ import java.util.Map;
  */
 public class PrintStreamTreeBuilder implements TreeBuilder {
     protected final PrintStream stream;
+    protected final boolean addTrailingNewline;
     private boolean trailingnl = false;
 
     public PrintStreamTreeBuilder(PrintStream stream) {
+        this(stream, true);
+    }
+
+    public PrintStreamTreeBuilder(PrintStream stream, boolean addTrailingNewline) {
         this.stream = stream;
+        this.addTrailingNewline = addTrailingNewline;
     }
 
     @Override
-    public void startTree(boolean ambiguous, boolean infinitelyAmbiguous) {
+    public void startTree() {
         // nop
     }
 
     @Override
-    public void endTree(boolean madeAmbiguousChoice) {
-        if (!trailingnl) {
+    public void endTree(boolean ambiguous, boolean absolutelyAmbiguous, boolean infinitelyAmbiguous) {
+        if (!trailingnl && addTrailingNewline) {
             stream.println();
         }
     }
