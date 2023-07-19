@@ -25,8 +25,8 @@ public class ParserGrammar extends Grammar {
     private final NonterminalSymbol seed;
     private final HashSet<Symbol> nullable;
     private final ParserOptions options;
-    private final HashMap<NonterminalSymbol, HashSet<Symbol>> firstSets = new HashMap<>();
-    private final HashMap<NonterminalSymbol, HashSet<Symbol>> followSets = new HashMap<>();
+    private final HashMap<NonterminalSymbol, Set<Symbol>> firstSets = new HashMap<>();
+    private final HashMap<NonterminalSymbol, Set<Symbol>> followSets = new HashMap<>();
     private boolean computedSets = false;
 
     protected ParserGrammar(SourceGrammar grammar, ParserType parserType, NonterminalSymbol seed) {
@@ -140,31 +140,26 @@ public class ParserGrammar extends Grammar {
     public Set<Symbol> getFirst(Symbol symbol) {
         computeFirstAndFollowSets();
 
-        final HashSet<Symbol> firstSet;
-        if (symbol instanceof NonterminalSymbol && firstSets.containsKey(symbol)) {
-            firstSet = firstSets.get(symbol);
+        if (symbol instanceof NonterminalSymbol) {
+            if (firstSets.containsKey(symbol)) {
+                return firstSets.get(symbol);
+            }
+            return Collections.emptySet();
         } else {
-            firstSet = new HashSet<>();
-        }
-
-        if (!(symbol instanceof NonterminalSymbol)) {
+            Set<Symbol> firstSet = new HashSet<>();
             firstSet.add(symbol);
+            return firstSet;
         }
-
-        return firstSet;
     }
 
     public Set<Symbol> getFollow(Symbol symbol) {
         computeFirstAndFollowSets();
 
-        final HashSet<Symbol> followSet;
         if (symbol instanceof NonterminalSymbol && followSets.containsKey(symbol)) {
-            followSet = followSets.get(symbol);
-        } else {
-            followSet = new HashSet<>();
+            return followSets.get(symbol);
         }
 
-        return followSet;
+        return Collections.emptySet();
     }
 
     private void computeFirstAndFollowSets() {
@@ -190,7 +185,7 @@ public class ParserGrammar extends Grammar {
                 firstSets.get(rule.symbol).add(TerminalSymbol.EPSILON);
             }
 
-            HashSet<Symbol> first = firstSets.get(rule.symbol);
+            Set<Symbol> first = firstSets.get(rule.symbol);
             for (Symbol symbol : rule.rhs.symbols) {
                 first.add(symbol);
                 if (!nullable.contains(symbol)) {
@@ -221,7 +216,7 @@ public class ParserGrammar extends Grammar {
                     NonterminalSymbol nt = (NonterminalSymbol) symbol;
                     // N.B. In an unhygienic grammar where there are undefined symbols,
                     // the followSet can be null.
-                    HashSet<Symbol> followSet = followSets.get(nt);
+                    Set<Symbol> followSet = followSets.get(nt);
                     if (followSet == null) {
                         followSet = new HashSet<>();
                         followSet.add(rule.symbol);

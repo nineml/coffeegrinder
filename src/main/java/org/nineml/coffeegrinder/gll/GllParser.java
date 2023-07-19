@@ -42,7 +42,6 @@ public class GllParser implements GearleyParser {
     private int c_I;
     private HashSet<Descriptor> U;
     private ArrayList<Descriptor> R;
-    private HashSet<PoppedNode> P;
     private HashMap<ClusterNode, ArrayList<CrfNode>> crf;
     private BinarySubtree bsr;
     private final List<Instruction> instructions;
@@ -156,7 +155,6 @@ public class GllParser implements GearleyParser {
 
         U = new HashSet<>();
         R = new ArrayList<>();
-        P = new HashSet<>();
         crf = new HashMap<>();
 
         crf.put(new ClusterNode(grammar.getSeed(), 0), new ArrayList<>());
@@ -231,6 +229,9 @@ public class GllParser implements GearleyParser {
 
         GllResult result = new GllResult(this, bsr);
         result.setParseTime(timer.duration());
+
+        //Instrumentation.report();
+
         return result;
     }
 
@@ -286,7 +287,7 @@ public class GllParser implements GearleyParser {
             List<CrfNode> v = crf.get(ndV);
             if (!edgeExists(v, u)) {
                 crf.get(ndV).add(u);
-                for (PoppedNode pnd : P) {
+                for (PoppedNode pnd : tokenInfo[j].P) {
                     if (X.equals(pnd.symbol) && j == pnd.k) {
                         dscAdd(L, i, pnd.j);
                         bsrAdd(L, i, j, pnd.j);
@@ -391,8 +392,8 @@ public class GllParser implements GearleyParser {
 
     protected void rtn(NonterminalSymbol X, int k, int j) {
         PoppedNode pn = new PoppedNode(X, k, j);
-        if (!P.contains(pn)) {
-            P.add(pn);
+        if (!tokenInfo[k].P.contains(pn)) {
+            tokenInfo[k].P.add(pn);
             ClusterNode Xk = getClusterNode(X, k);
             if (crf.containsKey(Xk)) {
                 for (CrfNode v : crf.get(Xk)) {
@@ -649,5 +650,7 @@ public class GllParser implements GearleyParser {
     private static class TokenInfo {
         public final HashMap<State, CrfNode> crfNodes = new HashMap<>();
         public final HashMap<NonterminalSymbol, ClusterNode> clusterNodes = new HashMap<>();
+        public final HashSet<PoppedNode> P = new HashSet<>();
+
     }
 }
