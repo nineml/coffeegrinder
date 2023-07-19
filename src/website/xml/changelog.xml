@@ -9,11 +9,22 @@
 
 <revhistory>
 <revision>
-<revnumber>3.0.0f</revnumber>
-<date>2023-07-18</date>
+<revnumber>3.0.0g</revnumber>
+<date>2023-07-19</date>
 <revdescription>
 <para>This is a beta release for version 3.0.0. There are a lot of
 changes in this release and many of them impact the public APIs.</para>
+<para>With an enormous debt of gratitude to 
+<link xlink:href="https://mastodon.social/@chriswhocodes">@chriswhocodes</link>,
+the performance of the GLL parser is <emphasis>much</emphasis>
+improved.</para>
+</revdescription>
+</revision>
+
+<revision>
+<revnumber>3.0.0f</revnumber>
+<date>2023-07-18</date>
+<revdescription>
 <orderedlist>
 <listitem><para>Another complete refactor of tree walking. With new
 metaphors this time. There are no more tree selectors or

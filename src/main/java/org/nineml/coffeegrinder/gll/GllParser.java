@@ -6,6 +6,7 @@ import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.tokens.TokenEOF;
 import org.nineml.coffeegrinder.tokens.TokenRegex;
+import org.nineml.coffeegrinder.util.Instrumentation;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 import org.nineml.coffeegrinder.util.StopWatch;
 import org.nineml.logging.Logger;
@@ -31,20 +32,18 @@ public class GllParser implements GearleyParser {
 
     public final ParserGrammar grammar;
     private final ArrayList<State> grammarSlots;
-    private final HashMap<Rule,List<State>> ruleSlots;
+    private final HashMap<Rule, List<State>> ruleSlots;
     private final HashMap<State, Integer> slotLabels;
 
     private String stringInput = null;
     private Token[] I;
+    private TokenInfo[] tokenInfo;
     private int c_U;
     private int c_I;
     private HashSet<Descriptor> U;
     private ArrayList<Descriptor> R;
-    private HashSet<PoppedNode> P;
     private HashMap<ClusterNode, ArrayList<CrfNode>> crf;
-    private HashMap<State, HashMap<Integer, CrfNode>> crfNodes;
     private BinarySubtree bsr;
-    private HashMap<NonterminalSymbol, HashMap<Integer, ClusterNode>> clusterNodes;
     private final List<Instruction> instructions;
     private int instructionPointer = 0;
     private int nextInstruction = 0;
@@ -93,7 +92,7 @@ public class GllParser implements GearleyParser {
     public GllResult parse(Token[] input) {
         StringBuilder sb = grammar.usesRegex ? new StringBuilder() : null;
 
-        I = new Token[input.length+1];
+        I = new Token[input.length + 1];
 
         for (Token token : input) {
             if (!(token instanceof TokenCharacter)) {
@@ -106,7 +105,7 @@ public class GllParser implements GearleyParser {
 
         stringInput = grammar.usesRegex ? sb.toString() : null;
 
-        System.arraycopy(input, 0, I,  0, input.length);
+        System.arraycopy(input, 0, I, 0, input.length);
         I[input.length] = TokenEOF.EOF;
         return parseInput();
     }
@@ -140,7 +139,7 @@ public class GllParser implements GearleyParser {
             stringInput = input;
         }
         int[] codepoints = input.codePoints().toArray();
-        I = new Token[codepoints.length+1];
+        I = new Token[codepoints.length + 1];
         for (int pos = 0; pos < codepoints.length; pos++) {
             I[pos] = TokenCharacter.get(codepoints[pos]);
         }
@@ -149,16 +148,18 @@ public class GllParser implements GearleyParser {
     }
 
     private GllResult parseInput() {
+        tokenInfo = new TokenInfo[I.length];
+        for (int index = 0; index < tokenInfo.length; index++) {
+            tokenInfo[index] = new TokenInfo();
+        }
+
         U = new HashSet<>();
         R = new ArrayList<>();
-        P = new HashSet<>();
         crf = new HashMap<>();
-        crfNodes = new HashMap<>();
 
         crf.put(new ClusterNode(grammar.getSeed(), 0), new ArrayList<>());
 
         bsr = new BinarySubtree(grammar.getSeed(), options);
-        clusterNodes = new HashMap<>();
         c_U = 0;
         c_I = 0;
 
@@ -201,7 +202,7 @@ public class GllParser implements GearleyParser {
             monitor.finished(this);
         }
 
-        moreInput = bsr.getRightExtent()+1 < I.length;
+        moreInput = bsr.getRightExtent() + 1 < I.length;
 
         tokenCount = bsr.getRightExtent();
         if (tokenCount < I.length) {
@@ -228,6 +229,9 @@ public class GllParser implements GearleyParser {
 
         GllResult result = new GllResult(this, bsr);
         result.setParseTime(timer.duration());
+
+        //Instrumentation.report();
+
         return result;
     }
 
@@ -269,19 +273,21 @@ public class GllParser implements GearleyParser {
     }
 
     protected void call(State L, int i, int j) {
+        //Instrumentation.count("call");
         logger.trace(gllexecution, "%4d | %4d call(%s, %d, %d)", instructionCounter, instructionPointer, L, i, j);
         CrfNode u = getCrfNode(L, i);
         NonterminalSymbol X = (NonterminalSymbol) L.prevSymbol();
         ClusterNode ndV = getClusterNode(X, j);
         if (!crf.containsKey(ndV)) {
-            crf.put(ndV, new ArrayList<>());
-            crf.get(ndV).add(u);
+            ArrayList<CrfNode> newList = new ArrayList<>();
+            newList.add(u);
+            crf.put(ndV, newList);
             ntAdd(X, j);
         } else {
             List<CrfNode> v = crf.get(ndV);
             if (!edgeExists(v, u)) {
                 crf.get(ndV).add(u);
-                for (PoppedNode pnd : P) {
+                for (PoppedNode pnd : tokenInfo[j].P) {
                     if (X.equals(pnd.symbol) && j == pnd.k) {
                         dscAdd(L, i, pnd.j);
                         bsrAdd(L, i, j, pnd.j);
@@ -310,7 +316,7 @@ public class GllParser implements GearleyParser {
         }
 
         if (testSelect(I[c_I], slot.symbol, slot)) {
-            logger.trace(gllexecution,"%4d | %4d if (%s) then nop", instructionCounter, instructionPointer, expr);
+            logger.trace(gllexecution, "%4d | %4d if (%s) then nop", instructionCounter, instructionPointer, expr);
         } else {
             logger.trace(gllexecution, "%4d | %4d if (!%s) then goto %d", instructionCounter, instructionPointer, expr, 1);
             jump(State.L0);
@@ -321,7 +327,7 @@ public class GllParser implements GearleyParser {
         if (epsilon) {
             bsrAddEpsilon(slot, c_I);
         } else {
-            bsrAdd(slot, c_U, c_I, c_I+1);
+            bsrAdd(slot, c_U, c_I, c_I + 1);
         }
     }
 
@@ -333,8 +339,8 @@ public class GllParser implements GearleyParser {
         }
 
         int rightExtent = j;
-        if (L.rhs.symbols[L.position-1] instanceof TerminalSymbol) {
-            TerminalSymbol sym = (TerminalSymbol) L.rhs.symbols[L.position-1];
+        if (L.rhs.symbols[L.position - 1] instanceof TerminalSymbol) {
+            TerminalSymbol sym = (TerminalSymbol) L.rhs.symbols[L.position - 1];
             if (sym.getToken() instanceof TokenRegex) {
                 TokenRegex token = (TokenRegex) sym.getToken();
                 String matched = token.matches(stringInput.substring(c_I));
@@ -386,8 +392,8 @@ public class GllParser implements GearleyParser {
 
     protected void rtn(NonterminalSymbol X, int k, int j) {
         PoppedNode pn = new PoppedNode(X, k, j);
-        if (!P.contains(pn)) {
-            P.add(pn);
+        if (!tokenInfo[k].P.contains(pn)) {
+            tokenInfo[k].P.add(pn);
             ClusterNode Xk = getClusterNode(X, k);
             if (crf.containsKey(Xk)) {
                 for (CrfNode v : crf.get(Xk)) {
@@ -401,24 +407,21 @@ public class GllParser implements GearleyParser {
     }
 
     private CrfNode getCrfNode(State L, int i) {
-        if (!crfNodes.containsKey(L)) {
-            crfNodes.put(L, new HashMap<>());
+        CrfNode node = tokenInfo[i].crfNodes.getOrDefault(L, null);
+        if (node == null) {
+            node = new CrfNode(L, i);
+            tokenInfo[i].crfNodes.put(L, node);
         }
-        if (!crfNodes.get(L).containsKey(i)) {
-            crfNodes.get(L).put(i, new CrfNode(L, i));
-        }
-        return crfNodes.get(L).get(i);
+        return node;
     }
 
     private ClusterNode getClusterNode(NonterminalSymbol X, int k) {
-        if (!clusterNodes.containsKey(X)) {
-            clusterNodes.put(X, new HashMap<>());
+        ClusterNode node = tokenInfo[k].clusterNodes.getOrDefault(X, null);
+        if (node == null) {
+            node = new ClusterNode(X, k);
+            tokenInfo[k].clusterNodes.put(X, node);
         }
-        if (!clusterNodes.get(X).containsKey(k)) {
-            clusterNodes.get(X).put(k, new ClusterNode(X, k));
-        }
-
-        return clusterNodes.get(X).get(k);
+        return node;
     }
 
     protected void ntAdd(NonterminalSymbol X, int j) {
@@ -566,7 +569,9 @@ public class GllParser implements GearleyParser {
     private void compile(Rule rule) {
         ArrayList<State> slots = new ArrayList<>(ruleSlots.get(rule));
         slotLabels.put(slots.get(0), instructions.size() + 1);
-        instructions.add(() -> { label(slots.get(0)); });
+        instructions.add(() -> {
+            label(slots.get(0));
+        });
         logger.trace(logcategory, "%4d %s:", instructions.size() - 1, slots.get(0));
 
         int pos = 0;
@@ -627,6 +632,7 @@ public class GllParser implements GearleyParser {
     }
 
     private void compileNonterminal(State slot) {
+        //Instrumentation.count("compile Nonterminal");
         instructions.add(() -> call(slot));
         logger.trace(logcategory, "%4d %s", instructions.size() - 1, "\t\tcall(" + slot + ", c_U, c_I)");
         instructions.add(() -> jump(State.L0));
@@ -641,5 +647,10 @@ public class GllParser implements GearleyParser {
         void run();
     }
 
+    private static class TokenInfo {
+        public final HashMap<State, CrfNode> crfNodes = new HashMap<>();
+        public final HashMap<NonterminalSymbol, ClusterNode> clusterNodes = new HashMap<>();
+        public final HashSet<PoppedNode> P = new HashSet<>();
 
+    }
 }
