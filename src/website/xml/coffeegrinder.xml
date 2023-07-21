@@ -9,7 +9,7 @@
   </imageobject>
 </mediaobject>
 <title>CoffeeGrinder</title>
-<subtitle>Earley and GLL parsers in Java</subtitle>
+<subtitle>Earley and Generalized LL parsers in Java</subtitle>
 <author>
   <personname>Norm Tovey-Walsh</personname>
 </author>
@@ -25,11 +25,40 @@
 an
 <link xlink:href="https://en.wikipedia.org/wiki/Earley_parser">Earley parser</link>
 and a
-<link xlink:href="https://pure.royalholloway.ac.uk/portal/en/publications/gll-parsing(94ca4516-d72c-41ff-b11f-24b14ba15f2d).html">GLL parser</link>.
+<link xlink:href="https://pure.royalholloway.ac.uk/portal/en/publications/gll-parsing(94ca4516-d72c-41ff-b11f-24b14ba15f2d).html"
+>Generalized LL (GLL) parser</link>.
 Both parsing algorithms are able to use grammars that are ambiguous. These APIs
-parse a sequence of tokens and return a Shared Packed Parser Forest.
+parse a sequence of tokens and return a parse forest.
 Individual parse trees can be obtained from the forest.</para>
 
+<section>
+<title>Why two parsers?</title>
+
+<para>After implementing the Earley parser, I decided to implement the
+GLL parser in the hopes that it would be substantially faster than the
+Earley parser. After investing some effort optimizing the GLL
+implementation it appears to be a faster than the Earley parser, but
+not dramatically so. (Both parsers are “fast enough” for a lot of
+projects, but if your goal is parsing megabytes of input, you may be
+disappointed.)</para>
+
+<para>Both parser implementations expose the same interface. The
+Earley parser has one feature that the GLL parser does not: it is
+possible to extract a “prefix parse” and restart parsing after the
+prefix. Suppose for example, you have a grammar that recognizes
+<code>a+</code>. If you give it the input “<literal>aaabbb</literal>,
+you can extract the graph for the recognized prefix “aaa” even though
+parse as a whole did not succeed. You can subsequently restart parsing
+at “bbb” with the same or a different parser.</para>
+
+<para>Conversely, the GLL parser represents derivations not with a
+shared packed parse forest (SPPF) directly, but with binary subtree
+sets (BSRs). It may be possible to improve the performance of the GLL
+parser further by directly extracting trees from the BSRs rather than
+converting it into an SPPF first. But my initial explorations of this
+idea were unsuccessful. (There’s part of the paper that describes BSRs
+that I don’t understand.)</para>
+</section>
 </preface>
 
 <chapter>

@@ -9,11 +9,20 @@
 
 <revhistory>
 <revision>
-<revnumber>3.0.0g</revnumber>
-<date>2023-07-19</date>
+<revnumber>3.0.0h</revnumber>
+<date>2023-07-21</date>
 <revdescription>
 <para>This is a beta release for version 3.0.0. There are a lot of
 changes in this release and many of them impact the public APIs.</para>
+<para>Additional small performance improvement in the GLL parser,
+small documentation improvements.</para>
+</revdescription>
+</revision>
+
+<revision>
+<revnumber>3.0.0g</revnumber>
+<date>2023-07-19</date>
+<revdescription>
 <para>With an enormous debt of gratitude to 
 <link xlink:href="https://mastodon.social/@chriswhocodes">@chriswhocodes</link>,
 the performance of the GLL parser is <emphasis>much</emphasis>
