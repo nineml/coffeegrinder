@@ -6,7 +6,6 @@ import org.nineml.coffeegrinder.tokens.Token;
 import org.nineml.coffeegrinder.tokens.TokenCharacter;
 import org.nineml.coffeegrinder.tokens.TokenEOF;
 import org.nineml.coffeegrinder.tokens.TokenRegex;
-import org.nineml.coffeegrinder.util.Instrumentation;
 import org.nineml.coffeegrinder.util.ParserAttribute;
 import org.nineml.coffeegrinder.util.StopWatch;
 import org.nineml.logging.Logger;
@@ -38,6 +37,8 @@ public class GllParser implements GearleyParser {
     private String stringInput = null;
     private Token[] I;
     private TokenInfo[] tokenInfo;
+    private PoppedNodeBucket[] pnBuckets;
+    private final int pnBucketFactor = 10;
     private int c_U;
     private int c_I;
     private HashSet<Descriptor> U;
@@ -151,6 +152,10 @@ public class GllParser implements GearleyParser {
         tokenInfo = new TokenInfo[I.length];
         for (int index = 0; index < tokenInfo.length; index++) {
             tokenInfo[index] = new TokenInfo();
+        }
+        pnBuckets = new PoppedNodeBucket[pnBucketFactor];
+        for (int index = 0; index < pnBucketFactor; index++) {
+            pnBuckets[index] = new PoppedNodeBucket();
         }
 
         U = new HashSet<>();
@@ -287,7 +292,7 @@ public class GllParser implements GearleyParser {
             List<CrfNode> v = crf.get(ndV);
             if (!edgeExists(v, u)) {
                 crf.get(ndV).add(u);
-                for (PoppedNode pnd : tokenInfo[j].P) {
+                for (PoppedNode pnd : pnBuckets[j % pnBucketFactor].P) {
                     if (X.equals(pnd.symbol) && j == pnd.k) {
                         dscAdd(L, i, pnd.j);
                         bsrAdd(L, i, j, pnd.j);
@@ -392,8 +397,8 @@ public class GllParser implements GearleyParser {
 
     protected void rtn(NonterminalSymbol X, int k, int j) {
         PoppedNode pn = new PoppedNode(X, k, j);
-        if (!tokenInfo[k].P.contains(pn)) {
-            tokenInfo[k].P.add(pn);
+        if (!pnBuckets[k % pnBucketFactor].P.contains(pn)) {
+            pnBuckets[k % pnBucketFactor].P.add(pn);
             ClusterNode Xk = getClusterNode(X, k);
             if (crf.containsKey(Xk)) {
                 for (CrfNode v : crf.get(Xk)) {
@@ -650,7 +655,9 @@ public class GllParser implements GearleyParser {
     private static class TokenInfo {
         public final HashMap<State, CrfNode> crfNodes = new HashMap<>();
         public final HashMap<NonterminalSymbol, ClusterNode> clusterNodes = new HashMap<>();
-        public final HashSet<PoppedNode> P = new HashSet<>();
+    }
 
+    private static class PoppedNodeBucket {
+        public final HashSet<PoppedNode> P = new HashSet<>();
     }
 }
