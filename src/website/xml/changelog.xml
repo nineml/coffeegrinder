@@ -9,16 +9,25 @@
 
 <revhistory>
 <revision>
-<revnumber>3.0.0h</revnumber>
-<date>2023-07-21</date>
+<revnumber>3.0.0i</revnumber>
+<date>2023-07-22</date>
 <revdescription>
 <para>This is a beta release for version 3.0.0. There are a lot of
 changes in this release and many of them impact the public APIs.</para>
+<para>This release includes another improvement in GLL parser performance
+and fixes for some small bugs in the graph rendering for forests produced
+with the GLL parser.</para>
+</revdescription>
+</revision>
+
+<revision>
+<revnumber>3.0.0h</revnumber>
+<date>2023-07-21</date>
+<revdescription>
 <para>Additional small performance improvement in the GLL parser,
 small documentation improvements.</para>
 </revdescription>
 </revision>
-
 <revision>
 <revnumber>3.0.0g</revnumber>
 <date>2023-07-19</date>

@@ -7,9 +7,6 @@ import org.nineml.coffeegrinder.util.Instrumentation;
  * A node in a {@link BinarySubtree}.
  */
 public abstract class BinarySubtreeNode {
-    private static int nextNodeId = 0;
-
-    public final int nodeId;
     public final State slot;
     public final int leftExtent;
     public final int rightExtent;
@@ -18,7 +15,6 @@ public abstract class BinarySubtreeNode {
     protected BinarySubtreeNode(State slot, int left, int pivot, int right) {
         //Instrumentation.count(String.format("bsrNode %s (%d, %d, %d)", slot, left, pivot, right));
         //Instrumentation.count("bsrNode");
-        this.nodeId = ++nextNodeId;
         this.slot = slot;
         this.leftExtent = left;
         this.rightExtent = right;

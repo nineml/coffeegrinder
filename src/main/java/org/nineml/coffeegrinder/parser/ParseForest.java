@@ -139,7 +139,7 @@ public class ParseForest {
      * @param stream the stream on which to write the XML serialization
      */
     public void serialize(PrintStream stream) {
-        stream.println("<sppf>");
+        stream.printf("<sppf parser='%s'>%n", options.getParserType());
         int count = 0;
         for (ForestNode node : graph) {
             stream.printf("  <u%d id='%s'", count, id(node.id));
