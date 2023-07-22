@@ -164,7 +164,7 @@ public class GllParser implements GearleyParser {
 
         crf.put(new ClusterNode(grammar.getSeed(), 0), new ArrayList<>());
 
-        bsr = new BinarySubtree(grammar.getSeed(), options);
+        bsr = new BinarySubtree(grammar.getSeed(), I.length, options);
         c_U = 0;
         c_I = 0;
 
@@ -291,7 +291,7 @@ public class GllParser implements GearleyParser {
         } else {
             List<CrfNode> v = crf.get(ndV);
             if (!edgeExists(v, u)) {
-                crf.get(ndV).add(u);
+                v.add(u);
                 for (PoppedNode pnd : pnBuckets[j % pnBucketFactor].P) {
                     if (X.equals(pnd.symbol) && j == pnd.k) {
                         dscAdd(L, i, pnd.j);

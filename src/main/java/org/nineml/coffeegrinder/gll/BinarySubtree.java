@@ -14,17 +14,24 @@ import java.util.List;
  */
 public class BinarySubtree {
     public static final String logcategory = "GllParser";
-    public final HashMap<Integer, HashSet<BinarySubtreePrefix>> bsrPrefixes;
-    public final HashMap<Integer, HashSet<BinarySubtreeSlot>> bsrSlots;
+
+    private final BsrPrefixInfo[] bsrPrefixes;
+    private final BsrSlotInfo[] bsrSlots;
+
     private final ParserOptions options;
     private ArrayList<BinarySubtreeSlot> roots = null;
     public final NonterminalSymbol seed;
     private int rightExtent = 0;
     private boolean ambiguous = false;
 
-    public BinarySubtree(NonterminalSymbol seed, ParserOptions options) {
-        bsrPrefixes = new HashMap<>();
-        bsrSlots = new HashMap<>();
+    public BinarySubtree(NonterminalSymbol seed, int inputLength, ParserOptions options) {
+        bsrPrefixes = new BsrPrefixInfo[inputLength];
+        bsrSlots = new BsrSlotInfo[inputLength];
+        for (int pos = 0; pos < inputLength; pos++) {
+            bsrPrefixes[pos] = new BsrPrefixInfo();
+            bsrSlots[pos] = new BsrSlotInfo();
+        }
+
         this.options = options;
         this.seed = seed;
         rightExtent = 0;
@@ -50,28 +57,20 @@ public class BinarySubtree {
     }
 
     private void addSlot(BinarySubtreeSlot node) {
-        if (!bsrSlots.containsKey(node.leftExtent)) {
-            bsrSlots.put(node.leftExtent, new HashSet<>());
-        }
-
-        assert node.slot.symbol != null;
         if (!ambiguous) {
-            for (BinarySubtreeSlot slot : bsrSlots.get(node.leftExtent)) {
+            assert node.slot.symbol != null;
+            for (BinarySubtreeSlot slot : bsrSlots[node.leftExtent].slots) {
                 if (node.slot.symbol.equals(slot.slot.symbol) && node.rightExtent == slot.rightExtent) {
                     ambiguous = true;
                     break;
                 }
             }
         }
-
-        bsrSlots.get(node.leftExtent).add(node);
+        bsrSlots[node.leftExtent].slots.add(node);
     }
 
     private void addPrefix(BinarySubtreePrefix node) {
-        if (!bsrPrefixes.containsKey(node.leftExtent)) {
-            bsrPrefixes.put(node.leftExtent, new HashSet<>());
-        }
-        bsrPrefixes.get(node.leftExtent).add(node);
+        bsrPrefixes[node.leftExtent].prefixes.add(node);
     }
 
     public int getRightExtent() {
@@ -98,12 +97,10 @@ public class BinarySubtree {
 
         roots = new ArrayList<>();
 
-        if (bsrSlots.containsKey(0)) {
-            for (BinarySubtreeSlot node : bsrSlots.get(0)) {
-                assert node.slot.symbol != null;
-                if (node.slot.symbol.equals(seed) && node.rightExtent == rightExtent) {
-                    roots.add(node);
-                }
+        for (BinarySubtreeSlot node : bsrSlots[0].slots) {
+            assert node.slot.symbol != null;
+            if (node.slot.symbol.equals(seed) && node.rightExtent == rightExtent) {
+                roots.add(node);
             }
         }
 
@@ -127,7 +124,7 @@ public class BinarySubtree {
         ForestNodeGLL w = G.extendableLeaf();
         while (w != null) {
             if (w.symbol != null) {
-                for (BinarySubtreeNode node : bsrSlots.get(w.leftExtent)) {
+                for (BinarySubtreeNode node : bsrSlots[w.leftExtent].slots) {
                     if (node.rightExtent == w.rightExtent
                             && w.symbol.equals(node.slot.symbol)) {
                         w.addEdge(G.mkPN(node.slot, node.leftExtent, node.pivot, node.rightExtent));
@@ -139,19 +136,18 @@ public class BinarySubtree {
                 if (u.position == 1) {
                     w.addEdge(G.mkPN(u, w.leftExtent, w.leftExtent, w.rightExtent));
                 } else {
-                    for (BinarySubtreePrefix pnode : bsrPrefixes.get(w.leftExtent)) {
-                        if (pnode.rightExtent == w.rightExtent
-                                && pnode.matches(w)) {
+                    for (BinarySubtreePrefix pnode : bsrPrefixes[w.leftExtent].prefixes) {
+                        if (pnode.rightExtent == w.rightExtent && pnode.matches(w)) {
                             w.addEdge(G.mkPN(u, pnode.leftExtent, pnode.pivot, pnode.rightExtent));
                         }
                     }
-
-                    for (BinarySubtreePrefix pnode : bsrPrefixes.get(w.leftExtent)) {
-                        if (pnode.rightExtent == w.rightExtent
-                                && pnode.matches(w)) {
+/*
+                    for (BinarySubtreePrefix pnode : bsrPrefixes[w.leftExtent].prefixes) {
+                        if (pnode.rightExtent == w.rightExtent && pnode.matches(w)) {
                             w.addEdge(G.mkPN(u, pnode.leftExtent, pnode.pivot, pnode.rightExtent));
                         }
                     }
+ */
                 }
             }
 
@@ -165,6 +161,19 @@ public class BinarySubtree {
         return G;
     }
 
+    private static class BsrPrefixInfo {
+        public final HashSet<BinarySubtreePrefix> prefixes;
+        public BsrPrefixInfo() {
+            prefixes = new HashSet<>();
+        }
+    }
+
+    private static class BsrSlotInfo {
+        public final HashSet<BinarySubtreeSlot> slots;
+        public BsrSlotInfo() {
+            slots = new HashSet<>();
+        }
+    }
 
     /*
     // N.B. This does not work. I need to extract just the gamma-core BSRs.
