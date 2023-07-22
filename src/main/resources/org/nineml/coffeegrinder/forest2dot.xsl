@@ -209,10 +209,18 @@
   <xsl:variable name="prio" select="string-join($prio, '')"/>
 
   <xsl:variable name="label" as="xs:string+">
-    <xsl:sequence select="replace(replace(@label, '\\', '\\\\'), '&quot;', '\\&quot;') || $prio"/>
-    <xsl:if test="@type = 'nonterminal' and $show-states != 'false'">
-      <xsl:sequence select="replace(replace(@state, '\\', '\\\\'), '&quot;', '\\&quot;')"/>
-    </xsl:if>
+    <xsl:choose>
+      <!-- Support the way the GLL parser encodes empty matches -->
+      <xsl:when test="@type = 'terminal' and @leftExtent = @rightExtent">
+        <xsl:sequence select="'ε'"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:sequence select="replace(replace(@label, '\\', '\\\\'), '&quot;', '\\&quot;') || $prio"/>
+        <xsl:if test="@type = 'nonterminal' and $show-states != 'false'">
+          <xsl:sequence select="replace(replace(@state, '\\', '\\\\'), '&quot;', '\\&quot;')"/>
+        </xsl:if>
+      </xsl:otherwise>
+    </xsl:choose>
     
     <xsl:if test="@leftExtent and @rightExtent">
       <xsl:variable name="left" select="xs:integer(@leftExtent)"/>
@@ -243,7 +251,15 @@
   </xsl:variable>
 
   <xsl:text>node{@id/string()} [ label=&lt;{string-join($label, '&lt;BR/>&#10;')}&gt; </xsl:text>
-  <xsl:text>shape={$shape} </xsl:text>
+
+  <xsl:choose>
+    <xsl:when test="contains(string-join($label, ''), 'ε')">
+      <xsl:text>shape=none </xsl:text>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:text>shape={$shape} </xsl:text>
+    </xsl:otherwise>
+  </xsl:choose>
 
   <xsl:variable name="font-color" as="xs:string">
     <xsl:choose>
@@ -288,12 +304,6 @@
   </xsl:choose>
 
   <xsl:text>]&#10;</xsl:text>
-</xsl:template>
-
-<xsl:template match="sppf/*[last()]" priority="10">
-  <xsl:if test="$show-real-root='true'">
-    <xsl:next-match/>
-  </xsl:if>
 </xsl:template>
 
 <xsl:template match="sppf/*">
