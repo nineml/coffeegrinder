@@ -1,119 +1,27 @@
-<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" class="no-js"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><script>(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement)</script><title>Appendix C. Change log</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link href="https://purl.org/dc/elements/1.1/" rel="schema.dc"/><meta name="dc.modified" content="2023-07-26T18:44:39Z"/><meta name="generator" content="DocBook xslTNG version 2.1.6 / cf0b935 / SAXON EE 12.3"/><link href="/css/docbook-toc.css" rel="stylesheet"/><link href="/css/docbook.css" rel="stylesheet" media="screen"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><script src="https://kit.fontawesome.com/498b6706f0.js" type="text/javascript" crossorigin="anonymous"></script><link href="/icon/CoffeeGrinder.png" rel="shortcut icon"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link href="/css/nineml.css" rel="stylesheet"/><link href="/css/coffeegrinder.css" rel="stylesheet"/><link rel="prev" href="appb.html"/><link rel="up" href="index.html"/><link rel="home" href="index.html"/><script src="/js/persistent-toc.js" defer="defer"></script><script src="/js/chunk-nav.js" defer="defer"></script></head><body><nav class="top"><span class="nav"><a title="CoffeeGrinder" href="index.html"><i class="fas fa-home"></i></a> <a href="appb.html" title="Appendix  B .  GLL Parser"><i class="fas fa-arrow-left"></i></a> <a title="CoffeeGrinder" href="index.html"><i class="fas fa-arrow-up"></i></a> <span class="inactive"><i class="fas fa-arrow-right"></i></span></span><span class="title"><i class="title">CoffeeGrinder</i></span></nav><main><section id="changelog" db-chunk="changelog.html" db-id="d93e170" class="appendix component"><header><h2>Appendix <span class="label">C</span><span class="sep">. </span>Change log</h2></header><div class="revhistory"><header><div class="title">Revision History</div></header><ul><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0l</span>, <span class="date" time="2023-07-26">26 Jul 2023</span></div><div class="description"><div class="revdescription">
-<p>This is a beta release for version 3.0.0. There are a lot of
-changes in this release and many of them impact the public APIs.</p>
-<p>Fixed a bug where the element names in a GLL parse were sometimes wrong.
-Also fixed a bug where the set of nullable nonterminals was sometimes wrong for a GLL parse.</p>
-</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0k</span>, <span class="date" time="2023-07-26">26 Jul 2023</span></div><div class="description"><div class="revdescription">
-<p>Changed the graph walking code to avoid recursion so that we don’t blow up the Java stack.
-This has changed the tree counts for some infinitely ambiguous graphs, but since there
-are ∞ many trees, the counts aren’t really meaningful anyway.</p>
-</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0j</span>, <span class="date" time="2023-07-23">23 Jul 2023</span></div><div class="description"><div class="revdescription">
-<p>There are no technical changes in this release. The build system
-has been complete refactored.</p>
-</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0i</span>, <span class="date" time="2023-07-22">22 Jul 2023</span></div><div class="description"><div class="revdescription">
-<p>This release includes another improvement in GLL parser performance
-and fixes for some small bugs in the graph rendering for forests produced
-with the GLL parser.</p>
-</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0h</span>, <span class="date" time="2023-07-21">21 Jul 2023</span></div><div class="description"><div class="revdescription">
-<p>Additional small performance improvement in the GLL parser,
-small documentation improvements.</p>
-</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0g</span>, <span class="date" time="2023-07-19">19 Jul 2023</span></div><div class="description"><div class="revdescription">
-<p>With an enormous debt of gratitude to 
-<a href="https://mastodon.social/@chriswhocodes" class="link">@chriswhocodes</a>,
-the performance of the GLL parser is <em>much</em>
-improved.</p>
-</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0f</span>, <span class="date" time="2023-07-18">18 Jul 2023</span></div><div class="description"><div class="revdescription">
-<ol class="orderedlist" type="1"><li><p>Another complete refactor of tree walking. With new
-metaphors this time. There are no more tree selectors or
-<code class="classname">ForestWalker</code>s, instead we have
-<a href="/apidoc/org/nineml/coffeegrinder/trees/Arborist.html"><code class="classname">Arborist</code></a>s, either
-<a href="/apidoc/org/nineml/coffeegrinder/trees/Lumberjack.html"><code class="classname">Lumberjack</code></a>s or
-<a href="/apidoc/org/nineml/coffeegrinder/trees/TreeSurgeon.html"><code class="classname">TreeSurgeon</code></a>s, armed with
-<a href="/apidoc/org/nineml/coffeegrinder/trees/Axe.html"><code class="classname">Axe</code></a>s. The idea is that a
-<a href="/apidoc/org/nineml/coffeegrinder/trees/Lumberjack.html"><code class="classname">Lumberjack</code></a> clears a forest. The lumberjack
-walks through the forest sequentially returning all of the applicable
-trees. For example, armed with a <a href="/apidoc/org/nineml/coffeegrinder/trees/SequentialAxe.html"><code class="classname">SequentialAxe</code></a>,
-the lumberjack returns all the trees. Armed with a
-<a href="/apidoc/org/nineml/coffeegrinder/trees/PriorityAxe.html"><code class="classname">PriorityAxe</code></a>, the lumberjack returns the highest
-priority tree(s). A <a href="/apidoc/org/nineml/coffeegrinder/trees/TreeSurgeon.html"><code class="classname">TreeSurgeon</code></a>, on the other
-hand, extracts specific trees with no attempt to be sequential. The
-<a href="/apidoc/org/nineml/coffeegrinder/trees/RandomAxe.html"><code class="classname">RandomAxe</code></a>, for example, just makes random
-choices until a tree is found.</p><p>In the best case, where the parse is unambiguous, none of this matters, there is only
-one tree in the forest and it doesn’t matter who attempts to get it or how.</p></li><li><p>Presented with an infinitely ambiguous forest (one where the graph contains one
-or more loops), the lumberjack will return an unbounded number of trees.</p></li><li><p>When the prefix parsing feature is enabled, it is now possible to resume parsing
-with a different parser.</p></li><li><p>The <a href="/apidoc/org/nineml/coffeegrinder/trees/ParseTree.html"><code class="classname">ParseTree</code></a> has been renamed <a href="/apidoc/org/nineml/coffeegrinder/trees/GenericTree.html"><code class="classname">GenericTree</code></a> and
-refactored a bit. The <em>new</em> <a href="/apidoc/org/nineml/coffeegrinder/trees/ParseTree.html"><code class="classname">ParseTree</code></a> class is only
-used during the search for a tree.</p></li></ol>
-</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0e</span>, <span class="date" time="2023-07-12">12 Jul 2023</span></div><div class="description"><div class="revdescription">
-<ol class="orderedlist" type="1"><li><p>Provide tree selectors with all the paths, even those that
-are loops. The looping paths are always “other choices”.</p></li><li><p>Revised what constitutes “making an ambiguous choice” in the tree selector.
-When a tree selector has only a single, non-looping choice, it is still making an
-ambiguous choice. The other choice <em>could</em> have been made.
-(It remains unambiguous in the priority selector if the priority selector would have
-unambiguously made the same choice from all the available choices.)</p></li><li><p>Tidied up some tests; removed references to JUnit 4 classes.</p></li></ol>
-</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0d</span>, <span class="date" time="2023-07-11">11 Jul 2023</span></div><div class="description"><div class="revdescription">
-<ol class="orderedlist" type="1"><li><p>Reworked tree construction. I’ve abandoned the efforts to
-return (some of) the infinitely many trees that result when there are loops in the
-grammar. Loops are never followed when there are other options.</p></li><li><p>Reworked the GLL parser. Removed a whole lot of cruft by using
-lambdas directly for the instructions.</p></li><li><p>Removed some arbitrary limitations on regular expression matches.
-Tested that they work for both the Earley and GLL parsers.</p></li><li><p>Removed some dead code, simplified some APIs, tidied up and
-improved the JavaDoc.</p></li></ol>
-</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0c</span>, <span class="date" time="2023-07-09">09 Jul 2023</span></div><div class="description"><div class="revdescription">
-<p>Version 3.0.0c fixes a bug where a regular expression pragma would not
-successfully parse when the regular expression matched the empty string.</p>
-</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0b</span>, <span class="date" time="2023-07-09">09 Jul 2023</span></div><div class="description"><div class="revdescription">
-<ol class="orderedlist" type="1"><li><p>Fixed bugs in the “regex” pragma. It’s now supported and tested
-in both parsers.</p></li><li><p>Improved node and family IDs (they’re now local to the forest).
-Extended and improved the <code class="filename">forest2dot.xsl</code> graph stylesheet.
-</p></li></ol>
-</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">3.0.0a</span>, <span class="date" time="2023-07-02">02 Jul 2023</span></div><div class="description"><div class="revdescription">
-<ol class="orderedlist" type="1"><li><p>Added an option to analyze the grammar for ambiguity
-with Anders Møller’s <a href="https://www.brics.dk/grammar/" class="link">ambiguity analyzer</a>.
-(Note that thie analyzer jar file is included in the repository, but
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" class="no-js"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><script>(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement)</script><title>Appendix C. Change log</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link href="https://purl.org/dc/elements/1.1/" rel="schema.dc"/><meta name="dc.modified" content="2023-07-29T16:56:16Z"/><meta name="generator" content="DocBook xslTNG version 2.1.6 / cf0b935 / SAXON EE 12.3"/><link href="/css/docbook-toc.css" rel="stylesheet"/><link href="/css/docbook.css" rel="stylesheet" media="screen"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><script src="https://kit.fontawesome.com/498b6706f0.js" type="text/javascript" crossorigin="anonymous"></script><link href="/icon/CoffeeGrinder.png" rel="shortcut icon"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link href="/css/nineml.css" rel="stylesheet"/><link href="/css/coffeegrinder.css" rel="stylesheet"/><link rel="prev" href="appb.html"/><link rel="up" href="index.html"/><link rel="home" href="index.html"/><script src="/js/persistent-toc.js" defer="defer"></script><script src="/js/chunk-nav.js" defer="defer"></script></head><body><nav class="top"><span class="nav"><a title="CoffeeGrinder" href="index.html"><i class="fas fa-home"></i></a> <a href="appb.html" title="Appendix  B .  GLL Parser"><i class="fas fa-arrow-left"></i></a> <a title="CoffeeGrinder" href="index.html"><i class="fas fa-arrow-up"></i></a> <span class="inactive"><i class="fas fa-arrow-right"></i></span></span><span class="title"><i class="title">CoffeeGrinder</i></span></nav><main><section id="changelog" db-chunk="changelog.html" db-id="d93e170" class="appendix component"><header><h2>Appendix <span class="label">C</span><span class="sep">. </span>Change log</h2></header><div class="revhistory"><header><div class="title">Revision History</div></header><ul><li id="v300" class="revision"><div class="revnumber"><span class="revnumber">3.0.0</span>, <span class="date" time="2023-07-29">29 Jul 2023</span></div><div class="description"><div class="revdescription"><ul class="itemizedlist"><li><p>Many improvements and bug fixes in the GLL parser. It is now often (slightly)
+faster than the Earley parser and should be just as reliable.
+</p></li><li><p>Refactored how trees are returned from the forest. In principle, it is possible
+to retrieve all of the trees.</p></li><li><p>When prefix parsing is enabled, it is now possible to continue the parse with
+a different parser.</p></li><li><p>Refactored tests to use JUnit 5 exclusively, many new and improved tests.</p></li><li><p>Refactored and improved how and where terminals can be matched with regular
+expressions. Regular expression matches work with both parsers.</p></li><li><p>Many improvements to the <code class="filename">forest2dot.xsl</code> stylesheet that
+produces forest diagrams.</p></li><li><p>Added an option to analyze the grammar for ambiguity
+with Anders Møller’s
+<a href="https://www.brics.dk/grammar/" class="link">ambiguity analyzer</a>.
+(Note that the analyzer jar file is included in the repository, but
 it isn’t bundled with CoffeeGrinder, you need to add it to your class
-path. It is bundled with CoffeePot.) </p></li><li><p>Completely reworked how trees are constructed from the parse forest.
-The new code divides tree building and tree selection (choosing among ambiguous alternatives)
-into different classes. The result is much, much simpler.
-</p></li><li><p>The parser attributes are available to the tree builder. The parser attributes
-used by NineML have been renamed to URIs.
-</p></li><li><p>The <code class="classname">RuleChoice</code> class has been removed. Tree selection
-can be done directly from the <a href="/apidoc/org/nineml/coffeegrinder/parser/Family.html"><code class="classname">Family</code></a> objects. A unique ID has been added
-to each family.
-</p></li><li><p>The parser supports a priority attribute for guiding
-the selection between ambiguous alternatives. If a particular family
-does not have an assigned priority, it’s priority can be computed as
-either the highest priority of any of its descendants or the sum of
-the priorities of its descendants.
-</p></li><li><p>Priorities are now integers, not floats. The parser option “priority style” controls
-whether computed priorities are maximum values or sums.
-</p></li><li><p>Priorities (and other parser attributes) may cause new
-nonterminals to be created when the parser is constructed. The <a href="/apidoc/org/nineml/coffeegrinder/parser/NonterminalSymbol.html"><code class="classname">NonterminalSymbol</code></a>
-field <code class="varname">symbolName</code> can be used to distingiush between them (as can
-the symbol ID, of course). The <code class="methodname">getName()</code> method always returns the canonical name.
-</p></li><li><p>The parse forest no longer exposes multiple root nodes. They can only exist
-before the forest is pruned.
-</p></li></ol>
-
-<p>The default “sequential” tree selector will choose every node
-and ever edge at least once. For graphs without loops, this matches
-the number of parses reported. Tree construction from graphs that
-contain loops is challenging. The total number of parses reported does
-not take loops into consideration. (Graphs with loops have an infinite
-number of parse trees.) The tree selector tries to follow all of the paths once, but
-it may fail for pernicously looped graphs:</p>
-
-<div id="changelog_revhistory1_revision12_revdescription1_fig1" class="figure formalobject"><header><div class="title">Figure <span class="label">C<span class="sep">.</span>1</span><span class="sep">. </span>A perniciously looped graph</div></header><div class="mediaobject"><div class="media image"><picture class="imageobject"><img src="/images/pernicious.svg"/></picture></div><div class="caption"><p>A graph where X⇔Y, X⇔Z, Y⇔Z, X→’x’|ε, Y→’x’|ε, Z→’x’|ε, </p></div></div></div>
-
-<p>It will get many, but not necessarily all of the possible paths. The priority tree
-selector will always choose the path with the highest priority (if there is one). If all choices
-are made by a uniquely highest priority in each case, this fact is recorded. CoffeeFilter can use this
-when calculating whether or not to mark a parse as ambiguous.</p>
-</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">2.2.1</span>, <span class="date" time="2023-05-17">17 May 2023</span></div><div class="description"><div class="revdescription">
-<p>Fixed a small bug in the presentation of alternative parses when
+path. It is bundled with CoffeePot.)</p></li><li><p>Parser attributes (used internally to track marks and other
+features) have been renamed so that they’re all URIs. Added an
+attribute to track nonterminal priority. (To guide selection in
+ambiguous forests.)
+</p></li><li><p>Added an option to normalize line endings on input.
+</p></li><li><p>Added an option to mark ambiguities. When enabled, this option
+identifies places in the tree where an ambiguous choice was made.
+(It currently only works for “vertical” ambiguities between nonterminals.)
+</p></li></ul>
+</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">2.2.1</span>, <span class="date" time="2023-05-17">17 May 2023</span></div><div class="description"><div class="revdescription"><p>Fixed a small bug in the presentation of alternative parses when
 there is ambiguity. Nonterminal symbols in the alternative choices did
 not necessarily have the correct attributes.</p>
-</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">2.2.0</span>, <span class="date" time="2023-05-06">06 May 2023</span></div><div class="description"><div class="revdescription">
-<ul class="itemizedlist"><li><p>CoffeeGrinder now carefully distinguishes between nonterminals
+</div></div></li><li class="revision"><div class="revnumber"><span class="revnumber">2.2.0</span>, <span class="date" time="2023-05-06">06 May 2023</span></div><div class="description"><div class="revdescription"><ul class="itemizedlist"><li><p>CoffeeGrinder now carefully distinguishes between nonterminals
 with different attributes. This introduces new nonterminals into
 the grammar. These can be examined by calling
 <code class="methodname">resolveDuplicates</code> on the
