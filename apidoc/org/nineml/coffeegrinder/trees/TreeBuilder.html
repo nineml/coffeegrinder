@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6};
+var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -125,6 +125,14 @@ var activeTableTab = "activeTableTab";
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html#endAmbiguity-int-int-int-">endAmbiguity</a></span>(int&nbsp;id,
+            int&nbsp;leftExtent,
+            int&nbsp;rightExtent)</code>
+<div class="block">Called at the end of an ambiguity that is not marked by a single nonterminal</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html#endNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">endNonterminal</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
               java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes,
               int&nbsp;leftExtent,
@@ -132,7 +140,7 @@ var activeTableTab = "activeTableTab";
 <div class="block">Called when a nonterminal ends.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html#endTree-boolean-boolean-boolean-">endTree</a></span>(boolean&nbsp;ambiguous,
        boolean&nbsp;absolutelyAmbiguous,
@@ -140,7 +148,15 @@ var activeTableTab = "activeTableTab";
 <div class="block">Called last, when construction finishes.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html#startAmbiguity-int-int-int-">startAmbiguity</a></span>(int&nbsp;id,
+              int&nbsp;leftExtent,
+              int&nbsp;rightExtent)</code>
+<div class="block">Called at the start of an ambiguity that is not marked by a single nonterminal</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html#startNonterminal-org.nineml.coffeegrinder.parser.NonterminalSymbol-java.util.Map-int-int-">startNonterminal</a></span>(<a href="../../../../org/nineml/coffeegrinder/parser/NonterminalSymbol.html" title="class in org.nineml.coffeegrinder.parser">NonterminalSymbol</a>&nbsp;symbol,
                 java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes,
@@ -149,13 +165,13 @@ var activeTableTab = "activeTableTab";
 <div class="block">Called when a new nonterminal begins.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html#startTree--">startTree</a></span>()</code>
 <div class="block">Called first, when construction begins.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html#token-org.nineml.coffeegrinder.tokens.Token-java.util.Map-int-int-">token</a></span>(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
      java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;attributes,
@@ -250,7 +266,7 @@ var activeTableTab = "activeTableTab";
 <a name="token-org.nineml.coffeegrinder.tokens.Token-java.util.Map-int-int-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>token</h4>
 <pre>void&nbsp;token(<a href="../../../../org/nineml/coffeegrinder/tokens/Token.html" title="class in org.nineml.coffeegrinder.tokens">Token</a>&nbsp;token,
@@ -262,6 +278,40 @@ var activeTableTab = "activeTableTab";
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>token</code> - The terminal token.</dd>
 <dd><code>attributes</code> - Its attributes.</dd>
+<dd><code>leftExtent</code> - The starting position in the input.</dd>
+<dd><code>rightExtent</code> - The ending position in the input.</dd>
+</dl>
+</li>
+</ul>
+<a name="startAmbiguity-int-int-int-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>startAmbiguity</h4>
+<pre>void&nbsp;startAmbiguity(int&nbsp;id,
+                    int&nbsp;leftExtent,
+                    int&nbsp;rightExtent)</pre>
+<div class="block">Called at the start of an ambiguity that is not marked by a single nonterminal</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>leftExtent</code> - The starting position in the input.</dd>
+<dd><code>rightExtent</code> - The ending position in the input.</dd>
+</dl>
+</li>
+</ul>
+<a name="endAmbiguity-int-int-int-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>endAmbiguity</h4>
+<pre>void&nbsp;endAmbiguity(int&nbsp;id,
+                  int&nbsp;leftExtent,
+                  int&nbsp;rightExtent)</pre>
+<div class="block">Called at the end of an ambiguity that is not marked by a single nonterminal</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>leftExtent</code> - The starting position in the input.</dd>
 <dd><code>rightExtent</code> - The ending position in the input.</dd>
 </dl>
