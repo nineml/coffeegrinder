@@ -156,7 +156,7 @@ implements <a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html"
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/trees/NopTreeBuilder.html#endAmbiguity-int-int-int-">endAmbiguity</a></span>(int&nbsp;id,
             int&nbsp;leftExtent,
             int&nbsp;rightExtent)</code>
-<div class="block">Called at the end of an ambiguity that is not marked by a single nonterminal</div>
+<div class="block">Called at the end of an ambiguity that is not marked by a single nonterminal.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -181,7 +181,7 @@ implements <a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html"
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/nineml/coffeegrinder/trees/NopTreeBuilder.html#startAmbiguity-int-int-int-">startAmbiguity</a></span>(int&nbsp;id,
               int&nbsp;leftExtent,
               int&nbsp;rightExtent)</code>
-<div class="block">Called at the start of an ambiguity that is not marked by a single nonterminal</div>
+<div class="block">Called at the start of an ambiguity that is not marked by a single nonterminal.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
@@ -362,10 +362,14 @@ implements <a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html"
                            int&nbsp;leftExtent,
                            int&nbsp;rightExtent)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html#startAmbiguity-int-int-int-">TreeBuilder</a></code></span></div>
-<div class="block">Called at the start of an ambiguity that is not marked by a single nonterminal</div>
+<div class="block">Called at the start of an ambiguity that is not marked by a single nonterminal.
+ <p>The ambiguity id will distinguish this ambiguity from any other ambiguity. The numbers are not
+ sequential or guaranteed stable across parses.</p></div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html#startAmbiguity-int-int-int-">startAmbiguity</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>id</code> - The ambiguity id.</dd>
 <dd><code>leftExtent</code> - The starting position in the input.</dd>
 <dd><code>rightExtent</code> - The ending position in the input.</dd>
 </dl>
@@ -381,10 +385,12 @@ implements <a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html"
                          int&nbsp;leftExtent,
                          int&nbsp;rightExtent)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html#endAmbiguity-int-int-int-">TreeBuilder</a></code></span></div>
-<div class="block">Called at the end of an ambiguity that is not marked by a single nonterminal</div>
+<div class="block">Called at the end of an ambiguity that is not marked by a single nonterminal.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html#endAmbiguity-int-int-int-">endAmbiguity</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/nineml/coffeegrinder/trees/TreeBuilder.html" title="interface in org.nineml.coffeegrinder.trees">TreeBuilder</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>id</code> - The ambiguity id.</dd>
 <dd><code>leftExtent</code> - The starting position in the input.</dd>
 <dd><code>rightExtent</code> - The ending position in the input.</dd>
 </dl>
